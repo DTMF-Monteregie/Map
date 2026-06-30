@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- build: 2026-06-30-v2 -->
 <html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1578,6 +1579,7 @@ fetch('./data.json', { cache: 'no-cache' })
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
+    console.log('DTMF Montérégie — build 2026-06-30-v2');
   });
 }
 </script>

@@ -1,5 +1,6 @@
-// Service worker — DTMF Montérégie (cliniques en recrutement, 3 sous-régions)
-const CACHE = 'dtmf-mtg-v1';
+// Service worker — DTMF Montérégie (cliniques en recrutement)
+// IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
+const CACHE = 'dtmf-mtg-v2';
 const CORE = [
   './',
   './index.html',
@@ -13,7 +14,7 @@ const CORE = [
   './apple-touch-icon-180.png'
 ];
 
-// Installation : mise en cache de la coquille de l'application
+// Installation : mise en cache de la coquille + activation immédiate
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
@@ -22,7 +23,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activation : nettoyage des anciens caches
+// Activation : suppression des anciens caches + prise de contrôle immédiate
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys()
@@ -35,8 +36,15 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
-  // data.json : priorité au RÉSEAU (mises à jour immédiates), repli sur le cache hors-ligne
-  if (req.url.includes('data.json')) {
+  const url = new URL(req.url);
+  const isHTML = req.mode === 'navigate'
+    || url.pathname.endsWith('/')
+    || url.pathname.endsWith('/index.html')
+    || url.pathname.endsWith('index.html');
+
+  // index.html / navigations + data.json : RÉSEAU D'ABORD (toujours la dernière version en ligne),
+  // repli sur le cache si hors-ligne.
+  if (isHTML || req.url.includes('data.json')) {
     event.respondWith(
       fetch(req).then(res => {
         if (res && res.ok) {
@@ -44,12 +52,12 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE).then(cache => cache.put(req, copy)).catch(() => {});
         }
         return res;
-      }).catch(() => caches.match(req))
+      }).catch(() => caches.match(req).then(m => m || caches.match('./index.html')))
     );
     return;
   }
 
-  // Autres ressources : cache d'abord, puis réseau (et mise en cache au passage)
+  // Autres ressources (leaflet, icônes…) : cache d'abord, mise à jour en arrière-plan.
   event.respondWith(
     caches.match(req).then(cached => {
       const network = fetch(req).then(res => {
