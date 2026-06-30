@@ -24,7 +24,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="DTMF Montérégie">
+<meta name="apple-mobile-web-app-title" content="PTEM 2026">
 <link rel="apple-touch-icon" href="./apple-touch-icon-180.png">
 <link rel="stylesheet" href="./leaflet.css">
 <style>
@@ -373,9 +373,28 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   border:1.5px solid var(--c); color:var(--c); background:#fff; cursor:pointer; font-family:'Raleway',sans-serif; transition:all .15s; }
 .reg-chip:hover { opacity:.72; }
 .reg-chip.on { background:var(--c); color:#fff; }
-.rls-filter { margin-top:8px; width:100%; box-sizing:border-box; padding:8px 10px; border:1px solid var(--border);
+.rls-filter { margin-top:8px; width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--navy);
   border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:#fff; color:var(--navy); cursor:pointer; }
 .rls-filter:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,128,215,.16); }
+/* PTEM / AMP — documents officiels repliables */
+.docs-wrap { margin-top:8px; }
+.docs-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:9px 12px; border:1.5px solid var(--navy); border-radius:9px; background:var(--navy); color:#fff;
+  font-family:'Raleway',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:.03em; cursor:pointer; transition:filter .15s; }
+.docs-toggle:hover { filter:brightness(1.12); }
+.docs-chev { transition:transform .2s; font-size:11px; }
+.docs-toggle[aria-expanded="true"] .docs-chev { transform:rotate(180deg); }
+.docs-panel { margin-top:8px; }
+.docs-panel[hidden] { display:none; }
+.doc-link { display:flex; align-items:center; gap:11px; padding:10px 11px; border:1.5px solid var(--border); border-radius:11px;
+  background:#fff; text-decoration:none; color:var(--navy); margin-bottom:8px; transition:all .15s; }
+.doc-link:last-child { margin-bottom:0; }
+.doc-link:hover { border-color:var(--blue); background:#f7fbff; }
+.doc-meta { display:flex; flex-direction:column; min-width:0; }
+.doc-ic { width:36px; height:36px; flex-shrink:0; border-radius:9px; background:var(--navy); color:#fff;
+  display:flex; align-items:center; justify-content:center; font-size:17px; }
+.doc-tt { font-family:'Raleway',sans-serif; font-weight:700; font-size:12.5px; line-height:1.25; }
+.doc-sub { font-size:11px; color:var(--muted); margin-top:2px; }
 .dp-actions { display:flex; gap:8px; padding: 12px 18px 0; }
 .dp-fav-btn { flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid var(--border);
   background:#fff; color:var(--navy2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px;
@@ -545,6 +564,22 @@ body.cmp-open { overflow:hidden; }
       <button class="cmp-export-btn" id="cmp-export-btn">⤓ Exporter le comparatif (PDF)</button>
       <div class="reg-filter" id="reg-filter" role="group" aria-label="Filtrer par région"></div>
       <select class="rls-filter" id="rls-filter" aria-label="Filtrer par RLS"></select>
+      <div class="docs-wrap" id="docs-wrap">
+        <button type="button" class="docs-toggle" id="docs-toggle" aria-expanded="false" aria-controls="docs-panel">
+          <span>📄 PTEM / AMP</span>
+          <span class="docs-chev" aria-hidden="true">▾</span>
+        </button>
+        <div class="docs-panel" id="docs-panel" hidden>
+          <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
+            <span class="doc-ic">⤓</span>
+            <span class="doc-meta"><span class="doc-tt">Besoins en établissement — PTEM 2026</span><span class="doc-sub">PDF · Santé Québec Montérégie</span></span>
+          </a>
+          <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">
+            <span class="doc-ic">⤓</span>
+            <span class="doc-meta"><span class="doc-tt">Activités médicales particulières (AMP)</span><span class="doc-sub">PDF · mise à jour octobre 2025</span></span>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="sb-list" id="sb-list"></div>
   </div>
@@ -1110,6 +1145,15 @@ if (_searchClear) _searchClear.addEventListener('click', () => {
 });
 const _cmpBtn = document.getElementById('cmp-export-btn');
 if (_cmpBtn) _cmpBtn.addEventListener('click', exportComparatif);
+(function(){
+  var dt = document.getElementById('docs-toggle');
+  var dp = document.getElementById('docs-panel');
+  if (dt && dp) dt.addEventListener('click', function(){
+    var open = dt.getAttribute('aria-expanded') === 'true';
+    dt.setAttribute('aria-expanded', open ? 'false' : 'true');
+    if (open) dp.setAttribute('hidden', ''); else dp.removeAttribute('hidden');
+  });
+})();
 
 function rlsForRegions() {
   const set = new Set();
