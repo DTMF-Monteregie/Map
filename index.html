@@ -335,7 +335,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   animation: ldrPop .55s cubic-bezier(.34,1.56,.64,1) both; }
 #app-loader .ldr-pin::after { content: ''; position: absolute; top: 7.5px; left: 7.5px; width: 11px; height: 11px;
   background: #fff; border-radius: 50%; transform: rotate(45deg); }
-#app-loader .pin-rose { background: var(--orange); left: 50px; top: 16px; animation-delay: .4s; }
+#app-loader .pin-rose { background: #ee2d62; left: 50px; top: 16px; animation-delay: .4s; }
 #app-loader .pin-green { background: #15803d; left: 150px; top: 66px; animation-delay: 1s; }
 #app-loader .pin-blue { background: #2F4A7A; left: 88px; top: 124px; animation-delay: 1.6s; }
 #app-loader .ldr-bar-wrap { width: 190px; text-align: center; }
@@ -1189,7 +1189,7 @@ function openDetail(id) {
 
   document.getElementById('dp-tag').textContent = typeLabel(g.type);
   document.getElementById('dp-name-disp').textContent = g.nom.trim();
-  (function(){ var dh = document.querySelector('#detail .dp-head'); if (dh) dh.style.background = regionColor(g.region); })();
+  (function(){ var c = regionColor(g.region); var dh = document.querySelector('#detail .dp-head'); if (dh) { dh.style.background = ''; dh.style.borderBottomColor = c; } var tg = document.getElementById('dp-tag'); if (tg) tg.style.color = c; })();
 
   // Horaire (lecture seule)
   let horRows = '';

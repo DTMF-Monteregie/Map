@@ -1491,6 +1491,32 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest"
+    },
+    {
+      "id": 36,
+      "nom": "Clinique factice (Montérégie-Centre)",
+      "alias": "exemple placeholder fictive Monteregie Centre test demo",
+      "type": "GMF",
+      "adresse": "1000, boulevard du Séminaire Nord, Saint-Jean-sur-Richelieu QC J3A 1B7",
+      "ville": "Saint-Jean-sur-Richelieu",
+      "lat": 45.307,
+      "lng": -73.262,
+      "telephone": "",
+      "site": "",
+      "personneRessource": "",
+      "dme": "",
+      "horaire": {},
+      "personnel": {},
+      "notes": "Clinique fictive ajoutée temporairement pour activer la région Montérégie-Centre dans la carte et les filtres. À remplacer par de vraies données.",
+      "photo": null,
+      "rls": "Haut-Richelieu–Rouville",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "",
+      "pratiques": [],
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Centre"
     }
   ]
 }
