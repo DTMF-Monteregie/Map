@@ -1502,21 +1502,26 @@
       "lat": 45.502482,
       "lng": -73.427206,
       "telephone": "450 678-3500",
-      "site": "",
+      "site": "https://centremedicalst-hubert.ca/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "travailleuresSociales": "1"
+      },
       "notes": "",
       "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Équipe de médecins de famille, d'infirmières et d'une travailleuse sociale. Services publiés : soins infirmiers, ECG, pose/retrait de stérilet, contraception, suivi de pansement, évaluation SAAQ (frais). Prise de rendez-vous via le site de la clinique."
     },
     {
       "id": 37,
@@ -1528,21 +1533,26 @@
       "lat": 45.493626,
       "lng": -73.502635,
       "telephone": "450 466-5630",
-      "site": "",
+      "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-charles-le-moyne",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "ipspl": "3"
+      },
       "notes": "",
       "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Unité de médecine de famille affiliée à l'Université de Sherbrooke : formation de résidents en médecine de famille (2 ans) et de stagiaires en médecine, sciences infirmières et travail social. Soins interprofessionnels centrés sur l'usager."
     },
     {
       "id": 38,
@@ -1554,7 +1564,7 @@
       "lat": 45.498594,
       "lng": -73.486841,
       "telephone": "450 466-4333",
-      "site": "",
+      "site": "https://www.cliniqueazur.com/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1565,10 +1575,15 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "peri"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Première superclinique (GMF-R) de la Montérégie, désignée en 2017 : accès médical élargi 7 jours sur 7, prélèvements, échographie et radiologie de base sur place. Urgence mineure sur rendez-vous (inscription en ligne ou ligne dédiée dès 6 h 45), rendez-vous en ligne pour la clientèle inscrite, suivi de grossesse offert aux patientes sans médecin de famille. Deuxième site à Saint-Lambert."
     },
     {
       "id": 39,
@@ -1580,7 +1595,7 @@
       "lat": 45.477736,
       "lng": -73.465048,
       "telephone": "450 445-4452",
-      "site": "",
+      "site": "https://www.santemonteregie.qc.ca/installations/clsc-samuel-de-champlain",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1591,10 +1606,13 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "GMF logé dans le CLSC Samuel-De Champlain. Plus de sans rendez-vous populationnel : clientèle inscrite seulement. Clinique d'IPS sur place. Certains médecins participent au Programme fédéral de santé intérimaire (demandeurs d'asile) ; programme SIDEP offert."
     },
     {
       "id": 40,
@@ -1606,21 +1624,33 @@
       "lat": 45.446388,
       "lng": -73.43909,
       "telephone": "450 550-8858",
-      "site": "",
+      "site": "https://santedix30.com/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "7h45 – 20h00",
+        "Mardi": "7h45 – 20h00",
+        "Mercredi": "7h45 – 20h00",
+        "Jeudi": "7h45 – 20h00",
+        "Vendredi": "7h45 – 17h00",
+        "Samedi": "Urgence sur RDV : 8h00 – 13h00",
+        "Dimanche": "Urgence sur RDV : 8h00 – 13h00"
+      },
       "personnel": {},
-      "notes": "Désignation GMF-A.",
+      "notes": "",
       "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Désignation GMF-A. Trois volets sous le même toit : clinique de médecine familiale (450 550-8858), clinique d'urgence sur rendez-vous (450 766-0881) et clinique de médecins spécialistes (450 550-2334). Équipe de médecins de famille, de spécialistes, d'infirmières et d'infirmières auxiliaires. Stationnement souterrain gratuit, accessible en fauteuil roulant. Triage NAVIG depuis novembre 2025."
     },
     {
       "id": 41,
@@ -1632,7 +1662,7 @@
       "lat": 45.497512,
       "lng": -73.484006,
       "telephone": "450 466-7892",
-      "site": "",
+      "site": "https://www.gmflacigogne.com/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1643,10 +1673,14 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "peri"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Mission principale : suivi de grossesse et accompagnement jusqu'à l'accouchement. Offre aussi des soins de première ligne en pédiatrie et en médecine générale à la clientèle inscrite, plus des consultations spécialisées en gynécologie et en pédiatrie. Clinique « sans écran ». Secrétariat : 9 h à 12 h et 13 h à 15 h, du lundi au vendredi (pas de boîte vocale). Triage NAVIG depuis octobre 2025. Le site de la clinique indique le code postal J4V 0A8."
     },
     {
       "id": 42,
@@ -1658,21 +1692,27 @@
       "lat": 45.47105,
       "lng": -73.465925,
       "telephone": "450 465-5379",
-      "site": "",
+      "site": "https://clinique-lapiniere.ca/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "medecins": "9"
+      },
       "notes": "",
       "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Située dans la Polyclinique Lapinière : pharmacie, physiothérapie, dentisterie et cardiologie dans le même immeuble (entités distinctes). Clinique d'urgence, prélèvements sur rendez-vous, nutrition. Sans rendez-vous réservé et réservable dès 7 h le jour même (la veille dès 13 h pour la clientèle inscrite). N'accepte pas de nouveaux patients (guichet d'accès)."
     },
     {
       "id": 43,
@@ -1684,21 +1724,26 @@
       "lat": 45.492732,
       "lng": -73.403295,
       "telephone": "450 443-7400",
-      "site": "",
+      "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-de-saint-hubert",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "residents": "16"
+      },
       "notes": "",
       "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Clinique universitaire affiliée à l'Université de Montréal desservant plus de 12 000 patients. Accueille 16 résidents en médecine de famille par année (8 R1, 8 R2), des externes et des stagiaires de plusieurs professions. À proximité des grands centres et des milieux de stage."
     },
     {
       "id": 44,
@@ -1710,21 +1755,37 @@
       "lat": 45.303955,
       "lng": -73.237511,
       "telephone": "450 347-5548",
-      "site": "",
+      "site": "https://www.cmiberville.com/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
-      "personnel": {},
+      "horaire": {
+        "Lundi": "8h00 – 17h00",
+        "Mardi": "8h00 – 17h00",
+        "Mercredi": "8h00 – 20h00",
+        "Jeudi": "8h00 – 17h00",
+        "Vendredi": "8h00 – 20h00 (urgence sur RDV dès 16h00)",
+        "Samedi": "Urgence sur RDV seulement",
+        "Dimanche": "Urgence sur RDV seulement"
+      },
+      "personnel": {
+        "medecins": "9",
+        "infirmieres": "2"
+      },
       "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "peri"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Clinique établie depuis plus de 40 ans. N'accepte plus de nouveaux patients, sauf les patientes enceintes pour un suivi de grossesse. Rendez-vous d'urgence les vendredis soirs, samedis, dimanches et jours fériés en alternance avec le GMF-U de Saint-Jean-sur-Richelieu, réservés aux patients inscrits dans les deux cliniques (inscription dès 7 h 15 au 514 416-5477 ou via Bonjour-Santé). Prise en charge globale, diabète, HTA, soins courants."
     },
     {
       "id": 45,
@@ -1736,21 +1797,38 @@
       "lat": 45.339906,
       "lng": -73.284405,
       "telephone": "450 741-3346",
-      "site": "",
+      "site": "https://enseignement-mc.ca/enseignement-et-recherche/les-gmf-u-groupes-de-medecine-familiale-universitaire/gmf-u-saint-jean-sur-richelieu/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "medecins": "17",
+        "residents": "16",
+        "ipspl": "3",
+        "infirmieres": "3",
+        "infauxiliaires": "3",
+        "travailleuresSociales": "2",
+        "psychologues": "1",
+        "aac": "1"
+      },
       "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "chir",
+        "msk",
+        "sad",
+        "peri"
+      ],
       "niveau": "",
-      "porteOuverte": "",
-      "region": "Centre"
+      "porteOuverte": "Annuellement à l'automne",
+      "region": "Centre",
+      "infos": "Fondé en 2014, affilié à l'Université de Sherbrooke. Accueille 16 résidents par année (8 R1, 8 R2) et a reçu 89 stagiaires pour 126 stages en 2024. Services intra-clinique variés : mini-chirurgies, musculosquelettique, pédiatrie sociale, soins à domicile, périnatalité, gynécologie, dépendances (traitements aux opiacés). Édifice moderne à moins de 3 km de l'Hôpital du Haut-Richelieu. Portes ouvertes annuelles à l'automne, visites supplémentaires possibles sur demande (450 741-3346, poste 6703). Le portail du CISSS indique le code postal J3A 0A7."
     },
     {
       "id": 46,
@@ -1762,7 +1840,7 @@
       "lat": 45.361396,
       "lng": -73.306219,
       "telephone": "450 359-6819",
-      "site": "",
+      "site": "https://www.cliniquemedicaleducoteau.ca/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1773,10 +1851,15 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "peri"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Services publiés : obstétrique et périnatalité, gynécologie, contraception et stérilet, inhalothérapie, santé voyage, travail social, soins infirmiers, traitement des verrues, évaluation SAAQ, prélèvements sur rendez-vous les mardis et vendredis (frais). Sans rendez-vous exclusivement réservé à la clientèle inscrite. Triage NAVIG depuis octobre 2025."
     },
     {
       "id": 47,
@@ -1788,21 +1871,25 @@
       "lat": 45.311127,
       "lng": -73.263705,
       "telephone": "450 349-5555",
-      "site": "",
+      "site": "https://www.medisoleil.com/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
       "personnel": {},
-      "notes": "Situé dans les locaux du Centre Médi-Soleil.",
+      "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Exploité par le Centre Médi-Soleil, OSBL issu de la Clinique Médicale Iberville Ltée (sans but lucratif depuis 2010). Ouvert 365 jours par année, plus de 15 000 patients inscrits, mini-urgence à fort volume et services de médecine spécialisée sur place. Sans rendez-vous offert aux patients inscrits, inscription en ligne (rendez-vous d'urgence disponibles dès 16 h la veille). Deuxième numéro : 450 347-7557."
     },
     {
       "id": 48,
@@ -1814,21 +1901,33 @@
       "lat": 45.443399,
       "lng": -73.302252,
       "telephone": "450 658-6000",
-      "site": "",
+      "site": "https://www.lacliniquefortchambly.com/",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
-      "personnel": {},
+      "personnel": {
+        "medecins": "7",
+        "specialistes": "17",
+        "infirmieres": "4",
+        "ipspl": "3",
+        "nutritionnistes": "1",
+        "travailleuresSociales": "1",
+        "pharmaciennes": "1"
+      },
       "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Mission réalisée en partenariat avec le CLSC du Richelieu : suivis en médecine de famille et accès à des services urgents simples et semi-urgents de première ligne. L'une des équipes les plus complètes de la Rive-Sud : 7 omnipraticiens, 17 spécialistes et de nombreux consultants paramédicaux, dont une infirmière clinicienne psychothérapeute et conseillère en toxicomanie, une thérapeute en relation d'aide et des soins infirmiers privés à domicile. Sans rendez-vous via Bonjour-Santé (dès 17 h la veille pour la clientèle inscrite, dès 8 h pour tous) ; dimanche de 8 h à 12 h."
     },
     {
       "id": 49,
@@ -1840,7 +1939,7 @@
       "lat": 45.318831,
       "lng": -73.264466,
       "telephone": "450 348-9218",
-      "site": "",
+      "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=34989",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1851,10 +1950,14 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Pas de site web propre : prise de rendez-vous via Rendez-vous santé Québec (RVSQ) ou le portail de la clinique, dès 8 h le matin. Sans rendez-vous offert à la clientèle inscrite. N'accepte plus de nouveaux clients pour les suivis. Pap test offert aux clientes inscrites ; contraception, contraception orale d'urgence, prélèvements, suivi de pansement. Horaire annoncé par les annuaires (à valider) : lundi 8 h - 20 h, mercredi 8 h - 21 h, dimanche 8 h - 12 h."
     },
     {
       "id": 50,
@@ -1866,21 +1969,38 @@
       "lat": 45.432049,
       "lng": -73.161977,
       "telephone": "450 708-2911",
-      "site": "",
+      "site": "https://cliniquemarieville.com/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
-      "personnel": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 17h00",
+        "Mercredi": "8h00 – 17h00",
+        "Jeudi": "8h00 – 17h00",
+        "Vendredi": "8h00 – 16h30",
+        "Samedi": "8h30 – 13h00",
+        "Dimanche": "Fermé"
+      },
+      "personnel": {
+        "medecins": "8",
+        "ipspl": "4",
+        "specialistes": "2 (chirurgie, orthopédie)"
+      },
       "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "chir"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Clinique médicale à but non lucratif au service de Marieville et des environs, financée en partie par des dons de la communauté. Les médecins prennent de nouveaux patients à partir des listes du guichet d'accès transmises par le CLSC. Services : chirurgie mineure, vasectomie (frais), orthopédie, nutrition, travail social, vaccination saisonnière, soins infirmiers, salle d'allaitement, location d'aides à la marche. Sans rendez-vous : appeler dès 8 h. Le dimanche, sans rendez-vous possible au GMF Saint-Luc Saint-Eugène (450 347-3748). Stationnement gratuit."
     },
     {
       "id": 51,
@@ -1897,16 +2017,20 @@
       "dme": "",
       "horaire": {},
       "personnel": {},
-      "notes": "Point de service principal du GMF Richelieu – Saint-Césaire.",
+      "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Point de service principal d'un GMF réparti sur trois sites (CLSC du Richelieu, CLSC de Saint-Césaire, Clinique médicale du Collège), né du regroupement du GMF du CLSC du Richelieu et de la Clinique médicale du Collège. Portail de rendez-vous commun : gmfrsc.bonjour-sante.ca ou 1 888 243-4058, inscription dès 18 h 15 pour le lendemain. Le dimanche, les plages de sans rendez-vous sont offertes à la Clinique Fort Chambly. Aucun site web propre."
     },
     {
       "id": 52,
@@ -1929,10 +2053,13 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Point de service au CLSC de Saint-Césaire, rattaché au GMF Richelieu – Saint-Césaire. Rendez-vous via le portail commun gmfrsc.bonjour-sante.ca. Aucun site web propre."
     },
     {
       "id": 53,
@@ -1944,7 +2071,7 @@
       "lat": 45.408554,
       "lng": -73.002785,
       "telephone": "450 469-0505",
-      "site": "",
+      "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=116297",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -1955,10 +2082,15 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv",
+        "chir"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Troisième point de service du GMF Richelieu – Saint-Césaire. Services publiés au Répertoire du MSSS : médecine familiale, omnipratique, chirurgie et néphrologie. Sans rendez-vous ouvert à tous (inscrits ou non) dès 7 h 30 via Bonjour-Santé ; rendez-vous avec médecin réservés à la clientèle inscrite. Aucun site web propre."
     },
     {
       "id": 54,
@@ -1970,21 +2102,25 @@
       "lat": 45.277877,
       "lng": -73.256283,
       "telephone": "450 347-3748",
-      "site": "",
+      "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=47617",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
       "personnel": {},
-      "notes": "Point de service principal du GMF Saint-Luc Saint-Eugène.",
+      "notes": "",
       "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Point de service principal du GMF Saint-Luc Saint-Eugène. Sans rendez-vous offert à la clientèle inscrite et aux patients référés par le guichet d'accès à la première ligne (GAP) ; le dimanche, inscription dès 7 h 15 sur la ligne dédiée Bonjour-Santé pour l'une des deux cliniques partenaires. Accueille également le sans rendez-vous du dimanche des patients de la Clinique Pro-Santé Marieville. Aucun site web propre."
     },
     {
       "id": 55,
@@ -1996,7 +2132,7 @@
       "lat": 45.353165,
       "lng": -73.293844,
       "telephone": "450 348-6124",
-      "site": "",
+      "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=50518",
       "personneRessource": "",
       "dme": "",
       "horaire": {},
@@ -2007,10 +2143,14 @@
       "posApprox": false,
       "bureau": "",
       "frais": "",
-      "pratiques": [],
+      "pratiques": [
+        "pec",
+        "srv"
+      ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Centre"
+      "region": "Centre",
+      "infos": "Deuxième point de service du GMF Saint-Luc Saint-Eugène. Ouvert un dimanche sur deux de 8 h 30 à 12 h 30 ; jours fériés partagés avec la Clinique médicale Saint-Eugène. Plages avec rendez-vous réservées à la clientèle inscrite. Aucun site web propre. Certains annuaires situent la clinique au 264, boulevard Saint-Luc, bureau 100 (code postal J2W 0J3) — à valider."
     }
   ]
 }
