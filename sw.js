@@ -1,6 +1,6 @@
 // Service worker — DTMF Montérégie (cliniques en recrutement)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'dtmf-mtg-v2';
+const CACHE = 'dtmf-mtg-v3';
 const CORE = [
   './',
   './index.html',
