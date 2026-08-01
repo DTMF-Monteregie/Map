@@ -1,6 +1,6 @@
-// Service worker — DTMF Montérégie (cliniques en recrutement)
+// Service worker — PTEM 2026 (cliniques en recrutement, Santé Québec Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'dtmf-mtg-v5';
+const CACHE = 'ptem-2026-v10';
 const CORE = [
   './',
   './index.html',
@@ -10,6 +10,7 @@ const CORE = [
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
+  './icon-192-maskable.png',
   './icon-512-maskable.png',
   './apple-touch-icon-180.png'
 ];
