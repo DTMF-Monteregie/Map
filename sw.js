@@ -1,6 +1,6 @@
 // Service worker — PTEM 2026 (cliniques en recrutement, Santé Québec Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'ptem-2026-v12';
+const CACHE = 'ptem-2026-v16';
 const CORE = [
   './',
   './index.html',
@@ -12,7 +12,10 @@ const CORE = [
   './icon-512.png',
   './icon-192-maskable.png',
   './icon-512-maskable.png',
-  './apple-touch-icon-180.png'
+  './apple-touch-icon-180.png',
+  './favicon-16.png',
+  './favicon-32.png',
+  './favicon-48.png'
 ];
 
 // Installation : mise en cache de la coquille + activation immédiate
