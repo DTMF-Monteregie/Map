@@ -1,9 +1,9 @@
 {
   "miseAJour": "2026-08-02",
   "annonce": {
-    "texte": "JR Express — visite VIP du RLS Jardins-Roussillon, le lundi 10 août 2026. Départ du parc André-J.-Côté à Candiac : tournée des cliniques de la région et visite de l'hôpital Anna-Laberge. Repas et rafraîchissements inclus, fin de la tournée à 18 h 30. Places limitées : écrivez au responsable du RLS pour réserver la vôtre.",
+    "texte": "JR Express — RLS Jardins-Roussillon, le **lundi 10 août 2026**. Tournée des cliniques de la région et visite de l'hôpital Anna-Laberge.",
     "lien": "mailto:felix.le-phat-ho.med@ssss.gouv.qc.ca?subject=JR%20Express%20-%2010%20aout%202026",
-    "lienCarte": "https://www.google.com/maps/search/?api=1&query=Parc+Andr%C3%A9-J.-C%C3%B4t%C3%A9%2C+116+boulevard+Marie-Victorin%2C+Candiac%2C+QC"
+    "lienCarte": ""
   },
   "cliniques": [
     {
