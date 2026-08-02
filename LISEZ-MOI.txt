@@ -1,0 +1,91 @@
+PTEM 2026 — Carte interactive des cliniques en recrutement
+Santé Québec Montérégie — Est, Centre et Ouest
+==========================================================
+
+Adresse en ligne : https://dtmf-monteregie.github.io/Map/
+Dépôt GitHub     : https://github.com/DTMF-Monteregie/Map
+
+Ce fichier s'adresse à la personne qui tient les données à jour.
+Aucune connaissance en programmation n'est nécessaire.
+
+
+CONTENU DU DOSSIER
+------------------
+- index.html ................. l'application (carte + liste + fiches)
+- data.json .................. les données des cliniques (À MODIFIER ICI)
+- manifest.json .............. infos d'installation (nom, icônes, couleurs)
+- sw.js ...................... service worker (hors-ligne + installation)
+- leaflet.js / leaflet.css ... la bibliothèque de cartographie
+- 404.html ................... page affichée si une adresse n'existe pas
+- icon-192.png ............... icône
+- icon-512.png ............... icône
+- icon-192-maskable.png ...... icône adaptative (Android)
+- icon-512-maskable.png ...... icône adaptative (Android)
+- apple-touch-icon-180.png ... icône iPhone
+- og-image.png ............... image affichée quand on partage le lien
+- banniere-recrutement.png ... bannière pour le site de recrutement
+- README.md / LICENSE ........ documentation et licence
+
+Tous les fichiers doivent rester À LA RACINE du dépôt (à côté de index.html).
+
+
+METTRE À JOUR UNE CLINIQUE (sans toucher au code)
+--------------------------------------------------
+1. Sur GitHub : dépôt Map -> data.json -> crayon (modifier).
+2. Changer la valeur voulue (téléphone, horaire, site, etc.).
+   - Texte entre guillemets droits "..."
+   - Virgule entre les éléments, PAS de virgule après le dernier d'une liste.
+3. Mettre à jour la date :  "miseAJour": "AAAA-MM-JJ"
+4. Commit. La nouvelle version s'affiche à la prochaine ouverture.
+   (Si data.json est invalide, l'app affiche « Données indisponibles » :
+    il suffit de corriger la virgule fautive.)
+
+   Il n'est PAS nécessaire de changer la version du cache pour data.json :
+   ce fichier est toujours rechargé depuis le réseau.
+
+
+DEUX CHAMPS À NE PAS CONFONDRE
+-------------------------------
+- "infos"  : information publique sur la clinique. C'est ici qu'on écrit.
+- "notes"  : réservé aux notes personnelles de chaque utilisateur, qui sont
+             conservées sur son appareil. Tout ce qu'on écrirait ici serait
+             effacé à l'affichage. Laisser vide.
+
+
+AJOUTER UNE CLINIQUE
+--------------------
+Copier un bloc complet entre accolades { ... }, le coller à la fin de la liste
+(en ajoutant une virgule après le bloc précédent), puis :
+  - donner un "id" qui n'existe pas déjà ;
+  - remplir au minimum : nom, type, region, rls, lat, lng.
+La latitude et la longitude s'obtiennent sur Google Maps : clic droit sur le
+point -> les deux nombres apparaissent en haut du menu.
+
+
+FORCER UNE MISE À JOUR APRÈS UN CHANGEMENT DE CODE
+---------------------------------------------------
+Seulement si on a modifié index.html, sw.js ou les icônes.
+Dans sw.js, augmenter le numéro de version du cache :
+   const CACHE = 'ptem-2026-v10';   ->   'ptem-2026-v11'
+puis re-téléverser sw.js. Sans cela, les personnes qui ont déjà ouvert
+l'application continueront de voir l'ancienne version.
+
+
+INSTALLER L'APPLICATION
+-----------------------
+- Android / ordinateur : bouton « Installer l'application » dans l'app,
+  ou menu du navigateur -> « Installer ».
+- iPhone (Safari) : bouton Partager -> « Sur l'écran d'accueil ».
+
+
+PARTAGER LE LIEN
+----------------
+Le bouton rond à côté du « i », en haut à droite, ouvre le partage du
+téléphone. Sur ordinateur, il copie l'adresse dans le presse-papiers.
+
+
+CHANGEMENT D'ANNÉE (décembre)
+------------------------------
+Le nom « PTEM 2026 » apparaît à six endroits, tous indiqués par un
+commentaire au début de index.html. Ne PAS renommer les clés
+« dtmf-mtg-* » : les favoris et les notes de tout le monde seraient perdus.

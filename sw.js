@@ -1,6 +1,6 @@
 // Service worker — PTEM 2026 (cliniques en recrutement, Santé Québec Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'ptem-2026-v10';
+const CACHE = 'ptem-2026-v11';
 const CORE = [
   './',
   './index.html',

@@ -78,6 +78,15 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
   font-size: 13.5px; font-weight: 700; padding: 9px 16px; border-radius: 7px; border: none;
   cursor: pointer; letter-spacing: .03em; display: none; white-space: nowrap; }
 .btn-install:hover { filter: brightness(1.08); }
+/* Bouton Partager — même gabarit rond que le bouton « i ».
+   L'icône est un SVG et non un caractère : aucune police n'a besoin de le contenir. */
+.btn-share { display: inline-flex; align-items: center; justify-content: center;
+  width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0; padding: 0;
+  border: 1.5px solid rgba(255,255,255,.45); background: none; color: #fff; cursor: pointer; }
+.btn-share:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.btn-share svg { width: 17px; height: 17px; }
+.btn-share circle { fill: currentColor; }
+.btn-share path { fill: none; stroke: currentColor; stroke-width: 1.7; }
 .btn-install.show { display: inline-block; }
 .ios-tip { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
   background: var(--navy); color: #fff; padding: 12px 16px; border-radius: 10px;
@@ -585,6 +594,12 @@ body.cmp-open { overflow:hidden; }
   </div>
   <div class="header-right">
     <button class="btn-install" id="btn-install">⤓ Installer l'application</button>
+    <button class="btn-share" id="btn-share" title="Partager le lien de l'application" aria-label="Partager le lien de l'application">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M8.4 10.7 15.6 6.8M8.4 13.3 15.6 17.2"/>
+        <circle cx="18" cy="5.4" r="2.7"/><circle cx="6" cy="12" r="2.7"/><circle cx="18" cy="18.6" r="2.7"/>
+      </svg>
+    </button>
     <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (PTEM 2026 — Santé Québec Montérégie)" aria-label="Plus d'information">i</a>
   </div>
 </header>
@@ -1226,6 +1241,17 @@ function populateRlsSelect() {
   if (prev && opts.indexOf(prev) !== -1) { sel.value = prev; }
   else { rlsFilter = ''; sel.value = ''; }
 }
+function syncRegChips() {
+  // Un ensemble vide veut dire « aucun filtre », donc les trois régions sont affichées :
+  // les trois pastilles doivent alors paraître pleines. Une pastille pleine signifie
+  // toujours « cette région est visible sur la carte ».
+  const toutes = regionFilter.size === 0;
+  document.querySelectorAll('#reg-filter .reg-chip').forEach(b => {
+    const on = toutes || regionFilter.has(b.dataset.reg);
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+}
 function buildFilters() {
   const wrap = document.getElementById('reg-filter');
   if (wrap) {
@@ -1233,19 +1259,18 @@ function buildFilters() {
     ['Est', 'Centre', 'Ouest'].forEach(key => {
       const b = document.createElement('button');
       b.type = 'button'; b.className = 'reg-chip'; b.textContent = REGION_LABELS[key];
+      b.dataset.reg = key;
       b.style.setProperty('--c', regionColor(key));
-      b.setAttribute('aria-pressed', 'false');
       b.setAttribute('aria-label', 'Filtrer : ' + REGION_LABELS[key]);
       b.addEventListener('click', () => {
         if (regionFilter.has(key)) regionFilter.delete(key); else regionFilter.add(key);
-        const on = regionFilter.has(key);
-        b.classList.toggle('on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        syncRegChips();
         populateRlsSelect();
         renderSidebar(); updateMarkerVisibility();
       });
       wrap.appendChild(b);
     });
+    syncRegChips();
   }
   const sel = document.getElementById('rls-filter');
   if (sel) {
@@ -1600,6 +1625,43 @@ fetch('./data.json', { cache: 'no-cache' })
   <span id="ios-tip-msg"></span>
   <span id="ios-tip-close" style="margin-left:10px;cursor:pointer;text-decoration:underline;white-space:nowrap;">Fermer</span>
 </div>
+
+<script>
+// Bouton Partager — diffuser le lien de l'application
+(function () {
+  var btn = document.getElementById('btn-share');
+  if (!btn) return;
+  var URL_APP = 'https://dtmf-monteregie.github.io/Map/';
+  var TITRE = 'PTEM 2026 — Cliniques en recrutement';
+  var TEXTE = 'Carte interactive des cliniques en recrutement de la Montérégie. '
+            + 'Installable sur téléphone.';
+
+  btn.addEventListener('click', function () {
+    // 1er choix : le partage natif du système (téléphones, Safari, Edge)
+    if (navigator.share) {
+      navigator.share({ title: TITRE, text: TEXTE, url: URL_APP })
+        .catch(function (e) {
+          // « AbortError » = la personne a fermé le panneau ; ce n'est pas un échec
+          if (e && e.name !== 'AbortError') copier();
+        });
+      return;
+    }
+    copier();
+  });
+
+  function copier() {
+    // 2e choix : le presse-papiers (nécessite HTTPS, ce qui est le cas sur GitHub Pages)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(URL_APP).then(
+        function () { showToast('Lien copié : ' + URL_APP); },
+        inviter
+      );
+    } else { inviter(); }
+  }
+  // 3e choix : on affiche le lien pour qu'il soit copié à la main
+  function inviter() { window.prompt('Copiez le lien de l\'application :', URL_APP); }
+})();
+</script>
 
 <script>
 // Bouton d'installation visible (PWA)
