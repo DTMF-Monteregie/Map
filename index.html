@@ -62,11 +62,16 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .brand.tapped .logo-img { animation: brandTap .4s ease; }
 @media (prefers-reduced-motion: reduce) { .brand.tapped .logo-img { animation: none; } .sidebar-toggle { animation: none; } .sidebar { animation: none !important; } }
 .logo-img { width: 56px; height: 56px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
-.logo-text { color: #fff; }
-.logo-text .brand-org { display: block; font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 700;
-  letter-spacing: .14em; opacity: .85; margin-bottom: 2px; }
-.logo-text strong { font-family: 'Raleway', sans-serif; font-size: 17px; font-weight: 700; display: block; }
-.logo-text span { font-size: 13px; font-weight: 300; opacity: .6; letter-spacing: .04em; text-transform: uppercase; }
+.logo-text { color: #fff; min-width: 0; }
+/* Deux lignes seulement depuis le retrait de « Cliniques en recrutement ».
+   La taille suit la largeur de l'écran : l'en-tête n'a aucune règle responsive,
+   et à taille fixe « Montérégie » repousserait les boutons hors de l'écran
+   sur un téléphone étroit. */
+.logo-text .brand-org { display: block; font-family: 'Raleway', sans-serif;
+  font-size: clamp(11px, 3.2vw, 16px); font-weight: 700;
+  letter-spacing: .15em; opacity: .88; margin-bottom: 3px; line-height: 1.1; }
+.logo-text strong { font-family: 'Raleway', sans-serif; font-weight: 700; display: block;
+  font-size: clamp(18px, 5.6vw, 28px); line-height: 1.05; letter-spacing: .01em; }
 .header-right { margin-left: auto; display: flex; gap: 10px; align-items: center; padding-right: 12px; }
 .btn-info { display: inline-flex; align-items: center; justify-content: center;
   width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0;
@@ -430,8 +435,10 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   border:1.5px solid var(--c); color:var(--c); background:transparent; cursor:pointer; }
 .pf-chip:hover { opacity:.72; }
 .pf-chip.on { background:var(--c); color:#fff; }
-.reg-filter { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
-.reg-chip { font-size:11px; font-weight:700; letter-spacing:.02em; padding:4px 11px; border-radius:999px;
+/* Trois pastilles de largeur égale, toujours sur une seule ligne. */
+.reg-filter { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:12px; }
+.reg-chip { font-size:12px; font-weight:700; letter-spacing:.02em; padding:5px 4px; border-radius:999px;
+  text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   border:1.5px solid var(--c); color:var(--c); background:#fff; cursor:pointer; font-family:'Raleway',sans-serif; transition:all .15s; }
 .reg-chip:hover { opacity:.72; }
 .reg-chip.on { background:var(--c); color:#fff; }
@@ -589,7 +596,6 @@ body.cmp-open { overflow:hidden; }
   <div class="logo-text">
     <span class="brand-org">SANTÉ QUÉBEC</span>
     <strong>Montérégie</strong>
-    <span style="display:block;margin-top:3px;">Cliniques en recrutement</span>
   </div>
   </div>
   <div class="header-right">
@@ -1258,8 +1264,11 @@ function buildFilters() {
     wrap.innerHTML = '';
     ['Est', 'Centre', 'Ouest'].forEach(key => {
       const b = document.createElement('button');
-      b.type = 'button'; b.className = 'reg-chip'; b.textContent = REGION_LABELS[key];
+      // Libellé court sur la pastille pour que les trois tiennent sur une ligne.
+      // Le nom complet reste dans l'infobulle et pour les lecteurs d'écran.
+      b.type = 'button'; b.className = 'reg-chip'; b.textContent = key;
       b.dataset.reg = key;
+      b.title = REGION_LABELS[key];
       b.style.setProperty('--c', regionColor(key));
       b.setAttribute('aria-label', 'Filtrer : ' + REGION_LABELS[key]);
       b.addEventListener('click', () => {
