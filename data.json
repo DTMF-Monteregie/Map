@@ -49,7 +49,8 @@
       ],
       "niveau": "Niveau 17",
       "porteOuverte": "16 juillet 2026",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 2,
@@ -88,7 +89,8 @@
       ],
       "niveau": "Niveau 17",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 3,
@@ -132,7 +134,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 4,
@@ -175,7 +178,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 5,
@@ -218,7 +222,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 6,
@@ -262,7 +267,8 @@
       ],
       "niveau": "Mission GMF : Niveau 12 · Mission accès réseau : Niveau 4",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 7,
@@ -310,7 +316,8 @@
       ],
       "niveau": "Niveau 2",
       "porteOuverte": "Septembre 2026",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 8,
@@ -353,7 +360,8 @@
       ],
       "niveau": "Niveau 4",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 9,
@@ -394,7 +402,8 @@
       ],
       "niveau": "Niveau 2",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 10,
@@ -437,7 +446,8 @@
       ],
       "niveau": "Niveau 7",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 11,
@@ -481,7 +491,8 @@
       ],
       "niveau": "Niveau 6",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 12,
@@ -524,7 +535,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 13,
@@ -567,7 +579,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 14,
@@ -610,7 +623,8 @@
       ],
       "niveau": "Niveau 5",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 15,
@@ -653,7 +667,8 @@
       ],
       "niveau": "Niveau 3",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 16,
@@ -698,7 +713,8 @@
       ],
       "niveau": "Niveau 4",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 17,
@@ -741,7 +757,8 @@
       ],
       "niveau": "Niveau 14",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 18,
@@ -784,7 +801,8 @@
       ],
       "niveau": "Niveau 11",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 19,
@@ -827,7 +845,8 @@
       ],
       "niveau": "Niveau 3",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 20,
@@ -870,7 +889,8 @@
       ],
       "niveau": "Niveau 7",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 21,
@@ -913,7 +933,8 @@
       ],
       "niveau": "Niveau 2",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 22,
@@ -956,7 +977,8 @@
       ],
       "niveau": "Niveau 2",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 23,
@@ -999,7 +1021,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 24,
@@ -1042,7 +1065,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 25,
@@ -1090,7 +1114,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 26,
@@ -1133,7 +1158,8 @@
       ],
       "niveau": "Niveau 5",
       "porteOuverte": "",
-      "region": "Est"
+      "region": "Est",
+      "infos": ""
     },
     {
       "id": 27,
@@ -1179,7 +1205,8 @@
       ],
       "niveau": "Niveau 3 (GMF-R)",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 28,
@@ -1221,7 +1248,8 @@
       ],
       "niveau": "GMF-U",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 29,
@@ -1261,7 +1289,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 30,
@@ -1299,7 +1328,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 31,
@@ -1337,7 +1367,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 32,
@@ -1378,7 +1409,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 33,
@@ -1415,7 +1447,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 34,
@@ -1451,7 +1484,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 35,
@@ -1490,7 +1524,8 @@
       ],
       "niveau": "",
       "porteOuverte": "",
-      "region": "Ouest"
+      "region": "Ouest",
+      "infos": ""
     },
     {
       "id": 36,
@@ -1521,7 +1556,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Équipe de médecins de famille, d'infirmières et d'une travailleuse sociale. Services publiés : soins infirmiers, ECG, pose/retrait de stérilet, contraception, suivi de pansement, évaluation SAAQ (frais). Prise de rendez-vous via le site de la clinique."
+      "infos": ""
     },
     {
       "id": 37,
@@ -1552,7 +1587,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Unité de médecine de famille affiliée à l'Université de Sherbrooke : formation de résidents en médecine de famille (2 ans) et de stagiaires en médecine, sciences infirmières et travail social. Soins interprofessionnels centrés sur l'usager."
+      "infos": ""
     },
     {
       "id": 38,
@@ -1583,7 +1618,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Première superclinique (GMF-R) de la Montérégie, désignée en 2017 : accès médical élargi 7 jours sur 7, prélèvements, échographie et radiologie de base sur place. Urgence mineure sur rendez-vous (inscription en ligne ou ligne dédiée dès 6 h 45), rendez-vous en ligne pour la clientèle inscrite, suivi de grossesse offert aux patientes sans médecin de famille. Deuxième site à Saint-Lambert."
+      "infos": ""
     },
     {
       "id": 39,
@@ -1612,7 +1647,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "GMF logé dans le CLSC Samuel-De Champlain. Plus de sans rendez-vous populationnel : clientèle inscrite seulement. Clinique d'IPS sur place. Certains médecins participent au Programme fédéral de santé intérimaire (demandeurs d'asile) ; programme SIDEP offert."
+      "infos": ""
     },
     {
       "id": 40,
@@ -1650,7 +1685,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Désignation GMF-A. Trois volets sous le même toit : clinique de médecine familiale (450 550-8858), clinique d'urgence sur rendez-vous (450 766-0881) et clinique de médecins spécialistes (450 550-2334). Équipe de médecins de famille, de spécialistes, d'infirmières et d'infirmières auxiliaires. Stationnement souterrain gratuit, accessible en fauteuil roulant. Triage NAVIG depuis novembre 2025."
+      "infos": ""
     },
     {
       "id": 41,
@@ -1680,7 +1715,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Mission principale : suivi de grossesse et accompagnement jusqu'à l'accouchement. Offre aussi des soins de première ligne en pédiatrie et en médecine générale à la clientèle inscrite, plus des consultations spécialisées en gynécologie et en pédiatrie. Clinique « sans écran ». Secrétariat : 9 h à 12 h et 13 h à 15 h, du lundi au vendredi (pas de boîte vocale). Triage NAVIG depuis octobre 2025. Le site de la clinique indique le code postal J4V 0A8."
+      "infos": ""
     },
     {
       "id": 42,
@@ -1712,7 +1747,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Située dans la Polyclinique Lapinière : pharmacie, physiothérapie, dentisterie et cardiologie dans le même immeuble (entités distinctes). Clinique d'urgence, prélèvements sur rendez-vous, nutrition. Sans rendez-vous réservé et réservable dès 7 h le jour même (la veille dès 13 h pour la clientèle inscrite). N'accepte pas de nouveaux patients (guichet d'accès)."
+      "infos": ""
     },
     {
       "id": 43,
@@ -1743,7 +1778,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Clinique universitaire affiliée à l'Université de Montréal desservant plus de 12 000 patients. Accueille 16 résidents en médecine de famille par année (8 R1, 8 R2), des externes et des stagiaires de plusieurs professions. À proximité des grands centres et des milieux de stage."
+      "infos": ""
     },
     {
       "id": 44,
@@ -1785,7 +1820,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Clinique établie depuis plus de 40 ans. N'accepte plus de nouveaux patients, sauf les patientes enceintes pour un suivi de grossesse. Rendez-vous d'urgence les vendredis soirs, samedis, dimanches et jours fériés en alternance avec le GMF-U de Saint-Jean-sur-Richelieu, réservés aux patients inscrits dans les deux cliniques (inscription dès 7 h 15 au 514 416-5477 ou via Bonjour-Santé). Prise en charge globale, diabète, HTA, soins courants."
+      "infos": ""
     },
     {
       "id": 45,
@@ -1828,7 +1863,7 @@
       "niveau": "",
       "porteOuverte": "Annuellement à l'automne",
       "region": "Centre",
-      "infos": "Fondé en 2014, affilié à l'Université de Sherbrooke. Accueille 16 résidents par année (8 R1, 8 R2) et a reçu 89 stagiaires pour 126 stages en 2024. Services intra-clinique variés : mini-chirurgies, musculosquelettique, pédiatrie sociale, soins à domicile, périnatalité, gynécologie, dépendances (traitements aux opiacés). Édifice moderne à moins de 3 km de l'Hôpital du Haut-Richelieu. Portes ouvertes annuelles à l'automne, visites supplémentaires possibles sur demande (450 741-3346, poste 6703). Le portail du CISSS indique le code postal J3A 0A7."
+      "infos": ""
     },
     {
       "id": 46,
@@ -1859,7 +1894,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Services publiés : obstétrique et périnatalité, gynécologie, contraception et stérilet, inhalothérapie, santé voyage, travail social, soins infirmiers, traitement des verrues, évaluation SAAQ, prélèvements sur rendez-vous les mardis et vendredis (frais). Sans rendez-vous exclusivement réservé à la clientèle inscrite. Triage NAVIG depuis octobre 2025."
+      "infos": ""
     },
     {
       "id": 47,
@@ -1889,7 +1924,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Exploité par le Centre Médi-Soleil, OSBL issu de la Clinique Médicale Iberville Ltée (sans but lucratif depuis 2010). Ouvert 365 jours par année, plus de 15 000 patients inscrits, mini-urgence à fort volume et services de médecine spécialisée sur place. Sans rendez-vous offert aux patients inscrits, inscription en ligne (rendez-vous d'urgence disponibles dès 16 h la veille). Deuxième numéro : 450 347-7557."
+      "infos": ""
     },
     {
       "id": 48,
@@ -1927,7 +1962,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Mission réalisée en partenariat avec le CLSC du Richelieu : suivis en médecine de famille et accès à des services urgents simples et semi-urgents de première ligne. L'une des équipes les plus complètes de la Rive-Sud : 7 omnipraticiens, 17 spécialistes et de nombreux consultants paramédicaux, dont une infirmière clinicienne psychothérapeute et conseillère en toxicomanie, une thérapeute en relation d'aide et des soins infirmiers privés à domicile. Sans rendez-vous via Bonjour-Santé (dès 17 h la veille pour la clientèle inscrite, dès 8 h pour tous) ; dimanche de 8 h à 12 h."
+      "infos": ""
     },
     {
       "id": 49,
@@ -1957,7 +1992,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Pas de site web propre : prise de rendez-vous via Rendez-vous santé Québec (RVSQ) ou le portail de la clinique, dès 8 h le matin. Sans rendez-vous offert à la clientèle inscrite. N'accepte plus de nouveaux clients pour les suivis. Pap test offert aux clientes inscrites ; contraception, contraception orale d'urgence, prélèvements, suivi de pansement. Horaire annoncé par les annuaires (à valider) : lundi 8 h - 20 h, mercredi 8 h - 21 h, dimanche 8 h - 12 h."
+      "infos": ""
     },
     {
       "id": 50,
@@ -2000,7 +2035,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Clinique médicale à but non lucratif au service de Marieville et des environs, financée en partie par des dons de la communauté. Les médecins prennent de nouveaux patients à partir des listes du guichet d'accès transmises par le CLSC. Services : chirurgie mineure, vasectomie (frais), orthopédie, nutrition, travail social, vaccination saisonnière, soins infirmiers, salle d'allaitement, location d'aides à la marche. Sans rendez-vous : appeler dès 8 h. Le dimanche, sans rendez-vous possible au GMF Saint-Luc Saint-Eugène (450 347-3748). Stationnement gratuit."
+      "infos": ""
     },
     {
       "id": 51,
@@ -2030,7 +2065,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Point de service principal d'un GMF réparti sur trois sites (CLSC du Richelieu, CLSC de Saint-Césaire, Clinique médicale du Collège), né du regroupement du GMF du CLSC du Richelieu et de la Clinique médicale du Collège. Portail de rendez-vous commun : gmfrsc.bonjour-sante.ca ou 1 888 243-4058, inscription dès 18 h 15 pour le lendemain. Le dimanche, les plages de sans rendez-vous sont offertes à la Clinique Fort Chambly. Aucun site web propre."
+      "infos": ""
     },
     {
       "id": 52,
@@ -2059,7 +2094,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Point de service au CLSC de Saint-Césaire, rattaché au GMF Richelieu – Saint-Césaire. Rendez-vous via le portail commun gmfrsc.bonjour-sante.ca. Aucun site web propre."
+      "infos": ""
     },
     {
       "id": 53,
@@ -2090,7 +2125,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Troisième point de service du GMF Richelieu – Saint-Césaire. Services publiés au Répertoire du MSSS : médecine familiale, omnipratique, chirurgie et néphrologie. Sans rendez-vous ouvert à tous (inscrits ou non) dès 7 h 30 via Bonjour-Santé ; rendez-vous avec médecin réservés à la clientèle inscrite. Aucun site web propre."
+      "infos": ""
     },
     {
       "id": 54,
@@ -2120,7 +2155,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Point de service principal du GMF Saint-Luc Saint-Eugène. Sans rendez-vous offert à la clientèle inscrite et aux patients référés par le guichet d'accès à la première ligne (GAP) ; le dimanche, inscription dès 7 h 15 sur la ligne dédiée Bonjour-Santé pour l'une des deux cliniques partenaires. Accueille également le sans rendez-vous du dimanche des patients de la Clinique Pro-Santé Marieville. Aucun site web propre."
+      "infos": ""
     },
     {
       "id": 55,
@@ -2150,7 +2185,7 @@
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": "Deuxième point de service du GMF Saint-Luc Saint-Eugène. Ouvert un dimanche sur deux de 8 h 30 à 12 h 30 ; jours fériés partagés avec la Clinique médicale Saint-Eugène. Plages avec rendez-vous réservées à la clientèle inscrite. Aucun site web propre. Certains annuaires situent la clinique au 264, boulevard Saint-Luc, bureau 100 (code postal J2W 0J3) — à valider."
+      "infos": ""
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "id": "/dtmf-monteregie/",
-  "name": "PTEM 2026 — Cliniques en recrutement de la Montérégie",
-  "short_name": "PTEM 2026",
-  "description": "PTEM 2026 — carte interactive des cliniques en recrutement de la Montérégie (Est, Centre et Ouest), Santé Québec. Coordonnées, horaires et personnes-ressources.",
+  "name": "PTEM 2027 — Cliniques en recrutement de la Montérégie",
+  "short_name": "PTEM 2027",
+  "description": "PTEM 2027 — carte interactive des cliniques en recrutement de la Montérégie (Est, Centre et Ouest), Santé Québec. Coordonnées, horaires et personnes-ressources.",
   "lang": "fr-CA",
   "dir": "ltr",
   "start_url": "./",

@@ -1,12 +1,12 @@
-# PTEM 2026 — Carte des cliniques en recrutement
+# PTEM 2027 — Carte des cliniques en recrutement
 
 Carte web interactive des cliniques en recrutement médical de la **Montérégie**, sur les
 trois territoires : Montérégie-Est, Montérégie-Centre et Montérégie-Ouest.
 
 **En ligne :** https://dtmf-monteregie.github.io/Map/
 
-Le plan territorial d'effectifs médicaux (PTEM) 2026 est en vigueur du 1<sup>er</sup> décembre 2025
-au 30 novembre 2026.
+Le plan territorial d'effectifs médicaux (PTEM) 2027 est en vigueur du 1<sup>er</sup> décembre 2026
+au 30 novembre 2027.
 
 ## Aperçu
 
@@ -115,7 +115,7 @@ la version du cache dans `sw.js`, sinon les personnes qui ont déjà ouvert l'ap
 continueront de voir l'ancienne :
 
 ```js
-const CACHE = 'ptem-2026-v10';   //  ->  'ptem-2026-v11'
+const CACHE = 'ptem-2027-v10';   //  ->  'ptem-2027-v11'
 ```
 
 Ce n'est pas nécessaire pour `data.json`, qui est toujours rechargé depuis le réseau.
@@ -134,7 +134,7 @@ Un fichier ouvert directement (`file://`) ne fonctionnera pas : le service worke
 
 ## Renommage annuel
 
-Le nom « PTEM 2026 » apparaît à six endroits, tous signalés par un commentaire en tête
+Le nom « PTEM 2027 » apparaît à six endroits, tous signalés par un commentaire en tête
 d'`index.html` : le `<title>`, les métadonnées `og:` et `twitter:`, l'infobulle du bouton
 « i », l'objet du courriel de correction, le `console.log` final et `manifest.json`.
 

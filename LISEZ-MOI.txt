@@ -1,4 +1,4 @@
-PTEM 2026 — Carte interactive des cliniques en recrutement
+PTEM 2027 — Carte interactive des cliniques en recrutement
 Santé Québec Montérégie — Est, Centre et Ouest
 ==========================================================
 
@@ -66,7 +66,7 @@ FORCER UNE MISE À JOUR APRÈS UN CHANGEMENT DE CODE
 ---------------------------------------------------
 Seulement si on a modifié index.html, sw.js ou les icônes.
 Dans sw.js, augmenter le numéro de version du cache :
-   const CACHE = 'ptem-2026-v10';   ->   'ptem-2026-v11'
+   const CACHE = 'ptem-2027-v10';   ->   'ptem-2027-v11'
 puis re-téléverser sw.js. Sans cela, les personnes qui ont déjà ouvert
 l'application continueront de voir l'ancienne version.
 
@@ -86,6 +86,6 @@ téléphone. Sur ordinateur, il copie l'adresse dans le presse-papiers.
 
 CHANGEMENT D'ANNÉE (décembre)
 ------------------------------
-Le nom « PTEM 2026 » apparaît à six endroits, tous indiqués par un
+Le nom « PTEM 2027 » apparaît à six endroits, tous indiqués par un
 commentaire au début de index.html. Ne PAS renommer les clés
 « dtmf-mtg-* » : les favoris et les notes de tout le monde seraient perdus.
