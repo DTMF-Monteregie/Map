@@ -311,7 +311,6 @@
       "frais": "Aucun frais",
       "pratiques": [
         "pec",
-        "srv",
         "msk"
       ],
       "niveau": "Niveau 2",
@@ -707,7 +706,6 @@
       "frais": "Frais fixe",
       "pratiques": [
         "pec",
-        "srv",
         "msk",
         "chir"
       ],
@@ -1106,7 +1104,6 @@
       "frais": "Société de dépense",
       "pratiques": [
         "pec",
-        "srv",
         "sad",
         "peri",
         "msk",
@@ -1200,7 +1197,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "Niveau 3 (GMF-R)",
@@ -1284,7 +1280,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "",
@@ -1323,7 +1318,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "",
@@ -1362,7 +1356,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "",
@@ -1403,7 +1396,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir",
         "peri"
       ],
@@ -1442,8 +1434,7 @@
       "bureau": "102",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -1518,7 +1509,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "peri",
         "sad"
       ],
@@ -1612,7 +1602,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "peri"
       ],
       "niveau": "",
@@ -1679,8 +1668,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -1741,8 +1729,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -1814,7 +1801,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "peri"
       ],
       "niveau": "",
@@ -1854,7 +1840,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir",
         "msk",
         "sad",
@@ -1888,7 +1873,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "peri"
       ],
       "niveau": "",
@@ -1918,8 +1902,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -1956,8 +1939,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -1986,8 +1968,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -2029,7 +2010,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "",
@@ -2059,8 +2039,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -2119,7 +2098,6 @@
       "frais": "",
       "pratiques": [
         "pec",
-        "srv",
         "chir"
       ],
       "niveau": "",
@@ -2149,8 +2127,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",
@@ -2179,8 +2156,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "srv"
+        "pec"
       ],
       "niveau": "",
       "porteOuverte": "",

@@ -76,7 +76,10 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
       "porteOuverte": "",            // optionnel — info portes ouvertes
       "bureau": "",                  // optionnel
       "frais": "",                   // optionnel — frais de bureau
-      "pratiques": ["pec", "srv"],   // optionnel — codes : pec, srv, sad, peri, msk, chir
+      "medecinsRecherches": "",      // optionnel — nombre de médecins recherchés
+      "pratiques": ["pec", "gap"],   // optionnel — codes : pec, gap, sad, peri, msk, chir
+      "gardes": ["rdv-jour"],        // optionnel — codes : rdv-jour, rdv-soir, rdv-weekend,
+                                     //              labo, etablissement, aucune
       "horaire": {                   // optionnel — par jour
         "Lundi": "8h00 – 17h00", "Mardi": "", "Mercredi": "", "Jeudi": "",
         "Vendredi": "", "Samedi": "Fermé", "Dimanche": "Fermé"
@@ -98,8 +101,13 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
 ```
 
 Un champ vide s'affiche comme « À venir ». Les codes de pratique : `pec` (prise en charge),
-`srv` (sans rendez-vous), `sad` (soins à domicile), `peri` (périnatalité),
+`gap` (guichet d'accès à la première ligne), `sad` (soins à domicile), `peri` (périnatalité),
 `msk` (médecine sportive), `chir` (chirurgie mineure).
+
+`gap` a remplacé l'ancien code `srv` (sans rendez-vous) — ce n'est plus une pratique parmi
+d'autres, mais une notion distincte, désormais couverte par le champ `gardes` : `rdv-jour`,
+`rdv-soir`, `rdv-weekend`, `labo`, `etablissement`, `aucune`. La section « Gardes et
+disponibilités » de la fiche n'apparaît que si ce tableau contient au moins un code.
 
 > **`infos` et `notes` ne sont pas interchangeables.** `notes` alimente le bloc « Mes notes »,
 > que l'application écrase avec les notes locales de chaque personne : tout ce qu'on y écrit

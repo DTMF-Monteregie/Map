@@ -476,6 +476,9 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .prat-chips { display:flex; flex-wrap:wrap; gap:5px; }
 .prat-chip { display:inline-flex; align-items:center; font-size:11px; font-weight:700; letter-spacing:.02em;
   padding:2px 9px; border-radius:999px; color:#fff; background:var(--c); white-space:nowrap; }
+/* Les chips de garde portent un libellé complet, pas une abréviation à 3-4 lettres :
+   pas de --c définie pour elles, donc un fond neutre plutôt que le bleu par défaut. */
+.garde-chip { background: var(--navy2); font-weight: 600; white-space: normal; }
 .prat-filter { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
 .pf-chip { font-size:11px; font-weight:700; letter-spacing:.02em; padding:3px 10px; border-radius:999px;
   border:1.5px solid var(--c); color:var(--c); background:transparent; cursor:pointer; }
@@ -1074,11 +1077,24 @@ const staffDefs = [
 
 const PRATIQUES = [
   {code:'pec',  abbr:'PEC',  label:'Prise en charge',   color:'#0d9488'},
-  {code:'srv',  abbr:'SRV',  label:'Sans rendez-vous',  color:'#0284c7'},
+  {code:'gap',  abbr:'GAP',  label:"Guichet d'accès à la première ligne", color:'#0284c7'},
   {code:'sad',  abbr:'SAD',  label:'Soins à domicile',  color:'#ea580c'},
   {code:'peri', abbr:'PÉRI', label:'Périnatalité',      color:'#38bdf8'},
   {code:'msk',  abbr:'MSK',  label:'Médecine sportive',  color:'#7c3aed'},
   {code:'chir', abbr:'CHIR', label:'Chirurgie mineure',  color:'#b91c1c'},
+];
+
+// « Gardes et disponibilités » — remplace l'ancien code de pratique SRV,
+// qui désignait le sans-rendez-vous. Ce n'est plus une pratique parmi
+// d'autres, mais une charge distincte : d'où sa propre liste et sa
+// propre section dans la fiche.
+const GARDES = [
+  {code:'rdv-jour',      label:'Sans rendez-vous — jour, semaine'},
+  {code:'rdv-soir',      label:'Sans rendez-vous — soir, semaine'},
+  {code:'rdv-weekend',   label:'Sans rendez-vous — fin de semaine ou jour férié'},
+  {code:'labo',          label:'Garde de laboratoire'},
+  {code:'etablissement', label:'Garde en établissement (hôpital, CHSLD)'},
+  {code:'aucune',        label:'Aucune garde ni plage obligatoire'},
 ];
 
 const esc = s => (s == null ? '' : String(s)
@@ -1472,7 +1488,13 @@ function openDetail(id) {
     ? `<span class="prat-chips">${g.pratiques.map(c => { const t = PRATIQUES.find(p => p.code === c); return t ? `<span class="prat-chip" style="--c:${t.color}" title="${esc(t.label)}">${t.abbr}</span>` : ''; }).join('')}</span>`
     : 'À venir';
   const pratRow = `<div class="vw-row"><span class="vw-label">Pratique</span><span class="vw-value">${pratChips}</span></div>`;
-  const recruitRows = pratRow + rrow('Bureau', g.bureau) + rrow('Frais de bureau', g.frais);
+  const recruitRows = rrow('Postes disponibles', g.medecinsRecherches ? g.medecinsRecherches + (Number(g.medecinsRecherches) > 1 ? ' médecins de famille' : ' médecin de famille') : '') + pratRow + rrow('Bureau', g.bureau) + rrow('Frais de bureau', g.frais);
+  // Section « Gardes et disponibilités » : remplace l'ancien code de pratique SRV
+  // (sans-rendez-vous), qui n'était pas assez précis. Elle n'apparaît que si au
+  // moins une valeur a été saisie — sinon chaque fiche encore vierge afficherait
+  // une section vide, comme pour « Informations ».
+  const gardeItems = (Array.isArray(g.gardes) ? g.gardes : [])
+    .map(c => GARDES.find(x => x.code === c)).filter(Boolean);
 
   const reportHref = 'mailto:olivier.laplante.med@ssss.gouv.qc.ca?subject='
     + encodeURIComponent('Correction \u2013 ' + g.nom + ' (PTEM 2027 — Carte des cliniques en recrutement)')
@@ -1499,6 +1521,11 @@ function openDetail(id) {
       <div class="vw-row"><span class="vw-label">Contact</span><span class="vw-value">${contactLink(g.personneRessource)}</span></div>
     </div>
     <div class="vw-divider"></div>
+    ${gardeItems.length ? `<div class="vw-sec">
+      <div class="vw-sec-title">Gardes et disponibilités</div>
+      <span class="prat-chips">${gardeItems.map(x => `<span class="prat-chip garde-chip" title="${esc(x.label)}">${esc(x.label)}</span>`).join('')}</span>
+    </div>
+    <div class="vw-divider"></div>` : ''}
     <div class="vw-sec">
       <div class="vw-sec-title">Horaire d'ouverture</div>
       <div class="hor-grid">${horRows}</div>
