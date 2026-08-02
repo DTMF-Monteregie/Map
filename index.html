@@ -8,21 +8,22 @@
      dans l'objet du courriel de correction, dans le console.log final et dans manifest.json.
      NE PAS renommer : les clés localStorage « dtmf-mtg-* » (favoris et notes des utilisateurs),
      le « id » du manifeste, ni les URL du dépôt. -->
-<title>PTEM 2026 | Santé Québec Montérégie — Cliniques en recrutement</title>
-<meta name="description" content="PTEM 2026 — carte interactive des cliniques en recrutement de la Montérégie (Est, Centre et Ouest), Santé Québec. Coordonnées, horaires et personnes-ressources.">
+<title>PTEM 2026 — Carte des cliniques en recrutement</title>
+<meta name="description" content="Où recrute-t-on en Montérégie ? 55 points de service sur les trois territoires — coordonnées, pratiques, horaires et personnes-ressources. Carte gratuite, installable et consultable hors ligne.">
 <link rel="canonical" href="https://dtmf-monteregie.github.io/Map/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="PTEM 2026">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:url" content="https://dtmf-monteregie.github.io/Map/">
 <meta property="og:title" content="PTEM 2026 | Santé Québec Montérégie — Cliniques en recrutement">
-<meta property="og:description" content="PTEM 2026 — carte interactive des cliniques en recrutement de la Montérégie, Santé Québec.">
+<meta property="og:description" content="55 cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta property="og:image" content="https://dtmf-monteregie.github.io/Map/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — PTEM 2026, Santé Québec.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="PTEM 2026 | Santé Québec Montérégie — Cliniques en recrutement">
-<meta name="twitter:description" content="PTEM 2026 — carte interactive des cliniques en recrutement de la Montérégie, Santé Québec.">
+<meta name="twitter:description" content="55 cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta name="twitter:image" content="https://dtmf-monteregie.github.io/Map/og-image.png">
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="./manifest.json">
@@ -42,6 +43,10 @@
   --logo-navy: #0f2240; --logo-blue: #0080d7; --logo-mint: #7ee6df; --logo-teal: #17a9a8; --logo-green: #17a9a8;
   --cream: #f8f6f1; --white: #fff; --border: #ddd5c4; --muted: #64748b;
   --orange: #0080d7; --green: #16a34a;
+
+  /* rôles de texte, séparés des fonds pour permettre le mode sombre */
+  --texte: #0f2240; --texte2: #1a3558;
+  --carte: #fff; --champ: #fff; --survol: #f5f2ec; --filet: #f0ece4; --jaune-doux: #fff7e0;
   --reg-est: #e6007e; --reg-centre: #43a047; --reg-ouest: #0080d7;
 
   /* épingle PTEM 2026, détourée — utilisée par l'écran de chargement.
@@ -88,6 +93,17 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .btn-install:hover { filter: brightness(1.08); }
 /* Bouton Partager — même gabarit rond que le bouton « i ».
    L'icône est un SVG et non un caractère : aucune police n'a besoin de le contenir. */
+.btn-theme { display: inline-flex; align-items: center; justify-content: center;
+  width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0; padding: 0;
+  border: 1.5px solid rgba(255,255,255,.45); background: none; color: #fff; cursor: pointer; }
+.btn-theme:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.btn-theme svg { width: 18px; height: 18px; }
+.btn-theme .t-lune { fill: currentColor; }
+.btn-theme .t-soleil { display: none; }
+.btn-theme .t-soleil circle { fill: none; stroke: currentColor; stroke-width: 1.8; }
+.btn-theme .t-soleil path { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+:root[data-theme="sombre"] .btn-theme .t-lune { display: none; }
+:root[data-theme="sombre"] .btn-theme .t-soleil { display: block; }
 .btn-share { display: inline-flex; align-items: center; justify-content: center;
   width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0; padding: 0;
   border: 1.5px solid rgba(255,255,255,.45); background: none; color: #fff; cursor: pointer; }
@@ -108,14 +124,14 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 
 .annonce-banner { display: none; position: fixed; top: 86px; left: 50%; transform: translateX(-50%);
   z-index: 920; width: min(330px, calc(100% - 104px));
-  background: #fff; border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+  background: var(--carte); border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
   box-shadow: 0 10px 30px rgba(15,34,64,.22); }
 .annonce-accent { height: 4px; background: linear-gradient(90deg, var(--orange), #f5b301); }
 .annonce-inner { position: relative; padding: 12px 14px 13px; }
 .annonce-head { font-family: 'Raleway', sans-serif; font-weight: 800; font-size: 11px;
   text-transform: uppercase; letter-spacing: .07em; color: var(--orange);
   display: flex; align-items: center; gap: 6px; margin-bottom: 6px; padding-right: 20px; }
-.annonce-text { color: var(--navy2); font-size: 13.5px; line-height: 1.45; white-space: pre-line; }
+.annonce-text { color: var(--texte2); font-size: 13.5px; line-height: 1.45; white-space: pre-line; }
 .annonce-actions { margin-top: 11px; display: flex; gap: 8px; flex-wrap: wrap; }
 .annonce-btn { display: inline-flex; align-items: center; gap: 5px; background: var(--blue); color: #fff;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .02em;
@@ -123,33 +139,33 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .annonce-btn:hover { background: #2b6caa; }
 .annonce-close { position: absolute; top: 8px; right: 8px; background: none; border: none; cursor: pointer;
   color: var(--muted); font-size: 15px; line-height: 1; padding: 2px 5px; border-radius: 6px; }
-.annonce-close:hover { color: var(--navy2); background: #f0ece4; }
+.annonce-close:hover { color: var(--texte2); background: var(--survol); }
 
 /* SIDEBAR */
 .sidebar { width: 400px; flex-shrink: 0; background: var(--white);
   border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
 .sb-head { position: relative; padding: 14px 16px 10px; border-bottom: 1px solid var(--border); background: var(--cream); flex-shrink: 0; }
 .sb-close { display: none; position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: none; background: transparent; color: var(--muted); font-size: 22px; line-height: 1; cursor: pointer; border-radius: 8px; z-index: 1; }
-.sb-close:hover { background: var(--cream); color: var(--navy); }
+.sb-close:hover { background: var(--cream); color: var(--texte); }
 .sb-head h2 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 15px;
-  text-transform: uppercase; letter-spacing: .04em; color: var(--navy2); white-space: nowrap; }
+  text-transform: uppercase; letter-spacing: .04em; color: var(--texte2); white-space: nowrap; }
 .sb-head p { font-size: 13px; color: var(--muted); margin-top: 3px; font-weight: 300; }
 .sb-head .maj { font-size: 11px; font-style: italic; margin-top: 6px; opacity: .85; }
 .sb-search { position: relative; margin-top: 12px; }
 .sb-search-ic { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 13px; opacity: .55; pointer-events: none; }
-.sb-search input { width: 100%; box-sizing: border-box; padding: 9px 32px 9px 30px; border: 1px solid var(--border); border-radius: 9px; font-family: 'Lato', sans-serif; font-size: 13.5px; background: #fff; color: var(--navy); }
+.sb-search input { width: 100%; box-sizing: border-box; padding: 9px 32px 9px 30px; border: 1px solid var(--border); border-radius: 9px; font-family: 'Lato', sans-serif; font-size: 13.5px; background: var(--champ); color: var(--texte); }
 .sb-search input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,196,.16); }
 .sb-search input::placeholder { color: var(--muted); }
 .sb-search input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 .sb-search-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; color: var(--muted); font-size: 12px; line-height: 1; padding: 5px 7px; border-radius: 6px; display: none; }
-.sb-search-clear:hover { background: var(--cream); color: var(--navy); }
+.sb-search-clear:hover { background: var(--cream); color: var(--texte); }
 .sb-search.has-text .sb-search-clear { display: block; }
 .fav-toggle { margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;
-  background: #fff; border: 1.5px solid var(--border); color: var(--navy2); cursor: pointer;
+  background: var(--champ); border: 1.5px solid var(--border); color: var(--texte2); cursor: pointer;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .02em;
   padding: 6px 12px; border-radius: 20px; transition: all .15s; }
 .fav-toggle:hover { border-color: #f5b301; }
-.fav-toggle.active { background: #fff7e0; border-color: #f5b301; color: #9a6a00; }
+.fav-toggle.active { background: var(--jaune-doux); border-color: #f5b301; color: #9a6a00; }
 .cmp-export-btn { margin-top: 8px; display: none; align-items: center; justify-content: center; gap: 6px; width: 100%;
   padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--navy); background: var(--navy); color: #fff;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12.5px; cursor: pointer; }
@@ -157,13 +173,13 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .sb-empty { padding: 28px 20px; text-align: center; color: var(--muted); font-size: 13.5px; line-height: 1.5; }
 .sb-list { overflow-y: auto; flex: 1; }
 .sb-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; position: relative;
-  border-bottom: 1px solid #f0ece4; cursor: pointer; transition: background .12s; user-select: none; }
+  border-bottom: 1px solid var(--filet); cursor: pointer; transition: background .12s; user-select: none; }
 .sb-star { position: absolute; top: 7px; right: 9px; background: none; border: none;
   cursor: pointer; font-size: 17px; line-height: 1; color: #c9c1ad; padding: 2px;
   transition: color .15s, transform .1s; }
 .sb-star:hover { transform: scale(1.15); }
 .sb-star.fav { color: #f5b301; }
-.sb-item:hover { background: #f5f2ec; }
+.sb-item:hover { background: var(--survol); }
 .sb-item.active { background: var(--blue-lt); border-left: 3px solid var(--blue); }
 .sb-item.dragging { opacity: .4; }
 .sb-item.drag-over { border-top: 2px solid var(--orange); }
@@ -175,7 +191,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 /* sélection indiquée par la bande bleue de l'item ; le rond garde sa couleur RLS */
 .sb-info { flex: 1; min-width: 0; padding-right: 18px; }
 .sb-name { font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 17px;
-  color: var(--navy2); white-space: normal; overflow: visible; }
+  color: var(--texte2); white-space: normal; overflow: visible; }
 .sb-city { font-size: 15px; color: var(--muted); margin-top: 2px; }
 
 /* MAP */
@@ -187,11 +203,11 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
   margin-right:6px; vertical-align:middle; flex-shrink:0; }
 .rls-legend { background: rgba(255,255,255,.92); border:1px solid var(--border); margin-bottom:32px;
   border-radius:8px; padding:7px 10px; font-family:'Lato',sans-serif; font-size:12px;
-  color: var(--navy2); box-shadow:0 2px 8px rgba(0,0,0,.12); line-height:1.5; }
+  color: var(--texte2); box-shadow:0 2px 8px rgba(0,0,0,.12); line-height:1.5; }
 .rls-legend-title { font-family:'Raleway',sans-serif; font-weight:700; font-size:11px;
   text-transform:uppercase; letter-spacing:.05em; color:var(--muted); margin-bottom:4px; }
 .rls-legend-row { display:flex; align-items:center; white-space:nowrap; }
-.locate-ctrl a { display: flex; align-items: center; justify-content: center; color: var(--navy); }
+.locate-ctrl a { display: flex; align-items: center; justify-content: center; color: var(--texte); }
 .locate-ctrl a:hover { color: var(--blue); }
 body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: none !important; }
 .user-loc-icon { background: transparent; border: none; }
@@ -235,7 +251,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   border-bottom:1px solid var(--border); padding-bottom:5px; margin-bottom:10px; }
 .vw-row { display:flex; gap:10px; margin-bottom:9px; align-items:baseline; }
 .vw-label { font-size:13px; color:var(--muted); min-width:120px; flex-shrink:0; }
-.vw-value { flex:1; font-size:14.5px; color:var(--navy2); word-break: break-word; }
+.vw-value { flex:1; font-size:14.5px; color:var(--texte2); word-break: break-word; }
 .vw-value a { color: var(--blue); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .15s; }
 .vw-value a:hover { border-bottom-color: var(--blue); }
 .info-dot { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px;
@@ -243,7 +259,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   font:italic 11px/1 Georgia, serif; cursor:pointer; padding:0; vertical-align:middle; margin-left:4px; }
 .info-dot:hover { border-color:var(--orange); color:var(--orange); }
 .niveau-explain { display:none; margin:4px 0 9px; padding:10px 12px; background:var(--cream);
-  border:1px solid var(--border); border-radius:8px; font-size:12.5px; line-height:1.5; color:var(--navy2); }
+  border:1px solid var(--border); border-radius:8px; font-size:12.5px; line-height:1.5; color:var(--texte2); }
 .niveau-explain.show { display:block; }
 .niveau-explain a { color:var(--blue); font-weight:600; text-decoration:underline; }
 .vw-divider { height:1px; background:var(--border); margin:14px 18px 0; }
@@ -251,7 +267,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 /* Horaire grid */
 .hor-grid { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; }
 .hor-day { font-size:14px; color:var(--muted); }
-.hor-val { font-size:14px; color:var(--navy2); font-weight:600; }
+.hor-val { font-size:14px; color:var(--texte2); font-weight:600; }
 .hor-val.ferme { color:#b8b1a0; font-weight:400; }
 
 /* Staff grid */
@@ -259,7 +275,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .staff-cell { background:var(--cream); border:1px solid var(--border); border-radius:8px;
   padding:8px 10px; display:flex; align-items:center; gap:8px; }
 .staff-icon { font-size:16px; }
-.staff-count { font-family:'Raleway',sans-serif; font-weight:700; font-size:15px; color:var(--navy2); min-width:22px; }
+.staff-count { font-family:'Raleway',sans-serif; font-weight:700; font-size:15px; color:var(--texte2); min-width:22px; }
 .staff-count.empty { color:#c9c1ad; }
 .staff-label { font-size:13px; color:var(--muted); line-height:1.3; }
 
@@ -268,7 +284,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .notes-textarea { width:100%; border:1px solid var(--border); border-radius:8px;
   padding:8px 10px; font-size:14px; font-family:'Lato',sans-serif; background:var(--cream);
   resize:vertical; min-height:90px; line-height:1.5; }
-.notes-textarea:focus { outline:none; border-color:var(--blue); background:#fff; }
+.notes-textarea:focus { outline:none; border-color:var(--blue); background:var(--champ); }
 
 /* Save bar */
 .save-bar { padding:12px 18px; background:var(--cream); border-top:1px solid var(--border);
@@ -447,11 +463,11 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .reg-filter { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:12px; }
 .reg-chip { font-size:12px; font-weight:700; letter-spacing:.02em; padding:5px 4px; border-radius:999px;
   text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  border:1.5px solid var(--c); color:var(--c); background:#fff; cursor:pointer; font-family:'Raleway',sans-serif; transition:all .15s; }
+  border:1.5px solid var(--c); color:var(--c); background:var(--champ); cursor:pointer; font-family:'Raleway',sans-serif; transition:all .15s; }
 .reg-chip:hover { opacity:.72; }
 .reg-chip.on { background:var(--c); color:#fff; }
 .rls-filter { margin-top:8px; width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--navy);
-  border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:#fff; color:var(--navy); cursor:pointer; }
+  border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:var(--champ); color:var(--texte); cursor:pointer; }
 .rls-filter:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,128,215,.16); }
 /* PTEM / AMP — documents officiels repliables */
 .docs-wrap { margin-top:8px; }
@@ -464,9 +480,9 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .docs-panel { margin-top:8px; }
 .docs-panel[hidden] { display:none; }
 .doc-link { display:flex; align-items:center; gap:11px; padding:10px 11px; border:1.5px solid var(--border); border-radius:11px;
-  background:#fff; text-decoration:none; color:var(--navy); margin-bottom:8px; transition:all .15s; }
+  background:var(--champ); text-decoration:none; color:var(--texte); margin-bottom:8px; transition:all .15s; }
 .doc-link:last-child { margin-bottom:0; }
-.doc-link:hover { border-color:var(--blue); background:#f7fbff; }
+.doc-link:hover { border-color:var(--blue); background:var(--survol); }
 .doc-meta { display:flex; flex-direction:column; min-width:0; }
 .doc-ic { width:36px; height:36px; flex-shrink:0; border-radius:9px; background:var(--navy); color:#fff;
   display:flex; align-items:center; justify-content:center; font-size:17px; }
@@ -474,12 +490,12 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .doc-sub { font-size:11px; color:var(--muted); margin-top:2px; }
 .dp-actions { display:flex; gap:8px; padding: 12px 18px 0; }
 .dp-fav-btn { flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid var(--border);
-  background:#fff; color:var(--navy2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px;
+  background:var(--champ); color:var(--texte2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px;
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
 .dp-fav-btn:hover { border-color:#f5b301; }
-.dp-fav-btn.fav { background:#fff7e6; border-color:#f5b301; color:#9a6b00; }
-.dp-pdf-btn { padding:9px 14px; border-radius:8px; border:1.5px solid var(--border); background:#fff; color:var(--navy2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
-.dp-pdf-btn:hover { border-color:var(--navy); }
+.dp-fav-btn.fav { background:var(--jaune-doux); border-color:#f5b301; color:#9a6b00; }
+.dp-pdf-btn { padding:9px 14px; border-radius:8px; border:1.5px solid var(--border); background:var(--champ); color:var(--texte2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
+.dp-pdf-btn:hover { border-color:var(--texte); }
 /* ===== Fiche imprimable (PDF) ===== */
 #cmp-print .fp-doc { color:#1a3558; font-family:'Lato',Helvetica,Arial,sans-serif; }
 #cmp-print .fp-head { border-bottom:3px solid var(--orange); padding-bottom:10px; margin-bottom:14px; }
@@ -576,7 +592,40 @@ body.cmp-open { overflow:hidden; }
   body.print-cmp #cmp-print .cmp-inner { max-width:none !important; margin:0 !important; padding:0 !important; }
   body.print-cmp #cmp-print, body.print-cmp #cmp-print * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
 }
+
+/* ─── Mode sombre ───────────────────────────────────────────────────────────
+   Seules les variables de surface changent. Les couleurs de marque — le bleu,
+   le turquoise, la menthe et les trois teintes de région — restent identiques :
+   elles portent l'identité et se lisent aussi bien sur fond sombre.           */
+:root[data-theme="sombre"] {
+  --cream: #131c2e; --white: #18233a; --carte: #18233a; --champ: #1e2b45;
+  --survol: #22304c; --filet: #26344f; --border: #2c3b57;
+  --texte: #e7eefa; --texte2: #c2d2e8; --muted: #93a4bd;
+  --jaune-doux: #3a2f14; --blue-lt: #1d3557;
+}
+:root[data-theme="sombre"] body { background: var(--cream); }
+/* Leaflet dessine ses propres surfaces en blanc : on les rhabille */
+:root[data-theme="sombre"] .leaflet-control-zoom a,
+:root[data-theme="sombre"] .leaflet-bar a {
+  background: var(--champ); color: var(--texte); border-color: var(--border); }
+:root[data-theme="sombre"] .leaflet-control-attribution {
+  background: rgba(24,35,58,.82) !important; color: var(--muted) !important; }
+:root[data-theme="sombre"] .leaflet-control-attribution a { color: var(--blue) !important; }
+:root[data-theme="sombre"] .leaflet-popup-content-wrapper,
+:root[data-theme="sombre"] .leaflet-popup-tip {
+  background: var(--carte); color: var(--texte); }
 </style>
+<script>
+// Thème appliqué avant le premier rendu, pour éviter un éclair de blanc.
+// La clé suit la convention des autres réglages de l'application.
+(function () {
+  try {
+    var c = localStorage.getItem('dtmf-mtg-theme');
+    if (!c) c = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'sombre' : 'clair';
+    document.documentElement.dataset.theme = c;
+  } catch (e) { document.documentElement.dataset.theme = 'clair'; }
+})();
+</script>
 </head>
 <body>
 <div id="app-loader" aria-hidden="true">
@@ -608,6 +657,14 @@ body.cmp-open { overflow:hidden; }
   </div>
   <div class="header-right">
     <button class="btn-install" id="btn-install">⤓ Installer l'application</button>
+    <button class="btn-theme" id="btn-theme" title="Basculer le mode sombre"
+      aria-label="Basculer le mode sombre" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="t-lune" d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"/>
+        <g class="t-soleil"><circle cx="12" cy="12" r="4.1"/>
+          <path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6M5.3 5.3l1.9 1.9M16.8 16.8l1.9 1.9M18.7 5.3l-1.9 1.9M7.2 16.8l-1.9 1.9"/></g>
+      </svg>
+    </button>
     <button class="btn-share" id="btn-share" title="Partager le lien de l'application" aria-label="Partager le lien de l'application">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <path d="M8.4 10.7 15.6 6.8M8.4 13.3 15.6 17.2"/>
@@ -784,9 +841,26 @@ map.on('locationerror', function () {
   if (window.__autoLocate) { window.__autoLocate = false; return; }
   showToast("Localisation impossible. Vérifiez que l'accès à votre position est autorisé dans votre navigateur.");
 });
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  attribution:'© OpenStreetMap © CartoDB | © Olivier Laplante', maxZoom:19
-}).addTo(map);
+(function () {
+  // CartoDB fournit la même carte en clair et en sombre : on bascule la couche entière
+  // plutôt que d'appliquer un filtre, qui délaverait les couleurs des épingles.
+  var ATTR = '© OpenStreetMap © CartoDB | © Olivier Laplante';
+  function couche(sombre) {
+    return L.tileLayer('https://{s}.basemaps.cartocdn.com/' + (sombre ? 'dark_all' : 'light_all')
+      + '/{z}/{x}/{y}{r}.png', { attribution: ATTR, maxZoom: 19 });
+  }
+  var actuelle = couche(document.documentElement.dataset.theme === 'sombre');
+  // « map » est déclaré avec const : il n'existe pas sur window. On le capture ici,
+  // dans la portée du script, plutôt que d'y accéder globalement.
+  window.fondCarte = function (sombre) {
+    if (!actuelle) return;
+    var neuve = couche(sombre);
+    neuve.addTo(map);
+    map.removeLayer(actuelle);
+    actuelle = neuve;
+  };
+  return actuelle;
+})().addTo(map);
 
 // Légende des couleurs par RLS
 let legendEl = null;
@@ -1560,7 +1634,15 @@ function showBanner() {
   if (!texte || annonceFermee) { banner.style.display = 'none'; return; }
   document.getElementById('annonce-text').textContent = texte.replace(/([.!?])\s+/g, '$1\n');
   const linkEl = document.getElementById('annonce-link');
-  if (lien) { linkEl.href = lien; linkEl.style.display = ''; } else { linkEl.style.display = 'none'; }
+  if (lien) {
+    linkEl.href = lien;
+    // Un lien « mailto: » ouvre le logiciel de courriel, pas une page :
+    // target="_blank" laisserait un onglet vide derrière lui.
+    const parCourriel = /^mailto:/i.test(lien);
+    linkEl.textContent = parCourriel ? '✉ Écrire pour s\u2019inscrire' : 'S\u2019inscrire';
+    if (parCourriel) linkEl.removeAttribute('target'); else linkEl.setAttribute('target', '_blank');
+    linkEl.style.display = '';
+  } else { linkEl.style.display = 'none'; }
   const mapEl = document.getElementById('annonce-map');
   if (lienCarte) { mapEl.href = lienCarte; mapEl.style.display = ''; } else { mapEl.style.display = 'none'; }
   banner.style.display = 'block';
@@ -1650,8 +1732,8 @@ fetch('./data.json', { cache: 'no-cache' })
   if (!btn) return;
   var URL_APP = 'https://dtmf-monteregie.github.io/Map/';
   var TITRE = 'PTEM 2026 — Cliniques en recrutement';
-  var TEXTE = 'Carte interactive des cliniques en recrutement de la Montérégie. '
-            + 'Installable sur téléphone.';
+  var TEXTE = '55 cliniques en recrutement en Montérégie — Est, Centre et Ouest. '
+            + 'Coordonnées, pratiques et horaires. Installable sur téléphone.';
 
   btn.addEventListener('click', function () {
     // 1er choix : le partage natif du système (téléphones, Safari, Edge)
@@ -1755,4 +1837,26 @@ if ('serviceWorker' in navigator) {
 </script>
 <style id="cmp-orient"></style>
 <div id="cmp-print" aria-hidden="true"></div>
+<script>
+// Bascule clair / sombre
+(function () {
+  var btn = document.getElementById('btn-theme');
+  if (!btn) return;
+  function refleter() {
+    var sombre = document.documentElement.dataset.theme === 'sombre';
+    btn.setAttribute('aria-pressed', sombre ? 'true' : 'false');
+    btn.title = sombre ? 'Revenir au mode clair' : 'Basculer le mode sombre';
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', sombre ? '#131c2e' : '#0f2240');
+    if (window.fondCarte) window.fondCarte(sombre);
+  }
+  btn.addEventListener('click', function () {
+    var sombre = document.documentElement.dataset.theme !== 'sombre';
+    document.documentElement.dataset.theme = sombre ? 'sombre' : 'clair';
+    try { localStorage.setItem('dtmf-mtg-theme', sombre ? 'sombre' : 'clair'); } catch (e) {}
+    refleter();
+  });
+  refleter();
+})();
+</script>
 </body></html>
