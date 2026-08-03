@@ -1,5 +1,5 @@
 {
-  "miseAJour": "2026-08-02",
+  "miseAJour": "2026-08-03",
   "annonce": {
     "texte": "JR Express — RLS Jardins-Roussillon\n**lundi 10 août 2026**\nTournée des cliniques de la région et visite de l'hôpital Anna-Laberge.",
     "lien": "mailto:felix.le-phat-ho.med@ssss.gouv.qc.ca?subject=JR%20Express%20-%2010%20aout%202026",
@@ -106,13 +106,13 @@
       "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
-        "Lundi": "8h00 - 21h00",
-        "Mardi": "8h00 - 21h00",
-        "Mercredi": "8h00 - 21h00",
-        "Jeudi": "8h00 - 21h00",
-        "Vendredi": "8h00 - 21h00",
-        "Samedi": "8h00 - 21h00",
-        "Dimanche": "8h00 - 21h00"
+        "Lundi": "8h00 – 21h00",
+        "Mardi": "8h00 – 21h00",
+        "Mercredi": "8h00 – 21h00",
+        "Jeudi": "8h00 – 21h00",
+        "Vendredi": "8h00 – 21h00",
+        "Samedi": "8h00 – 12h00 / 13h00 – 16h00",
+        "Dimanche": "8h00 – 12h00 / 13h00 – 16h00"
       },
       "personnel": {
         "medecins": "",
@@ -151,11 +151,11 @@
       "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
-        "Lundi": "8h00 – 21h00",
-        "Mardi": "8h00 – 21h00",
-        "Mercredi": "8h00 – 21h00",
-        "Jeudi": "8h00 – 21h00",
-        "Vendredi": "8h00 – 21h00",
+        "Lundi": "8h00 – 17h00",
+        "Mardi": "8h00 – 17h00",
+        "Mercredi": "8h00 – 17h00",
+        "Jeudi": "8h00 – 17h00",
+        "Vendredi": "8h00 – 17h00",
         "Samedi": "Fermé",
         "Dimanche": "Fermé"
       },
@@ -377,12 +377,12 @@
       "dme": "Medesync (Telus)",
       "horaire": {
         "Lundi": "8h00 – 20h30",
-        "Mardi": "8h00 – 16h00",
+        "Mardi": "8h00 – 20h30",
         "Mercredi": "8h00 – 20h30",
-        "Jeudi": "8h00 – 16h00",
-        "Vendredi": "8h00 – 16h00",
-        "Samedi": "8h00 – 16h00",
-        "Dimanche": "Fermé"
+        "Jeudi": "8h00 – 20h30",
+        "Vendredi": "8h00 – 18h00",
+        "Samedi": "8h00 – 12h00",
+        "Dimanche": "8h00 – 12h00"
       },
       "personnel": {
         "medecins": "8",
@@ -553,7 +553,7 @@
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 21h00",
-        "Mardi": "8h00 – 0h00",
+        "Mardi": "8h00 – 21h00",
         "Mercredi": "8h00 – 21h00",
         "Jeudi": "8h00 – 21h00",
         "Vendredi": "8h00 – 21h00",
@@ -640,12 +640,12 @@
       "personneRessource": "lena.wognin.med@ssss.gouv.qc.ca",
       "dme": "Ofys",
       "horaire": {
-        "Lundi": "9h00 – 17h00",
-        "Mardi": "9h00 – 17h00",
-        "Mercredi": "9h00 – 17h00",
-        "Jeudi": "9h00 – 17h00",
-        "Vendredi": "9h00 – 17h00",
-        "Samedi": "Fermé",
+        "Lundi": "8h30 – 17h00",
+        "Mardi": "8h30 – 21h00",
+        "Mercredi": "8h30 – 17h00",
+        "Jeudi": "8h30 – 21h00",
+        "Vendredi": "8h30 – 18h30",
+        "Samedi": "8h30 – 12h30",
         "Dimanche": "Fermé"
       },
       "personnel": {
@@ -684,12 +684,12 @@
       "personneRessource": "julie.lafrenaye.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
-        "Lundi": "8h30 – 16h00",
-        "Mardi": "8h30 – 16h00",
-        "Mercredi": "8h30 – 16h00",
-        "Jeudi": "8h30 – 16h00",
-        "Vendredi": "8h30 – 16h00",
-        "Samedi": "Fermé",
+        "Lundi": "8h30 – 11h45 / 13h00 – 16h30",
+        "Mardi": "8h30 – 11h45 / 13h00 – 16h30",
+        "Mercredi": "8h30 – 11h45 / 13h00 – 16h30",
+        "Jeudi": "8h30 – 11h45 / 13h00 – 16h30",
+        "Vendredi": "8h30 – 12h00",
+        "Samedi": "Fermé sauf SRV",
         "Dimanche": "Fermé"
       },
       "personnel": {
@@ -733,7 +733,7 @@
         "Mardi": "8h00 – 21h00",
         "Mercredi": "8h00 – 21h00",
         "Jeudi": "8h00 – 21h00",
-        "Vendredi": "8h30 – 16h00",
+        "Vendredi": "8h00 – 16h00",
         "Samedi": "8h30 – 12h30",
         "Dimanche": "8h30 – 12h30"
       },
@@ -861,13 +861,13 @@
       "personneRessource": "josee-maude.lambert.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
-        "Lundi": "8h30 – 20h30",
-        "Mardi": "8h30 – 20h30",
-        "Mercredi": "8h30 – 20h30",
-        "Jeudi": "8h30 – 20h30",
-        "Vendredi": "8h30 – 20h30",
-        "Samedi": "9h00 – 13h00",
-        "Dimanche": "9h00 – 13h00"
+        "Lundi": "8h00 – 20h30",
+        "Mardi": "8h00 – 20h30",
+        "Mercredi": "8h00 – 20h30",
+        "Jeudi": "8h00 – 20h30",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "8h00 – 12h30",
+        "Dimanche": "8h00 – 12h30"
       },
       "personnel": {
         "medecins": "",
@@ -1081,11 +1081,11 @@
       "personneRessource": "claudia.morneau.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
-        "Lundi": "8h30 – 16h30",
-        "Mardi": "8h00 – 20h00",
-        "Mercredi": "8h00 – 20h00",
-        "Jeudi": "8h00 – 20h00",
-        "Vendredi": "8h00 – 16h00",
+        "Lundi": "8h30 – 17h00",
+        "Mardi": "8h30 – 21h00",
+        "Mercredi": "8h30 – 21h00",
+        "Jeudi": "8h30 – 21h00",
+        "Vendredi": "8h30 – 16h00",
         "Samedi": "8h30 – 12h30",
         "Dimanche": "Fermé"
       },
@@ -1129,13 +1129,13 @@
       "personneRessource": "mariam-edith.colbert.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
-        "Lundi": "7 h 30 – 19 h 30",
-        "Mardi": "7 h 30 – 19 h 30",
-        "Mercredi": "7 h 30 – 19 h 30",
-        "Jeudi": "7 h 30 – 19 h 30",
-        "Vendredi": "7 h 30 – 18 h 30",
-        "Samedi": "8 h 30 – 13 h",
-        "Dimanche": "8 h 30 – 13 h"
+        "Lundi": "7h30 – 19h30",
+        "Mardi": "7h30 – 19h30",
+        "Mercredi": "7h30 – 19h30",
+        "Jeudi": "7h30 – 19h30",
+        "Vendredi": "7h30 – 17h00",
+        "Samedi": "9h00 – 13h00",
+        "Dimanche": "9h00 – 13h00"
       },
       "personnel": {
         "medecins": "",
@@ -1261,13 +1261,13 @@
       "personneRessource": "Dr Victor Einagel",
       "dme": "",
       "horaire": {
-        "Lundi": "7h15 – 20h00",
-        "Mardi": "7h15 – 20h00",
-        "Mercredi": "7h15 – 20h00",
-        "Jeudi": "7h15 – 20h00",
-        "Vendredi": "7h15 – 17h30",
-        "Samedi": "8h00 – 14h00",
-        "Dimanche": "8h00 – 14h00"
+        "Lundi": "7h15 – 19h30",
+        "Mardi": "7h15 – 19h30",
+        "Mercredi": "7h15 – 19h30",
+        "Jeudi": "7h15 – 19h30",
+        "Vendredi": "7h15 – 18h00",
+        "Samedi": "7h30 – 13h00",
+        "Dimanche": "7h30 – 13h00"
       },
       "personnel": {
         "ipspl": "présence"
@@ -1301,13 +1301,13 @@
       "personneRessource": "Dre Sandra Demers",
       "dme": "",
       "horaire": {
-        "Lundi": "voir CLSC",
-        "Mardi": "voir CLSC",
-        "Mercredi": "voir CLSC",
-        "Jeudi": "voir CLSC",
-        "Vendredi": "voir CLSC",
-        "Samedi": "voir CLSC",
-        "Dimanche": "voir CLSC"
+        "Lundi": "8h00 – 16h00",
+        "Mardi": "8h00 – 20h00",
+        "Mercredi": "8h00 – 16h00",
+        "Jeudi": "8h00 – 20h00",
+        "Vendredi": "8h00 – 16h00",
+        "Samedi": "Fermé",
+        "Dimanche": "Fermé"
       },
       "personnel": {},
       "notes": "",
@@ -1339,13 +1339,13 @@
       "personneRessource": "Dre Sandra Demers",
       "dme": "",
       "horaire": {
-        "Lundi": "voir CLSC",
-        "Mardi": "voir CLSC",
-        "Mercredi": "voir CLSC",
-        "Jeudi": "voir CLSC",
-        "Vendredi": "voir CLSC",
-        "Samedi": "voir CLSC",
-        "Dimanche": "voir CLSC"
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 16h00",
+        "Mercredi": "8h00 – 20h00",
+        "Jeudi": "8h00 – 16h00",
+        "Vendredi": "8h00 – 16h00",
+        "Samedi": "8h00 – 12h30 / 13h30 – 16h00",
+        "Dimanche": "8h00 – 12h30 / 13h30 – 16h00"
       },
       "personnel": {},
       "notes": "",
@@ -1418,13 +1418,13 @@
       "personneRessource": "Dr Wassim Chatoo",
       "dme": "",
       "horaire": {
-        "Lundi": "voir clinique",
-        "Mardi": "voir clinique",
-        "Mercredi": "voir clinique",
-        "Jeudi": "voir clinique",
-        "Vendredi": "voir clinique",
-        "Samedi": "voir clinique",
-        "Dimanche": "voir clinique"
+        "Lundi": "9h00 – 21h00",
+        "Mardi": "9h00 – 21h00",
+        "Mercredi": "9h00 – 21h00",
+        "Jeudi": "9h00 – 17h00",
+        "Vendredi": "9h00 – 17h00",
+        "Samedi": "9h00 – 15h00 (variable)",
+        "Dimanche": "9h00 – 15h00 (variable)"
       },
       "personnel": {},
       "notes": "",
@@ -1455,13 +1455,13 @@
       "personneRessource": "Dr Christian Ferland",
       "dme": "",
       "horaire": {
-        "Lundi": "voir clinique",
-        "Mardi": "voir clinique",
-        "Mercredi": "voir clinique",
-        "Jeudi": "voir clinique",
-        "Vendredi": "voir clinique",
-        "Samedi": "voir clinique",
-        "Dimanche": "voir clinique"
+        "Lundi": "9h00 – 17h00",
+        "Mardi": "9h00 – 21h00",
+        "Mercredi": "9h00 – 17h00",
+        "Jeudi": "9h00 – 21h00",
+        "Vendredi": "9h00 – 17h00",
+        "Samedi": "Fermé",
+        "Dimanche": "10h00 – 16h00"
       },
       "personnel": {},
       "notes": "",
@@ -1492,12 +1492,12 @@
       "personneRessource": "Dre My Van Quach",
       "dme": "",
       "horaire": {
-        "Lundi": "9h00 – 20h00",
-        "Mardi": "9h00 – 20h00",
-        "Mercredi": "9h00 – 20h00",
-        "Jeudi": "9h00 – 20h00",
-        "Vendredi": "9h00 – 17h30",
-        "Samedi": "9h30 – 13h30",
+        "Lundi": "8h30 – 16h30",
+        "Mardi": "8h30 – 16h30",
+        "Mercredi": "8h30 – 16h30",
+        "Jeudi": "8h30 – 16h30",
+        "Vendredi": "8h30 – 16h30",
+        "Samedi": "Variable selon avis",
         "Dimanche": "Fermé"
       },
       "personnel": {},
@@ -1530,7 +1530,15 @@
       "site": "https://centremedicalst-hubert.ca/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "7h00 – 18h00",
+        "Mardi": "7h00 – 18h00",
+        "Mercredi": "7h00 – 16h00",
+        "Jeudi": "7h00 – 18h00",
+        "Vendredi": "7h00 – 16h00",
+        "Samedi": "7h00 – 12h00",
+        "Dimanche": "Fermé"
+      },
       "personnel": {
         "travailleuresSociales": "1"
       },
@@ -1561,7 +1569,15 @@
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-charles-le-moyne",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 20h00",
+        "Mercredi": "8h00 – 20h00",
+        "Jeudi": "8h00 – 20h00",
+        "Vendredi": "8h00 – 19h00",
+        "Samedi": "9h00 – 13h30",
+        "Dimanche": "9h00 – 13h30"
+      },
       "personnel": {
         "ipspl": "3"
       },
@@ -1592,7 +1608,15 @@
       "site": "https://www.cliniqueazur.com/",
       "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 20h00",
+        "Mercredi": "8h00 – 20h00",
+        "Jeudi": "8h00 – 20h00",
+        "Vendredi": "8h00 – 20h00",
+        "Samedi": "8h00 – 20h00",
+        "Dimanche": "8h00 – 20h00"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -1622,7 +1646,15 @@
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-samuel-de-champlain",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h30 – 16h30",
+        "Mardi": "8h30 – 16h30",
+        "Mercredi": "8h30 – 16h30",
+        "Jeudi": "8h30 – 16h30",
+        "Vendredi": "8h30 – 16h30",
+        "Samedi": "Fermé",
+        "Dimanche": "Fermé"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -1688,7 +1720,15 @@
       "site": "https://www.gmflacigogne.com/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h30",
+        "Mardi": "8h00 – 20h30",
+        "Mercredi": "8h00 – 20h30",
+        "Jeudi": "8h00 – 20h30",
+        "Vendredi": "8h00 – 18h00",
+        "Samedi": "Fermé",
+        "Dimanche": "Urgence sur RDV seulement"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -1718,7 +1758,15 @@
       "site": "https://clinique-lapiniere.ca/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h30",
+        "Mardi": "8h00 – 20h30",
+        "Mercredi": "8h00 – 20h30",
+        "Jeudi": "8h00 – 20h30",
+        "Vendredi": "8h00 – 16h00",
+        "Samedi": "8h00 – 13h00",
+        "Dimanche": "8h00 – 13h00"
+      },
       "personnel": {
         "medecins": "9"
       },
@@ -1749,7 +1797,15 @@
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-de-saint-hubert",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 20h00",
+        "Mercredi": "8h00 – 20h00",
+        "Jeudi": "8h00 – 20h00",
+        "Vendredi": "8h00 – 20h00",
+        "Samedi": "8h00 – 12h00",
+        "Dimanche": "8h00 – 12h00"
+      },
       "personnel": {
         "residents": "16"
       },
@@ -1821,7 +1877,15 @@
       "site": "https://enseignement-mc.ca/enseignement-et-recherche/les-gmf-u-groupes-de-medecine-familiale-universitaire/gmf-u-saint-jean-sur-richelieu/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 20h00",
+        "Mercredi": "8h00 – 17h00",
+        "Jeudi": "8h00 – 20h00",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "8h00 – 12h30",
+        "Dimanche": "8h00 – 12h30"
+      },
       "personnel": {
         "medecins": "17",
         "residents": "16",
@@ -1863,7 +1927,15 @@
       "site": "https://www.cliniquemedicaleducoteau.ca/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 21h00",
+        "Mardi": "8h00 – 21h00",
+        "Mercredi": "8h00 – 18h00",
+        "Jeudi": "8h00 – 21h00",
+        "Vendredi": "8h00 – 18h00",
+        "Samedi": "8h00 – 13h00",
+        "Dimanche": "8h00 – 12h00"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -1922,7 +1994,15 @@
       "site": "https://www.lacliniquefortchambly.com/",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h45",
+        "Mardi": "8h00 – 20h45",
+        "Mercredi": "8h00 – 20h45",
+        "Jeudi": "8h00 – 20h45",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "Fermé (SRV au CLSC Richelieu)",
+        "Dimanche": "8h00 – 12h00 (SRV)"
+      },
       "personnel": {
         "medecins": "7",
         "specialistes": "17",
@@ -1959,7 +2039,15 @@
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=34989",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h00",
+        "Mardi": "8h00 – 17h00",
+        "Mercredi": "8h00 – 17h00",
+        "Jeudi": "8h00 – 17h00",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "Fermé",
+        "Dimanche": "9h00 – 13h00"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -2030,7 +2118,15 @@
       "site": "",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h45",
+        "Mardi": "8h00 – 20h45",
+        "Mercredi": "8h00 – 20h45",
+        "Jeudi": "8h00 – 20h45",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "8h00 – 12h00",
+        "Dimanche": "Fermé"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -2059,7 +2155,15 @@
       "site": "",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 16h00",
+        "Mardi": "8h00 – 16h00",
+        "Mercredi": "8h00 – 16h00",
+        "Jeudi": "8h00 – 16h00",
+        "Vendredi": "8h00 – 16h00",
+        "Samedi": "Fermé",
+        "Dimanche": "Fermé"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -2088,7 +2192,15 @@
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=116297",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 17h00",
+        "Mardi": "8h00 – 17h00",
+        "Mercredi": "8h00 – 17h00",
+        "Jeudi": "8h00 – 17h00",
+        "Vendredi": "8h00 – 17h00",
+        "Samedi": "Fermé",
+        "Dimanche": "Fermé"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -2118,7 +2230,15 @@
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=47617",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h00 – 20h30",
+        "Mardi": "8h00 – 16h30",
+        "Mercredi": "8h00 – 16h30",
+        "Jeudi": "8h00 – 20h30",
+        "Vendredi": "8h00 – 16h30",
+        "Samedi": "Fermé",
+        "Dimanche": "8h30 – 12h30 (1 dimanche sur 2)"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
@@ -2147,7 +2267,15 @@
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=50518",
       "personneRessource": "",
       "dme": "",
-      "horaire": {},
+      "horaire": {
+        "Lundi": "8h30 – 17h00",
+        "Mardi": "8h30 – 20h30",
+        "Mercredi": "8h30 – 20h30",
+        "Jeudi": "8h30 – 17h00",
+        "Vendredi": "8h00 – 16h00",
+        "Samedi": "Fermé",
+        "Dimanche": "8h30 – 12h30 (1 dimanche sur 2)"
+      },
       "personnel": {},
       "notes": "",
       "photo": null,
