@@ -680,7 +680,7 @@
       "lat": 45.7839061,
       "lng": -73.1597819,
       "telephone": "450 787-3233",
-      "site": "https://www.horizonclinique.ca",
+      "site": "https://www.horizonclinique.com",
       "personneRessource": "julie.lafrenaye.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -1228,13 +1228,13 @@
       },
       "personnel": {
         "medecins": "20+ (enseignants)",
-        "ipspl": "présence"
+        "ipspl": "Oui"
       },
       "notes": "",
       "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "302",
+      "bureau": "",
       "frais": "",
       "pratiques": [
         "pec",
@@ -1270,13 +1270,13 @@
         "Dimanche": "7h30 – 13h00"
       },
       "personnel": {
-        "ipspl": "présence"
+        "ipspl": "Oui"
       },
       "notes": "",
       "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "101",
+      "bureau": "",
       "frais": "",
       "pratiques": [
         "pec",
@@ -1392,7 +1392,7 @@
       "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "220",
+      "bureau": "",
       "frais": "",
       "pratiques": [
         "pec",
@@ -1431,7 +1431,7 @@
       "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "102",
+      "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
@@ -1468,7 +1468,7 @@
       "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "102",
+      "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"

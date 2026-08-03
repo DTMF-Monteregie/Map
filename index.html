@@ -558,7 +558,12 @@ body.cmp-open { overflow:hidden; }
 #cmp-print .cmp-table td { font-size:10.5px; color:#1a3558; }
 #cmp-print .cmp-alt { background:#faf8f3; }
 #cmp-print th.cmp-rl.cmp-alt { background:#efeadd; }
-#cmp-print .cmp-corner { background:#2F4A7A; border-color:#2F4A7A; width:140px; }
+#cmp-print .cmp-corner { background:#2F4A7A; border-color:#2F4A7A; width:140px; padding:0 !important; }
+/* Épingle PTEM dans le coin du comparatif. Le logo est ajouré : le marine du
+   fond passe au travers, comme sur l'écran de chargement. */
+#cmp-print .cmp-cornerlogo { display:flex; align-items:center; justify-content:flex-start; padding:5px 10px; }
+#cmp-print .cmp-cornerlogo i { flex:0 0 auto; width:26px; height:26px; display:block;
+  background:var(--app-logo) center/contain no-repeat; }
 #cmp-print .cmp-table td.cmp-sect { background:#2F4A7A; color:#fff; font-size:9.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border-color:#2F4A7A; }
 #cmp-print .cmp-dot { display:inline-block; width:8px; height:8px; border-radius:50%; vertical-align:middle; margin-right:5px; }
 #cmp-print .cmp-chip { display:inline-block; color:#fff; font-size:8.5px; font-weight:700; padding:2px 6px; border-radius:18px; margin:0 3px 3px 0; }
@@ -581,6 +586,8 @@ body.cmp-open { overflow:hidden; }
 #cmp-print.cmp-dense .cmp-subtitle { font-size:11px; }
 #cmp-print.cmp-dense .cmp-exp { font-size:9px; margin-top:3px; }
 #cmp-print.cmp-dense .cmp-clname { font-size:11px; }
+#cmp-print.cmp-dense .cmp-cornerlogo { padding:3px 8px; }
+#cmp-print.cmp-dense .cmp-cornerlogo i { width:21px; height:21px; }
 #cmp-print.cmp-dense .cmp-headqr img { width:76px; height:76px; }
 #cmp-print.cmp-dense .cmp-table th, #cmp-print.cmp-dense .cmp-table td { padding:2.5px 8px; }
 #cmp-print.cmp-dense .cmp-rl, #cmp-print.cmp-dense .cmp-table td { font-size:9.5px; }
@@ -1197,7 +1204,7 @@ function buildComparatif(favs) {
   const gs = favs.map(id => byId(id)).filter(Boolean);
   const JOURS = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
   const date = new Date().toLocaleDateString('fr-CA', { day:'numeric', month:'long', year:'numeric' });
-  let head = '<th class="cmp-corner"></th>';
+  let head = '<th class="cmp-corner"><div class="cmp-cornerlogo"><i></i></div></th>';
   gs.forEach(g => {
     head += `<th class="cmp-clhead" style="border-top:6px solid ${regionColor(g.region)}"><div class="cmp-clname">${esc(g.nom.trim())}</div><div class="cmp-cltype">${esc(typeLabel(g.type))}</div></th>`;
   });
