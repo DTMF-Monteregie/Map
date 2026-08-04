@@ -10,6 +10,7 @@
       "id": 1,
       "nom": "Clinique La Relève (GMF Petit-Bois)",
       "alias": "GMF du Petit-Bois Petit-Bois Petit Bois CAMU Longueuil Clinique La Relève La Releve",
+      "visible": true,
       "type": "GMF",
       "adresse": "1471, boulevard Lionel-Boulet, Bureau 21, Varennes QC J3X 1P7",
       "ville": "Varennes",
@@ -30,13 +31,13 @@
       },
       "personnel": {
         "medecins": "9",
+        "ipspl": "3",
         "infirmieres": "5",
         "infauxiliaires": "1",
-        "ipspl": "3",
         "physiotherapeutes": "3",
         "pharmaciennes": "2",
-        "intervenantspsychosociaux": "5",
-        "nutritionnistes": "1 (à venir)"
+        "nutritionnistes": "1 (à venir)",
+        "intervenantspsychosociaux": "5"
       },
       "notes": "",
       "photo": null,
@@ -47,15 +48,22 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 17",
+      "niveaux": {
+        "gmf": "17",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 17",
       "porteOuverte": "16 juillet 2026",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 2,
       "nom": "CAMU Longueuil (GMF Petit-Bois)",
       "alias": "Clinique CAMU Longueuil CAMU Petit-Bois",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "1144, rue Saint-Laurent Ouest, Bureau 100, Longueuil QC J4K 1E2",
       "ville": "Longueuil",
@@ -87,15 +95,22 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 17",
+      "niveaux": {
+        "gmf": "17",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 17",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 3,
       "nom": "CLSC Simonne-Monet-Chartrand",
       "alias": "SMC CLSC SMC Simonne Monet Chartrand",
+      "visible": true,
       "type": "CLSC",
       "adresse": "1303, boulevard Jacques-Cartier Est, Longueuil QC J4M 2Y8",
       "ville": "Longueuil",
@@ -116,8 +131,8 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
@@ -132,15 +147,22 @@
         "pec",
         "sad"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 4,
       "nom": "CLSC Longueuil-Ouest",
       "alias": "",
+      "visible": true,
       "type": "CLSC",
       "adresse": "201, boulevard Curé-Poirier Ouest, Longueuil QC J4J 2G4",
       "ville": "Longueuil",
@@ -161,8 +183,8 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
@@ -176,15 +198,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 5,
       "nom": "Clinique Médicale de la Marine",
       "alias": "",
+      "visible": true,
       "type": "Clinique médicale",
       "adresse": "303, boulevard de la Marine, Bureau 101, Varennes QC J3X 2G6",
       "ville": "Varennes",
@@ -205,8 +234,8 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
@@ -220,15 +249,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 6,
       "nom": "GMF-R Pierre-Boucher",
       "alias": "Ma Clinique Pierre-Boucher Réseau MAclinique",
+      "visible": true,
       "type": "GMF-R",
       "adresse": "Bureau 110 – 1615, boulevard Jacques-Cartier Est, Longueuil QC J4M 2X1",
       "ville": "Longueuil",
@@ -252,9 +288,9 @@
         "specialistes": "23",
         "infirmieres": "8",
         "infauxiliaires": "8",
+        "nutritionnistes": "2",
         "psychologues": "1",
-        "travailleuresSociales": "4",
-        "nutritionnistes": "2"
+        "travailleuresSociales": "4"
       },
       "notes": "",
       "photo": null,
@@ -265,15 +301,22 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Mission GMF : Niveau 12 · Mission accès réseau : Niveau 4",
+      "niveaux": {
+        "gmf": "12",
+        "accesReseau": "4",
+        "gmfu": ""
+      },
+      "niveau": "GMF 12 · Accès-réseau 4",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 7,
       "nom": "GMF-U des Montérégiennes",
       "alias": "",
+      "visible": true,
       "type": "GMF-U",
       "adresse": "20, boulevard de Mortagne, Unité N, Boucherville QC J4B 5K6",
       "ville": "Boucherville",
@@ -298,10 +341,10 @@
         "ipspl": "4",
         "infirmieres": "4",
         "infauxiliaires": "3",
-        "aac": "1",
         "physiotherapeutes": "1",
+        "pharmaciennes": "1",
         "travailleuresSociales": "1",
-        "pharmaciennes": "1"
+        "aac": "1"
       },
       "notes": "",
       "photo": null,
@@ -313,15 +356,22 @@
         "pec",
         "msk"
       ],
-      "niveau": "Niveau 2",
+      "niveaux": {
+        "gmf": "2",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 2",
       "porteOuverte": "Septembre 2026",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 8,
       "nom": "GMF des Îles-Percées",
       "alias": "",
+      "visible": true,
       "type": "GMF",
       "adresse": "600, boulevard du Fort-Saint-Louis, Bureau 201, Boucherville QC J4B 1S7",
       "ville": "Boucherville",
@@ -342,8 +392,8 @@
       },
       "personnel": {
         "medecins": "19",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
@@ -357,15 +407,22 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 4",
+      "niveaux": {
+        "gmf": "4",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 4",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 9,
       "nom": "GMF des Seigneuries",
       "alias": "",
+      "visible": true,
       "type": "GMF",
       "adresse": "2220, boulevard René-Gaultier, Varennes QC J3X 1E3",
       "ville": "Varennes",
@@ -394,20 +451,27 @@
       "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
-      "bureau": "Bureau dédié et partagé",
+      "bureau": "Bureau dédié ou partagé",
       "frais": "Aucun frais",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 2",
+      "niveaux": {
+        "gmf": "2",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 2",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 10,
       "nom": "GMF Marguerite d'Youville",
       "alias": "Hauts-Bois Haut-Bois Hauts Bois Haut Bois GMF des Hauts-Bois Clinique des Hauts-Bois",
+      "visible": true,
       "type": "GMF",
       "adresse": "2105, boulevard Armand-Frappier, Bureau 301, Sainte-Julie QC J3E 3R6",
       "ville": "Sainte-Julie",
@@ -428,8 +492,8 @@
       },
       "personnel": {
         "medecins": "18",
-        "infirmieres": "",
         "ipspl": "1",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
@@ -443,15 +507,22 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 7",
+      "niveaux": {
+        "gmf": "7",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 7",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 11,
       "nom": "GMF Sainte-Julie",
       "alias": "Clinique médicale Sainte-Julie",
+      "visible": true,
       "type": "GMF",
       "adresse": "286, rue de Normandie, Sainte-Julie QC J3E 1A7",
       "ville": "Sainte-Julie",
@@ -475,9 +546,9 @@
         "specialistes": "9",
         "infirmieres": "4",
         "infauxiliaires": "2",
-        "travailleuresSociales": "2",
+        "infsantementale": "1",
         "pharmaciennes": "2",
-        "infsantementale": "1"
+        "travailleuresSociales": "2"
       },
       "notes": "",
       "photo": null,
@@ -488,17 +559,23 @@
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 6",
+      "niveaux": {
+        "gmf": "6",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 6",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 12,
       "nom": "CLSC des Patriotes",
       "alias": "",
+      "visible": true,
       "type": "CLSC",
-      "rls": "Richelieu-Yamaska",
       "adresse": "300, boulevard Serge-Pépin, Beloeil QC J3G 0B8",
       "ville": "Beloeil",
       "lat": 45.5909489,
@@ -518,31 +595,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 13,
       "nom": "CLSC des Maskoutains",
       "alias": "",
+      "visible": true,
       "type": "CLSC",
-      "rls": "Richelieu-Yamaska",
       "adresse": "1015, rue Gauthier, Saint-Hyacinthe QC J2S 8T2",
       "ville": "Saint-Hyacinthe",
       "lat": 45.6368865,
@@ -562,31 +646,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 14,
       "nom": "GMF-U Richelieu-Yamaska",
       "alias": "GMF Fusion UMF Richelieu-Yamaska Fusion",
+      "visible": true,
       "type": "GMF-U",
-      "rls": "Richelieu-Yamaska",
       "adresse": "1021, rue Gauthier, Saint-Hyacinthe QC J2S 8T2",
       "ville": "Saint-Hyacinthe",
       "lat": 45.6374416,
@@ -606,31 +697,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 5",
+      "niveaux": {
+        "gmf": "5",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 5",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 15,
       "nom": "GMF Maska",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "1050, boulevard Casavant Est, local 302, Saint-Hyacinthe QC J2S 0L6",
       "ville": "Saint-Hyacinthe",
       "lat": 45.6464015,
@@ -650,31 +748,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 3",
+      "niveaux": {
+        "gmf": "3",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 3",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 16,
       "nom": "GMF des Patriotes - Horizon",
       "alias": "Horizon Clinique GMF des Patriotes Saint-Denis St-Denis-sur-Richelieu Patriotes",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "620, chemin des Patriotes, bureau 202, Saint-Denis-sur-Richelieu QC J0H 1K0",
       "ville": "Saint-Denis-sur-Richelieu",
       "lat": 45.7839061,
@@ -701,6 +806,7 @@
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié",
       "frais": "Frais fixe",
@@ -709,17 +815,23 @@
         "msk",
         "chir"
       ],
-      "niveau": "Niveau 4",
+      "niveaux": {
+        "gmf": "4",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 4",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 17,
       "nom": "Clinique médicale Les 2 Chênes",
       "alias": "GMF Saint-Mathieu-de-Beloeil Saint-Mathieu St-Mathieu Beloeil Les 2 Chênes Les 2 Chenes Deux Chênes",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "201-4605, chemin du Crépuscule, Saint-Mathieu-de-Beloeil QC J3G 0R2",
       "ville": "Saint-Mathieu-de-Beloeil",
       "lat": 45.588397,
@@ -739,31 +851,38 @@
       },
       "personnel": {
         "medecins": "11",
-        "infirmieres": "7",
         "ipspl": "7",
+        "infirmieres": "7",
         "physiotherapeutes": "1",
         "pharmaciennes": "2",
         "travailleuresSociales": "4"
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau partagé",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 14",
+      "niveaux": {
+        "gmf": "14",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 14",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 18,
       "nom": "GMF Carrefour de la Vallée",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "665, boulevard Sir-Wilfrid-Laurier, Beloeil QC J3G 4J1",
       "ville": "Beloeil",
       "lat": 45.5634229,
@@ -783,31 +902,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 11",
+      "niveaux": {
+        "gmf": "11",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 11",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 19,
       "nom": "GMF 3090 (Saint-Basile)",
       "alias": "Centre Médical Saint-Basile Centre Medical St-Basile 3090",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "101-275, boulevard Sir-Wilfrid-Laurier, Saint-Basile-le-Grand QC J3N 1V6",
       "ville": "Saint-Basile-le-Grand",
       "lat": 45.5255962,
@@ -827,31 +953,38 @@
       },
       "personnel": {
         "medecins": "6",
+        "specialistes": "1 (médecine interne)",
         "infirmieres": "2",
-        "travailleuresSociales": "1",
-        "nutritionnistes": "1",
         "pharmaciennes": "1",
-        "specialistes": "1 (médecine interne)"
+        "nutritionnistes": "1",
+        "travailleuresSociales": "1"
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 3",
+      "niveaux": {
+        "gmf": "3",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 3",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 20,
       "nom": "GMF Laframboise",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "2955, boulevard Laframboise, Saint-Hyacinthe QC J2S 4Z3",
       "ville": "Saint-Hyacinthe",
       "lat": 45.6344643,
@@ -871,31 +1004,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 7",
+      "niveaux": {
+        "gmf": "7",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 7",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 21,
       "nom": "GMF Le Sentier",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "88, chemin de la Rabastalière Ouest, Saint-Bruno-de-Montarville QC J3V 1Y8",
       "ville": "Saint-Bruno-de-Montarville",
       "lat": 45.526125,
@@ -917,29 +1057,36 @@
         "medecins": "9",
         "infirmieres": "2",
         "infauxiliaires": "3",
-        "travailleuresSociales": "2",
         "pharmaciennes": "1",
-        "nutritionnistes": "1"
+        "nutritionnistes": "1",
+        "travailleuresSociales": "2"
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 2",
+      "niveaux": {
+        "gmf": "2",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 2",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 22,
       "nom": "GMF Coopérative de Solidarité de Santé de la MRC d'Acton",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Richelieu-Yamaska",
       "adresse": "755, rue de Roxton, Acton Vale QC J0H 1A0",
       "ville": "Acton Vale",
       "lat": 45.6450255,
@@ -959,31 +1106,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "Société de dépense",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 2",
+      "niveaux": {
+        "gmf": "2",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 2",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 23,
       "nom": "CLSC Gaston-Bélanger",
       "alias": "",
+      "visible": true,
       "type": "CLSC",
-      "rls": "Pierre-De Saurel",
       "adresse": "30, rue Ferland, Sorel-Tracy QC J3P 3C7",
       "ville": "Sorel-Tracy",
       "lat": 46.045153,
@@ -1003,31 +1157,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 24,
       "nom": "Clinique des professionnels de la santé Sorel-Tracy",
       "alias": "Clinique des professionnels Sorel-Tracy",
-      "type": "Clinique",
-      "rls": "Pierre-De Saurel",
+      "visible": true,
+      "type": "Clinique médicale",
       "adresse": "330, avenue de l'Hôtel-Dieu, Sorel-Tracy QC J3P 1N4",
       "ville": "Sorel-Tracy",
       "lat": 46.0458154,
@@ -1047,31 +1208,38 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "Bureau dédié",
       "frais": "Frais fixe",
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 25,
       "nom": "GMF Richelieu",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Pierre-De Saurel",
       "adresse": "200-500, route Marie-Victorin, Sorel-Tracy QC J3R 1K7",
       "ville": "Sorel-Tracy",
       "lat": 46.0397993,
@@ -1091,14 +1259,15 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "",
       "frais": "Société de dépense",
@@ -1109,17 +1278,23 @@
         "msk",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 26,
       "nom": "GMF L'Autre Maison",
       "alias": "",
+      "visible": true,
       "type": "GMF",
-      "rls": "Pierre-Boucher",
       "adresse": "575, rue Saint-Charles Est, Longueuil QC J4H 1B8",
       "ville": "Longueuil",
       "lat": 45.547245,
@@ -1139,29 +1314,37 @@
       },
       "personnel": {
         "medecins": "",
-        "infirmieres": "",
         "ipspl": "",
+        "infirmieres": "",
         "physiotherapeutes": "",
         "pharmaciennes": "",
         "travailleuresSociales": ""
       },
       "notes": "",
       "photo": null,
+      "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
         "pec"
       ],
-      "niveau": "Niveau 5",
+      "niveaux": {
+        "gmf": "5",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 5",
       "porteOuverte": "",
       "region": "Est",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 27,
       "nom": "GMF-R Le Trait-d'Union",
       "alias": "GMF-R Reseau Trait d'Union Delson Chouinard Marie-Victorin",
+      "visible": true,
       "type": "GMF-R",
       "adresse": "56, boulevard Marie-Victorin, Delson QC J5B 1A9",
       "ville": "Delson",
@@ -1185,9 +1368,9 @@
         "ipspl": "4",
         "infirmieres": "4",
         "infauxiliaires": "4",
-        "intervenantspsychosociaux": "3",
         "pharmaciennes": "1",
-        "nutritionnistes": "1"
+        "nutritionnistes": "1",
+        "intervenantspsychosociaux": "3"
       },
       "notes": "",
       "photo": null,
@@ -1199,15 +1382,22 @@
         "pec",
         "chir"
       ],
-      "niveau": "Niveau 3 (GMF-R)",
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "3",
+        "gmfu": ""
+      },
+      "niveau": "Accès-réseau 3",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 28,
       "nom": "GMF-U Jardins-Roussillon",
       "alias": "GMF-U Universitaire McGill Jardins Roussillon Chateauguay Brisebois Lepitre Desjardins Anna-Laberge",
+      "visible": true,
       "type": "GMF-U",
       "adresse": "230, boulevard Brisebois, bureau 302, Châteauguay QC J6K 0J6",
       "ville": "Châteauguay",
@@ -1242,15 +1432,22 @@
         "peri",
         "sad"
       ],
-      "niveau": "GMF-U",
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": "À confirmer"
+      },
+      "niveau": "GMF-U à confirmer",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 29,
       "nom": "GMF Mercier",
       "alias": "GMF Clinique Medicale Mercier Saint-Jean-Baptiste Einagel",
+      "visible": true,
       "type": "GMF",
       "adresse": "464, boulevard Saint-Jean-Baptiste, bureau 101, Mercier QC J6R 2B1",
       "ville": "Mercier",
@@ -1282,15 +1479,22 @@
         "pec",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 30,
       "nom": "GMF Jardin-du-Québec (Napierville)",
       "alias": "GMF Jardin du Quebec Napierville CLSC Saint-Jacques Demers",
+      "visible": true,
       "type": "GMF",
       "adresse": "509, rue Saint-Jacques, Napierville QC J0J 1L0",
       "ville": "Napierville",
@@ -1320,15 +1524,22 @@
         "pec",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 31,
       "nom": "GMF Jardin-du-Québec (Saint-Rémi)",
       "alias": "GMF Jardin du Quebec satellite Saint-Remi St-Remi CLSC Sainte-Famille Demers",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "2, rue Sainte-Famille, Saint-Rémi QC J0L 2L0",
       "ville": "Saint-Rémi",
@@ -1358,15 +1569,22 @@
         "pec",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 32,
       "nom": "GMF Roger Laberge",
       "alias": "GMF Roger Laberge ELNA Chateauguay Anjou Deslauriers Complexe medical",
+      "visible": true,
       "type": "GMF",
       "adresse": "288, boulevard d'Anjou, suite 220, Châteauguay QC J6K 1C6",
       "ville": "Châteauguay",
@@ -1399,15 +1617,22 @@
         "chir",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 33,
       "nom": "GMF Saint-Constant (de la gare)",
       "alias": "GMF Saint-Constant St-Constant de la gare Saint-Pierre Chatoo apnee sommeil",
+      "visible": true,
       "type": "GMF",
       "adresse": "113, rue Saint-Pierre, bureau 102, Saint-Constant QC J5A 0M3",
       "ville": "Saint-Constant",
@@ -1436,15 +1661,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 34,
       "nom": "GMF Saint-Constant (Monchamp)",
       "alias": "GMF Saint-Constant satellite Monchamp Sainte-Catherine Ferland",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "227, rue Sainte-Catherine, bureau 102, Saint-Constant QC J5A 2J5",
       "ville": "Saint-Constant",
@@ -1473,15 +1705,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 35,
       "nom": "CH Kateri Memorial",
       "alias": "CH Centre Hospitalier Kateri Memorial KMHC Kahnawake River Quach autochtone mohawk",
+      "visible": true,
       "type": "CH",
       "adresse": "10, rue River (River Road), Kahnawake QC J0L 1B0",
       "ville": "Kahnawake",
@@ -1512,15 +1751,22 @@
         "peri",
         "sad"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 36,
       "nom": "GMF Centre médical St-Hubert",
       "alias": "Centre medical St-Hubert Saint-Hubert Cousineau",
+      "visible": true,
       "type": "GMF",
       "adresse": "5125, boulevard Cousineau, bureau 206, Saint-Hubert QC J3Y 3K7",
       "ville": "Saint-Hubert",
@@ -1551,15 +1797,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 37,
       "nom": "GMF-U Charles-Le Moyne",
       "alias": "UMF Charles-Le Moyne Charles Le Moyne CLM Saint-Lambert",
+      "visible": true,
       "type": "GMF-U",
       "adresse": "299, boulevard Sir-Wilfrid-Laurier, bureau 201, Saint-Lambert QC J4R 2L1",
       "ville": "Saint-Lambert",
@@ -1590,15 +1843,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 38,
       "nom": "GMF-R Clinique Azur",
       "alias": "Azur Clinique Azur Taschereau Greenfield Park",
+      "visible": true,
       "type": "GMF-R",
       "adresse": "2984, boulevard Taschereau, bureau 103, Greenfield Park QC J4V 2G9",
       "ville": "Greenfield Park",
@@ -1628,15 +1888,22 @@
         "pec",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 39,
       "nom": "GMF CLSC Samuel-De Champlain",
       "alias": "CLSC Samuel-De Champlain Samuel de Champlain Brossard",
+      "visible": true,
       "type": "GMF",
       "adresse": "5811, boulevard Taschereau, 1er étage, Brossard QC J4Z 1A5",
       "ville": "Brossard",
@@ -1665,15 +1932,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 40,
       "nom": "GMF DIX30",
       "alias": "GMF-A DIX30 Dix30 Dix 30 Clinique Santé DIX30 Quartier DIX30 Brossard",
+      "visible": true,
       "type": "GMF",
       "adresse": "1100, rue du Lux, local 510, Brossard QC J4Y 0E2",
       "ville": "Brossard",
@@ -1702,15 +1976,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 41,
       "nom": "GMF La Cigogne",
       "alias": "La Cigogne Cigogne Taschereau Greenfield Park",
+      "visible": true,
       "type": "GMF",
       "adresse": "3141, boulevard Taschereau, bureau 420, Greenfield Park QC J4V 2H2",
       "ville": "Greenfield Park",
@@ -1740,15 +2021,22 @@
         "pec",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 42,
       "nom": "GMF Lapinière",
       "alias": "Lapiniere Clinique Lapinière Brossard",
+      "visible": true,
       "type": "GMF",
       "adresse": "2424, boulevard Lapinière, bureau 001, Brossard QC J4Z 2K9",
       "ville": "Brossard",
@@ -1779,15 +2067,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 43,
       "nom": "GMF-U Saint-Hubert",
       "alias": "UMF Saint-Hubert St-Hubert Cousineau",
+      "visible": true,
       "type": "GMF-U",
       "adresse": "6800, boulevard Cousineau, Saint-Hubert QC J3Y 8Z4",
       "ville": "Saint-Hubert",
@@ -1818,15 +2113,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 44,
       "nom": "GMF Centre médical Iberville",
       "alias": "Iberville Centre medical Iberville Saint-Jean-sur-Richelieu SJSR",
+      "visible": true,
       "type": "GMF",
       "adresse": "235, 2e Avenue, bureau 101, Saint-Jean-sur-Richelieu QC J2X 2B2",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -1859,15 +2161,22 @@
         "pec",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 45,
       "nom": "GMF-U de Saint-Jean-sur-Richelieu",
       "alias": "UMF Saint-Jean-sur-Richelieu St-Jean SJSR Douglas",
+      "visible": true,
       "type": "GMF-U",
       "adresse": "1225, rue Douglas, Saint-Jean-sur-Richelieu QC J2W 0J2",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -1892,8 +2201,8 @@
         "ipspl": "3",
         "infirmieres": "3",
         "infauxiliaires": "3",
-        "travailleuresSociales": "2",
         "psychologues": "1",
+        "travailleuresSociales": "2",
         "aac": "1"
       },
       "notes": "",
@@ -1909,15 +2218,22 @@
         "sad",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "Annuellement à l'automne",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 46,
       "nom": "GMF du Coteau",
       "alias": "Coteau Clinique médicale du Coteau Saint-Luc SJSR",
+      "visible": true,
       "type": "GMF",
       "adresse": "440, boulevard Saint-Luc, bureau 100, Saint-Jean-sur-Richelieu QC J2W 0E2",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -1947,15 +2263,22 @@
         "pec",
         "peri"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 47,
       "nom": "GMF Haut-Richelieu",
       "alias": "Haut-Richelieu Médi-Soleil Medi-Soleil Séminaire Nord SJSR",
+      "visible": true,
       "type": "GMF",
       "adresse": "383, boulevard du Séminaire Nord, bureau 120, Saint-Jean-sur-Richelieu QC J3B 8C5",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -1976,15 +2299,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 48,
       "nom": "GMF La Clinique Fort Chambly",
       "alias": "Fort Chambly Clinique Fort Chambly Brassard Chambly",
+      "visible": true,
       "type": "GMF",
       "adresse": "1101, boulevard Brassard, bureau 205, Chambly QC J3L 5R4",
       "ville": "Chambly",
@@ -2006,11 +2336,11 @@
       "personnel": {
         "medecins": "7",
         "specialistes": "17",
-        "infirmieres": "4",
         "ipspl": "3",
+        "infirmieres": "4",
+        "pharmaciennes": "1",
         "nutritionnistes": "1",
-        "travailleuresSociales": "1",
-        "pharmaciennes": "1"
+        "travailleuresSociales": "1"
       },
       "notes": "",
       "photo": null,
@@ -2021,15 +2351,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 49,
       "nom": "GMF Médicentre Saint-Jean",
       "alias": "Medicentre Médi-Centre Saint-Jean St-Jean SJSR Séminaire Nord",
+      "visible": true,
       "type": "GMF",
       "adresse": "610, boulevard du Séminaire Nord, Saint-Jean-sur-Richelieu QC J3B 7B4",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -2058,15 +2395,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 50,
       "nom": "GMF Pro-Santé Marieville",
       "alias": "Pro-Sante Pro Santé Marieville",
+      "visible": true,
       "type": "GMF",
       "adresse": "1344, rue du Pont, Marieville QC J3M 1G2",
       "ville": "Marieville",
@@ -2087,8 +2431,8 @@
       },
       "personnel": {
         "medecins": "8",
-        "ipspl": "4",
-        "specialistes": "2 (chirurgie, orthopédie)"
+        "specialistes": "2 (chirurgie, orthopédie)",
+        "ipspl": "4"
       },
       "notes": "",
       "photo": null,
@@ -2100,15 +2444,22 @@
         "pec",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 51,
       "nom": "GMF Richelieu – Saint-Césaire (CLSC du Richelieu)",
       "alias": "Richelieu Saint-Césaire St-Césaire CLSC du Richelieu Marieville",
+      "visible": true,
       "type": "GMF",
       "adresse": "300, chemin de Marieville, Richelieu QC J3L 3V8",
       "ville": "Richelieu",
@@ -2137,15 +2488,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 52,
       "nom": "Point de service Saint-Césaire (GMF Richelieu – Saint-Césaire)",
       "alias": "Saint-Césaire St-Césaire CLSC de Saint-Césaire Notre-Dame",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "1394, rue Notre-Dame, Saint-Césaire QC J0L 1T0",
       "ville": "Saint-Césaire",
@@ -2174,15 +2532,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 53,
       "nom": "Clinique médicale du Collège (GMF Richelieu – Saint-Césaire)",
       "alias": "Collège College Saint-Césaire St-Césaire Notre-Dame",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "1396, rue Notre-Dame, Saint-Césaire QC J0L 1T0",
       "ville": "Saint-Césaire",
@@ -2212,15 +2577,22 @@
         "pec",
         "chir"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 54,
       "nom": "GMF Saint-Luc Saint-Eugène (Clinique médicale Saint-Eugène)",
       "alias": "Saint-Eugène St-Eugène Saint-Luc St-Luc Jacques-Cartier SJSR",
+      "visible": true,
       "type": "GMF",
       "adresse": "397, rue Jacques-Cartier Sud, Saint-Jean-sur-Richelieu QC J3B 7T1",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -2249,15 +2621,22 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 55,
       "nom": "Clinique médicale Saint-Luc (GMF Saint-Luc Saint-Eugène)",
       "alias": "Saint-Luc St-Luc Saint-Eugène SJSR",
+      "visible": true,
       "type": "GMF satellite",
       "adresse": "247, boulevard Saint-Luc, bureau 204, Saint-Jean-sur-Richelieu QC J2W 1C3",
       "ville": "Saint-Jean-sur-Richelieu",
@@ -2286,16 +2665,23 @@
       "pratiques": [
         "pec"
       ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Centre",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 56,
       "nom": "Milieu à confirmer — Haut-Saint-Laurent",
       "alias": "",
-      "type": "Clinique",
+      "visible": true,
+      "type": "Clinique médicale",
       "adresse": "",
       "ville": "Huntingdon",
       "lat": 45.0868,
@@ -2313,16 +2699,23 @@
       "bureau": "",
       "frais": "",
       "pratiques": [],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 57,
       "nom": "Milieu à confirmer — Suroît",
       "alias": "",
-      "type": "Clinique",
+      "visible": true,
+      "type": "Clinique médicale",
       "adresse": "",
       "ville": "Salaberry-de-Valleyfield",
       "lat": 45.2501,
@@ -2340,16 +2733,23 @@
       "bureau": "",
       "frais": "",
       "pratiques": [],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     },
     {
       "id": 58,
       "nom": "Milieu à confirmer — Vaudreuil-Soulanges",
       "alias": "",
-      "type": "Clinique",
+      "visible": true,
+      "type": "Clinique médicale",
       "adresse": "",
       "ville": "Vaudreuil-Dorion",
       "lat": 45.4011,
@@ -2367,10 +2767,16 @@
       "bureau": "",
       "frais": "",
       "pratiques": [],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
       "niveau": "",
       "porteOuverte": "",
       "region": "Ouest",
-      "infos": ""
+      "infos": "",
+      "presentation": ""
     }
   ]
 }
