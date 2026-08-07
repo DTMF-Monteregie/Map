@@ -474,10 +474,16 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   box-shadow: 0 10px 30px rgba(0,0,0,.3); border-left: 4px solid var(--orange);
   z-index: 3500; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-.report-link { display: inline-block; margin-top: 12px; font-size: 12.5px; color: var(--muted);
-  text-decoration: none; border-bottom: 1px dashed var(--border); }
-.report-link:hover { color: var(--orange); }
-.dp-report-wrap { text-align: center; padding: 2px 0 4px; }
+/* Bouton « Signaler une correction » : contour turquoise, pleine largeur de la
+   fiche. Assez visible pour être trouvé, assez sobre pour ne pas concurrencer
+   le contenu ni le bouton PDF du haut de fiche. */
+.report-link { display: flex; align-items: center; justify-content: center; gap: 7px;
+  width: 100%; box-sizing: border-box; padding: 11px 14px; margin: 0;
+  border: 1.5px solid var(--turquoise, #08A0A0); border-radius: 9px;
+  background: #fff; color: #07807f; text-decoration: none;
+  font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 13px; }
+.report-link:hover { background: #f0fbfb; color: #066b6a; }
+.dp-report-wrap { padding: 2px 0 4px; }
 .prat-chips { display:flex; flex-wrap:wrap; gap:5px; }
 .prat-chip { display:inline-flex; align-items:center; font-size:11px; font-weight:700; letter-spacing:.02em;
   padding:2px 9px; border-radius:999px; color:#fff; background:var(--c); white-space:nowrap; }
@@ -723,9 +729,9 @@ body.cmp-open { overflow:hidden; }
   <div class="annonce-accent"></div>
   <div class="annonce-inner">
     <button class="annonce-close" id="annonce-close" aria-label="Fermer l'annonce">✕</button>
-    <div class="annonce-head"><span>📅</span> Prochaine activité de recrutement</div>
+    <div class="annonce-head"><span>📅</span> <span id="annonce-titre">Prochaine activité de recrutement</span></div>
     <div class="annonce-text" id="annonce-text"></div>
-    <div class="annonce-actions">
+    <div class="annonce-actions" id="annonce-actions">
       <a class="annonce-btn" id="annonce-link" target="_blank" rel="noopener" style="display:none">S'inscrire</a>
       <a class="annonce-btn" id="annonce-map" target="_blank" rel="noopener" style="display:none">🗺 Itinéraire</a>
     </div>
@@ -1109,6 +1115,26 @@ const GARDES = [
   {code:'aucune',        label:'Aucune garde obligatoire'},
 ];
 
+// Reconnaît « 16 juillet 2026 » ou « 2026-07-16 » dans un texte libre et dit si
+// la date est passée. Une mention sans date (« Annuellement à l'automne »)
+// n'expire jamais.
+const MOIS_FR = ['janvier','février','mars','avril','mai','juin','juillet',
+                 'août','septembre','octobre','novembre','décembre'];
+function dateDuTexte(v) {
+  const t = String(v == null ? '' : v).toLowerCase();
+  let m = t.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+  m = t.match(/(\d{1,2})\s+([a-zéûô]+)\s+(\d{4})/);
+  if (m) { const i = MOIS_FR.indexOf(m[2]); if (i >= 0) return new Date(+m[3], i, +m[1]); }
+  return null;
+}
+function datePassee(v) {
+  const d = dateDuTexte(v);
+  if (!d) return false;
+  const auj = new Date(); auj.setHours(0, 0, 0, 0);
+  return d < auj;
+}
+
 const esc = s => (s == null ? '' : String(s)
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'));
 
@@ -1483,7 +1509,7 @@ function openDetail(id) {
   });
   if (!staffCells) staffCells = '<div class="staff-cell" style="grid-column:1 / -1;"><span class="staff-label" style="color:#b8b1a0;">À venir</span></div>';
 
-  const poRaw = (g.porteOuverte || '').trim();
+  const poRaw = datePassee(g.porteOuverte) ? '' : (g.porteOuverte || '').trim();
   const poDisp = !poRaw ? 'À venir'
     : (/^https?:\/\//i.test(poRaw)
         ? `<a href="${esc(poRaw)}" target="_blank" rel="noopener">S'inscrire / détails</a>`
@@ -1525,7 +1551,7 @@ function openDetail(id) {
   document.getElementById('dp-body').innerHTML = `
     <div class="dp-actions"><button type="button" class="dp-fav-btn${favoris.has(g.id) ? ' fav' : ''}" id="dp-fav-btn">${favoris.has(g.id) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button><button type="button" class="dp-pdf-btn" id="export-pdf-btn" title="Exporter la fiche en PDF">⤓ PDF</button></div>
     ${g.presentation && String(g.presentation).trim() ? `<div class="vw-sec">
-      <div class="vw-pres-title">Le milieu en quelques mots</div>
+      <div class="vw-pres-title">Mot de présentation</div>
       <p class="vw-pres">${esc(g.presentation)}</p>
     </div>
     <div class="vw-divider"></div>` : ''}
@@ -1711,15 +1737,18 @@ if (annonceClose) annonceClose.addEventListener('click', () => {
 // ═══════════════════════════════════════════
 function annonceContenu() {
   const a = dataMeta.annonce;
-  if (!a) return { texte:'', lien:'', lienCarte:'' };
-  if (typeof a === 'string') return { texte:a, lien:'', lienCarte:'' };
-  return { texte: a.texte || '', lien: a.lien || '', lienCarte: a.lienCarte || '' };
+  if (!a) return { texte:'', lien:'', lienCarte:'', titre:'', dateFin:'' };
+  if (typeof a === 'string') return { texte:a, lien:'', lienCarte:'', titre:'', dateFin:'' };
+  return { texte: a.texte || '', lien: a.lien || '', lienCarte: a.lienCarte || '',
+           titre: a.titre || '', dateFin: a.dateFin || '' };
 }
 function showBanner() {
   const banner = document.getElementById('annonce-banner');
   if (!banner) return;
-  const { texte, lien, lienCarte } = annonceContenu();
+  const { texte, lien, lienCarte, titre, dateFin } = annonceContenu();
   if (!texte || annonceFermee) { banner.style.display = 'none'; return; }
+  // L'annonce disparaît d'elle-même après sa date de fin (dernier jour inclus).
+  if (dateFin && datePassee(dateFin)) { banner.style.display = 'none'; return; }
   // Le texte est échappé, puis on n'autorise qu'une seule marque : **gras**.
   // Écrire directement du HTML depuis data.json ouvrirait la porte à n'importe quelle balise.
   const echappe = texte
@@ -1739,6 +1768,12 @@ function showBanner() {
   } else { linkEl.style.display = 'none'; }
   const mapEl = document.getElementById('annonce-map');
   if (lienCarte) { mapEl.href = lienCarte; mapEl.style.display = ''; } else { mapEl.style.display = 'none'; }
+  // Titre personnalisable depuis data.json, avec repli sur le libellé par défaut.
+  const headEl = document.getElementById('annonce-titre');
+  if (headEl) headEl.textContent = titre || 'Prochaine activité de recrutement';
+  // Pas de marge sous le texte quand aucun bouton n'est affiché.
+  const actionsEl = document.getElementById('annonce-actions');
+  if (actionsEl) actionsEl.style.display = (lien || lienCarte) ? '' : 'none';
   banner.style.display = 'block';
 }
 
