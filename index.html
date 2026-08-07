@@ -313,10 +313,11 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .notes-textarea:focus { outline:none; border-color:var(--blue); background:var(--champ); }
 
 /* Save bar */
-.save-bar { padding:12px 18px; background:var(--cream); border-top:1px solid var(--border);
-  display:flex; gap:10px; align-items:center; flex-shrink:0; }
-.btn-save { flex:1; background:var(--blue); color:#fff; border:none; border-radius:7px;
-  padding:10px; font-size:12px; font-family:'Raleway',sans-serif; font-weight:700; letter-spacing:.04em;
+/* La sauvegarde vit désormais sous la zone de saisie qu'elle enregistre, et non
+   dans une barre fixe séparée du bloc de notes par le bouton de signalement. */
+.notes-actions { display:flex; gap:10px; align-items:center; margin-top:9px; }
+.btn-save { flex:1; background:var(--blue); color:#fff; border:none; border-radius:9px;
+  padding:11px; font-size:13px; font-family:'Raleway',sans-serif; font-weight:700; letter-spacing:.03em;
   cursor:pointer; }
 .btn-save:hover { background:#2b6caa; }
 .save-msg { font-size:12px; color:var(--green); display:none; align-items:center; gap:4px; white-space:nowrap; }
@@ -477,13 +478,16 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 /* Bouton « Signaler une correction » : contour turquoise, pleine largeur de la
    fiche. Assez visible pour être trouvé, assez sobre pour ne pas concurrencer
    le contenu ni le bouton PDF du haut de fiche. */
-.report-link { display: flex; align-items: center; justify-content: center; gap: 7px;
-  width: 100%; box-sizing: border-box; padding: 11px 14px; margin: 0;
-  border: 1.5px solid var(--turquoise, #08A0A0); border-radius: 9px;
+/* Bouton secondaire : contour turquoise, largeur ajustée au texte et centré.
+   Pleine largeur, il faisait doublon visuel avec le bouton bleu d'enregistrement
+   juste au-dessus. */
+.report-link { display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 9px 18px; margin: 0;
+  border: 1.5px solid var(--turquoise, #08A0A0); border-radius: 999px;
   background: #fff; color: #07807f; text-decoration: none;
-  font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 13px; }
+  font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12.5px; }
 .report-link:hover { background: #f0fbfb; color: #066b6a; }
-.dp-report-wrap { padding: 2px 0 4px; }
+.dp-report-wrap { text-align: center; padding: 2px 0 4px; }
 .prat-chips { display:flex; flex-wrap:wrap; gap:5px; }
 .prat-chip { display:inline-flex; align-items:center; font-size:11px; font-weight:700; letter-spacing:.02em;
   padding:2px 9px; border-radius:999px; color:#fff; background:var(--c); white-space:nowrap; }
@@ -785,10 +789,6 @@ body.cmp-open { overflow:hidden; }
     <div class="dp-name-display" id="dp-name-disp"></div>
   </div>
   <div class="dp-body" id="dp-body"></div>
-  <div class="save-bar">
-    <button class="btn-save" id="btn-save-notes">💾 Sauvegarder mes notes</button>
-    <span class="save-msg" id="save-msg">✅ Notes sauvegardées</span>
-  </div>
 </div>
 
 <script src="./leaflet.js"></script>
@@ -1597,6 +1597,10 @@ function openDetail(id) {
     <div class="notes-sec">
       <div class="vw-sec-title">Mes notes</div>
       <textarea class="notes-textarea" id="notes-input" placeholder="Vos notes personnelles sur cette clinique (sauvegardées dans votre navigateur)">${esc(g.notes || '')}</textarea>
+      <div class="notes-actions">
+        <button class="btn-save" id="btn-save-notes">💾 Sauvegarder mes notes</button>
+        <span class="save-msg" id="save-msg">✅ Notes sauvegardées</span>
+      </div>
     </div>
     <div class="vw-divider"></div>
     <div class="dp-report-wrap"><a class="report-link" href="${reportHref}">✎ Signaler une correction</a></div>
@@ -1659,7 +1663,11 @@ window.addEventListener('popstate', function () {
 });
 
 document.getElementById('dp-close').addEventListener('click', closeDetail);
-document.getElementById('btn-save-notes').addEventListener('click', () => saveNotes(true));
+// Délégation : le bouton est reconstruit à chaque ouverture de fiche, on ne peut
+// plus le lier une seule fois au chargement.
+document.addEventListener('click', e => {
+  if (e.target.closest('#btn-save-notes')) saveNotes(true);
+});
 
 // Tiroir latéral (mobile)
 sidebarEl = document.querySelector('.sidebar');
