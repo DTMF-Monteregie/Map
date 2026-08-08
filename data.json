@@ -42,7 +42,6 @@
         "intervenantspsychosociaux": "5"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -89,7 +88,6 @@
         "infirmieres": "3"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -140,7 +138,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -192,13 +189,13 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -243,7 +240,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -295,7 +291,6 @@
         "travailleuresSociales": "4"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
@@ -349,7 +344,6 @@
         "aac": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "Bureau partagé",
@@ -401,7 +395,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -450,7 +443,6 @@
         "pharmaciennes": "1 (1 jour/sem)"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
@@ -501,7 +493,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -553,7 +544,6 @@
         "travailleuresSociales": "2"
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
@@ -604,13 +594,13 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -655,13 +645,13 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -706,7 +696,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
@@ -757,7 +746,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié",
@@ -807,7 +795,6 @@
         "travailleuresSociales": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié",
@@ -860,7 +847,6 @@
         "travailleuresSociales": "4"
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau partagé",
@@ -911,7 +897,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
@@ -962,7 +947,6 @@
         "travailleuresSociales": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
@@ -1013,7 +997,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
@@ -1064,7 +1047,6 @@
         "travailleuresSociales": "2"
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "Bureau dédié ou partagé",
@@ -1115,7 +1097,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Richelieu-Yamaska",
       "posApprox": false,
       "bureau": "",
@@ -1166,13 +1147,13 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -1217,7 +1198,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "Bureau dédié",
@@ -1268,7 +1248,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-De Saurel",
       "posApprox": false,
       "bureau": "",
@@ -1323,7 +1302,6 @@
         "travailleuresSociales": ""
       },
       "notes": "",
-      "photo": null,
       "rls": "Pierre-Boucher",
       "posApprox": false,
       "bureau": "",
@@ -1375,7 +1353,6 @@
         "intervenantspsychosociaux": "3"
       },
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1423,7 +1400,6 @@
         "ipspl": "Oui"
       },
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1472,7 +1448,6 @@
         "ipspl": "Oui"
       },
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1517,7 +1492,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1562,7 +1536,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1609,7 +1582,6 @@
         "medecins": "10"
       },
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1655,7 +1627,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1699,7 +1670,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1743,7 +1713,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
@@ -1791,7 +1760,6 @@
         "travailleuresSociales": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
@@ -1837,13 +1805,13 @@
         "ipspl": "3"
       },
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "peri"
       ],
       "niveaux": {
         "gmf": "",
@@ -1881,14 +1849,12 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "peri"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -1926,13 +1892,13 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -1970,7 +1936,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
@@ -2014,7 +1979,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
@@ -2061,7 +2025,6 @@
         "medecins": "9"
       },
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
@@ -2107,13 +2070,13 @@
         "residents": "16"
       },
       "notes": "",
-      "photo": null,
       "rls": "Champlain",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "peri"
       ],
       "niveaux": {
         "gmf": "",
@@ -2154,7 +2117,6 @@
         "infirmieres": "2"
       },
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2208,7 +2170,6 @@
         "aac": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2256,7 +2217,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2293,7 +2253,6 @@
       "horaire": {},
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2345,7 +2304,6 @@
         "travailleuresSociales": "1"
       },
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2389,7 +2347,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2437,7 +2394,6 @@
         "ipspl": "4"
       },
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2482,13 +2438,13 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "sad"
       ],
       "niveaux": {
         "gmf": "",
@@ -2526,7 +2482,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2570,7 +2525,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2615,7 +2569,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2659,7 +2612,6 @@
       },
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Richelieu–Rouville",
       "posApprox": false,
       "bureau": "",
@@ -2695,7 +2647,6 @@
       "horaire": {},
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Haut-Saint-Laurent",
       "posApprox": true,
       "bureau": "",
@@ -2729,7 +2680,6 @@
       "horaire": {},
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Suroît",
       "posApprox": true,
       "bureau": "",
@@ -2763,7 +2713,6 @@
       "horaire": {},
       "personnel": {},
       "notes": "",
-      "photo": null,
       "rls": "Vaudreuil-Soulanges",
       "posApprox": true,
       "bureau": "",

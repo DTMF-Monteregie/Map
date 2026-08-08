@@ -320,6 +320,9 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   padding:11px; font-size:13px; font-family:'Raleway',sans-serif; font-weight:700; letter-spacing:.03em;
   cursor:pointer; }
 .btn-save:hover { background:#2b6caa; }
+/* Annonces destinées aux lecteurs d'écran, invisibles à l'écran. */
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 .save-msg { font-size:12px; color:var(--green); display:none; align-items:center; gap:4px; white-space:nowrap; }
 .save-msg.show { display:flex; }
 
@@ -528,14 +531,29 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   display:flex; align-items:center; justify-content:center; font-size:17px; }
 .doc-tt { font-family:'Raleway',sans-serif; font-weight:700; font-size:12.5px; line-height:1.25; }
 .doc-sub { font-size:11px; color:var(--muted); margin-top:2px; }
-.dp-actions { display:flex; gap:8px; padding: 12px 18px 0; }
+/* stretch : les trois boutons adoptent la hauteur du plus grand, celui du favori. */
+.dp-actions { display:flex; align-items:stretch; gap:8px; padding: 12px 18px 0; }
 .dp-fav-btn { flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid var(--border);
   background:var(--champ); color:var(--texte2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px;
   cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; }
 .dp-fav-btn:hover { border-color:#f5b301; }
 .dp-fav-btn.fav { background:var(--jaune-doux); border-color:#f5b301; color:#9a6b00; }
-.dp-pdf-btn { padding:9px 14px; border-radius:8px; border:1.5px solid var(--border); background:var(--champ); color:var(--texte2); font-family:'Raleway',sans-serif; font-weight:700; font-size:13.5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
-.dp-pdf-btn:hover { border-color:var(--texte); }
+/* Actions secondaires de la fiche : deux boutons-icônes carrés. Un seul libellé
+   reste dans la rangée, celui du favori. Les teintes sont dérivées des couleurs
+   de punaises de la carte — vert Centre pour le partage, bleu Ouest pour le PDF. */
+.dp-ic { width:42px; align-self:stretch; flex:0 0 auto; border-radius:8px; border:1.5px solid var(--border);
+  background:var(--champ); color:var(--texte2); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:background .15s, border-color .15s, color .15s; }
+.dp-ic svg { width:15px; height:15px; }
+.dp-ic-share { background:#ecf6ed; border-color:#aad4ac; color:#28652b; }
+.dp-ic-share:hover { background:#d9ecda; }
+.dp-ic-pdf { background:#e6f2fb; border-color:#8cc6ed; color:#004f85; }
+.dp-ic-pdf:hover { background:#cce6f7; }
+/* Sur fond sombre, on garde la teinte mais assez sourde pour ne pas éblouir. */
+:root[data-theme="sombre"] .dp-ic-share { background:#16301c; border-color:#2f5c39; color:#8ed69a; }
+:root[data-theme="sombre"] .dp-ic-share:hover { background:#1d3f26; }
+:root[data-theme="sombre"] .dp-ic-pdf { background:#122a42; border-color:#28527d; color:#8ec8f0; }
+:root[data-theme="sombre"] .dp-ic-pdf:hover { background:#183753; }
 /* ===== Fiche imprimable (PDF) ===== */
 #cmp-print .fp-doc { color:#1a3558; font-family:'Lato',Helvetica,Arial,sans-serif; }
 #cmp-print .fp-head { border-bottom:3px solid var(--orange); padding-bottom:10px; margin-bottom:14px; }
@@ -789,6 +807,7 @@ body.cmp-open { overflow:hidden; }
     <div class="dp-name-display" id="dp-name-disp"></div>
   </div>
   <div class="dp-body" id="dp-body"></div>
+  <p id="a11y-live" aria-live="polite" role="status" class="sr-only"></p>
 </div>
 
 <script src="./leaflet.js"></script>
@@ -1476,8 +1495,10 @@ function openDetail(id) {
   map.flyTo([g.lat, g.lng], 14, { duration:1 });
 
   // Historique : le bouton "retour" du téléphone revient à la carte sans quitter l'app
-  if (!detailHistoryActive) { history.pushState({ gmfDetail: true }, ''); detailHistoryActive = true; }
-  else { history.replaceState({ gmfDetail: true }, ''); }
+  // L'identifiant passe dans l'URL : la fiche devient partageable par lien.
+  const urlFiche = location.pathname + '?c=' + id;
+  if (!detailHistoryActive) { history.pushState({ gmfDetail: true, c: id }, '', urlFiche); detailHistoryActive = true; }
+  else { history.replaceState({ gmfDetail: true, c: id }, '', urlFiche); }
   // Mobile : referme le tiroir et masque l'onglet pendant l'affichage de la fiche
   if (sidebarEl) sidebarEl.classList.remove('open');
   if (sbOverlay) sbOverlay.classList.remove('show');
@@ -1531,12 +1552,41 @@ function openDetail(id) {
     ? nvRemplis.map(x => nvRow(x[0], x[1], x[2])).join('') + (nv.gmf ? nvExplain : '')
     : (isGMF ? nvRow('Niveau GMF', g.niveau && String(g.niveau).trim() ? g.niveau : 'À venir', true) + nvExplain : "");
 
-  const rrow = (lbl, val) => `<div class="vw-row"><span class="vw-label">${lbl}</span><span class="vw-value">${(val && String(val).trim()) ? esc(val) : 'À venir'}</span></div>`;
+  // Les rangées sont décrites puis assemblées : les rangées vides qui se suivent
+  // sont fusionnées en une seule, pour éviter quatre « À venir » d'affilée.
+  const vide = v => !(v && String(v).trim());
+  const minus = l => /^[A-ZÀ-Þ][a-zà-þ]/.test(l) ? l.charAt(0).toLowerCase() + l.slice(1) : l;
+  const ligne = (lbl, html) => `<div class="vw-row"><span class="vw-label">${lbl}</span><span class="vw-value">${html}</span></div>`;
+  function assembler(desc) {
+    let out = '', creux = [];
+    const purger = () => {
+      if (!creux.length) return;
+      const t = creux[0] + (creux.length > 1
+        ? (creux.length > 2 ? ', ' + creux.slice(1, -1).map(minus).join(', ') : '') + ' et ' + minus(creux[creux.length - 1])
+        : '');
+      out += ligne(t, 'À venir');
+      creux = [];
+    };
+    desc.forEach(d => {
+      if (d.creux) { creux.push(d.label); return; }
+      purger();
+      out += d.html !== undefined ? d.html : ligne(d.label, d.valeur);
+    });
+    purger();
+    return out;
+  }
+  const d_ = (label, valeur) => vide(valeur) ? {label, creux:true} : {label, valeur: esc(valeur)};
+  const rrow = (lbl, val) => assembler([d_(lbl, val)]);
   const pratChips = (Array.isArray(g.pratiques) && g.pratiques.length)
     ? `<span class="prat-chips">${g.pratiques.map(c => { const t = PRATIQUES.find(p => p.code === c); return t ? `<span class="prat-chip" style="--c:${t.color}" title="${esc(t.label)}">${t.abbr}</span>` : ''; }).join('')}</span>`
     : 'À venir';
   const pratRow = `<div class="vw-row"><span class="vw-label">Pratique</span><span class="vw-value">${pratChips}</span></div>`;
-  const recruitRows = rrow('Postes disponibles', g.medecinsRecherches ? g.medecinsRecherches + (Number(g.medecinsRecherches) > 1 ? ' médecins de famille' : ' médecin de famille') : '') + pratRow + rrow('Bureau', g.bureau) + rrow('Frais de bureau', g.frais);
+  const recruitRows = assembler([
+    d_('Postes disponibles', g.medecinsRecherches ? g.medecinsRecherches + (Number(g.medecinsRecherches) > 1 ? ' médecins de famille' : ' médecin de famille') : ''),
+    {label:'Pratique', html: pratRow},
+    d_('Bureau', g.bureau),
+    d_('Frais de bureau', g.frais)
+  ]);
   // Section « Gardes et disponibilités » : remplace l'ancien code de pratique SRV
   // (sans-rendez-vous), qui n'était pas assez précis. Elle n'apparaît que si au
   // moins une valeur a été saisie — sinon chaque fiche encore vierge afficherait
@@ -1549,7 +1599,7 @@ function openDetail(id) {
     + '&body=' + encodeURIComponent('Bonjour,\n\nJe souhaite signaler une correction concernant la clinique : ' + g.nom + '.\n\nCorrection propos\u00e9e :\n');
 
   document.getElementById('dp-body').innerHTML = `
-    <div class="dp-actions"><button type="button" class="dp-fav-btn${favoris.has(g.id) ? ' fav' : ''}" id="dp-fav-btn">${favoris.has(g.id) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button><button type="button" class="dp-pdf-btn" id="export-pdf-btn" title="Exporter la fiche en PDF">⤓ PDF</button></div>
+    <div class="dp-actions"><button type="button" class="dp-fav-btn${favoris.has(g.id) ? ' fav' : ''}" id="dp-fav-btn">${favoris.has(g.id) ? '★ Retirer des favoris' : '☆ Ajouter aux favoris'}</button><button type="button" class="dp-ic dp-ic-share" id="dp-share-btn" title="Partager cette fiche" aria-label="Partager cette fiche"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/></svg></button><button type="button" class="dp-ic dp-ic-pdf" id="export-pdf-btn" title="Exporter la fiche en PDF" aria-label="Exporter la fiche en PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M7 11l5 5 5-5"/><path d="M4 20h16"/></svg></button></div>
     ${g.presentation && String(g.presentation).trim() ? `<div class="vw-sec">
       <div class="vw-pres-title">Mot de présentation</div>
       <p class="vw-pres">${esc(g.presentation)}</p>
@@ -1562,9 +1612,11 @@ function openDetail(id) {
       <div class="vw-row"><span class="vw-label">Réseau (RLS)</span><span class="vw-value">${g.rls && g.rls.trim() ? esc(g.rls) : 'À venir'}</span></div>
       ${niveauRow}
       <div class="vw-row"><span class="vw-label">Adresse</span><span class="vw-value">${mapsLink(g)}</span></div>
-      <div class="vw-row"><span class="vw-label">Téléphone</span><span class="vw-value">${telLink(g.telephone)}</span></div>
-      <div class="vw-row"><span class="vw-label">Site internet</span><span class="vw-value">${siteLink(g.site)}</span></div>
-      <div class="vw-row"><span class="vw-label">DMÉ</span><span class="vw-value">${g.dme && g.dme.trim() ? esc(g.dme) : 'À venir'}</span></div>
+      ${assembler([
+        vide(g.telephone) ? {label:'Téléphone', creux:true} : {label:'Téléphone', html: ligne('Téléphone', telLink(g.telephone))},
+        vide(g.site)      ? {label:'Site internet', creux:true} : {label:'Site internet', html: ligne('Site internet', siteLink(g.site))},
+        d_('DMÉ', g.dme)
+      ])}
     </div>
     <div class="vw-divider"></div>
     <div class="vw-sec">
@@ -1598,7 +1650,7 @@ function openDetail(id) {
       <div class="vw-sec-title">Mes notes</div>
       <textarea class="notes-textarea" id="notes-input" placeholder="Vos notes personnelles sur cette clinique (sauvegardées dans votre navigateur)">${esc(g.notes || '')}</textarea>
       <div class="notes-actions">
-        <button class="btn-save" id="btn-save-notes">💾 Sauvegarder mes notes</button>
+        <button class="btn-save" id="btn-save-notes" aria-label="Sauvegarder mes notes">💾 Sauvegarder mes notes</button>
         <span class="save-msg" id="save-msg">✅ Notes sauvegardées</span>
       </div>
     </div>
@@ -1626,11 +1678,14 @@ function saveNotes(flash = true) {
   if (flash) {
     const msg = document.getElementById('save-msg');
     msg.classList.add('show');
+    annoncerA11y('Notes sauvegardées');
     setTimeout(() => msg.classList.remove('show'), 2000);
   }
 }
 
 function closeDetailUI() {
+  // On retire le paramètre ?c= pour que l'URL reflète l'état réel de l'app.
+  if (location.search) { try { history.replaceState({}, '', location.pathname); } catch (e) {} }
   if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), byId(activeId).region));
   activeId = null;
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
@@ -1667,7 +1722,28 @@ document.getElementById('dp-close').addEventListener('click', closeDetail);
 // plus le lier une seule fois au chargement.
 document.addEventListener('click', e => {
   if (e.target.closest('#btn-save-notes')) saveNotes(true);
+  if (e.target.closest('#dp-share-btn') && activeId !== null) partagerFiche();
 });
+
+// Partage d'une fiche : feuille de partage native sur mobile, presse-papiers ailleurs.
+// Annonce un changement d'état aux lecteurs d'écran, qui ne « voient » pas
+// l'interface se mettre à jour.
+function annoncerA11y(texte) {
+  const el = document.getElementById('a11y-live');
+  if (!el) return;
+  el.textContent = '';
+  setTimeout(() => { el.textContent = texte; }, 60);
+}
+
+function partagerFiche() {
+  const g = byId(activeId); if (!g) return;
+  const url = location.origin + location.pathname + '?c=' + activeId;
+  const titre = g.nom + ' — PTEM 2027';
+  if (navigator.share) { navigator.share({ title: titre, url }).catch(() => {}); return; }
+  const fini = () => annoncerA11y('Lien copié dans le presse-papiers');
+  if (navigator.clipboard) navigator.clipboard.writeText(url).then(fini).catch(() => prompt('Lien vers cette fiche :', url));
+  else prompt('Lien vers cette fiche :', url);
+}
 
 // Tiroir latéral (mobile)
 sidebarEl = document.querySelector('.sidebar');
@@ -1846,6 +1922,10 @@ function initData(data) {
   showUpdateDate();
   showBanner();
   fitToData();
+  // Lien direct : ?c=6 ouvre la fiche de la clinique 6 et n'active pas la
+  // géolocalisation, puisque l'usager arrive avec une intention précise.
+  const cible = Number(new URLSearchParams(location.search).get('c'));
+  if (cible && byId(cible)) { openDetail(cible); return; }
   window.__autoLocate = true;
   setTimeout(function () { try { map.locate({ setView:true, maxZoom:12, enableHighAccuracy:false }); } catch(e){} }, 400);
 }
