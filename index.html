@@ -408,7 +408,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
     linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px); background-size: 34px 34px; }
 #app-loader .ldr-glow { position: absolute; inset: 0;
   background: radial-gradient(circle at 50% 42%, rgba(14,165,233,.14), transparent 60%); }
-#app-loader .ldr-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+#app-loader .ldr-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; }
 /* Logo du chargement : l'épingle ajourée posée dans un disque marine, celui de l'icône.
    Le disque respire (lueur autour), l'épingle seule reçoit le reflet, et rien ne flotte. */
 #app-loader .ldr-logo { position: relative; width: 118px; height: 118px; border-radius: 50%;
@@ -958,7 +958,8 @@ const TYPE_COLORS = {
   'CH': '#b91c1c',
   'CLSC': '#15803d',
   'Clinique': '#ea580c',
-  'Clinique médicale': '#ea580c'
+  'Clinique médicale': '#ea580c',
+  'Coopérative': '#a16207'
 };
 function typeColor(t) { return TYPE_COLORS[t] || '#0f2240'; }
 
@@ -974,7 +975,8 @@ const TYPE_LABELS = {
   'CH': 'Centre hospitalier',
   'CLSC': 'CLSC',
   'Clinique': 'Clinique médicale',
-  'Clinique médicale': 'Clinique médicale'
+  'Clinique médicale': 'Clinique médicale',
+  'Coopérative': 'Coopérative de santé'
 };
 function typeLabel(t) { return TYPE_LABELS[t] || t || ''; }
 
@@ -1613,8 +1615,7 @@ function openDetail(id) {
       ${niveauRow}
       <div class="vw-row"><span class="vw-label">Adresse</span><span class="vw-value">${mapsLink(g)}</span></div>
       ${assembler([
-        vide(g.telephone) ? {label:'Téléphone', creux:true} : {label:'Téléphone', html: ligne('Téléphone', telLink(g.telephone))},
-        vide(g.site)      ? {label:'Site internet', creux:true} : {label:'Site internet', html: ligne('Site internet', siteLink(g.site))},
+        vide(g.site) ? {label:'Site internet', creux:true} : {label:'Site internet', html: ligne('Site internet', siteLink(g.site))},
         d_('DMÉ', g.dme)
       ])}
     </div>
