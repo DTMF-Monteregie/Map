@@ -82,14 +82,15 @@ var DME = [
 
 var REGION = [['Est','Montérégie-Est'],['Centre','Montérégie-Centre'],['Ouest','Montérégie-Ouest']];
 
-var TYPE = [['GMF','GMF'],['GMF-U','GMF-U'],['GMF-R','GMF-R'],['GMF satellite','GMF satellite'],
-  ['CLSC','CLSC'],['Clinique médicale','Clinique médicale'],['Coopérative','Coopérative'],['CH','Autre']];
+var TYPE = [['GMF','GMF'],['GMF-U','GMF-U'],['GMF-R','GMF-R'],
+  ['CLSC','CLSC'],['Clinique médicale','Clinique médicale'],['Coopérative','Coopérative'],['CH','Autre'],
+  ['GMF satellite','GMF']]; // ancien type, converti en GMF le 11 août 2026
 var TYPE_AUTRE = {'CH':'Centre hospitalier'};
 // Une clinique peut cocher plusieurs types (Q10) mais la carte n'accepte qu'un
 // seul code : il détermine la couleur du marqueur et le rang de tri.
 // On retient le plus spécifique.
 var TYPE_PRIORITE = ['GMF-U','GMF-R','GMF','CLSC','Coopérative','Clinique médicale'];
-var TYPE_NORM  = {'Clinique':'Clinique médicale'};   // seul doublon corrigé
+var TYPE_NORM  = {'Clinique':'Clinique médicale', 'GMF satellite':'GMF'};
 
 // Vocabulaire du formulaire depuis le 10 août 2026 : trois options de bureau
 // seulement. L'ancien vocabulaire (dédié ou attitré / partagé, selon les
@@ -359,18 +360,34 @@ function synchroniserEntetes_(sheet) {
   var CLES_FORMULAIRE = {};
   FORM_FIELDS.forEach(function(f) { CLES_FORMULAIRE[f.key] = true; });
 
-  var reparees = 0, manquantes = [];
+  var reparees = 0, creees = [];
   colonnes_().forEach(function(col) {
     if (!CLES_FORMULAIRE[col.key]) return;
     var avant2 = entetes.slice();
     var pos = colonneParCle_(sheet, entetes, col.key);
-    if (!pos) { manquantes.push(col.title); return; }
+
+    // Colonne jamais créée physiquement : c'est le cas des questions ajoutées
+    // au script après l'amorçage du classeur (gardes, services à proximité…).
+    // On l'ajoute à droite plutôt que d'échouer : l'ordre des colonnes n'a
+    // aucune importance, tout est retrouvé par titre.
+    if (!pos) {
+      var nouvelleCol = sheet.getLastColumn() + 1;
+      if (sheet.getMaxColumns() < nouvelleCol) {
+        sheet.insertColumnsAfter(sheet.getMaxColumns(), nouvelleCol - sheet.getMaxColumns());
+      }
+      sheet.getRange(1, nouvelleCol).setValue(col.title)
+        .setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#7F7F7F').setWrap(true);
+      sheet.setColumnWidth(nouvelleCol, 170);
+      entetes[nouvelleCol - 1] = col.title;
+      creees.push(col.title);
+      return;
+    }
     if (avant2[pos - 1] !== col.title) reparees++;
   });
-  if (manquantes.length) {
-    console.warn('Colonnes toujours introuvables après synchronisation : ' + manquantes.join(' | '));
+  if (creees.length) {
+    console.log(creees.length + ' colonne(s) manquante(s) créée(s) à droite de la feuille : ' + creees.join(' | '));
   }
-  return { reparees: reparees, manquantes: manquantes };
+  return { reparees: reparees, creees: creees, manquantes: [] };
 }
 
 
@@ -669,9 +686,9 @@ function synchroniserEntetes() {
   if (!maitre) throw new Error('Onglet « ' + PTEM2.fMaitre + ' » introuvable.');
   instantaner_(ss, maitre);
   var r = synchroniserEntetes_(maitre);
-  console.log(r.reparees + ' en-tête(s) resynchronisée(s).' +
-    (r.manquantes.length ? ' Introuvables : ' + r.manquantes.join(' | ') : ''));
-  ss.toast(r.reparees + ' en-tête(s) resynchronisée(s).', 'PTEM 2027', 8);
+  console.log(r.reparees + ' en-tête(s) resynchronisée(s), ' + r.creees.length + ' colonne(s) créée(s).' +
+    (r.creees.length ? ' Créées : ' + r.creees.join(' | ') : ''));
+  ss.toast(r.reparees + ' en-tête(s) resynchronisée(s), ' + r.creees.length + ' colonne(s) ajoutée(s).', 'PTEM 2027', 10);
 }
 
 function actualiserListes() {
@@ -806,7 +823,7 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(33, 'q30_fees', 'Autre');
     ecrire(33, 'q31_fee_other', '2 780 $ + taxes par mois');
     ecrire(33, 'qgarde_labo', 'Garde labo par infirmière');
-    ecrire(33, 'qgarde_urgence', '1 fin de semaine tous les 6 mois (à confirmer — pourrait être aux 6 semaines)');
+    ecrire(33, 'qgarde_urgence', '1 fin de semaine tous les 6 mois');
     ecrire(33, 'qgarde_autre', 'Pas de plage horaire dédiée au SRV : les rendez-vous sont plutôt intégrés chaque jour, en style relance.');
     ecrire(33, 'q19_recruit_email', 'valeriecampeau@outlook.com');
     ecrire(33, 'q25_gmf_level', '5');
@@ -823,7 +840,36 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(34, 'q30_fees', 'Autre');
     ecrire(34, 'q31_fee_other', '3 500 $ par mois');
     ecrire(34, 'q69_profile', 'Pharmacie Proxim à proximité.');
-    rapport.push('34 — Saint-Constant (Monchamp) : effectifs, frais, présentation. TYPE toujours « GMF satellite », en attente de ta décision (voir note précédente).');
+    rapport.push('34 — Saint-Constant (Monchamp) : effectifs, frais, présentation');
+
+    // ── « GMF satellite » retiré du vocabulaire (confirmé le 11 août) :
+    // TOUTES les fiches qui le portaient encore deviennent des GMF normaux.
+    // Le type vit dans deux colonnes : celle du formulaire et la colonne
+    // miroir « [carte] code de type », qui est celle que la carte lit
+    // réellement. Corriger une seule des deux laisserait l'ancien type
+    // s'afficher sur la carte.
+    var cTypeForm = col('q10_types');
+    var cTypeCarte = ent.indexOf('[carte] code de type') + 1;
+    var convertis = [];
+    for (var iSat = 1; iSat < vals.length; iSat++) {
+      var idSat = String(vals[iSat][cId - 1] || '').trim();
+      if (!idSat) continue;
+      var ligneSat = iSat + 1;
+      var typeForm = String(maitre.getRange(ligneSat, cTypeForm).getValue() || '').trim();
+      var typeCarte = cTypeCarte > 0 ? String(maitre.getRange(ligneSat, cTypeCarte).getValue() || '').trim() : '';
+      if (typeForm !== 'GMF satellite' && typeCarte !== 'GMF satellite') continue;
+      if (typeForm === 'GMF satellite') maitre.getRange(ligneSat, cTypeForm).setValue('GMF');
+      if (cTypeCarte > 0 && typeCarte === 'GMF satellite') maitre.getRange(ligneSat, cTypeCarte).setValue('GMF');
+      var nomSat = String(maitre.getRange(ligneSat, col('q1_name')).getValue() || '');
+      journaliser_(ss, idSat, 'type', 'GMF satellite', 'GMF', 'appliquerTourneeJardinsRoussillon');
+      convertis.push(idSat + ' — ' + nomSat);
+    }
+    if (convertis.length) {
+      console.log('\n« GMF satellite » -> « GMF » (' + convertis.length + ' fiche(s)) :');
+      convertis.forEach(function(l) { console.log('  ' + l); });
+    } else {
+      console.log('\nAucune fiche « GMF satellite » restante — conversion déjà faite.');
+    }
 
     console.log('Mises à jour appliquées :');
     rapport.forEach(function(l) { console.log('  ' + l); });
