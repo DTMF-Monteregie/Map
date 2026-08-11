@@ -1,11 +1,11 @@
 {
-  "miseAJour": "2026-08-03",
+  "miseAJour": "2026-08-11",
   "annonce": {
     "titre": "Prochaine activité de recrutement",
     "texte": "JR Express — RLS Jardins-Roussillon\n**lundi 10 août 2026**\nTournée des cliniques de la région et visite de l'hôpital Anna-Laberge.\nDépart du stationnement du parc André-J.-Côté, à Candiac.",
     "lien": "",
     "lienCarte": "https://www.google.com/maps/dir/?api=1&destination=Parc%20Andr%C3%A9%20J.%20C%C3%B4t%C3%A9%2C%20116%20boulevard%20Marie-Victorin%2C%20Candiac%2C%20QC%20J5R%201C1",
-    "dateFin": "2026-08-10"
+    "dateFin": "2026-08-12"
   },
   "cliniques": [
     {
@@ -18,7 +18,6 @@
       "ville": "Varennes",
       "lat": 45.631085,
       "lng": -73.388157,
-      "telephone": "450 652-2222",
       "site": "http://www.gmfdupetitbois.ca/",
       "personneRessource": "info@cliniquelareleve.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -58,6 +57,9 @@
       "porteOuverte": "16 juillet 2026",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -65,12 +67,11 @@
       "nom": "CAMU Longueuil (GMF Petit-Bois)",
       "alias": "Clinique CAMU Longueuil CAMU Petit-Bois",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "1144, rue Saint-Laurent Ouest, Bureau 100, Longueuil QC J4K 1E2",
       "ville": "Longueuil",
       "lat": 45.522556,
       "lng": -73.512772,
-      "telephone": "450 969-6977",
       "site": "https://cliniquecamu.ca/",
       "personneRessource": "badr.jouwad.gmf16@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -104,6 +105,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -116,7 +120,6 @@
       "ville": "Longueuil",
       "lat": 45.53619,
       "lng": -73.458431,
-      "telephone": "450 463-2850",
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-simonne-monet-chartrand",
       "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -155,6 +158,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -167,7 +173,6 @@
       "ville": "Longueuil",
       "lat": 45.527517,
       "lng": -73.48322,
-      "telephone": "450 651-9830",
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-longueuil-ouest",
       "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -194,8 +199,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -206,6 +210,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -218,7 +225,6 @@
       "ville": "Varennes",
       "lat": 45.657353,
       "lng": -73.422532,
-      "telephone": "450 652-9616",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=33194",
       "personneRessource": "annie.chagnon.med@ssss.gouv.qc.ca",
       "dme": "À compléter",
@@ -256,6 +262,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -268,7 +277,6 @@
       "ville": "Longueuil",
       "lat": 45.540785,
       "lng": -73.456575,
-      "telephone": "450 468-6223",
       "site": "https://macliniquepierreboucher.ca/",
       "personneRessource": "andre.bernikoff.med@ssss.gouv.qc.ca, vtrevisonno@reseaumaclinique.com",
       "dme": "Medesync (Telus)",
@@ -307,6 +315,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -319,7 +330,6 @@
       "ville": "Boucherville",
       "lat": 45.5684,
       "lng": -73.448,
-      "telephone": "450 468-5511",
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-des-monteregiennes",
       "personneRessource": "elise.ocarroll.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -340,8 +350,7 @@
         "infauxiliaires": "3",
         "physiotherapeutes": "1",
         "pharmaciennes": "1",
-        "travailleuresSociales": "1",
-        "aac": "1"
+        "travailleuresSociales": "1"
       },
       "notes": "",
       "rls": "Pierre-Boucher",
@@ -350,17 +359,20 @@
       "frais": "Aucun frais",
       "pratiques": [
         "pec",
-        "msk"
+        "Musculosquelettique et infiltrations — MSK"
       ],
       "niveaux": {
-        "gmf": "2",
+        "gmf": "",
         "accesReseau": "",
-        "gmfu": ""
+        "gmfu": "2"
       },
-      "niveau": "GMF 2",
-      "porteOuverte": "Septembre 2026",
+      "niveau": "GMF-U 2",
+      "porteOuverte": "1 septembre 2026",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -373,7 +385,6 @@
       "ville": "Boucherville",
       "lat": 45.611493,
       "lng": -73.451704,
-      "telephone": "450 655-7321",
       "site": "https://www.gmfip.ca/",
       "personneRessource": "lucie.brault.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -411,6 +422,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -423,7 +437,6 @@
       "ville": "Varennes",
       "lat": 45.682431,
       "lng": -73.436126,
-      "telephone": "450 468-8459",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=800180",
       "personneRessource": "ignace.adah.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -459,6 +472,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -471,7 +487,6 @@
       "ville": "Sainte-Julie",
       "lat": 45.57836,
       "lng": -73.346148,
-      "telephone": "450 649-2490",
       "site": "https://gmfmd.ca",
       "personneRessource": "mathilde.bourdua.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -509,6 +524,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -521,7 +539,6 @@
       "ville": "Sainte-Julie",
       "lat": 45.584803,
       "lng": -73.327153,
-      "telephone": "450 649-1593",
       "site": "https://www.cliniquemedicalesaintejulie.ca/fr/",
       "personneRessource": "gmfsainte-julie@outlook.com",
       "dme": "Medesync (Telus)",
@@ -539,7 +556,6 @@
         "specialistes": "9",
         "infirmieres": "4",
         "infauxiliaires": "2",
-        "infsantementale": "1",
         "pharmaciennes": "2",
         "travailleuresSociales": "2"
       },
@@ -560,6 +576,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -572,7 +591,6 @@
       "ville": "Beloeil",
       "lat": 45.5909489,
       "lng": -73.2000399,
-      "telephone": "450 536-2572",
       "site": "",
       "personneRessource": "Claire.wadoux.med@ssss.gouv.qc.ca",
       "dme": "",
@@ -599,8 +617,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -611,6 +628,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -623,7 +643,6 @@
       "ville": "Saint-Hyacinthe",
       "lat": 45.6368865,
       "lng": -72.9599685,
-      "telephone": "450 778-2572",
       "site": "",
       "personneRessource": "julie.gagnon.med@ssss.gouv.qc.ca",
       "dme": "",
@@ -650,8 +669,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -662,6 +680,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -674,7 +695,6 @@
       "ville": "Saint-Hyacinthe",
       "lat": 45.6374416,
       "lng": -72.9590926,
-      "telephone": "450 771-3558",
       "site": "",
       "personneRessource": "philippe.imbeault.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -704,14 +724,17 @@
         "pec"
       ],
       "niveaux": {
-        "gmf": "5",
+        "gmf": "",
         "accesReseau": "",
-        "gmfu": ""
+        "gmfu": "5"
       },
-      "niveau": "GMF 5",
+      "niveau": "GMF-U 5",
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -724,7 +747,6 @@
       "ville": "Saint-Hyacinthe",
       "lat": 45.6464015,
       "lng": -72.9538057,
-      "telephone": "450 385-0505",
       "site": "https://gmfmaska.com",
       "personneRessource": "lena.wognin.med@ssss.gouv.qc.ca",
       "dme": "Ofys",
@@ -762,6 +784,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -774,7 +799,6 @@
       "ville": "Saint-Denis-sur-Richelieu",
       "lat": 45.7839061,
       "lng": -73.1597819,
-      "telephone": "450 787-3233",
       "site": "https://www.horizonclinique.com",
       "personneRessource": "julie.lafrenaye.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -801,7 +825,7 @@
       "frais": "Frais fixe",
       "pratiques": [
         "pec",
-        "msk",
+        "Musculosquelettique et infiltrations — MSK",
         "chir"
       ],
       "niveaux": {
@@ -813,6 +837,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -825,7 +852,6 @@
       "ville": "Saint-Mathieu-de-Beloeil",
       "lat": 45.588397,
       "lng": -73.283317,
-      "telephone": "",
       "site": "",
       "personneRessource": "elizabeth.dougherty.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -863,6 +889,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -875,7 +904,6 @@
       "ville": "Beloeil",
       "lat": 45.5634229,
       "lng": -73.2051779,
-      "telephone": "450 467-0088",
       "site": "https://carrefourmedical.com",
       "personneRessource": "michel.beaudoin.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -913,6 +941,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -925,7 +956,6 @@
       "ville": "Saint-Basile-le-Grand",
       "lat": 45.5255962,
       "lng": -73.3022476,
-      "telephone": "450 653-7323",
       "site": "https://centremedicalsaintbasile.org",
       "personneRessource": "pierre-olivier.barrette.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -963,6 +993,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -975,7 +1008,6 @@
       "ville": "Saint-Hyacinthe",
       "lat": 45.6344643,
       "lng": -72.964373,
-      "telephone": "450 774-4611",
       "site": "https://gmflaframboise.ca",
       "personneRessource": "josee-maude.lambert.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -1013,6 +1045,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1025,7 +1060,6 @@
       "ville": "Saint-Bruno-de-Montarville",
       "lat": 45.526125,
       "lng": -73.343204,
-      "telephone": "450 690-3690",
       "site": "https://cliniquemedicalelesentier.com",
       "personneRessource": "sarah.bedard.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -1063,6 +1097,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1075,7 +1112,6 @@
       "ville": "Acton Vale",
       "lat": 45.6450255,
       "lng": -72.5711159,
-      "telephone": "450 546-3245",
       "site": "https://coopsanteacton.ca",
       "personneRessource": "marilou.desmarais-noiseux.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -1113,6 +1149,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1125,7 +1164,6 @@
       "ville": "Sorel-Tracy",
       "lat": 46.045153,
       "lng": -73.0937327,
-      "telephone": "450 746-4545",
       "site": "",
       "personneRessource": "mathieu.galfard.med@ssss.gouv.qc.ca",
       "dme": "",
@@ -1152,8 +1190,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -1164,6 +1201,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1176,7 +1216,6 @@
       "ville": "Sorel-Tracy",
       "lat": 46.0458154,
       "lng": -73.0976404,
-      "telephone": "450 742-9459",
       "site": "https://cliniquemedicalesorel-tracy.ca",
       "personneRessource": "emilie.boisvert.med@ssss.gouv.qc.ca",
       "dme": "Omnimed",
@@ -1214,6 +1253,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1226,7 +1268,6 @@
       "ville": "Sorel-Tracy",
       "lat": 46.0397993,
       "lng": -73.1240655,
-      "telephone": "450 742-5638",
       "site": "https://gmfrichelieu.com",
       "personneRessource": "claudia.morneau.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
@@ -1256,7 +1297,7 @@
         "pec",
         "sad",
         "peri",
-        "msk",
+        "Musculosquelettique et infiltrations — MSK",
         "chir"
       ],
       "niveaux": {
@@ -1268,6 +1309,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1280,7 +1324,6 @@
       "ville": "Longueuil",
       "lat": 45.547245,
       "lng": -73.502561,
-      "telephone": "450 332-9833",
       "site": "https://lautremaison.ca",
       "personneRessource": "mariam-edith.colbert.med@ssss.gouv.qc.ca",
       "dme": "Myle (Medfar Solutions)",
@@ -1318,6 +1361,9 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1330,10 +1376,9 @@
       "ville": "Delson",
       "lat": 45.4006,
       "lng": -73.5414,
-      "telephone": "450 633-0123",
       "site": "https://www.letraitdunion.ca/",
-      "personneRessource": "Dr Jean-Philippe Chouinard",
-      "dme": "",
+      "personneRessource": "",
+      "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "8h00 – 20h00",
         "Mardi": "8h00 – 20h00",
@@ -1355,10 +1400,12 @@
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "",
-      "frais": "",
+      "bureau": "Bureau partagé",
+      "frais": "Pourcentage des revenus — détails à discuter avec le milieu",
       "pratiques": [
         "pec",
+        "gap",
+        "peri",
         "chir"
       ],
       "niveaux": {
@@ -1370,7 +1417,10 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "presentation": ""
+      "gardeLabo": "Garde labo par infirmière",
+      "gardeUrgence": "1 fin de semaine sur 6 (quart de 6 h)",
+      "gardeAutre": "Horaire de sans rendez-vous fixé 2 mois à l’avance, 1 à 2 quarts de 4 h par semaine. Triage pour le SRV et, si possible, pour l’accès adapté. Prélèvements urgents faits sur place pour le SRV.",
+      "presentation": "Radiologie sur place avec accès aux images, test d’apnée, physiothérapie, attelles plâtrées posées par le personnel infirmier, clinique spécialisée et suivi de grossesse. Pharmacie Brunet sur place."
     },
     {
       "id": 28,
@@ -1382,9 +1432,8 @@
       "ville": "Châteauguay",
       "lat": 45.3672,
       "lng": -73.7368,
-      "telephone": "450 699-2083",
       "site": "https://www.santemonteregie.qc.ca/installations/centre-de-services-ambulatoires-et-groupe-de-medecine-de-famille-universitaire",
-      "personneRessource": "Dre Meagan Lepitre",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 17h00",
@@ -1396,19 +1445,26 @@
         "Dimanche": "9h00 – 13h00"
       },
       "personnel": {
-        "medecins": "20+ (enseignants)",
-        "ipspl": "Oui"
+        "medecins": "21",
+        "ipspl": "2",
+        "infirmieres": "3",
+        "physiotherapeutes": "1",
+        "pharmaciennes": "2",
+        "nutritionnistes": "2",
+        "psychologues": "1",
+        "travailleuresSociales": "2"
       },
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
-      "frais": "",
+      "frais": "Aucun frais",
       "pratiques": [
         "pec",
-        "chir",
+        "sad",
         "peri",
-        "sad"
+        "msk",
+        "chir"
       ],
       "niveaux": {
         "gmf": "",
@@ -1419,6 +1475,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1431,9 +1490,8 @@
       "ville": "Mercier",
       "lat": 45.3175,
       "lng": -73.746,
-      "telephone": "450 699-0539",
       "site": "https://gmf-mercier.ca/",
-      "personneRessource": "Dr Victor Einagel",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "7h15 – 19h30",
@@ -1445,7 +1503,10 @@
         "Dimanche": "7h30 – 13h00"
       },
       "personnel": {
-        "ipspl": "Oui"
+        "medecins": "18",
+        "ipspl": "Oui",
+        "infirmieres": "5",
+        "travailleuresSociales": "1"
       },
       "notes": "",
       "rls": "Jardins-Roussillon",
@@ -1454,18 +1515,23 @@
       "frais": "",
       "pratiques": [
         "pec",
+        "gap",
+        "peri",
         "chir"
       ],
       "niveaux": {
-        "gmf": "",
+        "gmf": "13",
         "accesReseau": "",
         "gmfu": ""
       },
-      "niveau": "",
+      "niveau": "GMF 13",
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "presentation": ""
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
+      "presentation": "Midi-caducée (formation continue) une fois par mois."
     },
     {
       "id": 30,
@@ -1477,9 +1543,8 @@
       "ville": "Napierville",
       "lat": 45.1895,
       "lng": -73.4015,
-      "telephone": "450 454-4672",
       "site": "",
-      "personneRessource": "Dre Sandra Demers",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 16h00",
@@ -1490,7 +1555,11 @@
         "Samedi": "Fermé",
         "Dimanche": "Fermé"
       },
-      "personnel": {},
+      "personnel": {
+        "medecins": "3",
+        "ipspl": "1",
+        "infirmieres": "2"
+      },
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
@@ -1509,6 +1578,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "4 h de SRV par semaine, plus une demi-journée deux fins de semaine sur neuf (à confirmer)",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1516,14 +1588,13 @@
       "nom": "GMF Jardin-du-Québec (Saint-Rémi)",
       "alias": "GMF Jardin du Quebec satellite Saint-Remi St-Remi CLSC Sainte-Famille Demers",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "2, rue Sainte-Famille, Saint-Rémi QC J0L 2L0",
       "ville": "Saint-Rémi",
       "lat": 45.2605,
       "lng": -73.6095,
-      "telephone": "450 454-4672",
       "site": "",
-      "personneRessource": "Dre Sandra Demers",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 20h00",
@@ -1553,6 +1624,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1565,10 +1639,9 @@
       "ville": "Châteauguay",
       "lat": 45.3575,
       "lng": -73.726,
-      "telephone": "450 691-8191",
       "site": "https://www.gmfrl.com/",
-      "personneRessource": "Dre Gabrielle Deslauriers",
-      "dme": "",
+      "personneRessource": "",
+      "dme": "Medesync (Telus)",
       "horaire": {
         "Lundi": "8h00 – 21h00",
         "Mardi": "8h00 – 21h00",
@@ -1579,27 +1652,37 @@
         "Dimanche": "10h00 – 17h00"
       },
       "personnel": {
-        "medecins": "10"
+        "medecins": "6",
+        "specialistes": "10",
+        "infirmieres": "2",
+        "infauxiliaires": "1",
+        "pharmaciennes": "1",
+        "travailleuresSociales": "1"
       },
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
-      "frais": "",
+      "frais": "Frais fixe mensuel — détails à discuter avec le milieu",
       "pratiques": [
         "pec",
-        "chir",
-        "peri"
+        "gap",
+        "peri",
+        "msk",
+        "chir"
       ],
       "niveaux": {
-        "gmf": "",
+        "gmf": "1",
         "accesReseau": "",
         "gmfu": ""
       },
-      "niveau": "",
+      "niveau": "GMF 1",
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1612,9 +1695,8 @@
       "ville": "Saint-Constant",
       "lat": 45.3665,
       "lng": -73.5665,
-      "telephone": "450 632-1630",
       "site": "https://www.cliniquemedicalest-constant.com/",
-      "personneRessource": "Dr Wassim Chatoo",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "9h00 – 21h00",
@@ -1625,39 +1707,46 @@
         "Samedi": "9h00 – 15h00 (variable)",
         "Dimanche": "9h00 – 15h00 (variable)"
       },
-      "personnel": {},
+      "personnel": {
+        "medecins": "10",
+        "ipspl": "3",
+        "infirmieres": "3"
+      },
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
-      "bureau": "",
-      "frais": "",
+      "bureau": "Bureau dédié ou partagé",
+      "frais": "Frais fixe mensuel — détails à discuter avec le milieu",
       "pratiques": [
-        "pec"
+        "pec",
+        "gap"
       ],
       "niveaux": {
-        "gmf": "",
+        "gmf": "5",
         "accesReseau": "",
         "gmfu": ""
       },
-      "niveau": "",
+      "niveau": "GMF 5",
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "presentation": ""
+      "gardeLabo": "Garde labo par infirmière",
+      "gardeUrgence": "1 fin de semaine tous les 6 mois",
+      "gardeAutre": "Pas de plage horaire dédiée au SRV : les rendez-vous sont plutôt intégrés chaque jour, en style relance.",
+      "presentation": "Centre de prélèvement privé sur place, à accès rapide, clinique d’azote, clinique de stérilet et de biopsie de l’endomètre. Peu de roulement de personnel, horaire flexible, midi-formation FMOQ avec repas. Accès rapide à la médecine interne, la dermatologie, la chirurgie et le prélèvement sanguin. Ouvert à de nouveaux projets (ex. mini-chirurgie)."
     },
     {
       "id": 34,
       "nom": "GMF Saint-Constant (Monchamp)",
       "alias": "GMF Saint-Constant satellite Monchamp Sainte-Catherine Ferland",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "227, rue Sainte-Catherine, bureau 102, Saint-Constant QC J5A 2J5",
       "ville": "Saint-Constant",
       "lat": 45.37,
       "lng": -73.571,
-      "telephone": "",
       "site": "",
-      "personneRessource": "Dr Christian Ferland",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "9h00 – 17h00",
@@ -1668,12 +1757,18 @@
         "Samedi": "Fermé",
         "Dimanche": "10h00 – 16h00"
       },
-      "personnel": {},
+      "personnel": {
+        "medecins": "1",
+        "specialistes": "3",
+        "ipspl": "3",
+        "nutritionnistes": "2",
+        "travailleuresSociales": "1"
+      },
       "notes": "",
       "rls": "Jardins-Roussillon",
       "posApprox": true,
       "bureau": "",
-      "frais": "",
+      "frais": "Frais fixe mensuel — détails à discuter avec le milieu",
       "pratiques": [
         "pec"
       ],
@@ -1686,7 +1781,10 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "presentation": ""
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
+      "presentation": "Pharmacie Proxim à proximité."
     },
     {
       "id": 35,
@@ -1698,9 +1796,8 @@
       "ville": "Kahnawake",
       "lat": 45.4106,
       "lng": -73.6766,
-      "telephone": "450 638-3930",
       "site": "https://kmhc.ca/",
-      "personneRessource": "Dre My Van Quach",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h30 – 16h30",
@@ -1731,6 +1828,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1743,7 +1843,6 @@
       "ville": "Saint-Hubert",
       "lat": 45.502482,
       "lng": -73.427206,
-      "telephone": "450 678-3500",
       "site": "https://centremedicalst-hubert.ca/",
       "personneRessource": "",
       "dme": "",
@@ -1776,6 +1875,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1788,7 +1890,6 @@
       "ville": "Saint-Lambert",
       "lat": 45.493626,
       "lng": -73.502635,
-      "telephone": "450 466-5630",
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-charles-le-moyne",
       "personneRessource": "",
       "dme": "",
@@ -1810,8 +1911,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "peri"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -1822,6 +1922,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1834,7 +1937,6 @@
       "ville": "Greenfield Park",
       "lat": 45.498594,
       "lng": -73.486841,
-      "telephone": "450 466-4333",
       "site": "https://www.cliniqueazur.com/",
       "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
@@ -1854,7 +1956,8 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec"
+        "pec",
+        "peri"
       ],
       "niveaux": {
         "gmf": "",
@@ -1865,6 +1968,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1877,7 +1983,6 @@
       "ville": "Brossard",
       "lat": 45.477736,
       "lng": -73.465048,
-      "telephone": "450 445-4452",
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-samuel-de-champlain",
       "personneRessource": "",
       "dme": "",
@@ -1897,8 +2002,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -1909,6 +2013,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1921,7 +2028,6 @@
       "ville": "Brossard",
       "lat": 45.446388,
       "lng": -73.43909,
-      "telephone": "450 550-8858",
       "site": "https://santedix30.com/",
       "personneRessource": "",
       "dme": "",
@@ -1952,6 +2058,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -1964,7 +2073,6 @@
       "ville": "Greenfield Park",
       "lat": 45.497512,
       "lng": -73.484006,
-      "telephone": "450 466-7892",
       "site": "https://www.gmflacigogne.com/",
       "personneRessource": "",
       "dme": "",
@@ -1996,6 +2104,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2008,7 +2119,6 @@
       "ville": "Brossard",
       "lat": 45.47105,
       "lng": -73.465925,
-      "telephone": "450 465-5379",
       "site": "https://clinique-lapiniere.ca/",
       "personneRessource": "",
       "dme": "",
@@ -2041,6 +2151,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2053,7 +2166,6 @@
       "ville": "Saint-Hubert",
       "lat": 45.492732,
       "lng": -73.403295,
-      "telephone": "450 443-7400",
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-de-saint-hubert",
       "personneRessource": "",
       "dme": "",
@@ -2075,8 +2187,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "peri"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -2087,6 +2198,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2099,7 +2213,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.303955,
       "lng": -73.237511,
-      "telephone": "450 347-5548",
       "site": "https://www.cmiberville.com/",
       "personneRessource": "",
       "dme": "",
@@ -2134,6 +2247,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2146,7 +2262,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.339906,
       "lng": -73.284405,
-      "telephone": "450 741-3346",
       "site": "https://enseignement-mc.ca/enseignement-et-recherche/les-gmf-u-groupes-de-medecine-familiale-universitaire/gmf-u-saint-jean-sur-richelieu/",
       "personneRessource": "",
       "dme": "",
@@ -2166,8 +2281,7 @@
         "infirmieres": "3",
         "infauxiliaires": "3",
         "psychologues": "1",
-        "travailleuresSociales": "2",
-        "aac": "1"
+        "travailleuresSociales": "2"
       },
       "notes": "",
       "rls": "Haut-Richelieu–Rouville",
@@ -2177,7 +2291,7 @@
       "pratiques": [
         "pec",
         "chir",
-        "msk",
+        "Musculosquelettique et infiltrations — MSK",
         "sad",
         "peri"
       ],
@@ -2190,6 +2304,9 @@
       "porteOuverte": "Annuellement à l'automne",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2202,7 +2319,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.361396,
       "lng": -73.306219,
-      "telephone": "450 359-6819",
       "site": "https://www.cliniquemedicaleducoteau.ca/",
       "personneRessource": "",
       "dme": "",
@@ -2234,6 +2350,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2246,7 +2365,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.311127,
       "lng": -73.263705,
-      "telephone": "450 349-5555",
       "site": "https://www.medisoleil.com/",
       "personneRessource": "",
       "dme": "",
@@ -2269,6 +2387,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2281,7 +2402,6 @@
       "ville": "Chambly",
       "lat": 45.443399,
       "lng": -73.302252,
-      "telephone": "450 658-6000",
       "site": "https://www.lacliniquefortchambly.com/",
       "personneRessource": "",
       "dme": "",
@@ -2320,6 +2440,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2332,7 +2455,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.318831,
       "lng": -73.264466,
-      "telephone": "450 348-9218",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=34989",
       "personneRessource": "",
       "dme": "",
@@ -2363,6 +2485,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2375,7 +2500,6 @@
       "ville": "Marieville",
       "lat": 45.432049,
       "lng": -73.161977,
-      "telephone": "450 708-2911",
       "site": "https://cliniquemarieville.com/",
       "personneRessource": "",
       "dme": "",
@@ -2411,6 +2535,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2423,7 +2550,6 @@
       "ville": "Richelieu",
       "lat": 45.437722,
       "lng": -73.244985,
-      "telephone": "450 658-7561",
       "site": "",
       "personneRessource": "",
       "dme": "",
@@ -2443,8 +2569,7 @@
       "bureau": "",
       "frais": "",
       "pratiques": [
-        "pec",
-        "sad"
+        "pec"
       ],
       "niveaux": {
         "gmf": "",
@@ -2455,6 +2580,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2462,12 +2590,11 @@
       "nom": "Point de service Saint-Césaire (GMF Richelieu – Saint-Césaire)",
       "alias": "Saint-Césaire St-Césaire CLSC de Saint-Césaire Notre-Dame",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "1394, rue Notre-Dame, Saint-Césaire QC J0L 1T0",
       "ville": "Saint-Césaire",
       "lat": 45.409412,
       "lng": -73.002565,
-      "telephone": "450 469-0269",
       "site": "",
       "personneRessource": "",
       "dme": "",
@@ -2498,6 +2625,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2505,12 +2635,11 @@
       "nom": "Clinique médicale du Collège (GMF Richelieu – Saint-Césaire)",
       "alias": "Collège College Saint-Césaire St-Césaire Notre-Dame",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "1396, rue Notre-Dame, Saint-Césaire QC J0L 1T0",
       "ville": "Saint-Césaire",
       "lat": 45.408554,
       "lng": -73.002785,
-      "telephone": "450 469-0505",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=116297",
       "personneRessource": "",
       "dme": "",
@@ -2542,6 +2671,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2554,7 +2686,6 @@
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.277877,
       "lng": -73.256283,
-      "telephone": "450 347-3748",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=47617",
       "personneRessource": "",
       "dme": "",
@@ -2585,6 +2716,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2592,12 +2726,11 @@
       "nom": "Clinique médicale Saint-Luc (GMF Saint-Luc Saint-Eugène)",
       "alias": "Saint-Luc St-Luc Saint-Eugène SJSR",
       "visible": true,
-      "type": "GMF satellite",
+      "type": "GMF",
       "adresse": "247, boulevard Saint-Luc, bureau 204, Saint-Jean-sur-Richelieu QC J2W 1C3",
       "ville": "Saint-Jean-sur-Richelieu",
       "lat": 45.353165,
       "lng": -73.293844,
-      "telephone": "450 348-6124",
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=50518",
       "personneRessource": "",
       "dme": "",
@@ -2628,6 +2761,9 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2640,7 +2776,6 @@
       "ville": "Huntingdon",
       "lat": 45.0868,
       "lng": -74.1665,
-      "telephone": "",
       "site": "",
       "personneRessource": "",
       "dme": "",
@@ -2661,6 +2796,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2673,7 +2811,6 @@
       "ville": "Salaberry-de-Valleyfield",
       "lat": 45.2501,
       "lng": -74.1332,
-      "telephone": "",
       "site": "",
       "personneRessource": "",
       "dme": "",
@@ -2694,6 +2831,9 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
     },
     {
@@ -2706,7 +2846,6 @@
       "ville": "Vaudreuil-Dorion",
       "lat": 45.4011,
       "lng": -74.0326,
-      "telephone": "",
       "site": "",
       "personneRessource": "",
       "dme": "",
@@ -2727,7 +2866,251 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
       "presentation": ""
+    },
+    {
+      "id": 59,
+      "nom": "GMF Carrefour Santé Le Saint-Laurent",
+      "alias": "",
+      "visible": true,
+      "type": "GMF",
+      "adresse": "5300, boulevard Saint-Laurent, bureau 140",
+      "ville": "Sainte-Catherine",
+      "lat": 45.4031,
+      "lng": -73.5847,
+      "site": "https://www.gmfcarrefoursante.ca/",
+      "personneRessource": "",
+      "dme": "Myle (Medfar Solutions)",
+      "horaire": {},
+      "personnel": {
+        "medecins": "19",
+        "ipspl": "1",
+        "infirmieres": "4",
+        "pharmaciennes": "2",
+        "travailleuresSociales": "2"
+      },
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "Bureau dédié",
+      "frais": "Frais fixe mensuel — détails à discuter avec le milieu",
+      "pratiques": [],
+      "niveaux": {
+        "gmf": "6",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "GMF 6",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "Garde labo par infirmière",
+      "gardeUrgence": "1 fin de semaine sur 6, 3 gardes de SRV par mois, 12 plages minimum par SRV",
+      "gardeAutre": "",
+      "presentation": "GMF de niveau 6. Midi-caducée deux fois par mois. Spécialistes sur place ou en accès rapide : ORL, chirurgie générale, anesthésiste (infiltrations sous écho), néphrologie. Nouveaux services non couverts par la RAMQ : injections de PRP, chirurgie esthétique mineure."
+    },
+    {
+      "id": 60,
+      "nom": "Clinique médicale Napierville",
+      "alias": "",
+      "visible": true,
+      "type": "Clinique médicale",
+      "adresse": "343, rue Saint-Jacques",
+      "ville": "Napierville",
+      "lat": 45.1904,
+      "lng": -73.4022,
+      "site": "",
+      "personneRessource": "",
+      "dme": "Medesync (Telus)",
+      "horaire": {},
+      "personnel": {
+        "medecins": "4",
+        "ipspl": "2"
+      },
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "Pourcentage des revenus — détails à discuter avec le milieu",
+      "pratiques": [],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
+      "presentation": "Clinique de proximité. Une thérapeute en relation d’aide fait partie de l’équipe. Horaires très flexibles."
+    },
+    {
+      "id": 61,
+      "nom": "Coopérative solidarité santé Saint-Isidore (GMF Roger Laberge)",
+      "alias": "",
+      "visible": true,
+      "type": "Coopérative",
+      "adresse": "640, rang Saint-Régis, bureau 8",
+      "ville": "Saint-Isidore",
+      "lat": 45.3,
+      "lng": -73.68,
+      "site": "",
+      "personneRessource": "",
+      "dme": "",
+      "horaire": {},
+      "personnel": {
+        "medecins": "2",
+        "specialistes": "2",
+        "ipspl": "2",
+        "infirmieres": "2"
+      },
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "Tarif à la demi-journée — détails à discuter avec le milieu",
+      "pratiques": [],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "Garde labo par infirmière",
+      "gardeUrgence": "",
+      "gardeAutre": "",
+      "presentation": "Second site de GMF Roger Laberge. Triage avant chaque rendez-vous, suivi de laboratoire assuré par le personnel infirmier, aucune garde obligatoire, horaire au choix."
+    },
+    {
+      "id": 62,
+      "nom": "Clinique médicale Le Soleil",
+      "alias": "",
+      "visible": true,
+      "type": "Clinique médicale",
+      "adresse": "72, boulevard Saint-Jean-Baptiste, suite 200",
+      "ville": "Châteauguay",
+      "lat": 45.373,
+      "lng": -73.752,
+      "site": "",
+      "personneRessource": "",
+      "dme": "",
+      "horaire": {},
+      "personnel": {
+        "medecins": "3",
+        "infirmieres": "2"
+      },
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "Sur demande",
+      "pratiques": [
+        "pec"
+      ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "",
+      "presentation": ""
+    },
+    {
+      "id": 63,
+      "nom": "CLSC Châteauguay",
+      "alias": "",
+      "visible": true,
+      "type": "CLSC",
+      "adresse": "95, avenue de la Verdure",
+      "ville": "Châteauguay",
+      "lat": 45.3532,
+      "lng": -73.7398,
+      "site": "",
+      "personneRessource": "",
+      "dme": "",
+      "horaire": {},
+      "personnel": {},
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "Aucun frais",
+      "pratiques": [
+        "pec",
+        "sad",
+        "chir"
+      ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "Garde de SAD : une semaine sur sept. Garde labo organisée à l’interne.",
+      "presentation": ""
+    },
+    {
+      "id": 64,
+      "nom": "CLSC Kateri",
+      "alias": "",
+      "visible": true,
+      "type": "CLSC",
+      "adresse": "90, boulevard Marie-Victorin",
+      "ville": "Candiac",
+      "lat": 45.367,
+      "lng": -73.478,
+      "site": "",
+      "personneRessource": "",
+      "dme": "Myle (Medfar Solutions)",
+      "horaire": {},
+      "personnel": {
+        "medecins": "6",
+        "ipspl": "2",
+        "infirmieres": "6"
+      },
+      "notes": "",
+      "rls": "Jardins-Roussillon",
+      "posApprox": true,
+      "bureau": "",
+      "frais": "",
+      "pratiques": [
+        "pec",
+        "sad",
+        "chir"
+      ],
+      "niveaux": {
+        "gmf": "",
+        "accesReseau": "",
+        "gmfu": ""
+      },
+      "niveau": "",
+      "porteOuverte": "",
+      "region": "Ouest",
+      "infos": "",
+      "gardeLabo": "",
+      "gardeUrgence": "",
+      "gardeAutre": "Garde de SAD : une semaine sur sept, en disponibilité (sur appel). Pas de sans rendez-vous.",
+      "presentation": "Hors GMF. Rémunération à l’acte : tarif horaire plus pourcentage de l’acte. DMÉ (Myle) et ordinateur fournis. Distinct de l’Hôpital Kateri Memorial (Kahnawake)."
     }
   ]
 }
