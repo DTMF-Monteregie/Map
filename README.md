@@ -16,13 +16,13 @@ niveau GMF, leurs pratiques, leur horaire et leur personnel. L'utilisateur peut 
 région et par RLS, ajouter des favoris, prendre des notes personnelles (stockées sur son
 appareil) et exporter un comparatif de ses favoris en PDF.
 
-**55 points de service** répartis sur **6 RLS** :
+**64 points de service** répartis sur les **9 RLS** de la Montérégie :
 
 | Région | RLS |
 |---|---|
 | Montérégie-Est | Pierre-Boucher, Richelieu-Yamaska, Pierre-De Saurel |
 | Montérégie-Centre | Champlain, Haut-Richelieu–Rouville |
-| Montérégie-Ouest | Jardins-Roussillon |
+| Montérégie-Ouest | Jardins-Roussillon, Haut-Saint-Laurent, Suroît, Vaudreuil-Soulanges |
 
 ## Caractéristiques
 
@@ -51,63 +51,78 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
 {
   "miseAJour": "AAAA-MM-JJ",
   "annonce": {
-    "texte": "Texte de la bannière d'annonce (optionnel).",
-    "lien": "https://... (lien optionnel)",
-    "lienCarte": "https://... (lien optionnel, ex. Google Maps)"
+    "titre": "Prochaine activité de recrutement",  // optionnel — titre de la bannière
+    "texte": "Texte de la bannière (optionnel). **gras** possible.",
+    "lien": "https://... (optionnel) — bouton « S'inscrire »",
+    "lienCarte": "https://... (optionnel) — bouton « Itinéraire »",
+    "dateFin": "AAAA-MM-JJ"   // optionnel — dernier jour d'affichage, la bannière
+                              // disparaît d'elle-même le lendemain
   },
   "cliniques": [
     {
       "id": 1,                       // requis — identifiant unique (nombre)
       "nom": "GMF Exemple",          // requis
-      "type": "GMF",                 // requis — GMF, GMF-U, GMF-R, GMF satellite,
-                                     //          Clinique, Clinique médicale, CLSC, CH
+      "visible": true,               // requis — false = fiche conservée mais masquée
+      "type": "GMF",                 // requis — GMF, GMF-U, GMF-R, CLSC,
+                                     //          Clinique médicale, Coopérative, CH
       "region": "Centre",            // requis — Est | Centre | Ouest
-      "rls": "Champlain",            // requis — l'un des 6 RLS (voir le tableau plus haut)
+      "rls": "Champlain",            // requis — l'un des 9 RLS (voir le tableau plus haut)
       "lat": 45.50,                  // requis — latitude (nombre)
       "lng": -73.43,                 // requis — longitude (nombre)
       "alias": "",                   // optionnel — mots-clés supplémentaires pour la recherche
-      "niveau": "Niveau 12 / 18",    // optionnel
+      "niveaux": {                   // optionnel — une rangée par niveau rempli
+        "gmf": "12", "accesReseau": "4", "gmfu": ""
+      },
+      "niveau": "GMF 12 · Accès-réseau 4",  // DÉRIVÉ de « niveaux » — sert au comparatif
+                                            // et de repli pour les versions en cache
       "adresse": "",                 // optionnel
       "ville": "Brossard",           // optionnel
-      "telephone": "",               // optionnel
       "site": "",                    // optionnel
-      "personneRessource": "",       // optionnel — courriel de contact
+      "personneRessource": "",       // optionnel — courriel de recrutement affiché
       "dme": "",                     // optionnel — dossier médical électronique
-      "porteOuverte": "",            // optionnel — info portes ouvertes
-      "bureau": "",                  // optionnel
-      "frais": "",                   // optionnel — frais de bureau
+      "porteOuverte": "",            // optionnel — date en clair, ex. « 16 juillet 2026 » ;
+                                     // la rangée disparaît si la date est passée
+      "bureau": "",                  // optionnel — Bureau dédié | partagé | dédié ou partagé
+      "frais": "",                   // optionnel — modalité, jamais un montant (voir plus bas)
       "medecinsRecherches": "",      // optionnel — nombre de médecins recherchés
       "pratiques": ["pec", "gap"],   // optionnel — codes : pec, gap, sad, peri, msk, chir
-      "gardes": ["rdv-jour"],        // optionnel — codes : rdv-jour, rdv-soir, rdv-weekend,
-                                     //              labo, etablissement, aucune
+      "gardeLabo": "",               // optionnel — couverture des résultats en l'absence
+                                     //   des médecins (choix : par infirmière | par médecin | Autre)
+      "gardeUrgence": "",            // optionnel — fréquence de garde urgence mineure
+      "gardeAutre": "",              // optionnel — autre type de garde
       "horaire": {                   // optionnel — par jour
         "Lundi": "8h00 – 17h00", "Mardi": "", "Mercredi": "", "Jeudi": "",
         "Vendredi": "", "Samedi": "Fermé", "Dimanche": "Fermé"
       },
       "personnel": {                 // optionnel
         "medecins": "", "residents": "", "specialistes": "", "ipspl": "",
-        "infirmieres": "", "infauxiliaires": "", "infsantementale": "",
-        "physiotherapeutes": "", "pharmaciennes": "", "nutritionnistes": "",
-        "psychologues": "", "travailleuresSociales": "",
-        "intervenantspsychosociaux": "", "aac": ""
+        "infirmieres": "", "infauxiliaires": "", "physiotherapeutes": "",
+        "pharmaciennes": "", "nutritionnistes": "", "psychologues": "",
+        "travailleuresSociales": "", "intervenantspsychosociaux": ""
       },
       "infos": "",                   // optionnel — information publique sur la clinique
+      "presentation": "",            // optionnel — mot de présentation rédigé PAR LE MILIEU
       "notes": "",                   // ignoré à l'affichage : les notes sont locales à l'utilisateur
-      "photo": "",                   // optionnel
       "posApprox": false             // optionnel — position approximative ?
     }
   ]
 }
 ```
 
-Un champ vide s'affiche comme « À venir ». Les codes de pratique : `pec` (prise en charge),
-`gap` (guichet d'accès à la première ligne), `sad` (soins à domicile), `peri` (périnatalité),
-`msk` (médecine sportive), `chir` (chirurgie mineure).
 
-`gap` a remplacé l'ancien code `srv` (sans rendez-vous) — ce n'est plus une pratique parmi
-d'autres, mais une notion distincte, désormais couverte par le champ `gardes` : `rdv-jour`,
-`rdv-soir`, `rdv-weekend`, `labo`, `etablissement`, `aucune`. La section « Gardes et
-disponibilités » de la fiche n'apparaît que si ce tableau contient au moins un code.
+Un champ vide s'affiche comme « À venir ». Plusieurs champs vides qui se suivent sont
+regroupés en une seule rangée. Les codes de pratique : `pec` (prise en charge),
+`gap` (guichet d'accès à la première ligne), `sad` (soins à domicile), `peri` (périnatalité),
+`msk` (musculosquelettique), `chir` (chirurgie mineure).
+
+> **Aucun montant, aucune donnée personnelle dans `data.json`.** Le fichier est public :
+> n'importe qui peut le télécharger. Les montants de loyer, les clauses négociées et les
+> courriels personnels non autorisés n'y ont pas leur place. Le champ `frais` porte la
+> *modalité* (« Société de dépense », « Aucun frais »), jamais le montant.
+
+> **`presentation` appartient au milieu.** Ce texte est publié tel quel, attribué à la
+> clinique. Il ne doit contenir que ce que le milieu a lui-même écrit ou validé — pas des
+> notes de visite reformulées.
 
 > **`infos` et `notes` ne sont pas interchangeables.** `notes` alimente le bloc « Mes notes »,
 > que l'application écrase avec les notes locales de chaque personne : tout ce qu'on y écrit
@@ -123,7 +138,7 @@ la version du cache dans `sw.js`, sinon les personnes qui ont déjà ouvert l'ap
 continueront de voir l'ancienne :
 
 ```js
-const CACHE = 'ptem-2027-v10';   //  ->  'ptem-2027-v11'
+const CACHE = 'ptem-2027-v12';   //  ->  'ptem-2027-v13'
 ```
 
 Ce n'est pas nécessaire pour `data.json`, qui est toujours rechargé depuis le réseau.
