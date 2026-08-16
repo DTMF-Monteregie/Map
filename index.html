@@ -280,12 +280,6 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .niveau-explain.show { display:block; }
 .niveau-explain a { color:var(--blue); font-weight:600; text-decoration:underline; }
 .vw-divider { height:1px; background:var(--border); margin:14px 18px 0; }
-/* Sept fiches ont une position estimée plutôt que géocodée. Le dire évite
-   un déplacement vers une épingle fausse de quelques centaines de mètres. */
-.pos-approx { display:inline-block; margin-left:7px; padding:1px 7px; border-radius:999px;
-  background:var(--jaune-doux); color:#8a6100; border:1px solid #e8cf8a;
-  font-size:10.5px; font-weight:700; white-space:nowrap; vertical-align:middle; }
-:root[data-theme="sombre"] .pos-approx { color:#e8c473; border-color:#5a4718; }
 
 /* Horaire grid */
 .hor-grid { display:grid; grid-template-columns:auto 1fr; gap:4px 14px; }
@@ -768,7 +762,6 @@ body.cmp-open { overflow:hidden; }
     <div class="sb-head">
       <button class="sb-close" id="sb-close" aria-label="Fermer la liste">&times;</button>
       <h2>Cliniques en recrutement</h2>
-      <p>Cliquez sur une clinique pour consulter sa fiche</p>
       <p class="maj" id="maj-date"></p>
       <div class="sb-search" id="sb-search">
         <span class="sb-search-ic" aria-hidden="true">🔍</span>
@@ -1175,11 +1168,21 @@ function telLink(phone) {
   const digits = phone.replace(/[^\d+]/g, '');
   return `<a href="tel:${digits}">${esc(phone)}</a>`;
 }
+// L'adresse affichée est allégée du code postal et du « QC » final, qui
+// n'apprennent rien à quelqu'un qui consulte une carte de la Montérégie.
+// Le lien Google Maps, lui, reçoit l'adresse COMPLÈTE : le code postal est
+// ce qui lui permet de tomber sur le bon immeuble du premier coup.
+function adresseCourte(adresse) {
+  return String(adresse || '')
+    .replace(/\s*[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d\s*$/, '')
+    .replace(/,?\s*(QC|Qc|Québec|Quebec)\s*$/, '')
+    .trim().replace(/,$/, '');
+}
 function mapsLink(g) {
   if (!g.adresse) return 'À venir';
   const query = encodeURIComponent(g.nom.trim() + ', ' + g.adresse);
   const url = 'https://www.google.com/maps/search/?api=1&query=' + query;
-  return `<a href="${url}" target="_blank" rel="noopener" title="Ouvrir dans Google Maps">${esc(g.adresse)}</a>`;
+  return `<a href="${url}" target="_blank" rel="noopener" title="Ouvrir dans Google Maps">${esc(adresseCourte(g.adresse))}</a>`;
 }
 
 // Navigation arrière (mobile) + références du tiroir latéral
@@ -1615,7 +1618,7 @@ function openDetail(id) {
       <div class="vw-row"><span class="vw-label">Région</span><span class="vw-value"><span class="rls-dot" style="background:${regionColor(g.region)}"></span>${REGION_LABELS[g.region] || 'À venir'}</span></div>
       <div class="vw-row"><span class="vw-label">Réseau (RLS)</span><span class="vw-value">${g.rls && g.rls.trim() ? esc(g.rls) : 'À venir'}</span></div>
       ${niveauRow}
-      <div class="vw-row"><span class="vw-label">Adresse</span><span class="vw-value">${mapsLink(g)}${g.posApprox ? '<span class="pos-approx" title="L\u2019épingle est placée approximativement : validez l\u2019adresse avant de vous déplacer.">position approximative</span>' : ''}</span></div>
+      <div class="vw-row"><span class="vw-label">Adresse</span><span class="vw-value">${mapsLink(g)}</span></div>
       ${assembler([
         vide(g.site) ? {label:'Site internet', creux:true} : {label:'Site internet', html: ligne('Site internet', siteLink(g.site))},
         d_('DMÉ', g.dme)
@@ -1867,21 +1870,14 @@ function showBanner() {
 function showUpdateDate() {
   const el = document.getElementById('maj-date');
   if (!el) return;
-  // Le nombre de cliniques et de RLS est COMPTÉ, jamais écrit en dur : c'est ce
-  // qui a fait dériver les métadonnées, qui annonçaient un total figé.
-  const nbRls = new Set(gmfs.map(g => (g.rls || '').trim()).filter(Boolean)).size;
-  const parts = [];
-  if (gmfs.length) {
-    parts.push(gmfs.length + (gmfs.length > 1 ? ' cliniques' : ' clinique'));
-    if (nbRls) parts.push(nbRls + ' RLS');
-  }
   if (dataMeta && dataMeta.miseAJour) {
     const d = new Date(dataMeta.miseAJour + 'T00:00:00');
     const fmt = isNaN(d.getTime()) ? dataMeta.miseAJour
       : d.toLocaleDateString('fr-CA', { year:'numeric', month:'long', day:'numeric' });
-    parts.push('mise à jour le ' + fmt);
+    el.textContent = 'Dernière mise à jour le ' + fmt;
+  } else {
+    el.textContent = '';
   }
-  el.textContent = parts.join(' \u00b7 ');
 }
 
 function initData(data) {
