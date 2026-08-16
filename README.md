@@ -16,7 +16,10 @@ niveau GMF, leurs pratiques, leur horaire et leur personnel. L'utilisateur peut 
 région et par RLS, ajouter des favoris, prendre des notes personnelles (stockées sur son
 appareil) et exporter un comparatif de ses favoris en PDF.
 
-**64 points de service** répartis sur les **9 RLS** de la Montérégie :
+Les points de service en recrutement, répartis sur les **9 RLS** de la Montérégie.
+Le nombre exact est affiché dans l'application, calculé à partir de `data.json` — il n'est
+écrit en dur nulle part, pour ne pas dériver à chaque ajout ou retrait de fiche.
+
 
 | Région | RLS |
 |---|---|
@@ -27,7 +30,8 @@ appareil) et exporter un comparatif de ses favoris en PDF.
 ## Caractéristiques
 
 - 100 % statique — aucun serveur, aucune base de données.
-- Fonctionne **hors ligne** (service worker ; Leaflet et les polices sont hébergés localement).
+- Fonctionne **hors ligne** (service worker ; Leaflet et les images sont dans le dépôt, les
+  polices viennent de Google Fonts et retombent sur les polices système hors ligne).
 - Installable comme application (PWA) sur mobile et ordinateur.
 - Favoris, notes et ordre personnalisé stockés **localement** (`localStorage`) — rien n'est transmis.
 - Comparatif imprimable / exportable en PDF (orientation automatique).
@@ -37,7 +41,27 @@ appareil) et exporter un comparatif de ses favoris en PDF.
 ## Pile technique
 
 HTML / CSS / JavaScript « vanilla » (sans cadriciel ni étape de compilation),
-[Leaflet](https://leafletjs.com/) pour la carte, polices Raleway + Lato auto-hébergées.
+[Leaflet](https://leafletjs.com/) pour la carte, polices Raleway + Lato chargées depuis
+Google Fonts.
+
+### Fichiers de la racine
+
+| Fichier | Rôle |
+|---|---|
+| `index.html` | toute l'application : balisage, styles, scripts et images (encodées à l'intérieur) |
+| `data.json` | **la seule source de contenu** — voir le schéma plus bas |
+| `sw.js` | service worker : cache hors ligne, liste `CORE` des fichiers préchargés |
+| `leaflet.js`, `leaflet.css` | bibliothèque de carte, copie locale |
+| `manifest.json`, `icon-*.png`, `favicon-*.png` | installation en application (PWA) |
+
+> **Toute nouvelle ressource statique doit être ajoutée à `CORE` dans `sw.js`**, sinon elle
+> manquera hors ligne.
+
+> **Les polices viennent de `fonts.googleapis.com`.** Hors ligne, la typographie retombe donc
+> sur les polices système : l'application reste utilisable, mais l'identité visuelle change.
+> Les héberger dans le dépôt corrigerait ce point et supprimerait l'appel à un tiers — c'est
+> une amélioration possible, volontairement laissée de côté pour l'instant afin de garder le
+> déploiement à trois fichiers.
 
 ## Mettre à jour les données
 
@@ -101,7 +125,9 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
       "infos": "",                   // optionnel — information publique sur la clinique
       "presentation": "",            // optionnel — mot de présentation rédigé PAR LE MILIEU
       "notes": "",                   // ignoré à l'affichage : les notes sont locales à l'utilisateur
-      "posApprox": false             // optionnel — position approximative ?
+      "posApprox": false             // optionnel — true = position estimée, non géocodée.
+                                     //   La fiche affiche alors « position approximative »
+                                     //   à côté de l'adresse.
     }
   ]
 }
@@ -126,6 +152,23 @@ regroupés en une seule rangée. Les codes de pratique : `pec` (prise en charge)
 > que l'application écrase avec les notes locales de chaque personne : tout ce qu'on y écrit
 > est invisible. L'information publique sur une clinique va dans `infos`.
 
+## Cycle de collecte
+
+Les données ne se saisissent pas dans `data.json` : elles vivent dans le classeur Google
+« PTEM 2027 — Base maître des cliniques de la Montérégie », et `data.json` en est l'export.
+Le cycle, entièrement piloté par le menu **PTEM 2027** du classeur :
+
+1. **① Marquer un RLS comme envoyé** — au moment de transmettre la liste de liens préremplis
+   au technicien du RLS. Met à jour le statut et la date d'envoi, ce qui alimente l'onglet « Suivi ».
+2. **② Intégrer les réponses** — lit l'onglet « Réponses brutes » et **propose** les écarts dans
+   l'onglet « Révision ». N'écrit rien dans la base maître.
+3. *(relecture humaine : on coche dans « Révision » ce qu'on accepte)*
+4. **③ Appliquer les révisions approuvées** — reporte uniquement les lignes cochées.
+5. **④ Préparer l'export data.json** — produit le fichier dans le Drive, à déposer ici.
+
+Aucune étape n'envoie de courriel, ne partage de fichier ni ne publie quoi que ce soit :
+la publication est toujours un geste manuel.
+
 ## Déploiement
 
 Le dépôt est publié via **GitHub Pages**, directement depuis la branche `main`.
@@ -136,7 +179,7 @@ la version du cache dans `sw.js`, sinon les personnes qui ont déjà ouvert l'ap
 continueront de voir l'ancienne :
 
 ```js
-const CACHE = 'ptem-2027-v12';   //  ->  'ptem-2027-v13'
+const CACHE = 'ptem-2027-v15';   //  ->  'ptem-2027-v16'
 ```
 
 Ce n'est pas nécessaire pour `data.json`, qui est toujours rechargé depuis le réseau.
