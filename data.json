@@ -1,5 +1,5 @@
 {
-  "miseAJour": "2026-08-15",
+  "miseAJour": "2026-08-16",
   "annonce": {
     "titre": "Prochaine activité de recrutement",
     "texte": "JR Express — RLS Jardins-Roussillon\n**lundi 10 août 2026**\nTournée des cliniques de la région et visite de l'hôpital Anna-Laberge.\nDépart du stationnement du parc André-J.-Côté, à Candiac.",
@@ -57,7 +57,6 @@
       "porteOuverte": "16 juillet 2026",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -105,7 +104,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -158,7 +156,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -210,7 +207,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -262,7 +258,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -278,7 +273,7 @@
       "lat": 45.540785,
       "lng": -73.456575,
       "site": "https://macliniquepierreboucher.ca/",
-      "personneRessource": "andre.bernikoff.med@ssss.gouv.qc.ca, vtrevisonno@reseaumaclinique.com",
+      "personneRessource": "andre.bernikoff.med@ssss.gouv.qc.ca",
       "dme": "Medesync (Telus)",
       "horaire": {
         "Lundi": "8h00 – 20h00",
@@ -315,7 +310,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -370,7 +364,6 @@
       "porteOuverte": "1 septembre 2026",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -422,7 +415,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -472,7 +464,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -524,7 +515,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -576,7 +566,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -628,7 +617,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -680,7 +668,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -732,7 +719,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -784,7 +770,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -837,7 +822,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -889,7 +873,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -941,7 +924,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -993,7 +975,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1045,7 +1026,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1097,7 +1077,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1149,7 +1128,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1201,7 +1179,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1253,7 +1230,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1309,7 +1285,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1361,7 +1336,6 @@
       "porteOuverte": "",
       "region": "Est",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1417,7 +1391,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "Garde labo par infirmière",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1475,7 +1448,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1528,7 +1500,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1578,7 +1549,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1624,7 +1594,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1680,7 +1649,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1730,7 +1698,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "Garde labo par infirmière",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1781,7 +1748,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1828,7 +1794,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1875,7 +1840,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1922,7 +1886,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -1968,7 +1931,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2013,7 +1975,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2058,7 +2019,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2104,7 +2064,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2151,7 +2110,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2198,7 +2156,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2247,7 +2204,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2304,7 +2260,6 @@
       "porteOuverte": "Annuellement à l'automne",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2350,7 +2305,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2387,7 +2341,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2440,7 +2393,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2485,7 +2437,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2535,7 +2486,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2580,7 +2530,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2625,7 +2574,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2671,7 +2619,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2716,7 +2663,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2761,112 +2707,6 @@
       "porteOuverte": "",
       "region": "Centre",
       "infos": "",
-      "gardeLabo": "",
-      "gardeUrgence": "",
-      "gardeAutre": "",
-      "presentation": ""
-    },
-    {
-      "id": 56,
-      "nom": "Milieu à confirmer — Haut-Saint-Laurent",
-      "alias": "",
-      "visible": true,
-      "type": "Clinique médicale",
-      "adresse": "",
-      "ville": "Huntingdon",
-      "lat": 45.0868,
-      "lng": -74.1665,
-      "site": "",
-      "personneRessource": "",
-      "dme": "",
-      "horaire": {},
-      "personnel": {},
-      "notes": "",
-      "rls": "Haut-Saint-Laurent",
-      "posApprox": true,
-      "bureau": "",
-      "frais": "",
-      "pratiques": [],
-      "niveaux": {
-        "gmf": "",
-        "accesReseau": "",
-        "gmfu": ""
-      },
-      "niveau": "",
-      "porteOuverte": "",
-      "region": "Ouest",
-      "infos": "",
-      "gardeLabo": "",
-      "gardeUrgence": "",
-      "gardeAutre": "",
-      "presentation": ""
-    },
-    {
-      "id": 57,
-      "nom": "Milieu à confirmer — Suroît",
-      "alias": "",
-      "visible": true,
-      "type": "Clinique médicale",
-      "adresse": "",
-      "ville": "Salaberry-de-Valleyfield",
-      "lat": 45.2501,
-      "lng": -74.1332,
-      "site": "",
-      "personneRessource": "",
-      "dme": "",
-      "horaire": {},
-      "personnel": {},
-      "notes": "",
-      "rls": "Suroît",
-      "posApprox": true,
-      "bureau": "",
-      "frais": "",
-      "pratiques": [],
-      "niveaux": {
-        "gmf": "",
-        "accesReseau": "",
-        "gmfu": ""
-      },
-      "niveau": "",
-      "porteOuverte": "",
-      "region": "Ouest",
-      "infos": "",
-      "gardeLabo": "",
-      "gardeUrgence": "",
-      "gardeAutre": "",
-      "presentation": ""
-    },
-    {
-      "id": 58,
-      "nom": "Milieu à confirmer — Vaudreuil-Soulanges",
-      "alias": "",
-      "visible": true,
-      "type": "Clinique médicale",
-      "adresse": "",
-      "ville": "Vaudreuil-Dorion",
-      "lat": 45.4011,
-      "lng": -74.0326,
-      "site": "",
-      "personneRessource": "",
-      "dme": "",
-      "horaire": {},
-      "personnel": {},
-      "notes": "",
-      "rls": "Vaudreuil-Soulanges",
-      "posApprox": true,
-      "bureau": "",
-      "frais": "",
-      "pratiques": [],
-      "niveaux": {
-        "gmf": "",
-        "accesReseau": "",
-        "gmfu": ""
-      },
-      "niveau": "",
-      "porteOuverte": "",
-      "region": "Ouest",
-      "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2907,7 +2747,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "Garde labo par infirmière",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2945,7 +2784,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -2985,7 +2823,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "Garde labo par infirmière",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -3025,7 +2862,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -3064,7 +2900,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
@@ -3107,7 +2942,6 @@
       "porteOuverte": "",
       "region": "Ouest",
       "infos": "",
-      "gardeLabo": "",
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": ""
