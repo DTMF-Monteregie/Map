@@ -15,14 +15,14 @@
 <meta property="og:site_name" content="PTEM 2027">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:url" content="https://dtmf-monteregie.github.io/Map/">
-<meta property="og:title" content="PTEM 2027 | Santé Québec Montérégie — Cliniques en recrutement">
+<meta property="og:title" content="PTEM 2027 | Montérégie — Cliniques en recrutement">
 <meta property="og:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta property="og:image" content="https://dtmf-monteregie.github.io/Map/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — PTEM 2027, Santé Québec.">
+<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — PTEM 2027.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PTEM 2027 | Santé Québec Montérégie — Cliniques en recrutement">
+<meta name="twitter:title" content="PTEM 2027 | Montérégie — Cliniques en recrutement">
 <meta name="twitter:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta name="twitter:image" content="https://dtmf-monteregie.github.io/Map/og-image.png?v=2">
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
@@ -408,27 +408,28 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
     linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px); background-size: 34px 34px; }
 #app-loader .ldr-glow { position: absolute; inset: 0;
   background: radial-gradient(circle at 50% 42%, rgba(14,165,233,.14), transparent 60%); }
-#app-loader .ldr-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+#app-loader .ldr-top { position: relative; display: flex; flex-direction: column; align-items: center; gap: 38px; }
 /* Logo du chargement : l'épingle ajourée posée dans un disque marine, celui de l'icône.
    Le disque respire (lueur autour), l'épingle seule reçoit le reflet, et rien ne flotte. */
-#app-loader .ldr-logo { position: relative; width: 118px; height: 118px; border-radius: 50%;
+#app-loader .ldr-logo { position: relative; width: 132px; height: 132px; border-radius: 50%;
   background: radial-gradient(circle at 50% 96%, rgba(26,70,120,.45), rgba(15,34,64,0) 66%),
     var(--logo-navy);
   animation: ldrReveal .6s ease both, ldrPouls 3.2s ease-in-out both infinite; }
-#app-loader .ldr-logo::after { content: ''; position: absolute; inset: 17px;
+#app-loader .ldr-logo::after { content: ''; position: absolute; inset: 19px;
   background: var(--app-pin) center/contain no-repeat; }
-#app-loader .ldr-logo::before { content: ''; position: absolute; inset: 17px; z-index: 2;
+#app-loader .ldr-logo::before { content: ''; position: absolute; inset: 19px; z-index: 2;
   -webkit-mask: var(--app-pin) center/contain no-repeat;
   mask: var(--app-pin) center/contain no-repeat;
   background: linear-gradient(49deg, rgba(255,255,255,0) 42%, rgba(255,255,255,.45) 50%,
     rgba(255,255,255,0) 58%);
   background-size: 300% 300%; background-position: 0% 100%;
   animation: pinRefletM 6.4s ease-in-out .7s infinite; }
-#app-loader .ldr-brand { font-family: 'Raleway', sans-serif; font-weight: 800; letter-spacing: .14em;
-  text-transform: uppercase; font-size: 17px; color: #fff; animation: ldrUp .6s ease both .15s;
-  text-align: center; line-height: 1.35; padding: 0 16px; }
-#app-loader .ldr-brand .ldr-region { display: block; font-size: 26px; font-weight: 700;
-  letter-spacing: .04em; margin-top: 5px; color: var(--logo-mint);
+#app-loader .ldr-brand { font-family: 'Raleway', sans-serif; text-align: center;
+  display: flex; flex-direction: column; align-items: center; animation: ldrUp .6s ease both .15s; padding: 0 16px; }
+#app-loader .ldr-brand .ldr-eyebrow { font-size: 17px; font-weight: 800; letter-spacing: .2em;
+  text-transform: uppercase; color: #fff; margin-bottom: 9px; }
+#app-loader .ldr-brand .ldr-region { display: block; font-size: 34px; font-weight: 800;
+  letter-spacing: .01em; text-transform: uppercase; color: var(--logo-mint); line-height: 1.05;
   background-image: linear-gradient(90deg, var(--logo-blue), var(--logo-teal), var(--logo-mint));
   -webkit-background-clip: text; background-clip: text; }
 /* Le texte ne devient transparent que si le navigateur sait remplir un texte par un dégradé ;
@@ -436,8 +437,8 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   #app-loader .ldr-brand .ldr-region { color: transparent; }
 }
-#app-loader .ldr-sub { font-size: 13px; letter-spacing: .14em; color: #9fb0c4; margin-top: -8px;
-  animation: ldrUp .6s ease both .25s; }
+#app-loader .ldr-brand .ldr-ptem { font-size: 18px; font-weight: 600; letter-spacing: .3em;
+  text-transform: uppercase; color: #cfe0f2; margin-top: 13px; }
 #app-loader .ldr-map { position: relative; width: 240px; height: 190px; }
 #app-loader .ldr-pin { position: absolute; width: 32px; height: 32px; border: 3px solid #fff;
   border-radius: 50% 50% 50% 0; transform-origin: bottom right; box-shadow: 0 6px 13px rgba(0,0,0,.32);
@@ -702,8 +703,11 @@ body.cmp-open { overflow:hidden; }
   <div class="ldr-glow"></div>
   <div class="ldr-top">
     <div class="ldr-logo"></div>
-    <div class="ldr-brand">Santé Québec<span class="ldr-region">Montérégie</span></div>
-    <div class="ldr-sub">RECRUTEMENT</div>
+    <div class="ldr-brand">
+      <span class="ldr-eyebrow">RECRUTEMENT</span>
+      <span class="ldr-region">MONTÉRÉGIE</span>
+      <span class="ldr-ptem">PTEM 2027</span>
+    </div>
   </div>
   <div class="ldr-map">
     <div class="ldr-pin pin-rose"></div>
@@ -720,7 +724,7 @@ body.cmp-open { overflow:hidden; }
   <div class="brand" id="brand-home" role="button" tabindex="0" title="Revenir à la carte">
   <span class="logo-img" role="img" aria-label="Épingle PTEM 2027"></span>
   <div class="logo-text">
-    <span class="brand-org">SANTÉ QUÉBEC</span>
+    <span class="brand-org">RECRUTEMENT</span>
     <strong>Montérégie</strong>
   </div>
   </div>
@@ -740,7 +744,7 @@ body.cmp-open { overflow:hidden; }
         <circle cx="18" cy="5.4" r="2.7"/><circle cx="6" cy="12" r="2.7"/><circle cx="18" cy="18.6" r="2.7"/>
       </svg>
     </button>
-    <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (PTEM 2027 — Santé Québec Montérégie)" aria-label="Plus d'information">i</a>
+    <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (PTEM 2027 — Montérégie)" aria-label="Plus d'information">i</a>
   </div>
 </header>
 
@@ -780,7 +784,7 @@ body.cmp-open { overflow:hidden; }
         <div class="docs-panel" id="docs-panel" hidden>
           <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
             <span class="doc-ic">⤓</span>
-            <span class="doc-meta"><span class="doc-tt">Besoins en établissement — PTEM 2026</span><span class="doc-sub">PDF · Santé Québec Montérégie</span></span>
+            <span class="doc-meta"><span class="doc-tt">Besoins en établissement — PTEM 2026</span><span class="doc-sub">PDF · Montérégie</span></span>
           </a>
           <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">
             <span class="doc-ic">⤓</span>
@@ -1290,7 +1294,7 @@ function buildComparatif(favs) {
         <td class="cmp-headmain">
           <div class="cmp-eyebrow">COMPARATIF</div>
           <div class="cmp-title">FAVORIS</div>
-          <div class="cmp-subtitle">PTEM 2027 · Recrutement médical — Santé Québec Montérégie</div>
+          <div class="cmp-subtitle">PTEM 2027 · Recrutement médical — Montérégie</div>
           <div class="cmp-exp">Exporté le ${date}</div>
         </td>
         <td class="cmp-headqr">
@@ -1308,7 +1312,7 @@ function buildComparatif(favs) {
         <div class="cmp-qrurl">dtmf-monteregie.github.io/Map</div>
       </td>
     </tr></table>
-    <div class="cmp-note">PTEM 2027 — Cliniques en recrutement · Santé Québec Montérégie</div>`;
+    <div class="cmp-note">PTEM 2027 — Cliniques en recrutement · Montérégie</div>`;
   document.getElementById('cmp-print').innerHTML =
     '<div class="cmp-bar">' +
       '<span class="cmp-bar-t">Comparatif des favoris</span>' +
@@ -1963,7 +1967,7 @@ fetch('./data.json', { cache: 'no-cache' })
   var btn = document.getElementById('btn-share');
   if (!btn) return;
   var URL_APP = 'https://dtmf-monteregie.github.io/Map/';
-  var TITRE = 'PTEM 2027 - Santé Québec - Montérégie';
+  var TITRE = 'PTEM 2027 - Montérégie';
   var TEXTE = 'Carte interactive des cliniques en recrutement dans la Montérégie. '
             + 'Installable sur téléphone.';
 
@@ -2047,7 +2051,7 @@ fetch('./data.json', { cache: 'no-cache' })
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
-    console.log('PTEM 2027 — Santé Québec Montérégie — build 2026-08-16');
+    console.log('PTEM 2027 — Montérégie — build 2026-08-16');
   });
 }
 </script>
