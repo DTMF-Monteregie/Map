@@ -86,8 +86,6 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
       "frais": "",                   // optionnel — modalité, jamais un montant (voir plus bas)
       "medecinsRecherches": "",      // optionnel — nombre de médecins recherchés
       "pratiques": ["pec", "gap"],   // optionnel — codes : pec, gap, sad, peri, msk, chir
-      "gardeLabo": "",               // optionnel — couverture des résultats en l'absence
-                                     //   des médecins (choix : par infirmière | par médecin | Autre)
       "gardeUrgence": "",            // optionnel — fréquence de garde urgence mineure
       "gardeAutre": "",              // optionnel — autre type de garde
       "horaire": {                   // optionnel — par jour
