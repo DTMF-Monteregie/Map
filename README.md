@@ -3,7 +3,7 @@
 Carte web interactive des cliniques en recrutement médical de la **Montérégie**, sur les
 trois territoires : Montérégie-Est, Montérégie-Centre et Montérégie-Ouest.
 
-**En ligne :** https://dtmf-monteregie.github.io/Map/
+**En ligne :** https://trouvetaclinique.ca/
 
 Le plan territorial d'effectifs médicaux (PTEM) 2027 est en vigueur du 1<sup>er</sup> décembre 2026
 au 30 novembre 2027.
@@ -53,6 +53,12 @@ Google Fonts.
 | `sw.js` | service worker : cache hors ligne, liste `CORE` des fichiers préchargés |
 | `leaflet.js`, `leaflet.css` | bibliothèque de carte, copie locale |
 | `manifest.json`, `icon-*.png`, `favicon-*.png` | installation en application (PWA) |
+| `404.html` | page affichée quand une adresse n'existe pas |
+| `og-image.png` | image d'aperçu quand on partage le lien |
+| `CNAME` | domaine servi par GitHub Pages — **ne pas supprimer** |
+| `robots.txt`, `sitemap.xml` | référencement : autorisation d'exploration et plan du site |
+| `google0e6f553795bbb4a9.html` | vérification Google Search Console — **ne pas supprimer** |
+| `PTEM2027_saisie_tournee.html` | outil de saisie interne, en `noindex` — hors application |
 
 > **Toute nouvelle ressource statique doit être ajoutée à `CORE` dans `sw.js`**, sinon elle
 > manquera hors ligne.
@@ -61,7 +67,7 @@ Google Fonts.
 > sur les polices système : l'application reste utilisable, mais l'identité visuelle change.
 > Les héberger dans le dépôt corrigerait ce point et supprimerait l'appel à un tiers — c'est
 > une amélioration possible, volontairement laissée de côté pour l'instant afin de garder le
-> déploiement à trois fichiers.
+> déploiement léger. Voir la section « Vie privée ».
 
 ## Mettre à jour les données
 
@@ -179,7 +185,7 @@ la version du cache dans `sw.js`, sinon les personnes qui ont déjà ouvert l'ap
 continueront de voir l'ancienne :
 
 ```js
-const CACHE = 'ptem-2027-v15';   //  ->  'ptem-2027-v16'
+const CACHE = 'ptem-2027-v21';   //  ->  'ptem-2027-v22'
 ```
 
 Ce n'est pas nécessaire pour `data.json`, qui est toujours rechargé depuis le réseau.
@@ -198,17 +204,43 @@ Un fichier ouvert directement (`file://`) ne fonctionnera pas : le service worke
 
 ## Renommage annuel
 
-Le nom « PTEM 2027 » apparaît à six endroits, tous signalés par un commentaire en tête
-d'`index.html` : le `<title>`, les métadonnées `og:` et `twitter:`, l'infobulle du bouton
-« i », l'objet du courriel de correction, le `console.log` final et `manifest.json`.
+Le nom « PTEM 2027 » apparaît à huit endroits, tous signalés par un commentaire en tête
+d'`index.html` : le `<title>`, les métadonnées `og:` et `twitter:`, le bloc de données
+structurées (`JSON-LD`), le `<h1>` en tête de `<body>`, le titre du comparatif, l'objet du
+courriel de correction, le `console.log` final et `manifest.json`.
 
 **À ne pas renommer :** les clés `localStorage` `dtmf-mtg-*` (les favoris et les notes de
-tout le monde seraient perdus), le champ `id` du manifeste, et les adresses du dépôt.
+tout le monde seraient perdus), le champ `id` du manifeste, et le nom de domaine.
+
+## Nom de domaine et hébergement
+
+Le site est servi par **GitHub Pages** depuis la branche `main`, sur le domaine
+**trouvetaclinique.ca** (enregistré chez easyDNS, propriété personnelle du responsable du
+projet). Le domaine pointe vers GitHub Pages par quatre enregistrements `A` sur l'apex et
+un `CNAME` sur `www` ; le fichier `CNAME` à la racine du dépôt indique à GitHub sur quel
+domaine servir le site. **Supprimer ce fichier casserait le domaine.**
+
+Ne pas supprimer non plus `google0e6f553795bbb4a9.html` : c'est le fichier par lequel
+Google Search Console vérifie la propriété du site, revérifié périodiquement.
 
 ## Vie privée
 
-Aucune donnée utilisateur n'est collectée ni transmise. Les favoris, les notes et l'ordre
-personnalisé restent dans le navigateur de chaque personne (`localStorage`).
+Les favoris, les notes personnelles et l'ordre personnalisé **ne quittent jamais l'appareil**
+de la personne : ils sont conservés dans le `localStorage` de son navigateur, ne sont
+transmis à aucun serveur, et ne sont visibles de personne d'autre — pas même de
+l'administrateur du projet. Aucun compte, aucune inscription, aucun formulaire de contact.
+
+En revanche, **ouvrir la page met le navigateur en contact avec deux services externes**,
+qui reçoivent donc l'adresse IP du visiteur, comme tout site qui charge une ressource
+tierce :
+
+| Service | Ce qu'il fournit | Où c'est appelé |
+|---|---|---|
+| Google Fonts | les polices Raleway et Lato | `index.html`, `<link>` du `<head>` |
+| CartoDB / OpenStreetMap | les tuiles du fond de carte | `index.html`, couche Leaflet |
+
+Aucun cookie n'est déposé par l'application elle-même, et aucun outil de mesure d'audience
+n'est installé à ce jour. Cette section doit être mise à jour si l'un ou l'autre change.
 
 ## Licence
 

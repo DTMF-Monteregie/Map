@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<!-- build: 2026-08-16 -->
+<!-- build: 2026-08-18 -->
 <html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Nom de l'application : « PTEM 2027 ». Le plan est en vigueur jusqu'au 30 novembre 2027 ;
-     à renommer chaque décembre ici, aux lignes og:/twitter: ci-dessous, dans le titre du comparatif,
-     dans l'objet du courriel de correction, dans le console.log final et dans manifest.json.
+     à renommer chaque décembre aux HUIT endroits suivants : le <title> ci-dessous, les lignes
+     og:/twitter:, le bloc de données structurées (JSON-LD), le <h1> en tête de <body>,
+     le titre du comparatif, l'objet du courriel de correction, le console.log final,
+     et manifest.json.
      NE PAS renommer : les clés localStorage « dtmf-mtg-* » (favoris et notes des utilisateurs),
-     le « id » du manifeste, ni les URL du dépôt. -->
-<title>PTEM 2027 — Carte des cliniques en recrutement</title>
+     le « id » du manifeste, ni le nom de domaine trouvetaclinique.ca. -->
+<title>Cliniques en recrutement en Montérégie | PTEM 2027</title>
 <meta name="description" content="Où recrute-t-on en Montérégie ? Tous les points de service en recrutement sur les trois territoires — coordonnées, pratiques, horaires et personnes-ressources. Carte gratuite, installable et consultable hors ligne.">
 <meta name="google-site-verification" content="-8EkDVTZKsywxr7fJMd3kZIMVaUedo7eU9ThFutr8dY" />
 <link rel="canonical" href="https://trouvetaclinique.ca/">
@@ -26,6 +28,29 @@
 <meta name="twitter:title" content="PTEM 2027 | Montérégie — Cliniques en recrutement">
 <meta name="twitter:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta name="twitter:image" content="https://trouvetaclinique.ca/og-image.png?v=2">
+<!-- Données structurées : aident Google à comprendre de quoi parle le site et à quel
+     territoire il s'applique. Volontairement minimal — on ne déclare aucun éditeur
+     institutionnel, le projet n'étant pas hébergé par un établissement. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "PTEM 2027 — Cliniques en recrutement en Montérégie",
+  "alternateName": "Trouve ta clinique",
+  "url": "https://trouvetaclinique.ca/",
+  "inLanguage": "fr-CA",
+  "description": "Carte interactive des cliniques en recrutement médical de la Montérégie (Est, Centre et Ouest) : coordonnées, pratiques, horaires et personnes-ressources.",
+  "about": {
+    "@type": "Place",
+    "name": "Montérégie",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "QC",
+      "addressCountry": "CA"
+    }
+  }
+}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#0f2240">
@@ -699,6 +724,20 @@ body.cmp-open { overflow:hidden; }
 </script>
 </head>
 <body>
+
+<!-- Titre principal de la page. Rendu invisible à l'œil (.sr-only) parce que la carte
+     occupe tout l'écran et que l'en-tête joue déjà ce rôle visuellement — mais il est lu
+     par les lecteurs d'écran et par les moteurs de recherche, qui n'en trouvaient aucun
+     jusqu'ici. Le texte décrit fidèlement ce que la page contient : pas de mots-clés
+     ajoutés qui ne correspondraient à rien de visible. -->
+<h1 class="sr-only">Cliniques en recrutement en Montérégie — PTEM 2027</h1>
+<p class="sr-only">
+  Carte interactive des cliniques et points de service qui recrutent des médecins de famille
+  en Montérégie, sur les trois territoires : Montérégie-Est, Montérégie-Centre et
+  Montérégie-Ouest. Pour chaque milieu : coordonnées, type de clinique, réseau local de
+  services, pratiques offertes, horaires et personne-ressource pour le recrutement.
+</p>
+
 <div id="app-loader" aria-hidden="true">
   <div class="ldr-grid"></div>
   <div class="ldr-glow"></div>
@@ -2010,7 +2049,7 @@ fetch('./data.json', { cache: 'no-cache' })
   });
 
   function copier() {
-    // 2e choix : le presse-papiers (nécessite HTTPS, ce qui est le cas sur GitHub Pages)
+    // 2e choix : le presse-papiers (nécessite HTTPS, ce qui est le cas sur trouvetaclinique.ca)
     if (navigator.clipboard && navigator.clipboard.writeText) {
       // On copie le message complet, pas seulement l'adresse : sans le partage
       // natif, le titre et la description seraient perdus.
@@ -2076,7 +2115,7 @@ fetch('./data.json', { cache: 'no-cache' })
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
-    console.log('PTEM 2027 — Montérégie — build 2026-08-16');
+    console.log('PTEM 2027 — Montérégie — build 2026-08-18');
   });
 }
 </script>

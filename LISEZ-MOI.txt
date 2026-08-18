@@ -1,8 +1,8 @@
 PTEM 2027 — Carte interactive des cliniques en recrutement
-Santé Québec Montérégie — Est, Centre et Ouest
+Montérégie — Est, Centre et Ouest
 ==========================================================
 
-Adresse en ligne : https://dtmf-monteregie.github.io/Map/
+Adresse en ligne : https://trouvetaclinique.ca/
 Dépôt GitHub     : https://github.com/DTMF-Monteregie/Map
 
 Ce fichier s'adresse à la personne qui tient les données à jour.
@@ -25,6 +25,16 @@ CONTENU DU DOSSIER
 - og-image.png ............... image affichée quand on partage le lien
 - banniere-recrutement.png ... bannière pour le site de recrutement
 - README.md / LICENSE ........ documentation et licence
+
+FICHIERS À NE JAMAIS SUPPRIMER (ajoutés le 18 août 2026)
+- CNAME ...................... indique à GitHub de servir le site sur
+                               trouvetaclinique.ca. Sans lui, le domaine cesse
+                               de fonctionner.
+- google0e6f553795bbb4a9.html  fichier par lequel Google vérifie que le site
+                               nous appartient. Google le revérifie de temps en
+                               temps ; s'il disparaît, on perd l'accès aux
+                               statistiques de recherche.
+- robots.txt / sitemap.xml ... aident Google à trouver et indexer la page.
 
 Tous les fichiers doivent rester À LA RACINE du dépôt (à côté de index.html).
 
@@ -66,7 +76,7 @@ FORCER UNE MISE À JOUR APRÈS UN CHANGEMENT DE CODE
 ---------------------------------------------------
 Seulement si on a modifié index.html, sw.js ou les icônes.
 Dans sw.js, augmenter le numéro de version du cache :
-   const CACHE = 'ptem-2027-v10';   ->   'ptem-2027-v11'
+   const CACHE = 'ptem-2027-v21';   ->   'ptem-2027-v22'
 puis re-téléverser sw.js. Sans cela, les personnes qui ont déjà ouvert
 l'application continueront de voir l'ancienne version.
 
@@ -86,6 +96,8 @@ téléphone. Sur ordinateur, il copie l'adresse dans le presse-papiers.
 
 CHANGEMENT D'ANNÉE (décembre)
 ------------------------------
-Le nom « PTEM 2027 » apparaît à six endroits, tous indiqués par un
+Le nom « PTEM 2027 » apparaît à huit endroits, tous indiqués par un
 commentaire au début de index.html. Ne PAS renommer les clés
 « dtmf-mtg-* » : les favoris et les notes de tout le monde seraient perdus.
+Ne PAS renommer non plus le nom de domaine trouvetaclinique.ca, qui ne
+contient aucune année et n'a donc pas à changer.
