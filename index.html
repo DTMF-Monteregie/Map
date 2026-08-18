@@ -888,7 +888,6 @@ const LocateControl = L.Control.extend({
 });
 map.addControl(new LocateControl());
 map.on('locationfound', function (e) {
-  window.__autoLocate = false;
   if (userMarker) map.removeLayer(userMarker);
   userMarker = L.marker(e.latlng, {
     icon: L.divIcon({
@@ -907,8 +906,9 @@ function showToast(msg) {
   clearTimeout(window.__toastTimer);
   window.__toastTimer = setTimeout(function () { t.classList.remove('show'); }, 4500);
 }
+// Toute tentative de localisation vient désormais d'un clic de l'usager : on affiche
+// donc toujours le message d'erreur, sans le filtre de l'ancien mode automatique.
 map.on('locationerror', function () {
-  if (window.__autoLocate) { window.__autoLocate = false; return; }
   showToast("Localisation impossible. Vérifiez que l'accès à votre position est autorisé dans votre navigateur.");
 });
 (function () {
@@ -996,11 +996,19 @@ function refreshMarkerIcons() {
 }
 
 function buildMarkers() {
+  // Deuxième filet de sécurité (le premier est dans initData) : même si une
+  // fiche invalide passait le filtre, une erreur ici ne doit interrompre que
+  // CETTE fiche, jamais toute la boucle — sinon buildFilters(), renderSidebar()
+  // et fitToData() ne s'exécutent jamais et la page reste vide.
   gmfs.forEach(g => {
-    const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), g.region), draggable:false }).addTo(map);
-    m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}</small>`, { direction:'top', offset:[0,-20] });
-    m.on('click', (e) => { L.DomEvent.stopPropagation(e); toggleDetail(g.id); });
-    markers[g.id] = m;
+    try {
+      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), g.region), draggable:false }).addTo(map);
+      m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}</small>`, { direction:'top', offset:[0,-20] });
+      m.on('click', (e) => { L.DomEvent.stopPropagation(e); toggleDetail(g.id); });
+      markers[g.id] = m;
+    } catch (e) {
+      console.warn('Marqueur ignoré (erreur de construction) :', g && g.id, g && g.nom, e);
+    }
   });
 }
 
@@ -1889,7 +1897,22 @@ function initData(data) {
   // Une fiche dont « visible » vaut false est conservée dans data.json mais
   // n'apparaît nulle part dans l'application : c'est le cas d'un milieu qui ne
   // recrute pas cette année. Elle revient dès que le drapeau repasse à true.
-  gmfs = brut.filter(g => g.visible !== false);
+  // Une fiche dont les coordonnées ou le nom sont absents ou invalides est
+  // aussi écartée ici : sans ce filtre, une seule fiche mal formée fait
+  // planter buildMarkers() en cours de route et vide toute la carte pour tout
+  // le monde (constat d'audit du 17 août). On garde une trace dans la
+  // console pour la retrouver facilement.
+  gmfs = brut.filter(g => {
+    if (g.visible === false) return false;
+    const latOk = typeof g.lat === 'number' && isFinite(g.lat) && g.lat >= -90 && g.lat <= 90;
+    const lngOk = typeof g.lng === 'number' && isFinite(g.lng) && g.lng >= -180 && g.lng <= 180;
+    const nomOk = typeof g.nom === 'string' && g.nom.trim().length > 0;
+    if (!latOk || !lngOk || !nomOk) {
+      console.warn('Fiche ignorée (données invalides — lat/lng/nom) :', g && g.id, g && g.nom, g);
+      return false;
+    }
+    return true;
+  });
   dataMeta = Array.isArray(data) ? {} : (data || {});
 
   // Notes personnelles sauvegardées
@@ -1932,12 +1955,13 @@ function initData(data) {
   showUpdateDate();
   showBanner();
   fitToData();
-  // Lien direct : ?c=6 ouvre la fiche de la clinique 6 et n'active pas la
-  // géolocalisation, puisque l'usager arrive avec une intention précise.
+  // Lien direct : ?c=6 ouvre la fiche de la clinique 6.
   const cible = Number(new URLSearchParams(location.search).get('c'));
   if (cible && byId(cible)) { openDetail(cible); return; }
-  window.__autoLocate = true;
-  setTimeout(function () { try { map.locate({ setView:true, maxZoom:12, enableHighAccuracy:false }); } catch(e){} }, 400);
+  // Aucune géolocalisation automatique au chargement : le navigateur ne doit jamais
+  // demander l'autorisation de position tant que l'usager n'a pas cliqué lui-même sur
+  // le bouton « Me localiser ». La carte s'ouvre donc sur l'ensemble de la Montérégie
+  // (fitToData ci-dessus).
 }
 
 fetch('./data.json', { cache: 'no-cache' })
