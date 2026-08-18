@@ -1,6 +1,6 @@
 // Service worker — PTEM 2027 (cliniques en recrutement, Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'ptem-2027-v22';
+const CACHE = 'ptem-2027-v23';
 const CORE = [
   './',
   './index.html',
@@ -48,15 +48,23 @@ self.addEventListener('fetch', event => {
 
   // index.html / navigations + data.json : RÉSEAU D'ABORD (toujours la dernière version en ligne),
   // repli sur le cache si hors-ligne.
+  // Clé de cache normalisée pour les navigations : un lien partagé ouvre
+  // toujours le même index.html, seule sa chaîne de requête (?c=6, ?c=12…)
+  // change. Mettre en cache sous req.url gardait une copie complète de la
+  // page PAR LIEN — mesuré : ~190 Ko × 61 fiches possibles ≈ 11 Mo de
+  // doublons jamais purgés, avec un risque d'éviction globale sur iOS
+  // (favoris et notes compris) une fois le budget de stockage dépassé
+  // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
   if (isHTML || req.url.includes('data.json')) {
+    const cacheKey = isHTML ? './index.html' : req;
     event.respondWith(
       fetch(req).then(res => {
         if (res && res.ok) {
           const copy = res.clone();
-          caches.open(CACHE).then(cache => cache.put(req, copy)).catch(() => {});
+          caches.open(CACHE).then(cache => cache.put(cacheKey, copy)).catch(() => {});
         }
         return res;
-      }).catch(() => caches.match(req).then(m => m || caches.match('./index.html')))
+      }).catch(() => caches.match(cacheKey).then(m => m || caches.match('./index.html')))
     );
     return;
   }

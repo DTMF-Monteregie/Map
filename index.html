@@ -3,29 +3,31 @@
 <html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Nom de l'application : « PTEM 2027 ». Le plan est en vigueur jusqu'au 30 novembre 2027 ;
-     à renommer chaque décembre aux HUIT endroits suivants : le <title> ci-dessous, les lignes
-     og:/twitter:, le bloc de données structurées (JSON-LD), le <h1> en tête de <body>,
-     le titre du comparatif, l'objet du courriel de correction, le console.log final,
-     et manifest.json.
+<!-- Nom de l'application : « Trouve ta clinique ». Ce nom ne change JAMAIS — c'est le nom de
+     domaine et la marque, indépendants du plan gouvernemental en vigueur.
+     « PTEM 2027 » n'apparaît plus que comme ÉTIQUETTE DE DONNÉES (le plan est en vigueur du
+     1er décembre 2026 au 30 novembre 2027) à SIX endroits, à renommer chaque décembre :
+     le short_name de manifest.json (texte sous l'icône Android), apple-mobile-web-app-title
+     ci-dessous (texte sous l'icône iOS), le sous-titre de l'écran de chargement (.ldr-ptem),
+     l'infobulle du bouton « i », le alternateName du JSON-LD, et ce commentaire lui-même.
      NE PAS renommer : les clés localStorage « dtmf-mtg-* » (favoris et notes des utilisateurs),
      le « id » du manifeste, ni le nom de domaine trouvetaclinique.ca. -->
-<title>Cliniques en recrutement en Montérégie | PTEM 2027</title>
+<title>Trouve ta clinique — Cliniques en recrutement en Montérégie</title>
 <meta name="description" content="Où recrute-t-on en Montérégie ? Tous les points de service en recrutement sur les trois territoires — coordonnées, pratiques, horaires et personnes-ressources. Carte gratuite, installable et consultable hors ligne.">
 <meta name="google-site-verification" content="-8EkDVTZKsywxr7fJMd3kZIMVaUedo7eU9ThFutr8dY" />
 <link rel="canonical" href="https://trouvetaclinique.ca/">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="PTEM 2027">
+<meta property="og:site_name" content="Trouve ta clinique">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:url" content="https://trouvetaclinique.ca/">
-<meta property="og:title" content="PTEM 2027 | Montérégie — Cliniques en recrutement">
+<meta property="og:title" content="Trouve ta clinique | Cliniques en recrutement — Montérégie">
 <meta property="og:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta property="og:image" content="https://trouvetaclinique.ca/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — PTEM 2027.">
+<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PTEM 2027 | Montérégie — Cliniques en recrutement">
+<meta name="twitter:title" content="Trouve ta clinique | Cliniques en recrutement — Montérégie">
 <meta name="twitter:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
 <meta name="twitter:image" content="https://trouvetaclinique.ca/og-image.png?v=2">
 <!-- Données structurées : aident Google à comprendre de quoi parle le site et à quel
@@ -35,8 +37,8 @@
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "PTEM 2027 — Cliniques en recrutement en Montérégie",
-  "alternateName": "Trouve ta clinique",
+  "name": "Trouve ta clinique — Cliniques en recrutement en Montérégie",
+  "alternateName": "PTEM 2027 — Cliniques en recrutement en Montérégie",
   "url": "https://trouvetaclinique.ca/",
   "inLanguage": "fr-CA",
   "description": "Carte interactive des cliniques en recrutement médical de la Montérégie (Est, Centre et Ouest) : coordonnées, pratiques, horaires et personnes-ressources.",
@@ -96,7 +98,14 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 @keyframes brandTap { 0% { transform:scale(1); } 35% { transform:scale(.92); } 100% { transform:scale(1); } }
 .brand.tapped .logo-img { animation: brandTap .4s ease; }
 @media (prefers-reduced-motion: reduce) { .brand.tapped .logo-img { animation: none; }
-  .logo-img::after { animation: none; } .sidebar-toggle { animation: none; } .sidebar { animation: none !important; } }
+  .logo-img::after { animation: none; }
+  /* !important requis : la règle .sidebar-toggle{animation:sbPeek…} (l. 373,
+     même spécificité, mais plus bas dans le fichier) gagnait sinon la cascade
+     — l'onglet « Liste » continuait de bouger avec « Réduire les animations »
+     activé (audit du 18 août). .sb-dots i (jamais couvert) reçoit le même
+     traitement. */
+  .sidebar-toggle { animation: none !important; } .sidebar { animation: none !important; }
+  .sb-dots i { animation: none !important; } }
 /* Le logo est un bloc et non une image : un <img> ne peut pas porter de
    pseudo-élément, donc pas de reflet par-dessus. */
 .logo-img { position: relative; width: 56px; height: 56px; flex-shrink: 0;
@@ -178,8 +187,9 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .02em;
   padding: 7px 13px; border-radius: 8px; text-decoration: none; transition: background .15s; }
 .annonce-btn:hover { background: #2b6caa; }
-.annonce-close { position: absolute; top: 8px; right: 8px; background: none; border: none; cursor: pointer;
-  color: var(--muted); font-size: 15px; line-height: 1; padding: 2px 5px; border-radius: 6px; }
+.annonce-close { position: absolute; top: 4px; right: 4px; background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 15px; line-height: 1; border-radius: 6px;
+  min-width: 24px; min-height: 24px; display: flex; align-items: center; justify-content: center; }
 .annonce-close:hover { color: var(--texte2); background: var(--survol); }
 
 /* SIDEBAR */
@@ -189,7 +199,25 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .sb-close { display: none; position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: none; background: transparent; color: var(--muted); font-size: 22px; line-height: 1; cursor: pointer; border-radius: 8px; z-index: 1; }
 .sb-close:hover { background: var(--cream); color: var(--texte); }
 .sb-head h2 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 15px;
-  text-transform: uppercase; letter-spacing: .04em; color: var(--texte2); white-space: nowrap; }
+  text-transform: uppercase; letter-spacing: .04em; color: var(--texte2); }
+/* Sous 400px, le bouton fermer (32px, absolu à droite) peut passer sous le
+   titre en nowrap : on lui réserve sa place et on autorise le titre à passer
+   à la ligne plutôt que de disparaître derrière (audit du 18 août). */
+@media (max-width: 400px) {
+  .sb-head { padding-right: 44px; padding-top: 10px; padding-bottom: 6px; }
+  .sb-head h2 { white-space: normal; }
+  /* Resserre l'empilement de contrôles au-dessus de la liste : à 320 px de
+     large, ~269 px de chrome ne laissaient voir que 2,5 cliniques sur 61
+     (audit du 18 août). Ce resserrement rend quelques dizaines de pixels de
+     plus à la liste sans rien retirer ; une refonte plus profonde (filtres
+     repliables, en-tête qui se réduit au défilement) resterait à envisager
+     séparément si ça ne suffit pas. */
+  .sb-search { margin-top: 8px; }
+  .fav-toggle { margin-top: 6px; }
+  .reg-filter { margin-top: 8px; }
+  .rls-filter { margin-top: 6px; }
+  .docs-wrap { margin-top: 6px; }
+}
 .sb-head p { font-size: 13px; color: var(--muted); margin-top: 3px; font-weight: 300; }
 .sb-head .maj { font-size: 11px; font-style: italic; margin-top: 6px; opacity: .85; }
 .sb-search { position: relative; margin-top: 12px; }
@@ -204,7 +232,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .fav-toggle { margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;
   background: var(--champ); border: 1.5px solid var(--border); color: var(--texte2); cursor: pointer;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .02em;
-  padding: 6px 12px; border-radius: 20px; transition: all .15s; }
+  padding: 9px 12px; min-height: 24px; border-radius: 20px; transition: all .15s; }
 .fav-toggle:hover { border-color: #f5b301; }
 .fav-toggle.active { background: var(--jaune-doux); border-color: #f5b301; color: #9a6a00; }
 .cmp-export-btn { margin-top: 8px; display: none; align-items: center; justify-content: center; gap: 6px; width: 100%;
@@ -215,8 +243,9 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .sb-list { overflow-y: auto; flex: 1; }
 .sb-item { display: flex; align-items: center; gap: 10px; padding: 12px 16px; position: relative;
   border-bottom: 1px solid var(--filet); cursor: pointer; transition: background .12s; user-select: none; }
-.sb-star { position: absolute; top: 7px; right: 9px; background: none; border: none;
-  cursor: pointer; font-size: 17px; line-height: 1; color: #c9c1ad; padding: 2px;
+.sb-star { position: absolute; top: 4px; right: 6px; background: none; border: none;
+  cursor: pointer; font-size: 17px; line-height: 1; color: #c9c1ad;
+  min-width: 24px; min-height: 24px; display: flex; align-items: center; justify-content: center;
   transition: color .15s, transform .1s; }
 .sb-star:hover { transform: scale(1.15); }
 .sb-star.fav { color: #f5b301; }
@@ -239,6 +268,18 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 #map { flex: 1; cursor: default; }
 .leaflet-control-attribution.author-credit { font-size: 10px; color: var(--muted);
   background: rgba(255,255,255,.8); padding: 2px 6px; }
+/* Sous 380px, le crédit personnel (non requis par la licence, contrairement à
+   OSM/CartoDB) disparaît pour éviter le passage à 2 lignes qui, à 320px,
+   faisait recouvrir la bande de crédits sur la 3e ligne de la légende. */
+@media (max-width: 380px) {
+  .leaflet-control-attribution .credit-perso { display: none; }
+}
+/* La légende, le tiroir et la fiche sont l'interface de l'application ; les
+   contrôles Leaflet (zoom, crédits) sont un habillage décoratif de la carte
+   qui ne doit jamais passer par-dessus. leaflet.css les place à z-index:1000,
+   au-dessus du tiroir (950) et de la fiche (960) — on les repasse dessous. */
+.leaflet-top, .leaflet-bottom { z-index: 800; }
+body.fiche-open .leaflet-control-attribution { display: none; }
 
 .rls-dot { display:inline-block; width:9px; height:9px; border-radius:50%;
   margin-right:6px; vertical-align:middle; flex-shrink:0; }
@@ -314,13 +355,18 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .hor-val.ferme { color:#b8b1a0; font-weight:400; }
 
 /* Staff grid */
-.staff-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+/* minmax(0,1fr) plutôt que 1fr : sans le 0, une grille CSS ne laisse jamais
+   une piste rétrécir sous le min-content de son contenu (ici, le mot le plus
+   long d'un libellé de métier) — c'est ce qui faisait déborder la grille de
+   64px à 320px (audit du 18 août). Même correctif en cascade sur .staff-cell
+   (flex) et .staff-label, qui ont le même piège par défaut. */
+.staff-grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:7px; }
 .staff-cell { background:var(--cream); border:1px solid var(--border); border-radius:8px;
-  padding:8px 10px; display:flex; align-items:center; gap:8px; }
+  padding:8px 10px; display:flex; align-items:center; gap:8px; min-width:0; }
 .staff-icon { font-size:16px; }
 .staff-count { font-family:'Raleway',sans-serif; font-weight:700; font-size:15px; color:var(--texte2); min-width:22px; }
 .staff-count.empty { color:#c9c1ad; }
-.staff-label { font-size:13px; color:var(--muted); line-height:1.3; }
+.staff-label { font-size:13px; color:var(--muted); line-height:1.3; min-width:0; overflow-wrap:break-word; }
 
 /* NOTES (editable + saved locally) */
 .notes-sec { padding: 14px 18px 0; }
@@ -335,7 +381,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   white-space: pre-line; }
 .notes-textarea { width:100%; border:1px solid var(--border); border-radius:8px;
   padding:8px 10px; font-size:14px; font-family:'Lato',sans-serif; background:var(--cream);
-  resize:vertical; min-height:90px; line-height:1.5; }
+  color:var(--texte); resize:vertical; min-height:90px; line-height:1.5; }
 .notes-textarea:focus { outline:none; border-color:var(--blue); background:var(--champ); }
 
 /* Save bar */
@@ -528,7 +574,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .pf-chip.on { background:var(--c); color:#fff; }
 /* Trois pastilles de largeur égale, toujours sur une seule ligne. */
 .reg-filter { display:grid; grid-template-columns:repeat(3, 1fr); gap:6px; margin-top:12px; }
-.reg-chip { font-size:12px; font-weight:700; letter-spacing:.02em; padding:5px 4px; border-radius:999px;
+.reg-chip { font-size:12px; font-weight:700; letter-spacing:.02em; padding:8px 4px; border-radius:999px;
   text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   border:1.5px solid var(--c); color:var(--c); background:var(--champ); cursor:pointer; font-family:'Raleway',sans-serif; transition:all .15s; }
 .reg-chip:hover { opacity:.72; }
@@ -730,13 +776,85 @@ body.cmp-open { overflow:hidden; }
      par les lecteurs d'écran et par les moteurs de recherche, qui n'en trouvaient aucun
      jusqu'ici. Le texte décrit fidèlement ce que la page contient : pas de mots-clés
      ajoutés qui ne correspondraient à rien de visible. -->
-<h1 class="sr-only">Cliniques en recrutement en Montérégie — PTEM 2027</h1>
+<h1 class="sr-only">Trouve ta clinique — Cliniques en recrutement en Montérégie</h1>
 <p class="sr-only">
   Carte interactive des cliniques et points de service qui recrutent des médecins de famille
   en Montérégie, sur les trois territoires : Montérégie-Est, Montérégie-Centre et
   Montérégie-Ouest. Pour chaque milieu : coordonnées, type de clinique, réseau local de
   services, pratiques offertes, horaires et personne-ressource pour le recrutement.
 </p>
+
+<!-- Liste statique (.sr-only, même convention que le h1/p ci-dessus) des cliniques
+     publiées, pour que les moteurs de recherche puissent indexer les noms et les villes
+     directement dans le HTML — la carte elle-même charge ses données en JavaScript
+     (data.json) après le premier rendu, donc un moteur qui n'exécute pas ce JS ne verrait
+     autrement aucun nom de clinique. ATTENTION : cette liste est un instantané généré le
+     2026-08-18 à partir de data.json et NE SE MET PAS À JOUR AUTOMATIQUEMENT. Si des
+     cliniques sont ajoutées, retirées ou renommées dans data.json, régénérer ce bloc à la
+     main (voir LISEZ-MOI.txt). -->
+<ul class="sr-only" id="sr-liste-cliniques">
+  <li>GMF Coopérative de Solidarité de Santé de la MRC d'Acton — Acton Vale (GMF)</li>
+  <li>CLSC des Patriotes — Beloeil (CLSC)</li>
+  <li>GMF Carrefour de la Vallée — Beloeil (GMF)</li>
+  <li>GMF des Îles-Percées — Boucherville (GMF)</li>
+  <li>GMF-U des Montérégiennes — Boucherville (GMF-U)</li>
+  <li>GMF CLSC Samuel-De Champlain — Brossard (GMF)</li>
+  <li>GMF DIX30 — Brossard (GMF)</li>
+  <li>GMF Lapinière — Brossard (GMF)</li>
+  <li>CLSC Kateri — Candiac (CLSC)</li>
+  <li>GMF La Clinique Fort Chambly — Chambly (GMF)</li>
+  <li>CLSC Châteauguay — Châteauguay (CLSC)</li>
+  <li>Clinique médicale Le Soleil — Châteauguay (Clinique médicale)</li>
+  <li>GMF Roger Laberge — Châteauguay (GMF)</li>
+  <li>GMF-U Jardins-Roussillon — Châteauguay (GMF-U)</li>
+  <li>GMF-R Le Trait-d'Union — Delson (GMF-R)</li>
+  <li>GMF La Cigogne — Greenfield Park (GMF)</li>
+  <li>GMF-R Clinique Azur — Greenfield Park (GMF-R)</li>
+  <li>CH Kateri Memorial — Kahnawake (CH)</li>
+  <li>CAMU Longueuil (GMF Petit-Bois) — Longueuil (GMF)</li>
+  <li>CLSC Longueuil-Ouest — Longueuil (CLSC)</li>
+  <li>CLSC Simonne-Monet-Chartrand — Longueuil (CLSC)</li>
+  <li>GMF L'Autre Maison — Longueuil (GMF)</li>
+  <li>GMF-R Pierre-Boucher — Longueuil (GMF-R)</li>
+  <li>GMF Pro-Santé Marieville — Marieville (GMF)</li>
+  <li>GMF Mercier — Mercier (GMF)</li>
+  <li>Clinique médicale Napierville — Napierville (Clinique médicale)</li>
+  <li>GMF Jardin-du-Québec (Napierville) — Napierville (GMF)</li>
+  <li>GMF Richelieu – Saint-Césaire (CLSC du Richelieu) — Richelieu (GMF)</li>
+  <li>GMF 3090 (Saint-Basile) — Saint-Basile-le-Grand (GMF)</li>
+  <li>GMF Le Sentier — Saint-Bruno-de-Montarville (GMF)</li>
+  <li>GMF Saint-Constant (Monchamp) — Saint-Constant (GMF)</li>
+  <li>GMF Saint-Constant (de la gare) — Saint-Constant (GMF)</li>
+  <li>Clinique médicale du Collège (GMF Richelieu – Saint-Césaire) — Saint-Césaire (GMF)</li>
+  <li>Point de service Saint-Césaire (GMF Richelieu – Saint-Césaire) — Saint-Césaire (GMF)</li>
+  <li>GMF des Patriotes - Horizon — Saint-Denis-sur-Richelieu (GMF)</li>
+  <li>GMF Centre médical St-Hubert — Saint-Hubert (GMF)</li>
+  <li>GMF-U Saint-Hubert — Saint-Hubert (GMF-U)</li>
+  <li>CLSC des Maskoutains — Saint-Hyacinthe (CLSC)</li>
+  <li>GMF Laframboise — Saint-Hyacinthe (GMF)</li>
+  <li>GMF Maska — Saint-Hyacinthe (GMF)</li>
+  <li>GMF-U Richelieu-Yamaska — Saint-Hyacinthe (GMF-U)</li>
+  <li>Coopérative solidarité santé Saint-Isidore (GMF Roger Laberge) — Saint-Isidore (Coopérative)</li>
+  <li>Clinique médicale Saint-Luc (GMF Saint-Luc Saint-Eugène) — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF Centre médical Iberville — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF Haut-Richelieu — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF Médicentre Saint-Jean — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF Saint-Luc Saint-Eugène (Clinique médicale Saint-Eugène) — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF du Coteau — Saint-Jean-sur-Richelieu (GMF)</li>
+  <li>GMF-U de Saint-Jean-sur-Richelieu — Saint-Jean-sur-Richelieu (GMF-U)</li>
+  <li>GMF-U Charles-Le Moyne — Saint-Lambert (GMF-U)</li>
+  <li>Clinique médicale Les 2 Chênes — Saint-Mathieu-de-Beloeil (GMF)</li>
+  <li>GMF Jardin-du-Québec (Saint-Rémi) — Saint-Rémi (GMF)</li>
+  <li>GMF Carrefour Santé Le Saint-Laurent — Sainte-Catherine (GMF)</li>
+  <li>GMF Marguerite d'Youville — Sainte-Julie (GMF)</li>
+  <li>GMF Sainte-Julie — Sainte-Julie (GMF)</li>
+  <li>CLSC Gaston-Bélanger — Sorel-Tracy (CLSC)</li>
+  <li>Clinique des professionnels de la santé Sorel-Tracy — Sorel-Tracy (Clinique médicale)</li>
+  <li>GMF Richelieu — Sorel-Tracy (GMF)</li>
+  <li>Clinique La Relève (GMF Petit-Bois) — Varennes (GMF)</li>
+  <li>Clinique Médicale de la Marine — Varennes (Clinique médicale)</li>
+  <li>GMF des Seigneuries — Varennes (GMF)</li>
+</ul>
 
 <div id="app-loader" aria-hidden="true">
   <div class="ldr-grid"></div>
@@ -762,7 +880,7 @@ body.cmp-open { overflow:hidden; }
 
 <header>
   <div class="brand" id="brand-home" role="button" tabindex="0" title="Revenir à la carte">
-  <span class="logo-img" role="img" aria-label="Épingle PTEM 2027"></span>
+  <span class="logo-img" role="img" aria-label="Logo Trouve ta clinique"></span>
   <div class="logo-text">
     <span class="brand-org">RECRUTEMENT</span>
     <strong>Montérégie</strong>
@@ -784,7 +902,7 @@ body.cmp-open { overflow:hidden; }
         <circle cx="18" cy="5.4" r="2.7"/><circle cx="6" cy="12" r="2.7"/><circle cx="18" cy="18.6" r="2.7"/>
       </svg>
     </button>
-    <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (PTEM 2027 — Montérégie)" aria-label="Plus d'information">i</a>
+    <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (Montérégie, plan PTEM 2027)" aria-label="Plus d'information">i</a>
   </div>
 </header>
 
@@ -954,7 +1072,7 @@ map.on('locationerror', function () {
 (function () {
   // CartoDB fournit la même carte en clair et en sombre : on bascule la couche entière
   // plutôt que d'appliquer un filtre, qui délaverait les couleurs des épingles.
-  var ATTR = '© OpenStreetMap © CartoDB | © Olivier Laplante';
+  var ATTR = '© OpenStreetMap © CartoDB<span class="credit-perso"> | © Olivier Laplante</span>';
   function couche(sombre) {
     return L.tileLayer('https://{s}.basemaps.cartocdn.com/' + (sombre ? 'dark_all' : 'light_all')
       + '/{z}/{x}/{y}{r}.png', { attribution: ATTR, maxZoom: 19 });
@@ -1031,8 +1149,14 @@ function makeIcon(active, rank, region) {
     iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
 }
 
+// Ne touche qu'aux marqueurs actuellement affichés (matchesFilters) : en vue
+// favoris, currentOrder() ne contient que les favoris, donc calculer un rang
+// pour une fiche hors favoris donnerait 0 (indexOf === -1). Comme ces
+// marqueurs sont de toute façon masqués (updateMarkerVisibility), on ne les
+// touche pas plutôt que de leur écrire une icône fausse qui resterait figée
+// (bug du 18 août : jusqu'à « 0 » sur 58 épingles après un glisser-déposer).
 function refreshMarkerIcons() {
-  gmfs.forEach(g => markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), g.region)));
+  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), g.region)); });
 }
 
 function buildMarkers() {
@@ -1055,6 +1179,23 @@ function buildMarkers() {
 function fitToData() {
   const pts = gmfs.filter(g => g.lat && g.lng).map(g => [g.lat, g.lng]);
   if (pts.length) { try { map.fitBounds(pts, { padding:[40,40], maxZoom:11 }); } catch(e){} }
+}
+
+// Recadre la carte sur les fiches actuellement filtrées (recherche, région,
+// RLS, favoris) et annonce le nombre de résultats aux lecteurs d'écran.
+// Avant ce correctif, une recherche pouvait donner « 3 résultats dans la
+// liste, 0 dans le cadre visible » sans qu'aucun signal ne le dise (audit du
+// 18 août) : on restait zoomé là où on était avant de chercher.
+function fitToVisible() {
+  const visibles = gmfs.filter(g => matchesFilters(g.id));
+  const n = visibles.length;
+  if (n > 0) {
+    const pts = visibles.filter(g => g.lat && g.lng).map(g => [g.lat, g.lng]);
+    if (pts.length) { try { map.fitBounds(pts, { padding:[40,40], maxZoom: pts.length === 1 ? 15 : 13 }); } catch(e){} }
+    annoncerA11y(n + (n > 1 ? ' cliniques trouvées.' : ' clinique trouvée.'));
+  } else {
+    annoncerA11y('Aucune clinique ne correspond à cette recherche.');
+  }
 }
 
 // Clic sur la carte (fond) → fermer la fiche et revenir à la carte
@@ -1095,7 +1236,7 @@ function renderSidebar() {
         <div class="sb-name">${esc(nomMain)}</div>
         <div class="sb-city">📍 ${esc(g.ville)}</div>
       </div>
-      <button class="sb-star${favoris.has(id) ? ' fav' : ''}" title="Marquer comme favori" aria-label="Favori" draggable="false">${favoris.has(id) ? '★' : '☆'}</button>`;
+      <button class="sb-star${favoris.has(id) ? ' fav' : ''}" title="Marquer comme favori" aria-label="${esc((favoris.has(id) ? 'Retirer ' : 'Ajouter ') + nomMain + (favoris.has(id) ? ' des favoris' : ' aux favoris'))}" draggable="false">${favoris.has(id) ? '★' : '☆'}</button>`;
 
     const starEl = el.querySelector('.sb-star');
     if (starEl) {
@@ -1163,11 +1304,14 @@ const staffDefs = [
   {icon:'📋', key:'aac',                lbl:'Agentes administratives (AAC)'},
 ];
 
+// Couleurs assombries le 18 août (audit) pour atteindre 4,5:1 de contraste en
+// texte blanc — 4 des 6 pastilles étaient sous le seuil AA (PÉRI la pire, à
+// 2,14:1). Même teinte, même identité visuelle, juste plus foncées.
 const PRATIQUES = [
-  {code:'pec',  abbr:'PEC',  label:'Prise en charge',   color:'#0d9488'},
-  {code:'gap',  abbr:'GAP',  label:"Guichet d'accès à la première ligne", color:'#0284c7'},
-  {code:'sad',  abbr:'SAD',  label:'Soins à domicile',  color:'#ea580c'},
-  {code:'peri', abbr:'PÉRI', label:'Périnatalité',      color:'#38bdf8'},
+  {code:'pec',  abbr:'PEC',  label:'Prise en charge',   color:'#0b8177'},
+  {code:'gap',  abbr:'GAP',  label:"Guichet d'accès à la première ligne", color:'#027ab8'},
+  {code:'sad',  abbr:'SAD',  label:'Soins à domicile',  color:'#c84b0a'},
+  {code:'peri', abbr:'PÉRI', label:'Périnatalité',      color:'#067baf'},
   {code:'msk',  abbr:'MSK',  label:'Médecine sportive',  color:'#7c3aed'},
   {code:'chir', abbr:'CHIR', label:'Chirurgie mineure',  color:'#b91c1c'},
 ];
@@ -1243,19 +1387,36 @@ let sidebarEl = null, sbToggle = null, sbOverlay = null;
 
 function toggleFav(id) {
   if (favoris.has(id)) favoris.delete(id); else favoris.add(id);
-  SAFE.set(FAV_KEY, JSON.stringify([...favoris]));
+  const ecrit = SAFE.set(FAV_KEY, JSON.stringify([...favoris]));
+  if (!ecrit) {
+    // L'écriture locale a échoué (quota plein, navigation privée…) : on annule
+    // le changement en mémoire pour ne pas laisser croire que le favori est
+    // enregistré alors qu'il disparaîtra au prochain chargement.
+    if (favoris.has(id)) favoris.delete(id); else favoris.add(id);
+    if (typeof showToast === 'function') {
+      showToast("Impossible d'enregistrer ce favori sur cet appareil (espace de stockage plein ou navigation privée).");
+    }
+  }
   const f = favoris.has(id);
   const star = document.querySelector('#si-' + id + ' .sb-star');
   if (star) {
     star.textContent = f ? '★' : '☆';
     star.classList.toggle('fav', f);
+    const g0 = byId(id);
+    if (g0) {
+      const nomMain0 = (g0.nom.trim().match(/^(.*?)\s*(\(.*\))\s*$/) || [null, g0.nom.trim()])[1];
+      star.setAttribute('aria-label', (f ? 'Retirer ' : 'Ajouter ') + nomMain0 + (f ? ' des favoris' : ' aux favoris'));
+    }
   }
   const favBtn = document.getElementById('dp-fav-btn');
   if (favBtn && id === activeId) {
     favBtn.classList.toggle('fav', f);
     favBtn.textContent = f ? '★ Retirer des favoris' : '☆ Ajouter aux favoris';
   }
-  if (favOnly) { renderSidebar(); updateMarkerVisibility(); }
+  // Retirer/ajouter un favori en vue favoris décale le rang de tous les
+  // autres (favListOrder() se recalcule) : sans ce recalcul, la liste et
+  // les épingles restantes divergent d'un cran, même sans glisser-déposer.
+  if (favOnly) { renderSidebar(); updateMarkerVisibility(); refreshMarkerIcons(); }
 }
 
 function updateMarkerVisibility() {
@@ -1277,6 +1438,9 @@ function toggleFavView() {
   }
   renderSidebar();
   updateMarkerVisibility();
+  // Sans ce recalcul, une fiche démasquée en revenant à la vue complète
+  // pouvait garder le rang « 0 » que lui avait laissé un tri des favoris.
+  refreshMarkerIcons();
 }
 
 // ===== Export du comparatif des favoris (PDF via impression) =====
@@ -1342,7 +1506,7 @@ function buildComparatif(favs) {
         <td class="cmp-headmain">
           <div class="cmp-eyebrow">COMPARATIF</div>
           <div class="cmp-title">FAVORIS</div>
-          <div class="cmp-subtitle">PTEM 2027 · Recrutement médical — Montérégie</div>
+          <div class="cmp-subtitle">Trouve ta clinique · Recrutement médical — Montérégie</div>
           <div class="cmp-exp">Exporté le ${date}</div>
         </td>
         <td class="cmp-headqr">
@@ -1360,7 +1524,7 @@ function buildComparatif(favs) {
         <div class="cmp-qrurl">trouvetaclinique.ca</div>
       </td>
     </tr></table>
-    <div class="cmp-note">PTEM 2027 — Cliniques en recrutement · Montérégie</div>`;
+    <div class="cmp-note">Trouve ta clinique — Cliniques en recrutement · Montérégie</div>`;
   document.getElementById('cmp-print').innerHTML =
     '<div class="cmp-bar">' +
       '<span class="cmp-bar-t">Comparatif des favoris</span>' +
@@ -1384,7 +1548,7 @@ function exportComparatif() {
     const t = cp.querySelector('.cmp-bar-t');
     if (t) t.textContent = 'Comparatif \u2014 4 premiers favoris (sur ' + all.length + ')';
   }
-  if (cp) { cp.classList.add('cmp-show'); cp.scrollTop = 0; }
+  if (cp) { cp.classList.add('cmp-show'); cp.setAttribute('aria-hidden', 'false'); cp.scrollTop = 0; }
   document.body.classList.add('cmp-open');
 }
 function exportFiche() {
@@ -1413,7 +1577,7 @@ function exportFiche() {
         '<div class="fp-body">' + inner + '</div>' +
       '</div>' +
     '</div>';
-  cp.classList.add('cmp-show'); cp.scrollTop = 0;
+  cp.classList.add('cmp-show'); cp.setAttribute('aria-hidden', 'false'); cp.scrollTop = 0;
   document.body.classList.add('cmp-open');
 }
 function fichePrint() {
@@ -1428,7 +1592,7 @@ function cmpPrint() {
 }
 function cmpClose() {
   const cp = document.getElementById('cmp-print');
-  if (cp) { cp.classList.remove('cmp-show', 'cmp-dense'); cp.innerHTML = ''; }
+  if (cp) { cp.classList.remove('cmp-show', 'cmp-dense'); cp.setAttribute('aria-hidden', 'true'); cp.innerHTML = ''; }
   const os = document.getElementById('cmp-orient'); if (os) os.textContent = '';
   document.body.classList.remove('cmp-open', 'print-cmp', 'print-fiche');
 }
@@ -1446,6 +1610,7 @@ function applySearch() {
   if (_searchWrap) _searchWrap.classList.toggle('has-text', !!(_searchInput && _searchInput.value.length));
   renderSidebar();
   updateMarkerVisibility();
+  if (searchQuery) fitToVisible();
 }
 if (_searchInput) _searchInput.addEventListener('input', applySearch);
 if (_searchClear) _searchClear.addEventListener('click', () => {
@@ -1511,7 +1676,7 @@ function buildFilters() {
         if (regionFilter.has(key)) regionFilter.delete(key); else regionFilter.add(key);
         syncRegChips();
         populateRlsSelect();
-        renderSidebar(); updateMarkerVisibility();
+        renderSidebar(); updateMarkerVisibility(); fitToVisible();
       });
       wrap.appendChild(b);
     });
@@ -1522,7 +1687,7 @@ function buildFilters() {
     populateRlsSelect();
     sel.addEventListener('change', () => {
       rlsFilter = sel.value;
-      renderSidebar(); updateMarkerVisibility();
+      renderSidebar(); updateMarkerVisibility(); fitToVisible();
     });
   }
 }
@@ -1541,7 +1706,9 @@ function openDetail(id) {
   if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), byId(activeId).region));
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
   activeId = id;
-  markers[id].setIcon(makeIcon(true, rankOf(id), g.region));
+  // Garde : buildMarkers() peut avoir sauté ce marqueur (fiche invalide,
+  // filet de sécurité du 17 août) sans que la fiche elle-même soit exclue.
+  if (markers[id]) markers[id].setIcon(makeIcon(true, rankOf(id), g.region));
   updateLegendVisibility();
   document.getElementById('si-'+id)?.classList.add('active');
   map.flyTo([g.lat, g.lng], 14, { duration:1 });
@@ -1654,7 +1821,7 @@ function openDetail(id) {
   ]);
 
   const reportHref = 'mailto:olivier.laplante.med@ssss.gouv.qc.ca?subject='
-    + encodeURIComponent('Correction \u2013 ' + g.nom + ' (PTEM 2027 — Carte des cliniques en recrutement)')
+    + encodeURIComponent('Correction \u2013 ' + g.nom + ' (Trouve ta clinique — Carte des cliniques en recrutement)')
     + '&body=' + encodeURIComponent('Bonjour,\n\nJe souhaite signaler une correction concernant la clinique : ' + g.nom + '.\n\nCorrection propos\u00e9e :\n');
 
   document.getElementById('dp-body').innerHTML = `
@@ -1775,6 +1942,17 @@ window.addEventListener('popstate', function () {
   if (activeId !== null) closeDetailUI();
 });
 
+// Touche Échap : ferme la surcouche la plus « au-dessus » (comparatif/fiche
+// imprimable, puis fiche, puis tiroir mobile) — absente jusqu'ici de toute
+// l'application (audit du 18 août).
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape') return;
+  const cp = document.getElementById('cmp-print');
+  if (cp && cp.classList.contains('cmp-show')) { cmpClose(); return; }
+  if (activeId !== null) { closeDetail(); return; }
+  if (sidebarEl && sidebarEl.classList.contains('open')) { closeDrawer(); return; }
+});
+
 document.getElementById('dp-close').addEventListener('click', closeDetail);
 // Délégation : le bouton est reconstruit à chaque ouverture de fiche, on ne peut
 // plus le lier une seule fois au chargement.
@@ -1796,7 +1974,7 @@ function annoncerA11y(texte) {
 function partagerFiche() {
   const g = byId(activeId); if (!g) return;
   const url = location.origin + location.pathname + '?c=' + activeId;
-  const titre = g.nom + ' — PTEM 2027';
+  const titre = g.nom + ' — Trouve ta clinique';
   if (navigator.share) { navigator.share({ title: titre, url }).catch(() => {}); return; }
   const fini = () => annoncerA11y('Lien copié dans le presse-papiers');
   if (navigator.clipboard) navigator.clipboard.writeText(url).then(fini).catch(() => prompt('Lien vers cette fiche :', url));
@@ -1944,13 +2122,20 @@ function initData(data) {
   // console pour la retrouver facilement.
   gmfs = brut.filter(g => {
     if (g.visible === false) return false;
-    const latOk = typeof g.lat === 'number' && isFinite(g.lat) && g.lat >= -90 && g.lat <= 90;
-    const lngOk = typeof g.lng === 'number' && isFinite(g.lng) && g.lng >= -180 && g.lng <= 180;
+    // Nombre OU texte numérique ("45.45", accident plausible venant d'un
+    // tableur) sont acceptés ; null/undefined/booléen/objet sont rejetés
+    // comme avant (Number(null) vaudrait 0, un faux positif au golfe de
+    // Guinée — d'où la vérification de type en amont de la conversion).
+    const lat = (typeof g.lat === 'number' || typeof g.lat === 'string') ? Number(g.lat) : NaN;
+    const lng = (typeof g.lng === 'number' || typeof g.lng === 'string') ? Number(g.lng) : NaN;
+    const latOk = isFinite(lat) && lat >= -90 && lat <= 90;
+    const lngOk = isFinite(lng) && lng >= -180 && lng <= 180;
     const nomOk = typeof g.nom === 'string' && g.nom.trim().length > 0;
     if (!latOk || !lngOk || !nomOk) {
       console.warn('Fiche ignorée (données invalides — lat/lng/nom) :', g && g.id, g && g.nom, g);
       return false;
     }
+    g.lat = lat; g.lng = lng;
     return true;
   });
   dataMeta = Array.isArray(data) ? {} : (data || {});
@@ -1996,8 +2181,17 @@ function initData(data) {
   showBanner();
   fitToData();
   // Lien direct : ?c=6 ouvre la fiche de la clinique 6.
-  const cible = Number(new URLSearchParams(location.search).get('c'));
+  const cibleBrute = new URLSearchParams(location.search).get('c');
+  const cible = Number(cibleBrute);
   if (cible && byId(cible)) { openDetail(cible); return; }
+  // ?c= présent mais invalide (clinique retirée, lien copié il y a longtemps…) :
+  // avant, rien ne s'affichait et l'URL gardait le paramètre mort en silence.
+  if (cibleBrute) {
+    if (typeof showToast === 'function') {
+      showToast("Cette clinique n'est plus dans la liste (lien périmé ou retiré).");
+    }
+    try { history.replaceState(null, '', location.pathname + location.hash); } catch(e) {}
+  }
   // Aucune géolocalisation automatique au chargement : le navigateur ne doit jamais
   // demander l'autorisation de position tant que l'usager n'a pas cliqué lui-même sur
   // le bouton « Me localiser ». La carte s'ouvre donc sur l'ensemble de la Montérégie
@@ -2031,7 +2225,7 @@ fetch('./data.json', { cache: 'no-cache' })
   var btn = document.getElementById('btn-share');
   if (!btn) return;
   var URL_APP = 'https://trouvetaclinique.ca/';
-  var TITRE = 'PTEM 2027 - Montérégie';
+  var TITRE = 'Trouve ta clinique — Montérégie';
   var TEXTE = 'Carte interactive des cliniques en recrutement dans la Montérégie. '
             + 'Installable sur téléphone.';
 
@@ -2115,7 +2309,7 @@ fetch('./data.json', { cache: 'no-cache' })
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
-    console.log('PTEM 2027 — Montérégie — build 2026-08-18');
+    console.log('Trouve ta clinique — Montérégie — build 2026-08-18');
   });
 }
 </script>
@@ -2126,7 +2320,11 @@ if ('serviceWorker' in navigator) {
     if (done) return; done = true;
     var el = document.getElementById('app-loader');
     if (!el) return;
-    var wait = Math.max(0, 2750 - (Date.now() - start)); // minimum 2,75 secondes
+    // Ramené de 2,75 s à 600 ms le 18 août (audit) : l'attente artificielle était
+    // le principal facteur de lenteur perçue (app utilisable à 3,98 s mesuré,
+    // pour un chargement réel de 1,03 s). 600 ms laisse le temps à l'animation
+    // du logo de se voir sans imposer d'attente inutile.
+    var wait = Math.max(0, 600 - (Date.now() - start));
     setTimeout(function () {
       el.classList.add('hide');
       setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
