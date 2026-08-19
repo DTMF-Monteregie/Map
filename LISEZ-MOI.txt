@@ -76,7 +76,7 @@ FORCER UNE MISE À JOUR APRÈS UN CHANGEMENT DE CODE
 ---------------------------------------------------
 Seulement si on a modifié index.html, sw.js ou les icônes.
 Dans sw.js, augmenter le numéro de version du cache :
-   const CACHE = 'ptem-2027-v22';   ->   'ptem-2027-v23'
+   const CACHE = 'ptem-2027-v23';   ->   'ptem-2027-v24'
 puis re-téléverser sw.js. Sans cela, les personnes qui ont déjà ouvert
 l'application continueront de voir l'ancienne version.
 

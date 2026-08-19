@@ -2320,11 +2320,9 @@ if ('serviceWorker' in navigator) {
     if (done) return; done = true;
     var el = document.getElementById('app-loader');
     if (!el) return;
-    // Ramené de 2,75 s à 600 ms le 18 août (audit) : l'attente artificielle était
-    // le principal facteur de lenteur perçue (app utilisable à 3,98 s mesuré,
-    // pour un chargement réel de 1,03 s). 600 ms laisse le temps à l'animation
-    // du logo de se voir sans imposer d'attente inutile.
-    var wait = Math.max(0, 600 - (Date.now() - start));
+    // Remis à 2,75 s le 19 août à la demande explicite d'Olivier — l'essai à 600 ms
+    // (18 août, audit) a été annulé : il voulait garder le même temps qu'avant.
+    var wait = Math.max(0, 2750 - (Date.now() - start));
     setTimeout(function () {
       el.classList.add('hide');
       setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 700);
