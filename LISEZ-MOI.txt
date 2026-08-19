@@ -34,9 +34,88 @@ FICHIERS À NE JAMAIS SUPPRIMER (ajoutés le 18 août 2026)
                                nous appartient. Google le revérifie de temps en
                                temps ; s'il disparaît, on perd l'accès aux
                                statistiques de recherche.
-- robots.txt / sitemap.xml ... aident Google à trouver et indexer la page.
+- robots.txt / sitemap.xml ... aident Google à trouver et indexer les pages.
+                               (sitemap.xml est maintenant fabriqué automatiquement —
+                                voir plus bas ; ne pas le modifier à la main.)
+- .github/ ................... le robot qui régénère les pages automatiquement quand
+                               data.json change. Ne pas supprimer : sans lui, les pages
+                               de cliniques cesseraient de se mettre à jour toutes seules.
+- scripts/ ................... le générateur des pages du site et sa mémoire des
+                               adresses web (slugs.json). Ne sert qu'à fabriquer les
+                               pages ; ne s'affiche nulle part pour les visiteurs, mais
+                               NE PAS SUPPRIMER : sans slugs.json, les adresses des
+                               pages de cliniques déjà connues de Google changeraient.
 
-Tous les fichiers doivent rester À LA RACINE du dépôt (à côté de index.html).
+Tous les fichiers doivent rester À LA RACINE du dépôt (à côté de index.html), sauf
+ceux qui sont déjà dans un sous-dossier (ptem/, amp/, cliniques/, rls/, assets/, scripts/,
+.github/) :
+ceux-là gardent leur sous-dossier.
+
+PAGES DE CONTENU DU SITE (19 août 2026)
+-----------------------------------------------------
+En plus de l'application carte, le site contient des pages de texte, pour être trouvé sur Google
+par les recherches « PTEM », « AMP », « clinique qui recrute Montérégie », etc.
+
+ÉCRITES À LA MAIN (à modifier directement dans le fichier) :
+- ptem/index.html ............ https://trouvetaclinique.ca/ptem/
+- amp/index.html ............. https://trouvetaclinique.ca/amp/
+- assets/seo-pages.css ....... habillage visuel de TOUTES les pages de contenu (pas la carte)
+
+GÉNÉRÉES AUTOMATIQUEMENT — NE JAMAIS LES MODIFIER À LA MAIN :
+- cliniques/index.html ....... le répertoire de toutes les cliniques
+- cliniques/<nom>/index.html . une page par clinique (61 pages)
+- rls/<nom>/index.html ....... une page par RLS (6 pages)
+- sitemap.xml ................ la liste des pages pour Google
+
+Toute modification faite à la main dans ces fichiers-là sera EFFACÉE à la prochaine génération
+(qui est automatique — voir la section suivante). Pour les changer, on modifie data.json.
+
+
+LES PAGES SE REFONT TOUTES SEULES APRÈS UNE MODIFICATION DE data.json
+----------------------------------------------------------------------
+**data.json est la seule source de vérité.** Les 68 pages ci-dessus en sont fabriquées, et
+depuis le 19 août 2026 c'est GitHub qui s'en charge automatiquement :
+
+    on modifie data.json  →  GitHub régénère les pages  →  le site est à jour
+                             (une à deux minutes plus tard)
+
+Il n'y a donc RIEN à faire de plus après avoir modifié data.json. Pas de zip à demander, pas de
+fichier à redéposer. On modifie data.json comme d'habitude (voir la section suivante), on
+enregistre, et c'est fini.
+
+Pour voir où ça en est : onglet « Actions » du dépôt GitHub. Une pastille verte = les pages ont
+été refaites. Une pastille rouge = quelque chose a été refusé (voir plus bas).
+
+CE QUI SE PASSE EXACTEMENT
+Le robot (fichier .github/workflows/generer-pages-seo.yml) relance le générateur, VÉRIFIE que
+rien de privé n'a fui, puis publie. Si une vérification échoue, il ne publie RIEN et affiche une
+pastille rouge — le site reste dans son état précédent plutôt que de mettre en ligne quelque
+chose de fautif. Il refuse de publier si :
+  - une adresse courriel apparaît dans les pages produites ;
+  - une note personnelle ou un champ interne apparaît ;
+  - le générateur a modifié data.json (il ne doit jamais le faire) ;
+  - le sitemap produit n'est pas un fichier valide.
+
+À AUTORISER UNE SEULE FOIS (sinon le robot ne peut pas publier)
+  Settings → Actions → General → Workflow permissions
+  → cocher « Read and write permissions » → Save.
+Si les pages ne se mettent pas à jour et que l'onglet Actions montre une erreur de permission,
+c'est ça.
+
+POUR LE LANCER À LA MAIN (rarement utile)
+  Onglet « Actions » → « Régénérer les pages du site » → bouton « Run workflow ».
+
+Ce que le générateur protège tout seul, sans qu'on ait à y penser :
+- les notes personnelles et les courriels de recrutement ne sortent jamais sur le site public ;
+- une fiche « visible: false » n'apparaît nulle part ;
+- l'adresse web d'une clinique NE CHANGE PAS si on corrige son nom (elle est mémorisée dans
+  scripts/slugs.json — ne pas supprimer ce fichier, sinon les adresses déjà connues de Google
+  seraient perdues) ;
+- une fiche trop peu remplie (moins de 5 renseignements) reçoit sa page, mais on ne la propose
+  pas à Google tant qu'elle reste presque vide ; elle y entre toute seule une fois complétée.
+
+La commande, pour information, si on veut la lancer sur son propre ordinateur :
+   node scripts/generer-pages-seo.js
 
 
 METTRE À JOUR UNE CLINIQUE (sans toucher au code)
@@ -76,28 +155,46 @@ FORCER UNE MISE À JOUR APRÈS UN CHANGEMENT DE CODE
 ---------------------------------------------------
 Seulement si on a modifié index.html, sw.js ou les icônes.
 Dans sw.js, augmenter le numéro de version du cache :
-   const CACHE = 'ptem-2027-v23';   ->   'ptem-2027-v24'
+   const CACHE = 'ptem-2027-v28';   ->   'ptem-2027-v29'
 puis re-téléverser sw.js. Sans cela, les personnes qui ont déjà ouvert
 l'application continueront de voir l'ancienne version.
+(Depuis le 19 août 2026, il n'y a PLUS de liste de pages à tenir à jour dans
+sw.js : le fichier reconnaît tout seul que seule la page d'accueil appartient
+à l'application. On peut donc ajouter autant de pages de contenu qu'on veut
+sans jamais toucher à sw.js.)
 
 
-LISTE CACHÉE DES CLINIQUES POUR GOOGLE (ajoutée le 18 août 2026)
+LISTE CACHÉE DES CLINIQUES — SUPPRIMÉE LE 19 AOÛT 2026
 ------------------------------------------------------------------
-Dans index.html, juste après le titre caché (<h1 class="sr-only">...),
-se trouve une liste <ul class="sr-only" id="sr-liste-cliniques"> qui énumère
-le nom et la ville de chaque clinique publiée. Elle sert à ce que Google
-trouve les noms des cliniques directement dans le HTML, sans avoir à
-exécuter le JavaScript qui charge data.json.
+index.html contenait une liste invisible des 61 cliniques, ajoutée le 18 août
+pour que Google trouve leurs noms. Elle a été RETIRÉE : c'était une copie de
+data.json à refaire à la main à chaque changement, et elle finissait toujours
+par être périmée. Les vraies pages /cliniques/ la remplacent avantageusement,
+et elles se régénèrent toutes seules.
 
-IMPORTANT : cette liste NE SE MET PAS À JOUR TOUTE SEULE. C'est un simple
-texte, figé au moment où il a été écrit. Si des cliniques sont ajoutées,
-retirées, renommées ou changent de ville dans data.json, cette liste devient
-inexacte jusqu'à ce qu'on la refasse à la main (copier-coller les nouvelles
-paires nom/ville dans le même format que les lignes existantes).
-Ce n'est pas grave si on l'oublie une fois — la carte elle-même reste
-toujours exacte, seule l'indexation Google prend un peu de retard — mais il
-est préférable de la refaire de temps en temps, par exemple une fois par
-saison ou après un lot de changements important.
+Il reste dans index.html un titre <h1 class="sr-only"> et un paragraphe
+descriptif, eux aussi invisibles : ceux-là décrivent la page elle-même et
+servent aux lecteurs d'écran. Ils ne sont pas une copie de données et n'ont
+pas besoin d'être tenus à jour.
+
+
+PAGES /ptem/ ET /amp/ EN FORMAT QUESTIONS-RÉPONSES (19 août 2026)
+------------------------------------------------------------------
+Les deux pages sont structurées en 9 questions-réponses chacune (« En bref :
+... » suivi d'une explication plus détaillée) — ça reste du texte normal,
+visible, pas de balisage schema.org « FAQPage » associé (retiré le 19 août :
+pas jugé prioritaire pour le référencement, et ça évitait d'avoir à
+maintenir une copie du texte identique dans le JSON-LD à chaque
+modification). Rien à synchroniser ailleurs si le texte d'une réponse
+change — modifier seulement le paragraphe visible dans le fichier.
+
+
+ROBOTS.TXT — MOTEURS DE RÉPONSE IA (19 août 2026)
+------------------------------------------------------------------
+robots.txt autorise maintenant explicitement OAI-SearchBot (citations dans
+les réponses de ChatGPT) et GPTBot (entraînement des modèles OpenAI), en plus
+de la règle générale qui les autorisait déjà implicitement. Décision
+d'Olivier : les deux sont autorisés.
 
 
 INSTALLER L'APPLICATION

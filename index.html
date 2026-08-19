@@ -12,31 +12,37 @@
      l'infobulle du bouton « i », le alternateName du JSON-LD, et ce commentaire lui-même.
      NE PAS renommer : les clés localStorage « dtmf-mtg-* » (favoris et notes des utilisateurs),
      le « id » du manifeste, ni le nom de domaine trouvetaclinique.ca. -->
-<title>Trouve ta clinique — Cliniques en recrutement en Montérégie</title>
-<meta name="description" content="Où recrute-t-on en Montérégie ? Tous les points de service en recrutement sur les trois territoires — coordonnées, pratiques, horaires et personnes-ressources. Carte gratuite, installable et consultable hors ligne.">
+<!-- Titre/description/og : réalignés le 19 août sur les termes de recherche PTEM 2027 / AMP
+     (patch SEO validé par Olivier), au prix d'un léger retour en arrière assumé sur la
+     décision de renommage — voir claude/audit-18aout-4axes.md pour la discussion. -->
+<title>PTEM 2027 Montérégie — Cliniques en recrutement | Trouve ta clinique</title>
+<meta name="description" content="Explorez les cliniques en recrutement en Montérégie et comparez les milieux de pratique pour préparer votre PTEM en médecine familiale et vos AMP.">
 <meta name="google-site-verification" content="-8EkDVTZKsywxr7fJMd3kZIMVaUedo7eU9ThFutr8dY" />
 <link rel="canonical" href="https://trouvetaclinique.ca/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Trouve ta clinique">
 <meta property="og:locale" content="fr_CA">
 <meta property="og:url" content="https://trouvetaclinique.ca/">
-<meta property="og:title" content="Trouve ta clinique | Cliniques en recrutement — Montérégie">
-<meta property="og:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
+<meta property="og:title" content="PTEM 2027 Montérégie — Cliniques en recrutement | Trouve ta clinique">
+<meta property="og:description" content="Carte interactive des cliniques en recrutement en Montérégie pour préparer son choix de milieu de pratique en médecine familiale.">
 <meta property="og:image" content="https://trouvetaclinique.ca/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Trouve ta clinique | Cliniques en recrutement — Montérégie">
-<meta name="twitter:description" content="Les cliniques en recrutement en Montérégie — Est, Centre et Ouest. Coordonnées, pratiques et horaires, hors ligne.">
+<meta name="twitter:title" content="PTEM 2027 Montérégie — Cliniques en recrutement | Trouve ta clinique">
+<meta name="twitter:description" content="Carte interactive des cliniques en recrutement en Montérégie pour préparer son choix de milieu de pratique en médecine familiale.">
 <meta name="twitter:image" content="https://trouvetaclinique.ca/og-image.png?v=2">
 <!-- Données structurées : aident Google à comprendre de quoi parle le site et à quel
      territoire il s'applique. Volontairement minimal — on ne déclare aucun éditeur
-     institutionnel, le projet n'étant pas hébergé par un établissement. -->
+     institutionnel, le projet n'étant pas hébergé par un établissement.
+     @id ajouté le 19 août pour que /ptem/ et /amp/ puissent s'y référencer (isPartOf). -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://trouvetaclinique.ca/#website",
   "name": "Trouve ta clinique — Cliniques en recrutement en Montérégie",
   "alternateName": "PTEM 2027 — Cliniques en recrutement en Montérégie",
   "url": "https://trouvetaclinique.ca/",
@@ -784,77 +790,20 @@ body.cmp-open { overflow:hidden; }
   services, pratiques offertes, horaires et personne-ressource pour le recrutement.
 </p>
 
-<!-- Liste statique (.sr-only, même convention que le h1/p ci-dessus) des cliniques
-     publiées, pour que les moteurs de recherche puissent indexer les noms et les villes
-     directement dans le HTML — la carte elle-même charge ses données en JavaScript
-     (data.json) après le premier rendu, donc un moteur qui n'exécute pas ce JS ne verrait
-     autrement aucun nom de clinique. ATTENTION : cette liste est un instantané généré le
-     2026-08-18 à partir de data.json et NE SE MET PAS À JOUR AUTOMATIQUEMENT. Si des
-     cliniques sont ajoutées, retirées ou renommées dans data.json, régénérer ce bloc à la
-     main (voir LISEZ-MOI.txt). -->
-<ul class="sr-only" id="sr-liste-cliniques">
-  <li>GMF Coopérative de Solidarité de Santé de la MRC d'Acton — Acton Vale (GMF)</li>
-  <li>CLSC des Patriotes — Beloeil (CLSC)</li>
-  <li>GMF Carrefour de la Vallée — Beloeil (GMF)</li>
-  <li>GMF des Îles-Percées — Boucherville (GMF)</li>
-  <li>GMF-U des Montérégiennes — Boucherville (GMF-U)</li>
-  <li>GMF CLSC Samuel-De Champlain — Brossard (GMF)</li>
-  <li>GMF DIX30 — Brossard (GMF)</li>
-  <li>GMF Lapinière — Brossard (GMF)</li>
-  <li>CLSC Kateri — Candiac (CLSC)</li>
-  <li>GMF La Clinique Fort Chambly — Chambly (GMF)</li>
-  <li>CLSC Châteauguay — Châteauguay (CLSC)</li>
-  <li>Clinique médicale Le Soleil — Châteauguay (Clinique médicale)</li>
-  <li>GMF Roger Laberge — Châteauguay (GMF)</li>
-  <li>GMF-U Jardins-Roussillon — Châteauguay (GMF-U)</li>
-  <li>GMF-R Le Trait-d'Union — Delson (GMF-R)</li>
-  <li>GMF La Cigogne — Greenfield Park (GMF)</li>
-  <li>GMF-R Clinique Azur — Greenfield Park (GMF-R)</li>
-  <li>CH Kateri Memorial — Kahnawake (CH)</li>
-  <li>CAMU Longueuil (GMF Petit-Bois) — Longueuil (GMF)</li>
-  <li>CLSC Longueuil-Ouest — Longueuil (CLSC)</li>
-  <li>CLSC Simonne-Monet-Chartrand — Longueuil (CLSC)</li>
-  <li>GMF L'Autre Maison — Longueuil (GMF)</li>
-  <li>GMF-R Pierre-Boucher — Longueuil (GMF-R)</li>
-  <li>GMF Pro-Santé Marieville — Marieville (GMF)</li>
-  <li>GMF Mercier — Mercier (GMF)</li>
-  <li>Clinique médicale Napierville — Napierville (Clinique médicale)</li>
-  <li>GMF Jardin-du-Québec (Napierville) — Napierville (GMF)</li>
-  <li>GMF Richelieu – Saint-Césaire (CLSC du Richelieu) — Richelieu (GMF)</li>
-  <li>GMF 3090 (Saint-Basile) — Saint-Basile-le-Grand (GMF)</li>
-  <li>GMF Le Sentier — Saint-Bruno-de-Montarville (GMF)</li>
-  <li>GMF Saint-Constant (Monchamp) — Saint-Constant (GMF)</li>
-  <li>GMF Saint-Constant (de la gare) — Saint-Constant (GMF)</li>
-  <li>Clinique médicale du Collège (GMF Richelieu – Saint-Césaire) — Saint-Césaire (GMF)</li>
-  <li>Point de service Saint-Césaire (GMF Richelieu – Saint-Césaire) — Saint-Césaire (GMF)</li>
-  <li>GMF des Patriotes - Horizon — Saint-Denis-sur-Richelieu (GMF)</li>
-  <li>GMF Centre médical St-Hubert — Saint-Hubert (GMF)</li>
-  <li>GMF-U Saint-Hubert — Saint-Hubert (GMF-U)</li>
-  <li>CLSC des Maskoutains — Saint-Hyacinthe (CLSC)</li>
-  <li>GMF Laframboise — Saint-Hyacinthe (GMF)</li>
-  <li>GMF Maska — Saint-Hyacinthe (GMF)</li>
-  <li>GMF-U Richelieu-Yamaska — Saint-Hyacinthe (GMF-U)</li>
-  <li>Coopérative solidarité santé Saint-Isidore (GMF Roger Laberge) — Saint-Isidore (Coopérative)</li>
-  <li>Clinique médicale Saint-Luc (GMF Saint-Luc Saint-Eugène) — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF Centre médical Iberville — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF Haut-Richelieu — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF Médicentre Saint-Jean — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF Saint-Luc Saint-Eugène (Clinique médicale Saint-Eugène) — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF du Coteau — Saint-Jean-sur-Richelieu (GMF)</li>
-  <li>GMF-U de Saint-Jean-sur-Richelieu — Saint-Jean-sur-Richelieu (GMF-U)</li>
-  <li>GMF-U Charles-Le Moyne — Saint-Lambert (GMF-U)</li>
-  <li>Clinique médicale Les 2 Chênes — Saint-Mathieu-de-Beloeil (GMF)</li>
-  <li>GMF Jardin-du-Québec (Saint-Rémi) — Saint-Rémi (GMF)</li>
-  <li>GMF Carrefour Santé Le Saint-Laurent — Sainte-Catherine (GMF)</li>
-  <li>GMF Marguerite d'Youville — Sainte-Julie (GMF)</li>
-  <li>GMF Sainte-Julie — Sainte-Julie (GMF)</li>
-  <li>CLSC Gaston-Bélanger — Sorel-Tracy (CLSC)</li>
-  <li>Clinique des professionnels de la santé Sorel-Tracy — Sorel-Tracy (Clinique médicale)</li>
-  <li>GMF Richelieu — Sorel-Tracy (GMF)</li>
-  <li>Clinique La Relève (GMF Petit-Bois) — Varennes (GMF)</li>
-  <li>Clinique Médicale de la Marine — Varennes (Clinique médicale)</li>
-  <li>GMF des Seigneuries — Varennes (GMF)</li>
-</ul>
+<!-- La liste des 61 cliniques qui vivait ici (bloc .sr-only, 18 août) a été RETIRÉE le 19 août
+     2026 : elle dupliquait data.json à la main et devait être refaite à chaque changement. Le
+     même contenu, en mieux et sans copie manuelle, vit maintenant sur de vraies pages visibles
+     générées automatiquement depuis data.json — /cliniques/ et une page par clinique — liées
+     depuis le menu « 📄 PTEM / AMP » du panneau latéral (voir #docs-panel plus bas). Le <h1> et
+     le paragraphe descriptif ci-dessus restent : ils décrivent CETTE page et servent aussi aux
+     lecteurs d'écran. -->
+
+<!-- Les liens vers /ptem/, /amp/ et /cliniques/ vivent maintenant dans le panneau « 📄 PTEM / AMP »
+     du menu latéral (voir plus bas, #docs-panel) : visibles et cliquables dans l'interface, pas
+     seulement cachés pour les moteurs de recherche — remplace le bloc <nav class="sr-only"> qui
+     faisait la même chose de façon invisible (retiré le 19 août pour éviter de maintenir 2 copies
+     des mêmes liens). Le contenu de #docs-panel est présent dans le HTML dès le chargement même
+     replié, donc toujours lisible par Google sans exécuter le JS. -->
 
 <div id="app-loader" aria-hidden="true">
   <div class="ldr-grid"></div>
@@ -940,6 +889,18 @@ body.cmp-open { overflow:hidden; }
           <span class="docs-chev" aria-hidden="true">▾</span>
         </button>
         <div class="docs-panel" id="docs-panel" hidden>
+          <a class="doc-link" href="/ptem/">
+            <span class="doc-ic">📘</span>
+            <span class="doc-meta"><span class="doc-tt">Guide PTEM 2027</span><span class="doc-sub">Trouve ta clinique · questions-réponses</span></span>
+          </a>
+          <a class="doc-link" href="/amp/">
+            <span class="doc-ic">📘</span>
+            <span class="doc-meta"><span class="doc-tt">Guide des AMP</span><span class="doc-sub">Trouve ta clinique · questions-réponses</span></span>
+          </a>
+          <a class="doc-link" href="/cliniques/">
+            <span class="doc-ic">📋</span>
+            <span class="doc-meta"><span class="doc-tt">Liste complète des cliniques</span><span class="doc-sub">Trouve ta clinique · détail par clinique</span></span>
+          </a>
           <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
             <span class="doc-ic">⤓</span>
             <span class="doc-meta"><span class="doc-tt">Besoins en établissement — PTEM 2026</span><span class="doc-sub">PDF · Montérégie</span></span>

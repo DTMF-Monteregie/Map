@@ -1,6 +1,6 @@
 // Service worker — PTEM 2027 (cliniques en recrutement, Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'ptem-2027-v24';
+const CACHE = 'ptem-2027-v28';
 const CORE = [
   './',
   './index.html',
@@ -41,22 +41,37 @@ self.addEventListener('fetch', event => {
   if (req.method !== 'GET') return;
 
   const url = new URL(req.url);
-  const isHTML = req.mode === 'navigate'
-    || url.pathname.endsWith('/')
-    || url.pathname.endsWith('/index.html')
-    || url.pathname.endsWith('index.html');
 
-  // index.html / navigations + data.json : RÉSEAU D'ABORD (toujours la dernière version en ligne),
+  // QU'EST-CE QUI APPARTIENT À L'APPLICATION? Uniquement l'accueil : "/" et "/index.html",
+  // avec ou sans paramètre "?c=<id>" (lien direct vers une fiche, qui ouvre le même document).
+  // Tout le reste du domaine — /ptem/, /amp/, /cliniques/, /cliniques/<clinique>/, /rls/<rls>/,
+  // et toute page de contenu ajoutée plus tard — est un document HTML indépendant.
+  //
+  // Cette règle est VOLONTAIREMENT générique (19 août 2026, 3e passe) : elle remplace une liste
+  // de chemins écrits un par un, qu'il fallait penser à allonger à chaque nouvelle page — un
+  // oubli aurait suffi à réintroduire le bug ci-dessous. Il n'y a maintenant plus rien à
+  // maintenir ici quand on ajoute une page.
+  const estAccueil = url.origin === self.location.origin
+    && (url.pathname === '/' || url.pathname === '/index.html');
+
+  // Navigation vers une page statique autre que l'accueil : on ne l'intercepte pas du tout.
+  // Sans cela, la clé de cache normalisée ci-dessous écraserait le cache hors-ligne de
+  // l'accueil avec le contenu de cette page (ou l'inverse) — bug trouvé et corrigé le 19 août.
+  // Ces pages n'ont pas besoin du mode hors-ligne : contenu de référence, léger, toujours en
+  // ligne.
+  if (req.mode === 'navigate' && !estAccueil) return;
+
+  // Accueil + data.json : RÉSEAU D'ABORD (toujours la dernière version en ligne),
   // repli sur le cache si hors-ligne.
-  // Clé de cache normalisée pour les navigations : un lien partagé ouvre
+  // Clé de cache normalisée pour l'accueil : un lien partagé ouvre
   // toujours le même index.html, seule sa chaîne de requête (?c=6, ?c=12…)
   // change. Mettre en cache sous req.url gardait une copie complète de la
   // page PAR LIEN — mesuré : ~190 Ko × 61 fiches possibles ≈ 11 Mo de
   // doublons jamais purgés, avec un risque d'éviction globale sur iOS
   // (favoris et notes compris) une fois le budget de stockage dépassé
   // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
-  if (isHTML || req.url.includes('data.json')) {
-    const cacheKey = isHTML ? './index.html' : req;
+  if (estAccueil || url.pathname.endsWith('data.json')) {
+    const cacheKey = estAccueil ? './index.html' : req;
     event.respondWith(
       fetch(req).then(res => {
         if (res && res.ok) {

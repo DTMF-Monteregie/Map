@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
 
+# Moteurs de réponse IA (ajouté le 19 août 2026) — autorisés explicitement à la demande
+# d'Olivier : OAI-SearchBot (citations dans les réponses de ChatGPT) et GPTBot (entraînement
+# des modèles OpenAI). Les deux sont déjà couverts par la règle générale ci-dessus (User-agent: *)
+# mais sont listés ici de façon explicite pour lever toute ambiguïté.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
 Sitemap: https://trouvetaclinique.ca/sitemap.xml
