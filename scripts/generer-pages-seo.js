@@ -38,6 +38,17 @@ const path = require('path');
 const RACINE = path.join(__dirname, '..');
 const SITE = 'https://trouvetaclinique.ca';
 
+/*
+ * Cloudflare Web Analytics — injecté une seule fois par page, juste avant </body>, via le
+ * template commun page() ci-dessous. Ajouté le 20 août 2026 à la demande d'Olivier. Ce script
+ * est un <script type="module"> chargé de façon asynchrone par le navigateur : il ne bloque
+ * pas le rendu et ne touche à rien d'autre sur la page (pas de cookie, pas de tierce donnée
+ * personnelle — mesure de fréquentation agrégée seulement, cf. Cloudflare).
+ */
+const CLOUDFLARE_ANALYTICS = `<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"ceb6d077f71c46ffa566fe67de3eb336"}'></script>
+<!-- End Cloudflare Web Analytics -->`;
+
 /* ------------------------------------------------------------------------------------------- */
 /* RÉGLAGES                                                                                     */
 /* ------------------------------------------------------------------------------------------- */
@@ -278,6 +289,7 @@ ${nav}
 ${corps}
 </main>
 <footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les fiches regroupent les données du répertoire, des sources publiques et, lorsqu’elles sont disponibles, des informations communiquées par les milieux. Ces renseignements peuvent changer; pour toute décision officielle, validez l’information auprès du milieu, du DTMF ou des sources gouvernementales compétentes.</div></footer>
+${CLOUDFLARE_ANALYTICS}
 </body>
 </html>
 `;

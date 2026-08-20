@@ -135,13 +135,24 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
   letter-spacing: .15em; opacity: .88; margin-bottom: 3px; line-height: 1.1; }
 .logo-text strong { font-family: 'Raleway', sans-serif; font-weight: 700; display: block;
   font-size: clamp(18px, 5.6vw, 28px); line-height: 1.05; letter-spacing: .01em; }
-.header-right { margin-left: auto; display: flex; gap: 10px; align-items: center; padding-right: 12px; }
+.header-right { margin-left: auto; display: flex; gap: 10px; align-items: center; padding-right: 12px; position: relative; }
 .btn-info { display: inline-flex; align-items: center; justify-content: center;
-  width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0;
-  border: 1.5px solid rgba(255,255,255,.45); color: #fff; text-decoration: none;
+  width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0; padding: 0;
+  border: 1.5px solid rgba(255,255,255,.45); background: none; color: #fff; cursor: pointer;
   font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-weight: 700; font-size: 18px;
   line-height: 1; transition: background .15s, border-color .15s; }
-.btn-info:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+.btn-info:hover, .btn-info[aria-expanded="true"] { background: rgba(255,255,255,.14); border-color: #fff; }
+/* Menu minimal du bouton « i » : lien externe « à propos », séparateur, 2 PDF officiels. */
+.info-menu { position: absolute; top: calc(100% + 10px); right: 12px; width: 250px;
+  background: var(--carte); border: 1px solid var(--border); border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(15,34,64,.28); padding: 8px; z-index: 1100; }
+.info-menu[hidden] { display: none; }
+.info-menu-link { display: flex; align-items: center; gap: 9px; padding: 8px 9px; border-radius: 8px;
+  text-decoration: none; color: var(--texte); font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12.5px; }
+.info-menu-link:hover, .info-menu-link:focus-visible { background: var(--survol); }
+.info-menu-ic { width: 24px; height: 24px; border-radius: 6px; background: var(--navy); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
+.info-menu hr { border: none; border-top: 1px solid var(--filet); margin: 6px 4px; }
 .btn-install { background: var(--orange); color: #fff; font-family: 'Raleway', sans-serif;
   font-size: 13.5px; font-weight: 700; padding: 9px 16px; border-radius: 7px; border: none;
   cursor: pointer; letter-spacing: .03em; display: none; white-space: nowrap; }
@@ -588,7 +599,11 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .rls-filter { margin-top:8px; width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--navy);
   border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:var(--champ); color:var(--texte); cursor:pointer; }
 .rls-filter:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,128,215,.16); }
-/* PTEM / AMP — documents officiels repliables */
+/* PTEM / AMP — accès rapide aux 3 pages du site (icônes rondes), repliées
+   derrière un bouton « 📄 PTEM / AMP » comme avant (Olivier voulait garder ce
+   petit clic pour ne pas tout étaler d'emblée). Les 2 PDF externes (moins
+   consultés) restent dans le menu du bouton « i » de l'en-tête — voir
+   .info-menu plus bas (choix du 20 août, option « C3 » validée par Olivier). */
 .docs-wrap { margin-top:8px; }
 .docs-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
   padding:9px 12px; border:1.5px solid var(--navy); border-radius:9px; background:var(--navy); color:#fff;
@@ -596,17 +611,16 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .docs-toggle:hover { filter:brightness(1.12); }
 .docs-chev { transition:transform .2s; font-size:11px; }
 .docs-toggle[aria-expanded="true"] .docs-chev { transform:rotate(180deg); }
-.docs-panel { margin-top:8px; }
 .docs-panel[hidden] { display:none; }
-.doc-link { display:flex; align-items:center; gap:11px; padding:10px 11px; border:1.5px solid var(--border); border-radius:11px;
-  background:var(--champ); text-decoration:none; color:var(--texte); margin-bottom:8px; transition:all .15s; }
-.doc-link:last-child { margin-bottom:0; }
-.doc-link:hover { border-color:var(--blue); background:var(--survol); }
-.doc-meta { display:flex; flex-direction:column; min-width:0; }
-.doc-ic { width:36px; height:36px; flex-shrink:0; border-radius:9px; background:var(--navy); color:#fff;
-  display:flex; align-items:center; justify-content:center; font-size:17px; }
-.doc-tt { font-family:'Raleway',sans-serif; font-weight:700; font-size:12.5px; line-height:1.25; }
-.doc-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.docs-row { margin-top:10px; display:flex; gap:8px; justify-content:space-between; }
+.doc-circ-link { display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:0;
+  text-decoration:none; color:var(--texte2); }
+.doc-circ { width:44px; height:44px; border-radius:50%; background:var(--champ); border:1.5px solid var(--border);
+  color:var(--navy); display:flex; align-items:center; justify-content:center; font-size:18px;
+  transition:border-color .15s, background .15s; }
+.doc-circ-link:hover .doc-circ, .doc-circ-link:focus-visible .doc-circ { border-color:var(--blue); background:var(--survol); }
+.doc-circ-lbl { font-family:'Raleway',sans-serif; font-weight:700; font-size:9.5px; line-height:1.15;
+  text-align:center; max-width:76px; }
 /* stretch : les trois boutons adoptent la hauteur du plus grand, celui du favori. */
 .dp-actions { display:flex; align-items:stretch; gap:8px; padding: 12px 18px 0; }
 .dp-fav-btn { flex:1; padding:9px 12px; border-radius:8px; border:1.5px solid var(--border);
@@ -794,16 +808,18 @@ body.cmp-open { overflow:hidden; }
      2026 : elle dupliquait data.json à la main et devait être refaite à chaque changement. Le
      même contenu, en mieux et sans copie manuelle, vit maintenant sur de vraies pages visibles
      générées automatiquement depuis data.json — /cliniques/ et une page par clinique — liées
-     depuis le menu « 📄 PTEM / AMP » du panneau latéral (voir #docs-panel plus bas). Le <h1> et
-     le paragraphe descriptif ci-dessus restent : ils décrivent CETTE page et servent aussi aux
+     depuis la rangée d'icônes #docs-row du panneau latéral (voir plus bas). Le <h1> et le
+     paragraphe descriptif ci-dessus restent : ils décrivent CETTE page et servent aussi aux
      lecteurs d'écran. -->
 
-<!-- Les liens vers /ptem/, /amp/ et /cliniques/ vivent maintenant dans le panneau « 📄 PTEM / AMP »
-     du menu latéral (voir plus bas, #docs-panel) : visibles et cliquables dans l'interface, pas
-     seulement cachés pour les moteurs de recherche — remplace le bloc <nav class="sr-only"> qui
-     faisait la même chose de façon invisible (retiré le 19 août pour éviter de maintenir 2 copies
-     des mêmes liens). Le contenu de #docs-panel est présent dans le HTML dès le chargement même
-     replié, donc toujours lisible par Google sans exécuter le JS. -->
+<!-- Les liens vers /ptem/, /amp/ et /cliniques/ vivent dans la rangée d'icônes #docs-row du menu
+     latéral : visibles et cliquables dans l'interface, pas seulement cachés pour les moteurs de
+     recherche — remplace le bloc <nav class="sr-only"> qui faisait la même chose de façon
+     invisible (retiré le 19 août pour éviter de maintenir 2 copies des mêmes liens). Depuis le
+     20 août, les 2 PDF officiels externes (moins consultés) ont été déplacés dans le menu du
+     bouton « i » de l'en-tête (#info-menu) pour alléger #docs-row à 3 icônes rondes (option « C3 »
+     validée par Olivier). Le contenu de #docs-row et #info-menu est présent dans le HTML dès le
+     chargement, donc toujours lisible par Google sans exécuter le JS. -->
 
 <div id="app-loader" aria-hidden="true">
   <div class="ldr-grid"></div>
@@ -851,7 +867,20 @@ body.cmp-open { overflow:hidden; }
         <circle cx="18" cy="5.4" r="2.7"/><circle cx="6" cy="12" r="2.7"/><circle cx="18" cy="18.6" r="2.7"/>
       </svg>
     </button>
-    <a class="btn-info" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener" title="Plus d'information sur le recrutement (Montérégie, plan PTEM 2027)" aria-label="Plus d'information">i</a>
+    <button type="button" class="btn-info" id="btn-info" title="Informations et documents officiels"
+      aria-label="Informations et documents officiels" aria-haspopup="true" aria-expanded="false" aria-controls="info-menu">i</button>
+    <div class="info-menu" id="info-menu" role="menu" hidden>
+      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">
+        <span class="info-menu-ic">↗</span> À propos du recrutement
+      </a>
+      <hr>
+      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
+        <span class="info-menu-ic">⤓</span> Besoins en établissement 2026
+      </a>
+      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">
+        <span class="info-menu-ic">⤓</span> Activités médicales particulières (AMP)
+      </a>
+    </div>
   </div>
 </header>
 
@@ -889,26 +918,20 @@ body.cmp-open { overflow:hidden; }
           <span class="docs-chev" aria-hidden="true">▾</span>
         </button>
         <div class="docs-panel" id="docs-panel" hidden>
-          <a class="doc-link" href="/ptem/">
-            <span class="doc-ic">📘</span>
-            <span class="doc-meta"><span class="doc-tt">Guide PTEM 2027</span><span class="doc-sub">Trouve ta clinique · questions-réponses</span></span>
-          </a>
-          <a class="doc-link" href="/amp/">
-            <span class="doc-ic">📘</span>
-            <span class="doc-meta"><span class="doc-tt">Guide des AMP</span><span class="doc-sub">Trouve ta clinique · questions-réponses</span></span>
-          </a>
-          <a class="doc-link" href="/cliniques/">
-            <span class="doc-ic">📋</span>
-            <span class="doc-meta"><span class="doc-tt">Liste complète des cliniques</span><span class="doc-sub">Trouve ta clinique · détail par clinique</span></span>
-          </a>
-          <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
-            <span class="doc-ic">⤓</span>
-            <span class="doc-meta"><span class="doc-tt">Besoins en établissement — PTEM 2026</span><span class="doc-sub">PDF · Montérégie</span></span>
-          </a>
-          <a class="doc-link" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">
-            <span class="doc-ic">⤓</span>
-            <span class="doc-meta"><span class="doc-tt">Activités médicales particulières (AMP)</span><span class="doc-sub">PDF · mise à jour octobre 2025</span></span>
-          </a>
+          <div class="docs-row" id="docs-row">
+            <a class="doc-circ-link" href="/ptem/">
+              <span class="doc-circ" aria-hidden="true">📘</span>
+              <span class="doc-circ-lbl">Guide PTEM 2027</span>
+            </a>
+            <a class="doc-circ-link" href="/amp/">
+              <span class="doc-circ" aria-hidden="true">📗</span>
+              <span class="doc-circ-lbl">Guide des AMP</span>
+            </a>
+            <a class="doc-circ-link" href="/cliniques/">
+              <span class="doc-circ" aria-hidden="true">📋</span>
+              <span class="doc-circ-lbl">Liste des cliniques</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -1581,6 +1604,31 @@ if (_searchClear) _searchClear.addEventListener('click', () => {
 });
 const _cmpBtn = document.getElementById('cmp-export-btn');
 if (_cmpBtn) _cmpBtn.addEventListener('click', exportComparatif);
+(function(){
+  var bi = document.getElementById('btn-info');
+  var im = document.getElementById('info-menu');
+  if (!bi || !im) return;
+  function closeMenu() {
+    bi.setAttribute('aria-expanded', 'false');
+    im.setAttribute('hidden', '');
+  }
+  function openMenu() {
+    bi.setAttribute('aria-expanded', 'true');
+    im.removeAttribute('hidden');
+  }
+  bi.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = bi.getAttribute('aria-expanded') === 'true';
+    if (open) closeMenu(); else openMenu();
+  });
+  document.addEventListener('click', function(e){
+    if (im.hasAttribute('hidden')) return;
+    if (!im.contains(e.target) && e.target !== bi) closeMenu();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && bi.getAttribute('aria-expanded') === 'true') { closeMenu(); bi.focus(); }
+  });
+})();
 (function(){
   var dt = document.getElementById('docs-toggle');
   var dp = document.getElementById('docs-panel');
@@ -2318,4 +2366,7 @@ if ('serviceWorker' in navigator) {
   refleter();
 })();
 </script>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"ceb6d077f71c46ffa566fe67de3eb336"}'></script>
+<!-- End Cloudflare Web Analytics -->
 </body></html>
