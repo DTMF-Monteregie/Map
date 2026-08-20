@@ -628,7 +628,11 @@ ${sections}`;
 const PAGES_FIXES = [
   { loc: '/', lastmod: null, changefreq: 'weekly', priority: '1.0' },
   { loc: '/ptem/', lastmod: '2026-08-19', changefreq: 'weekly', priority: '0.9' },
-  { loc: '/amp/', lastmod: '2026-08-19', changefreq: 'monthly', priority: '0.9' }
+  { loc: '/amp/', lastmod: '2026-08-19', changefreq: 'monthly', priority: '0.9' },
+  // Copie dédiée de la carte, filtrée à la Montérégie-Est — voir MODE_EST dans index.html et
+  // scripts/publier-monteregie-est.js. Priorité un peu sous « / » : c'est une vue du même
+  // contenu, pas une page distincte à privilégier dans les résultats de recherche.
+  { loc: '/monteregie-est/', lastmod: '2026-08-20', changefreq: 'weekly', priority: '0.8' }
 ];
 
 function sitemap(entrees) {

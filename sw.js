@@ -1,6 +1,7 @@
 // Service worker — PTEM 2027 (cliniques en recrutement, Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
-const CACHE = 'ptem-2027-v28';
+// v29 (20 août 2026) : ajout de la page dédiée Montérégie-Est (voir MODE_EST dans index.html).
+const CACHE = 'ptem-2027-v29';
 const CORE = [
   './',
   './index.html',
@@ -18,11 +19,19 @@ const CORE = [
   './favicon-48.png'
 ];
 
+// Page dédiée Montérégie-Est : mise en cache À PART, et de façon tolérante. cache.addAll()
+// échoue EN BLOC si un seul de ses fichiers manque — si /monteregie-est/ n'était pas encore
+// déposé (ou venait à être retiré), l'installation entière échouerait et TOUT le mode hors
+// ligne disparaîtrait, y compris pour la carte principale. On l'ajoute donc séparément, et un
+// échec ici ne fait perdre que le hors-ligne de cette page-là.
+const CORE_EST = ['./monteregie-est/', './monteregie-est/index.html'];
+
 // Installation : mise en cache de la coquille + activation immédiate
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
-      .then(cache => cache.addAll(CORE))
+      .then(cache => cache.addAll(CORE)
+        .then(() => Promise.allSettled(CORE_EST.map(u => cache.add(u)))))
       .then(() => self.skipWaiting())
   );
 });
@@ -51,8 +60,16 @@ self.addEventListener('fetch', event => {
   // de chemins écrits un par un, qu'il fallait penser à allonger à chaque nouvelle page — un
   // oubli aurait suffi à réintroduire le bug ci-dessous. Il n'y a maintenant plus rien à
   // maintenir ici quand on ajoute une page.
-  const estAccueil = url.origin === self.location.origin
+  // Deux « accueils » depuis le 20 août 2026 : la carte complète et la carte dédiée à la
+  // Montérégie-Est. Ce sont DEUX documents distincts (contenu filtré différemment), donc deux
+  // clés de cache distinctes — voir cacheKey plus bas. Les confondre reviendrait à servir hors
+  // ligne la carte des trois territoires à quelqu'un qui a ouvert la page Montérégie-Est.
+  const memeOrigine = url.origin === self.location.origin;
+  const estAccueilPrincipal = memeOrigine
     && (url.pathname === '/' || url.pathname === '/index.html');
+  const estAccueilEst = memeOrigine
+    && (url.pathname === '/monteregie-est/' || url.pathname === '/monteregie-est/index.html');
+  const estAccueil = estAccueilPrincipal || estAccueilEst;
 
   // Navigation vers une page statique autre que l'accueil : on ne l'intercepte pas du tout.
   // Sans cela, la clé de cache normalisée ci-dessous écraserait le cache hors-ligne de
@@ -71,7 +88,9 @@ self.addEventListener('fetch', event => {
   // (favoris et notes compris) une fois le budget de stockage dépassé
   // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
   if (estAccueil || url.pathname.endsWith('data.json')) {
-    const cacheKey = estAccueil ? './index.html' : req;
+    const cacheKey = estAccueilEst ? './monteregie-est/index.html'
+                   : estAccueilPrincipal ? './index.html'
+                   : req;
     event.respondWith(
       fetch(req).then(res => {
         if (res && res.ok) {
@@ -79,7 +98,11 @@ self.addEventListener('fetch', event => {
           caches.open(CACHE).then(cache => cache.put(cacheKey, copy)).catch(() => {});
         }
         return res;
-      }).catch(() => caches.match(cacheKey).then(m => m || caches.match('./index.html')))
+      })
+      // Hors ligne : on ne se rabat QUE sur la copie de la page demandée. L'ancien repli
+      // « sinon, sers ./index.html » servirait la carte des trois territoires à la place de la
+      // page Montérégie-Est — un secours pire que la panne dans ce cas précis.
+      .catch(() => caches.match(cacheKey).then(m => m || (estAccueilEst ? undefined : caches.match('./index.html'))))
     );
     return;
   }
