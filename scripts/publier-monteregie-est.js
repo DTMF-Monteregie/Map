@@ -113,10 +113,32 @@ const REMPLACEMENTS = [
   ]
 ];
 
+/*
+ * Blocs à SUPPRIMER de la page Montérégie-Est : tout ce qui est encadré, dans index.html, par
+ *   <!-- hors-est:debut --> … <!-- hors-est:fin -->
+ * C'est-à-dire les liens qui mènent à du contenu couvrant les trois territoires (le répertoire
+ * /cliniques/, et le lien vers la carte Est lui-même qui n'a pas de sens sur la carte Est).
+ * La suppression est faite ICI, à la fabrication du fichier, et non en JavaScript au chargement :
+ * ces liens n'existent donc pas du tout dans le code source de la page dédiée — ni pour un
+ * visiteur, ni pour Google, ni si le JavaScript ne s'exécute pas. C'est la différence entre
+ * « masqué » et « absent », et c'est ce que demande l'engagement pris envers la Montérégie-Est.
+ */
+const BLOC_HORS_EST = /[ \t]*<!-- hors-est:debut[\s\S]*?hors-est:fin -->[ \t]*\r?\n?/g;
+
 function main() {
   const source = fs.readFileSync(path.join(RACINE, 'index.html'), 'utf8');
   let sortie = source;
   const manques = [];
+
+  const blocs = source.match(BLOC_HORS_EST);
+  if (!blocs) {
+    console.error('publier-monteregie-est.js : aucun bloc « hors-est » trouvé dans index.html. ' +
+      'Les marqueurs ont-ils été renommés ou supprimés ? Publication annulée plutôt que de ' +
+      'produire une page Montérégie-Est qui renverrait vers les autres territoires.');
+    process.exit(1);
+  }
+  console.log(`  ${blocs.length} bloc(s) « hors-est » retiré(s).`);
+  sortie = sortie.replace(BLOC_HORS_EST, '');
 
   for (const [ancien, nouveau] of REMPLACEMENTS) {
     if (!sortie.includes(ancien)) { manques.push(ancien.slice(0, 70)); continue; }

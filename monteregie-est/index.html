@@ -967,14 +967,6 @@ body.cmp-open { overflow:hidden; }
               <span class="doc-circ" aria-hidden="true">📗</span>
               <span class="doc-circ-lbl">Guide des AMP</span>
             </a>
-            <!-- Vue Montérégie-Est : ce lien-ci mène au répertoire des 61 cliniques des TROIS
-                 territoires; il est donc retiré de la page dédiée par le script ci-dessous
-                 (data-hors-est). Les deux guides PTEM/AMP, eux, restent : ils sont territoriaux-
-                 neutres et utiles à un résident de l'Est. -->
-            <a class="doc-circ-link" href="/cliniques/" data-hors-est>
-              <span class="doc-circ" aria-hidden="true">📋</span>
-              <span class="doc-circ-lbl">Liste des cliniques</span>
-            </a>
           </div>
         </div>
       </div>
@@ -1015,17 +1007,12 @@ body.cmp-open { overflow:hidden; }
 // adresse encodée dans le code QR du comparatif PDF. Un test « startsWith('/monteregie-est') »
 // aurait été faux sous /Map/ et aurait affiché les TROIS territoires sur la page dédiée.
 const MODE_EST = /(^|\/)monteregie-est(\/|$)/.test(location.pathname);
-if (MODE_EST) {
-  // Retire les liens marqués « data-hors-est » : ceux qui mènent à du contenu couvrant les
-  // trois territoires (répertoire /cliniques/). Pour les remettre un jour, il suffit d'enlever
-  // l'attribut data-hors-est sur le lien concerné, dans le HTML plus haut.
-  document.querySelectorAll('[data-hors-est]').forEach(el => el.remove());
-  // NOTE : le titre de l'en-tête (« Montérégie est ») et le « est » de l'écran de chargement
-  // ne sont PAS écrits ici. Ils sont inscrits directement dans le HTML de la page dédiée par
-  // scripts/publier-monteregie-est.js. Les écrire en JavaScript aurait fait clignoter le mot
-  // « Montérégie » seul pendant une fraction de seconde au chargement — l'écran de chargement
-  // s'affiche bien avant que ce script-ci ne soit exécuté.
-}
+// NOTE : rien n'est retiré ni réécrit ici au chargement. Tout ce qui distingue la page
+// Montérégie-Est — titre de l'en-tête, « est » manuscrit, absence des liens vers les autres
+// territoires — est inscrit directement dans le HTML de cette page par
+// scripts/publier-monteregie-est.js. Faire ce travail en JavaScript aurait eu deux défauts :
+// un clignotement au chargement, et surtout des liens vers les trois territoires toujours
+// présents dans le code source, donc suivis par Google et visibles si le JavaScript échoue.
 
 // ═══════════════════════════════════════════
 //  DONNÉES
@@ -1146,24 +1133,53 @@ map.on('locationerror', function () {
   return actuelle;
 })().addTo(map);
 
-// Légende des couleurs par RLS. Vue Montérégie-Est : une seule couleur existe sur cette page
-// (tout est Est), donc une légende à trois régions n'aurait plus de sens — on ne l'ajoute pas.
+const REGION_COLORS = { 'Est': '#e6007e', 'Centre': '#43a047', 'Ouest': '#0080d7' };
+function regionColor(r) { return REGION_COLORS[r] || '#64748b'; }
+/* Couleurs par RLS — utilisées UNIQUEMENT sur la carte Montérégie-Est. Sur la carte des trois
+   territoires, les épingles restent colorées par territoire (rose/vert/bleu) : y ajouter des
+   couleurs de RLS donnerait huit couleurs concurrentes sans rien clarifier. Sur la carte Est,
+   à l'inverse, tout serait rose : distinguer les trois RLS y redevient utile, comme sur la
+   première carte du CISSS Montérégie-Est.
+   Ce sont les couleurs EXACTES de la toute première carte (cisssme.github.io/Map/), relevées
+   par échantillonnage de sa légende. Elles vivaient déjà dans ce fichier sans plus servir à
+   rien : ce sont celles des trois épingles de l'écran de chargement (.pin-rose, .pin-green,
+   .pin-blue). L'écran de chargement était donc le dernier vestige de ce code de couleurs — il
+   redevient cohérent avec la carte qu'il annonce. */
+const RLS_COLORS_EST = {
+  'Pierre-Boucher':    '#ee2d62',
+  'Richelieu-Yamaska': '#15803d',
+  'Pierre-De Saurel':  '#2f4a7a'
+};
+/* Couleur d'un milieu : par RLS sur la carte Est, par territoire partout ailleurs. Tout passe
+   par cette seule fonction, de sorte que la carte des trois territoires garde exactement le
+   comportement qu'elle avait avant (regionColor, inchangé). */
+function couleurMilieu(g) {
+  if (MODE_EST && g && RLS_COLORS_EST[g.rls]) return RLS_COLORS_EST[g.rls];
+  return regionColor(g && g.region);
+}
+
+// Légende des couleurs. Carte des trois territoires : une ligne par territoire. Carte
+// Montérégie-Est : une ligne par RLS, puisque c'est ce que les épingles distinguent là-bas.
 let legendEl = null;
-if (!MODE_EST) {
+(function(){
   const legend = L.control({ position:'bottomleft' });
   legend.onAdd = function(){
     const d = L.DomUtil.create('div', 'rls-legend');
-    d.innerHTML =
-      '<div class="rls-legend-title">Région</div>' +
-      '<div class="rls-legend-row"><span class="rls-dot" style="background:#e6007e"></span>Montérégie-Est</div>' +
-      '<div class="rls-legend-row"><span class="rls-dot" style="background:#43a047"></span>Montérégie-Centre</div>' +
-      '<div class="rls-legend-row"><span class="rls-dot" style="background:#0080d7"></span>Montérégie-Ouest</div>';
+    const ligne = (couleur, texte) =>
+      `<div class="rls-legend-row"><span class="rls-dot" style="background:${couleur}"></span>${texte}</div>`;
+    d.innerHTML = MODE_EST
+      ? '<div class="rls-legend-title">Réseau local (RLS)</div>' +
+        Object.keys(RLS_COLORS_EST).map(r => ligne(RLS_COLORS_EST[r], r)).join('')
+      : '<div class="rls-legend-title">Région</div>' +
+        ligne('#e6007e', 'Montérégie-Est') +
+        ligne('#43a047', 'Montérégie-Centre') +
+        ligne('#0080d7', 'Montérégie-Ouest');
     L.DomEvent.disableClickPropagation(d);
     legendEl = d;
     return d;
   };
   legend.addTo(map);
-}
+})();
 
 let activeId = null;
 const markers = {};
@@ -1181,8 +1197,6 @@ const TYPE_COLORS = {
 };
 function typeColor(t) { return TYPE_COLORS[t] || '#0f2240'; }
 
-const REGION_COLORS = { 'Est': '#e6007e', 'Centre': '#43a047', 'Ouest': '#0080d7' };
-function regionColor(r) { return REGION_COLORS[r] || '#64748b'; }
 const REGION_LABELS = { 'Est': 'Montérégie-Est', 'Centre': 'Montérégie-Centre', 'Ouest': 'Montérégie-Ouest' };
 
 const TYPE_LABELS = {
@@ -1198,8 +1212,8 @@ const TYPE_LABELS = {
 };
 function typeLabel(t) { return TYPE_LABELS[t] || t || ''; }
 
-function makeIcon(active, rank, region) {
-  const c = regionColor(region);
+function makeIcon(active, rank, couleur) {
+  const c = couleur;
   const size = active ? 26 : 20;
   const border = active ? '#0f2240' : '#fff';
   const bw = active ? 3 : 2.5;
@@ -1215,7 +1229,7 @@ function makeIcon(active, rank, region) {
 // touche pas plutôt que de leur écrire une icône fausse qui resterait figée
 // (bug du 18 août : jusqu'à « 0 » sur 58 épingles après un glisser-déposer).
 function refreshMarkerIcons() {
-  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), g.region)); });
+  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), couleurMilieu(g))); });
 }
 
 function buildMarkers() {
@@ -1225,7 +1239,7 @@ function buildMarkers() {
   // et fitToData() ne s'exécutent jamais et la page reste vide.
   gmfs.forEach(g => {
     try {
-      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), g.region), draggable:false }).addTo(map);
+      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), couleurMilieu(g)), draggable:false }).addTo(map);
       m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}</small>`, { direction:'top', offset:[0,-20] });
       m.on('click', (e) => { L.DomEvent.stopPropagation(e); toggleDetail(g.id); });
       markers[g.id] = m;
@@ -1290,7 +1304,7 @@ function renderSidebar() {
     el.id = 'si-' + id;
     el.draggable = dragEnabled;
     el.innerHTML = `${dragEnabled ? '<span class="sb-grip" title="Glisser pour reclasser">⠿</span>' : ''}
-      <div class="sb-num" style="--rls:${regionColor(g.region)}">${i+1}</div>
+      <div class="sb-num" style="--rls:${couleurMilieu(g)}">${i+1}</div>
       <div class="sb-info">
         <div class="sb-name">${esc(nomMain)}</div>
         <div class="sb-city">📍 ${esc(g.ville)}</div>
@@ -1531,7 +1545,7 @@ function buildComparatif(favs) {
   const date = new Date().toLocaleDateString('fr-CA', { day:'numeric', month:'long', year:'numeric' });
   let head = '<th class="cmp-corner"><div class="cmp-cornerlogo"><i></i></div></th>';
   gs.forEach(g => {
-    head += `<th class="cmp-clhead" style="border-top:6px solid ${regionColor(g.region)}"><div class="cmp-clname">${esc(g.nom.trim())}</div><div class="cmp-cltype">${esc(typeLabel(g.type))}</div></th>`;
+    head += `<th class="cmp-clhead" style="border-top:6px solid ${couleurMilieu(g)}"><div class="cmp-clname">${esc(g.nom.trim())}</div><div class="cmp-cltype">${esc(typeLabel(g.type))}</div></th>`;
   });
   let shade = 0;
   const row = (label, render) => {
@@ -1791,12 +1805,12 @@ function openDetail(id) {
   if (activeId !== null && activeId !== id && notesDirty &&
       !confirm("Vos notes ne sont pas sauvegardées. Changer de clinique sans les sauvegarder ?")) return;
   notesDirty = false;
-  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), byId(activeId).region));
+  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId))));
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
   activeId = id;
   // Garde : buildMarkers() peut avoir sauté ce marqueur (fiche invalide,
   // filet de sécurité du 17 août) sans que la fiche elle-même soit exclue.
-  if (markers[id]) markers[id].setIcon(makeIcon(true, rankOf(id), g.region));
+  if (markers[id]) markers[id].setIcon(makeIcon(true, rankOf(id), couleurMilieu(g)));
   updateLegendVisibility();
   document.getElementById('si-'+id)?.classList.add('active');
   map.flyTo([g.lat, g.lng], 14, { duration:1 });
@@ -1814,7 +1828,7 @@ function openDetail(id) {
 
   document.getElementById('dp-tag').textContent = typeLabel(g.type);
   document.getElementById('dp-name-disp').textContent = g.nom.trim();
-  (function(){ var c = regionColor(g.region); var dh = document.querySelector('#detail .dp-head'); if (dh) { dh.style.background = ''; dh.style.borderBottomColor = c; } var tg = document.getElementById('dp-tag'); if (tg) tg.style.color = c; })();
+  (function(){ var c = couleurMilieu(g); var dh = document.querySelector('#detail .dp-head'); if (dh) { dh.style.background = ''; dh.style.borderBottomColor = c; } var tg = document.getElementById('dp-tag'); if (tg) tg.style.color = c; })();
 
   // Horaire (lecture seule)
   let horRows = '';
@@ -1999,7 +2013,7 @@ function saveNotes(flash = true) {
 function closeDetailUI() {
   // On retire le paramètre ?c= pour que l'URL reflète l'état réel de l'app.
   if (location.search) { try { history.replaceState({}, '', location.pathname); } catch (e) {} }
-  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), byId(activeId).region));
+  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId))));
   activeId = null;
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
   document.getElementById('detail').classList.remove('open');
