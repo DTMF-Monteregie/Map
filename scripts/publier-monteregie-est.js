@@ -88,7 +88,29 @@ const REMPLACEMENTS = [
   // Le service worker reste celui de la racine (un seul, partagé) : « ../sw.js » depuis
   // /monteregie-est/ pointe sur /sw.js, dont la portée par défaut est « / ». Les deux pages
   // partagent donc le même cache hors-ligne, sans doublon d'enregistrement.
-  ["navigator.serviceWorker.register('./sw.js')", "navigator.serviceWorker.register('../sw.js')"]
+  ["navigator.serviceWorker.register('./sw.js')", "navigator.serviceWorker.register('../sw.js')"],
+
+  /* ----------------------------------------------------------------------------------------
+   * Lettrage « est » manuscrit (Kaushan Script, dégradé blanc → rose). Il est écrit ICI, en
+   * dur dans le HTML de la page dédiée, plutôt qu'ajouté en JavaScript au chargement : l'écran
+   * de chargement s'affiche avant l'exécution des scripts, et le mot serait apparu en retard.
+   * Kaushan Script n'est demandée QUE sur cette page — la carte complète ne la télécharge pas.
+   * -------------------------------------------------------------------------------------- */
+  [
+    '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">',
+    '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&family=Kaushan+Script&display=swap" rel="stylesheet">'
+  ],
+  // Écran de chargement : « est » sous MONTÉRÉGIE.
+  [
+    '      <span class="ldr-region">MONTÉRÉGIE</span>',
+    '      <span class="ldr-region">MONTÉRÉGIE</span>\n      <span class="ldr-est">est</span>'
+  ],
+  // En-tête : remplace le « Montérégie » (que l\'ancienne version complétait en « Montérégie-Est »
+  // par JavaScript) par « Montérégie » suivi du « est » manuscrit.
+  [
+    '    <strong>Montérégie</strong>',
+    '    <strong>Montérégie<span class="brand-tiret">-</span><span class="brand-est">est</span></strong>'
+  ]
 ];
 
 function main() {
