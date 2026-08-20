@@ -277,7 +277,7 @@ ${nav}
   <nav class="breadcrumbs" aria-label="Fil d’Ariane">${filDAriane}</nav>
 ${corps}
 </main>
-<footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les renseignements sont fournis par les milieux et peuvent changer; pour toute décision officielle, validez l’information auprès du DTMF ou des sources gouvernementales compétentes.</div></footer>
+<footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les fiches regroupent les données du répertoire, des sources publiques et, lorsqu’elles sont disponibles, des informations communiquées par les milieux. Ces renseignements peuvent changer; pour toute décision officielle, validez l’information auprès du milieu, du DTMF ou des sources gouvernementales compétentes.</div></footer>
 </body>
 </html>
 `;
@@ -352,7 +352,7 @@ ${rangs}
     <ul class="equipe">
 ${items}
     </ul>
-    <p class="note">Composition transmise par le milieu, à valider au moment d’une visite.</p>
+    <p class="note">Composition indiquée dans le répertoire; à confirmer auprès du milieu, puisqu’elle peut évoluer.</p>
   </section>`;
     }
   }
@@ -427,7 +427,7 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
   const corps = `  <section class="hero">
     <p class="eyebrow">${esc(c.type)}${rempli(c.rls) ? ' · RLS ' + esc(c.rls) : ''}</p>
     <h1>${esc(c.nom)}</h1>
-    <p class="lead">${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie — recrute des médecins de famille. Cette page rassemble les renseignements publics utiles pour évaluer le milieu avant de le contacter.</p>
+    <p class="lead">${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie — recrute des médecins de famille. Cette page rassemble les renseignements actuellement publiés dans le répertoire pour aider à évaluer le milieu avant de le contacter.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="/?c=${c.id}">Voir sur la carte interactive</a>
@@ -441,6 +441,7 @@ ${contact}
 ${lignes.join('\n')}
     </dl>
   </section>${blocHoraire}${blocEquipe}${blocTexte}
+  <div class="data-note"><strong>Source et vérification :</strong> cette fiche reproduit les données actuellement consignées dans le répertoire (date de mise à jour affichée ci-dessus). Certains champs peuvent provenir de sources publiques ou d’informations communiquées par le milieu. Lorsqu’un site officiel est disponible, il est lié dans la section « Renseignements ». Les éléments susceptibles d’évoluer — DMÉ, équipe, frais, horaires et pratiques offertes — doivent être confirmés auprès du milieu; pour le PTEM et les AMP, les sources officielles et le DTMF priment.</div>
 
   <section id="suite">
     <h2>Pour aller plus loin</h2>
@@ -511,7 +512,7 @@ function pageRls(rls, liste, slugs, majDonnees) {
     </div>
   </section>
 
-  <div class="callout"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise le RLS dans lequel le médecin s’engage à exercer majoritairement. Le choix du territoire se fait donc en même temps que celui du milieu. <a href="/ptem/">Comprendre le PTEM →</a></div>
+  <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
   <section id="milieux">
     <h2>Les ${liste.length} milieu${liste.length > 1 ? 'x' : ''} qui recrutent</h2>
@@ -567,7 +568,7 @@ ${items}
     '@graph': [
       {
         '@type': 'CollectionPage', '@id': url + '#webpage', url,
-        name: 'Cliniques en recrutement en Montérégie — répertoire complet | Trouve ta clinique',
+        name: 'Cliniques en recrutement en Montérégie | Trouve ta clinique',
         inLanguage: 'fr-CA', dateModified: majDonnees,
         isPartOf: { '@id': SITE + '/#website' }
       },
@@ -584,7 +585,7 @@ ${items}
   const corps = `  <section class="hero">
     <p class="eyebrow">Médecine familiale · Montérégie</p>
     <h1>Cliniques en recrutement en Montérégie</h1>
-    <p class="lead">Les ${cliniques.length} cliniques et points de service qui recrutent des médecins de famille en Montérégie, regroupés par réseau local de services (RLS). ${villes.size} municipalités, ${parRls.size} RLS. Chaque milieu a sa page détaillée; la <a href="/">carte interactive</a> permet en plus de comparer et de filtrer.</p>
+    <p class="lead">Les <strong>${cliniques.length} milieux actuellement publiés</strong> dans le répertoire, regroupés dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="/">Explorer sur la carte interactive</a>
@@ -592,13 +593,15 @@ ${items}
     </div>
   </section>
 
-  <div class="callout"><strong>Comment choisir :</strong> le RLS détermine le territoire de votre avis de conformité PTEM; le type de milieu (GMF, GMF-U, CLSC…), le DMÉ, les frais de bureau et les pratiques offertes déterminent le quotidien. Les pages ci-dessous donnent ces renseignements milieu par milieu.</div>
+  <figure class="visual-banner compact directory-banner"><a href="/" aria-label="Ouvrir la carte interactive"><img src="../assets/carte-interactive-monteregie.png" alt="Bannière de la carte interactive Trouve ta clinique" width="1920" height="640" loading="lazy"></a><figcaption>Le répertoire HTML et la carte sont deux vues complémentaires des mêmes milieux publiés.</figcaption></figure>
+
+  <div class="callout official"><strong>Comment choisir :</strong> le RLS peut être déterminant pour l’avis de conformité PTEM, qui exige au moins 55 % des jours de facturation dans le territoire visé. Le type de milieu (GMF, GMF-U, CLSC…), le DMÉ, les frais de bureau et les pratiques offertes aident ensuite à comparer le quotidien de pratique. <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
 ${sections}`;
 
   return page({
-    titre: 'Cliniques en recrutement en Montérégie — répertoire complet | Trouve ta clinique',
-    description: `Répertoire des ${cliniques.length} cliniques en recrutement de médecins de famille en Montérégie, classées par RLS : GMF, GMF-U, CLSC et autres milieux, avec fiche détaillée pour chacun.`,
+    titre: 'Cliniques en recrutement en Montérégie | Trouve ta clinique',
+    description: `Répertoire des ${cliniques.length} milieux actuellement publiés comme étant en recrutement de médecins de famille en Montérégie, classés par ${parRls.size} RLS avec fiche détaillée.`,
     url, profondeur: 1, indexable: true, jsonLd, actif: 'cliniques',
     filDAriane: `<a href="/">Accueil</a> › Cliniques`,
     corps
@@ -645,6 +648,13 @@ function main() {
   const donnees = JSON.parse(fs.readFileSync(path.join(RACINE, 'data.json'), 'utf8'));
   const majDonnees = donnees.miseAJour || new Date().toISOString().slice(0, 10);
 
+  /* Date du dernier changement de gabarit (texte/CSS des pages, indépendant des données de clinique).
+     Une refonte du gabarit modifie aussi le contenu HTML, même si data.json n'a pas changé — le
+     sitemap doit donc en tenir compte pour son lastmod. Mettre à jour cette date à la main lors
+     d'une prochaine modification des templates ci-dessous. */
+  const majGabaritsSeo = '2026-08-20';
+  const majPagesSeo = [majDonnees, majGabaritsSeo].sort().at(-1);
+
   const toutes = donnees.cliniques || [];
   const cliniques = toutes.filter(c => c.visible !== false && rempli(c.nom));
   const ignorees = toutes.length - cliniques.length;
@@ -673,8 +683,8 @@ function main() {
     parRls.get(c.rls).push(c);
   }
 
-  const entrees = PAGES_FIXES.map(p => Object.assign({}, p, { lastmod: p.lastmod || majDonnees }));
-  entrees.push({ loc: '/cliniques/', lastmod: majDonnees, changefreq: 'weekly', priority: '0.8' });
+  const entrees = PAGES_FIXES.map(p => Object.assign({}, p, { lastmod: p.lastmod || majPagesSeo }));
+  entrees.push({ loc: '/cliniques/', lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
 
   /* Pages de cliniques */
   let indexables = 0, minces = [];
@@ -684,7 +694,7 @@ function main() {
     ecrire(path.join('cliniques', slug, 'index.html'), html);
     if (indexable) {
       indexables++;
-      entrees.push({ loc: `/cliniques/${slug}/`, lastmod: majDonnees, changefreq: 'monthly', priority: '0.7' });
+      entrees.push({ loc: `/cliniques/${slug}/`, lastmod: majPagesSeo, changefreq: 'monthly', priority: '0.7' });
     } else {
       minces.push({ nom: c.nom, substance });
     }
@@ -694,7 +704,7 @@ function main() {
   for (const [rls, liste] of parRls) {
     const slug = slugifier(rls);
     ecrire(path.join('rls', slug, 'index.html'), pageRls(rls, liste, slugs, majDonnees));
-    entrees.push({ loc: `/rls/${slug}/`, lastmod: majDonnees, changefreq: 'weekly', priority: '0.8' });
+    entrees.push({ loc: `/rls/${slug}/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
   }
 
   /* Répertoire + sitemap */
