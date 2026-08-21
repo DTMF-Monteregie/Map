@@ -1,7 +1,10 @@
 // Service worker — PTEM 2027 (cliniques en recrutement, Montérégie)
 // IMPORTANT : à chaque déploiement, incrémenter CACHE (v2 → v3 …) pour purger l'ancien cache.
 // v29 (20 août 2026) : ajout de la page dédiée Montérégie-Est (voir MODE_EST dans index.html).
-const CACHE = 'ptem-2027-v29';
+// v30 (21 août 2026) : la page Montérégie-Est devient installable comme app DISTINCTE (son
+// propre manifeste manifest-est.webmanifest + ses propres icônes à point rose) — un seul
+// service worker continue de tout servir, voir CORE_EST plus bas et estAccueilEst plus loin.
+const CACHE = 'ptem-2027-v30';
 const CORE = [
   './',
   './index.html',
@@ -24,7 +27,15 @@ const CORE = [
 // déposé (ou venait à être retiré), l'installation entière échouerait et TOUT le mode hors
 // ligne disparaîtrait, y compris pour la carte principale. On l'ajoute donc séparément, et un
 // échec ici ne fait perdre que le hors-ligne de cette page-là.
-const CORE_EST = ['./monteregie-est/', './monteregie-est/index.html'];
+// Depuis le 21 août : son manifeste et ses icônes d'installation (propres à cette page, point
+// rose) en font partie — sans quoi l'installation de l'app Montérégie-Est échouerait hors ligne.
+const CORE_EST = [
+  './monteregie-est/', './monteregie-est/index.html',
+  './manifest-est.webmanifest',
+  './icon-est-192.png', './icon-est-512.png',
+  './icon-est-192-maskable.png', './icon-est-512-maskable.png',
+  './apple-touch-icon-est.png'
+];
 
 // Installation : mise en cache de la coquille + activation immédiate
 self.addEventListener('install', event => {

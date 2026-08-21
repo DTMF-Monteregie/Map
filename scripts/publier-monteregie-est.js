@@ -83,11 +83,24 @@ const REMPLACEMENTS = [
   // casserait le site s'il était un jour servi depuis un sous-dossier (c'est le cas de
   // l'ancienne adresse dtmf-monteregie.github.io/Map/, encore encodée dans le code QR du
   // comparatif PDF).
-  ['<link rel="manifest" href="./manifest.json">', '<link rel="manifest" href="../manifest.json">'],
+  // Manifeste et icônes d'installation (PWA) : PAS un simple ajustement de chemin comme les
+  // autres lignes ci-dessous. Depuis le 21 août, la page Montérégie-Est utilise SON PROPRE
+  // manifeste (manifest-est.webmanifest, à la racine à côté de manifest.json) et SES PROPRES
+  // icônes (icon-est-*.png, apple-touch-icon-est.png — même logo, point rose), pour s'installer
+  // comme une application distincte de la carte des trois territoires. Voir
+  // manifest-est.webmanifest : id/start_url/scope = /monteregie-est/, ce qui garantit à Android/
+  // Chrome que c'est une app séparée de celle dont le manifeste dit /dtmf-monteregie/.
+  ['<link rel="manifest" href="./manifest.json">', '<link rel="manifest" href="../manifest-est.webmanifest">'],
+  ['<meta name="apple-mobile-web-app-title" content="PTEM 2027">', '<meta name="apple-mobile-web-app-title" content="Montérégie-Est">'],
   ['<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">', '<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">'],
   ['<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png">', '<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png">'],
   ['<link rel="icon" type="image/png" sizes="48x48" href="./favicon-48.png">', '<link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png">'],
-  ['<link rel="apple-touch-icon" href="./apple-touch-icon-180.png">', '<link rel="apple-touch-icon" href="../apple-touch-icon-180.png">'],
+  ['<link rel="apple-touch-icon" href="./apple-touch-icon-180.png">', '<link rel="apple-touch-icon" href="../apple-touch-icon-est.png">'],
+  // Bouton d'installation (#btn-install) : la logique JS qui le fait apparaître et qui déclenche
+  // l'invite native est déjà partagée et fonctionne sans changement — le navigateur installe
+  // TOUJOURS le manifeste lié à la page où on clique, donc jamais la carte générale par erreur
+  // depuis /monteregie-est/. Seul le texte change ici.
+  ["<button class=\"btn-install\" id=\"btn-install\">⤓ Installer l'application</button>", '<button class="btn-install" id="btn-install">⤓ Installer la carte Montérégie-Est</button>'],
   ['<link rel="stylesheet" href="./leaflet.css">', '<link rel="stylesheet" href="../leaflet.css">'],
   ['<script src="./leaflet.js"></script>', '<script src="../leaflet.js"></script>'],
   ["fetch('./data.json', { cache: 'no-cache' })", "fetch('../data.json', { cache: 'no-cache' })"],
