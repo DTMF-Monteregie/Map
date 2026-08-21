@@ -1,6 +1,6 @@
-# Régénération automatique des pages du site à partir de data.json
-# ==================================================================
-# Mis en place le 19 août 2026.
+# Régénération automatique des pages du site à partir de data.json / index.html
+# ================================================================================
+# Mis en place le 19 août 2026. Étendu le 20 août 2026 (copie Montérégie-Est).
 #
 # CE QUE ÇA FAIT
 #   Dès que data.json est modifié sur GitHub (par le crayon « modifier » du site web, par un
@@ -8,11 +8,15 @@
 #     1. régénère les 61 pages de cliniques, les 6 pages de RLS, le répertoire et sitemap.xml ;
 #     2. vérifie qu'aucune donnée privée n'a fui dans les pages produites ;
 #     3. publie le résultat directement sur le site.
-#   Il n'y a donc plus rien à faire à la main après avoir modifié data.json : le site se met à
-#   jour tout seul en une à deux minutes.
+#   Dès que index.html est modifié, ce robot recopie aussi ce même fichier vers
+#   monteregie-est/index.html (avec juste le <head> — titre/description/canonical/Open Graph —
+#   adapté à ce territoire ; voir scripts/publier-monteregie-est.js). C'est la même application,
+#   les mêmes données : /monteregie-est/ n'est jamais maintenue à la main.
+#   Il n'y a donc plus rien à faire à la main après avoir modifié data.json ou index.html : le
+#   site se met à jour tout seul en une à deux minutes.
 #
 # CE QUE ÇA NE TOUCHE JAMAIS
-#   data.json lui-même (le robot le lit, il ne l'écrit jamais), index.html, sw.js, ptem/, amp/.
+#   data.json lui-même (le robot le lit, il ne l'écrit jamais), sw.js, ptem/, amp/.
 #
 # SI ÇA NE DÉMARRE PAS
 #   Il faut autoriser une seule fois les robots à écrire dans le dépôt :
@@ -29,9 +33,15 @@ on:
     paths:
       # Volontairement PAS « scripts/** » : le robot peut avoir à écrire scripts/slugs.json quand
       # une nouvelle clinique apparaît, et ce commit-là relancerait le robot en boucle sans fin.
-      # On ne réagit donc qu'aux deux fichiers qui sont réellement des entrées.
+      # On ne réagit donc qu'aux fichiers qui sont réellement des entrées : les deux qui
+      # pilotaient déjà le robot, plus index.html (source de la copie Montérégie-Est).
       - 'data.json'
       - 'scripts/generer-pages-seo.js'
+      - 'index.html'
+      # /ptem/ et /amp/ sont écrites à la main, mais leurs copies étanches de l'univers
+      # Montérégie-Est en sont dérivées : si on les modifie, les copies doivent suivre.
+      - 'ptem/index.html'
+      - 'amp/index.html'
   workflow_dispatch:
 
 # Autorise ce robot à publier ses modifications dans le dépôt.
@@ -59,20 +69,35 @@ jobs:
       - name: Régénérer les pages et le sitemap
         run: node scripts/generer-pages-seo.js
 
+      - name: Recopier index.html vers monteregie-est/index.html
+        run: node scripts/publier-monteregie-est.js
+
       - name: Vérifier qu'aucune donnée privée n'a fui
         # Filet de sécurité : ce robot publie sans qu'un humain relise. Si le générateur venait à
         # être modifié de travers, on préfère que la publication ÉCHOUE plutôt qu'elle mette en
         # ligne des courriels nominatifs ou des notes personnelles.
         run: |
           set -e
+          # Les mêmes vérifications portent sur les copies étanches de l'univers Montérégie-Est.
+          # monteregie-est/index.html en est volontairement EXCLU : c'est la copie de
+          # l'application, qui contient l'adresse de contact d'Olivier — voulue, pas une fuite.
+          PAGES_GENEREES="cliniques/ rls/ monteregie-est/cliniques/ monteregie-est/rls/ monteregie-est/ptem/ monteregie-est/amp/"
           echo "Recherche d'adresses courriel dans les pages générées..."
-          if grep -rIEl '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' cliniques/ rls/ ; then
+          if grep -rIEl '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' $PAGES_GENEREES ; then
             echo "::error::Une adresse courriel apparaît dans les pages générées. Publication annulée."
             exit 1
           fi
           echo "Recherche de champs internes (notes, posApprox, alias)..."
-          if grep -rIl -e '"notes"' -e 'posApprox' -e '"alias"' cliniques/ rls/ ; then
+          if grep -rIl -e '"notes"' -e 'posApprox' -e '"alias"' $PAGES_GENEREES ; then
             echo "::error::Un champ interne apparaît dans les pages générées. Publication annulée."
+            exit 1
+          fi
+          echo "Vérification de l'étanchéité de l'univers Montérégie-Est..."
+          # Aucune page de /monteregie-est/ ne doit renvoyer vers la carte générale, vers le
+          # répertoire des trois territoires ou vers un RLS hors Est. C'est LA garantie demandée
+          # par le CISSS Montérégie-Est : on préfère ne rien publier plutôt que de la rompre.
+          if grep -rIoE 'href="/(cliniques|rls|ptem|amp)/' monteregie-est/cliniques/ monteregie-est/rls/ monteregie-est/ptem/ monteregie-est/amp/ ; then
+            echo "::error::Une page de /monteregie-est/ renvoie hors de l'univers Montérégie-Est. Publication annulée."
             exit 1
           fi
           echo "Vérification que data.json n'a pas été modifié..."
@@ -89,7 +114,7 @@ jobs:
           set -e
           git config user.name  "Robot Trouve ta clinique"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cliniques rls sitemap.xml scripts/slugs.json
+          git add cliniques rls sitemap.xml scripts/slugs.json monteregie-est
           if git diff --cached --quiet ; then
             echo "Les pages étaient déjà à jour : rien à publier."
             exit 0
