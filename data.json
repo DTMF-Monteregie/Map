@@ -7,6 +7,44 @@
     "lienCarte": "https://www.google.com/maps/dir/?api=1&destination=Parc%20Andr%C3%A9%20J.%20C%C3%B4t%C3%A9%2C%20116%20boulevard%20Marie-Victorin%2C%20Candiac%2C%20QC%20J5R%201C1",
     "dateFin": "2026-08-12"
   },
+  "hopitaux": [
+    {
+      "id": 1,
+      "nom": "Hôpital Pierre-Boucher",
+      "adresse": "1333, boulevard Jacques-Cartier Est",
+      "ville": "Longueuil",
+      "telephone": "450 468-8111",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-pierre-boucher",
+      "rls": "Pierre-Boucher",
+      "region": "Est",
+      "lat": 45.53781,
+      "lng": -73.45925
+    },
+    {
+      "id": 2,
+      "nom": "Hôpital Honoré-Mercier",
+      "adresse": "2750, boulevard Laframboise",
+      "ville": "Saint-Hyacinthe",
+      "telephone": "450 771-3333",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-honore-mercier",
+      "rls": "Richelieu-Yamaska",
+      "region": "Est",
+      "lat": 45.634864,
+      "lng": -72.959487
+    },
+    {
+      "id": 3,
+      "nom": "Hôtel-Dieu de Sorel",
+      "adresse": "400, avenue de l'Hôtel-Dieu",
+      "ville": "Sorel-Tracy",
+      "telephone": "450 746-6000",
+      "site": "https://www.santemonteregie.qc.ca/installations/hotel-dieu-de-sorel",
+      "rls": "Pierre-De Saurel",
+      "region": "Est",
+      "lat": 46.045277,
+      "lng": -73.095157
+    }
+  ],
   "cliniques": [
     {
       "id": 1,

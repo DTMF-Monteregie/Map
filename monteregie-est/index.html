@@ -359,6 +359,24 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .pin-num { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   transform: rotate(45deg); color: #fff; font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 11px; }
 
+/* MARQUEUR HÔPITAL — même construction de goutte que les épingles de clinique (carré à
+   bord arrondi tourné à -45°), mais plus grande, toujours rouge, avec un rond blanc et un
+   « H » rouge au centre — jamais confondue avec une épingle numérotée de clinique : un
+   hôpital n'est pas « en recrutement », c'est un repère de référence. Choix retenu par
+   Olivier le 21 août (référence visuelle fournie). Voir buildHopitalMarkers(). */
+.hosp-pin-circle { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  transform: rotate(45deg); }
+.hosp-pin-circle-inner { width: 58%; height: 58%; background: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; }
+.hosp-pin-circle-inner span { color: #c0182c; font-family: 'Raleway', sans-serif; font-weight: 800; }
+.hosp-popup { font-family: 'Raleway', sans-serif; min-width: 200px; }
+.hosp-popup h4 { margin: 0 0 6px; font-size: 14px; color: var(--navy); }
+.hosp-popup p { margin: 3px 0; font-size: 12.5px; color: var(--muted); line-height: 1.4; }
+.hosp-popup a { color: var(--blue); text-decoration: none; }
+.hosp-popup a:hover { text-decoration: underline; }
+.hosp-popup .hosp-tag { display: inline-block; margin-bottom: 6px; padding: 2px 8px; border-radius: 10px;
+  background: var(--navy); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .03em; }
+
 /* DETAIL PANEL (READ-ONLY VIEWER) */
 .detail { position: fixed; top: 76px; right: 0; bottom: 0; width: 480px;
   background: var(--white); border-left: 1px solid var(--border);
@@ -1018,6 +1036,12 @@ const MODE_EST = /(^|\/)monteregie-est(\/|$)/.test(location.pathname);
 //  DONNÉES
 // ═══════════════════════════════════════════
 let gmfs = [];
+// Hôpitaux : repères de référence affichés sur la carte, ENTIÈREMENT séparés des cliniques
+// (gmfs) — jamais dans order/favoris/recherche/comparatif/sidebar, jamais comptés comme
+// « en recrutement ». Ajoutés le 21 août 2026, pour l'instant seulement sur la carte
+// Montérégie-Est (voir filtre région dans initData et hospitalMarkers plus bas).
+let hopitaux = [];
+const hospitalMarkers = {};
 let order = [];
 let favOrder = [];
 let dataMeta = {};
@@ -1245,6 +1269,47 @@ function buildMarkers() {
       markers[g.id] = m;
     } catch (e) {
       console.warn('Marqueur ignoré (erreur de construction) :', g && g.id, g && g.nom, e);
+    }
+  });
+}
+
+// Icône « H » — même goutte que les épingles de clinique (makeIcon), mais délibérément
+// plus grande (34px contre 20-26px) et toujours rouge, avec un rond blanc et un « H »
+// rouge au centre. Pas de variante « active » : un hôpital ne s'ouvre jamais dans le
+// panneau de détail des cliniques, un simple popup Leaflet suffit (buildHopitalMarkers()).
+function makeHopitalIcon() {
+  const size = 34;
+  return L.divIcon({ className:'',
+    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:14px">H</span></div></div></div>`,
+    iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
+}
+
+function hopitalPopupHtml(h) {
+  const tel = String(h.telephone || '').replace(/[^\d+]/g, '');
+  return `<div class="hosp-popup">
+    <span class="hosp-tag">Hôpital</span>
+    <h4>${esc(h.nom)}</h4>
+    <p>${esc(h.adresse)}${h.ville ? ', ' + esc(h.ville) : ''}</p>
+    ${h.telephone ? `<p><a href="tel:${esc(tel)}">${esc(h.telephone)}</a></p>` : ''}
+    ${h.site ? `<p><a href="${esc(h.site)}" target="_blank" rel="noopener">Fiche de l'établissement ↗</a></p>` : ''}
+  </div>`;
+}
+
+// Marqueurs des hôpitaux : ENTIÈREMENT indépendants de buildMarkers()/markers{} — pas de
+// rang, pas de fiche de détail pleine page, pas d'entrée dans order/recherche/comparatif.
+// Un simple popup Leaflet au clic (fiche descriptive légère, comme demandé).
+function buildHopitalMarkers() {
+  hopitaux.forEach(h => {
+    try {
+      // zIndexOffset élevé : un hôpital peut être géographiquement tout près d'une clinique
+      // (ex. un GMF-R logé au même site) — sans ce décalage, l'épingle numérotée de la
+      // clinique passe par-dessus le marqueur « H » à l'écran et le rend impossible à cliquer.
+      const m = L.marker([h.lat, h.lng], { icon: makeHopitalIcon(), draggable:false, zIndexOffset: 1000 }).addTo(map);
+      m.bindTooltip(`<b>${esc(h.nom)}</b>`, { direction:'top', offset:[0,-14] });
+      m.bindPopup(hopitalPopupHtml(h));
+      hospitalMarkers[h.id] = m;
+    } catch (e) {
+      console.warn('Marqueur d’hôpital ignoré (erreur de construction) :', h && h.id, h && h.nom, e);
     }
   });
 }
@@ -2297,6 +2362,22 @@ function initData(data) {
   if (MODE_EST) gmfs = gmfs.filter(g => g.region === 'Est');
   dataMeta = Array.isArray(data) ? {} : (data || {});
 
+  // Hôpitaux : mêmes garde-fous de validité que les cliniques (lat/lng/nom), mais aucun
+  // autre traitement — pas de tri, pas de favoris, pas de recherche. Pour l'instant, comme
+  // pour les cliniques, on ne garde que la Montérégie-Est (seule version où des hôpitaux ont
+  // été ajoutés à ce jour) ; hors de MODE_EST, hopitaux reste vide et rien ne s'affiche —
+  // ajouter d'autres territoires plus tard n'exigera qu'un ajout de données, pas de code.
+  const hopBrut = Array.isArray(data) ? [] : (data.hopitaux || []);
+  hopitaux = MODE_EST ? hopBrut.filter(h => {
+    if (h.region !== 'Est') return false;
+    const lat = (typeof h.lat === 'number' || typeof h.lat === 'string') ? Number(h.lat) : NaN;
+    const lng = (typeof h.lng === 'number' || typeof h.lng === 'string') ? Number(h.lng) : NaN;
+    const ok = isFinite(lat) && isFinite(lng) && typeof h.nom === 'string' && h.nom.trim();
+    if (!ok) { console.warn('Hôpital ignoré (données invalides) :', h && h.id, h && h.nom, h); return false; }
+    h.lat = lat; h.lng = lng;
+    return true;
+  }) : [];
+
   // Notes personnelles sauvegardées
   gmfs.forEach(g => { const n = SAFE.get(NOTE_KEY(g.id)); if (n !== null) g.notes = n; });
 
@@ -2347,6 +2428,7 @@ function initData(data) {
   }
 
   buildMarkers();
+  buildHopitalMarkers();
   buildFilters();
   renderSidebar();
   showUpdateDate();
