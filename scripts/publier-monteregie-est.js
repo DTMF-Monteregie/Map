@@ -36,39 +36,45 @@ const REMPLACEMENTS = [
   // Menu « i » : le premier lien pointe, sur la page dédiée, vers la page de recrutement propre
   // au territoire Est plutôt que vers la page générale Montérégie (demande du 21 août).
   [
-    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>',
-    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/est/recrutement-medical-monteregie-est" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>'
+    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">\n        <span class="info-menu-ic">i</span> À propos du recrutement\n      </a>',
+    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/est/recrutement-medical-monteregie-est" target="_blank" rel="noopener">\n        <span class="info-menu-ic">i</span> À propos du recrutement\n      </a>'
   ],
-  // Maillage interne SEO discret, demandé par Olivier le 21 août (retour de Nancy Langlois) :
-  // remettre un accès aux guides PTEM/AMP et aux pages RLS de la Montérégie-Est — retirés en
-  // bloc le 21 août plus tôt avec tout #docs-wrap (voir hors-est ci-dessus) — mais SEULEMENT
-  // dans le menu discret du bouton « i », jamais comme bloc visible dans l'interface principale.
-  // Volontairement absent : tout lien vers /cliniques/ (répertoire des TROIS territoires) ou
-  // vers la carte générale — Mme Langlois ne veut pas que cette page serve de porte d'entrée
-  // vers les autres territoires. À la place : les 3 pages RLS de la Montérégie-Est, qui ne
-  // listent jamais que leurs propres cliniques. Chemins en « ../ » comme le reste de ce
-  // fichier (la page vit un dossier plus bas), pas en absolu.
+  // MENU « i » DE LA PAGE MONTÉRÉGIE-EST — contenu et ordre fixés par Olivier le 21 août :
+  //   1. À propos du recrutement (traité par la règle ci-dessus : URL Est + pictogramme « i »)
+  //   2. les 3 pages RLS de la Montérégie-Est
+  //   3. les guides PTEM et AMP
+  // Les 2 anciens liens PDF externes (« Besoins en établissement 2026 » et « Activités médicales
+  // particulières ») sont RETIRÉS de cette page : ce sont des documents 2025-2026 hors sujet ici.
+  //
+  // Toutes les destinations vivent DANS /monteregie-est/ (chemins relatifs sans « ../ », donc à
+  // l'intérieur du dossier) : ce sont les copies isolées générées par generer-pages-seo.js, qui
+  // ne contiennent aucun lien vers la carte générale, vers /cliniques/ ni vers un autre
+  // territoire. Rien dans ce menu ne fait sortir l'usager de l'univers Montérégie-Est.
   [
-    '      <hr>\n      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">',
     '      <hr>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="../ptem/">\n' +
-    '        <span class="info-menu-ic">📘</span> Guide PTEM 2027\n' +
+    '      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">\n' +
+    '        <span class="info-menu-ic">⤓</span> Besoins en établissement 2026\n' +
     '      </a>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="../amp/">\n' +
-    '        <span class="info-menu-ic">📗</span> Guide des AMP\n' +
-    '      </a>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">\n' +
+    '        <span class="info-menu-ic">⤓</span> Activités médicales particulières (AMP)\n' +
+    '      </a>',
     '      <hr>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="../rls/pierre-boucher/">\n' +
+    '      <a class="info-menu-link" role="menuitem" href="rls/pierre-boucher/">\n' +
     '        <span class="info-menu-ic" style="background:#ee2d62">📋</span> Cliniques — RLS Pierre-Boucher\n' +
     '      </a>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="../rls/richelieu-yamaska/">\n' +
+    '      <a class="info-menu-link" role="menuitem" href="rls/richelieu-yamaska/">\n' +
     '        <span class="info-menu-ic" style="background:#15803d">📋</span> Cliniques — RLS Richelieu-Yamaska\n' +
     '      </a>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="../rls/pierre-de-saurel/">\n' +
+    '      <a class="info-menu-link" role="menuitem" href="rls/pierre-de-saurel/">\n' +
     '        <span class="info-menu-ic" style="background:#2f4a7a">📋</span> Cliniques — RLS Pierre-De Saurel\n' +
     '      </a>\n' +
     '      <hr>\n' +
-    '      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">'
+    '      <a class="info-menu-link" role="menuitem" href="ptem/">\n' +
+    '        <span class="info-menu-ic">📘</span> Guide PTEM 2027\n' +
+    '      </a>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="amp/">\n' +
+    '        <span class="info-menu-ic">📗</span> Guide des AMP\n' +
+    '      </a>'
   ],
   [
     '<link rel="canonical" href="https://trouvetaclinique.ca/">',
