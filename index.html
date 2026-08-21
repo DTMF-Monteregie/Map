@@ -1310,14 +1310,15 @@ function buildMarkers() {
   });
 }
 
-// Icône « H » — même goutte que les épingles de clinique (makeIcon), mais délibérément
-// plus grande (34px contre 20-26px) et toujours rouge, avec un rond blanc et un « H »
-// rouge au centre. Pas de variante « active » : un hôpital ne s'ouvre jamais dans le
-// panneau de détail des cliniques, un simple popup Leaflet suffit (buildHopitalMarkers()).
+// Icône « H » — même goutte que les épingles de clinique (makeIcon), à peine plus grande
+// (28px contre 20-26px, ajusté le 21 août à la demande d'Olivier — d'abord 34px, jugé trop
+// gros) et toujours rouge, avec un rond blanc et un « H » rouge au centre. Pas de variante
+// « active » : un hôpital ne s'ouvre jamais dans le panneau de détail des cliniques, un
+// simple popup Leaflet suffit (buildHopitalMarkers()).
 function makeHopitalIcon() {
-  const size = 34;
+  const size = 28;
   return L.divIcon({ className:'',
-    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 3px 10px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:14px">H</span></div></div></div>`,
+    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:11px">H</span></div></div></div>`,
     iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
 }
 
