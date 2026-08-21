@@ -39,6 +39,37 @@ const REMPLACEMENTS = [
     '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>',
     '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/est/recrutement-medical-monteregie-est" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>'
   ],
+  // Maillage interne SEO discret, demandé par Olivier le 21 août (retour de Nancy Langlois) :
+  // remettre un accès aux guides PTEM/AMP et aux pages RLS de la Montérégie-Est — retirés en
+  // bloc le 21 août plus tôt avec tout #docs-wrap (voir hors-est ci-dessus) — mais SEULEMENT
+  // dans le menu discret du bouton « i », jamais comme bloc visible dans l'interface principale.
+  // Volontairement absent : tout lien vers /cliniques/ (répertoire des TROIS territoires) ou
+  // vers la carte générale — Mme Langlois ne veut pas que cette page serve de porte d'entrée
+  // vers les autres territoires. À la place : les 3 pages RLS de la Montérégie-Est, qui ne
+  // listent jamais que leurs propres cliniques. Chemins en « ../ » comme le reste de ce
+  // fichier (la page vit un dossier plus bas), pas en absolu.
+  [
+    '      <hr>\n      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">',
+    '      <hr>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="../ptem/">\n' +
+    '        <span class="info-menu-ic">📘</span> Guide PTEM 2027\n' +
+    '      </a>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="../amp/">\n' +
+    '        <span class="info-menu-ic">📗</span> Guide des AMP\n' +
+    '      </a>\n' +
+    '      <hr>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="../rls/pierre-boucher/">\n' +
+    '        <span class="info-menu-ic" style="background:#ee2d62">📋</span> Cliniques — RLS Pierre-Boucher\n' +
+    '      </a>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="../rls/richelieu-yamaska/">\n' +
+    '        <span class="info-menu-ic" style="background:#15803d">📋</span> Cliniques — RLS Richelieu-Yamaska\n' +
+    '      </a>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="../rls/pierre-de-saurel/">\n' +
+    '        <span class="info-menu-ic" style="background:#2f4a7a">📋</span> Cliniques — RLS Pierre-De Saurel\n' +
+    '      </a>\n' +
+    '      <hr>\n' +
+    '      <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">'
+  ],
   [
     '<link rel="canonical" href="https://trouvetaclinique.ca/">',
     '<link rel="canonical" href="https://trouvetaclinique.ca/monteregie-est/">'

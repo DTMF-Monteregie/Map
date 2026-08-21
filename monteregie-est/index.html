@@ -949,6 +949,23 @@ body.cmp-open { overflow:hidden; }
         <span class="info-menu-ic">↗</span> À propos du recrutement
       </a>
       <hr>
+      <a class="info-menu-link" role="menuitem" href="../ptem/">
+        <span class="info-menu-ic">📘</span> Guide PTEM 2027
+      </a>
+      <a class="info-menu-link" role="menuitem" href="../amp/">
+        <span class="info-menu-ic">📗</span> Guide des AMP
+      </a>
+      <hr>
+      <a class="info-menu-link" role="menuitem" href="../rls/pierre-boucher/">
+        <span class="info-menu-ic" style="background:#ee2d62">📋</span> Cliniques — RLS Pierre-Boucher
+      </a>
+      <a class="info-menu-link" role="menuitem" href="../rls/richelieu-yamaska/">
+        <span class="info-menu-ic" style="background:#15803d">📋</span> Cliniques — RLS Richelieu-Yamaska
+      </a>
+      <a class="info-menu-link" role="menuitem" href="../rls/pierre-de-saurel/">
+        <span class="info-menu-ic" style="background:#2f4a7a">📋</span> Cliniques — RLS Pierre-De Saurel
+      </a>
+      <hr>
       <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
         <span class="info-menu-ic">⤓</span> Besoins en établissement 2026
       </a>
@@ -1279,9 +1296,13 @@ function buildMarkers() {
 // « active » : un hôpital ne s'ouvre jamais dans le panneau de détail des cliniques, un
 // simple popup Leaflet suffit (buildHopitalMarkers()).
 function makeHopitalIcon() {
-  const size = 28;
+  // 22px : ~10 % de plus que la taille de référence d'une épingle de clinique au repos
+  // (20px, voir makeIcon) — ajusté le 21 août à la demande d'Olivier (repère secondaire,
+  // ne doit pas dominer visuellement). Bordure et police réduites en proportion, en
+  // gardant le H lisible.
+  const size = 22;
   return L.divIcon({ className:'',
-    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:2.5px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:11px">H</span></div></div></div>`,
+    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:2px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:9px">H</span></div></div></div>`,
     iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
 }
 
@@ -1302,10 +1323,14 @@ function hopitalPopupHtml(h) {
 function buildHopitalMarkers() {
   hopitaux.forEach(h => {
     try {
-      // zIndexOffset élevé : un hôpital peut être géographiquement tout près d'une clinique
-      // (ex. un GMF-R logé au même site) — sans ce décalage, l'épingle numérotée de la
-      // clinique passe par-dessus le marqueur « H » à l'écran et le rend impossible à cliquer.
-      const m = L.marker([h.lat, h.lng], { icon: makeHopitalIcon(), draggable:false, zIndexOffset: 1000 }).addTo(map);
+      // Pas de zIndexOffset positif ici (retiré le 21 août à la demande d'Olivier) : les
+      // hôpitaux sont des repères secondaires et ne doivent plus passer systématiquement
+      // par-dessus les cliniques. Le vrai risque de chevauchement (un hôpital tout près d'une
+      // clinique, ex. un GMF-R logé au même site) est désormais réglé en amont, dans data.json :
+      // la position affichée des 3 hôpitaux a été très légèrement décalée (quelques dizaines de
+      // mètres, sans changer l'adresse ni la ville affichées) pour qu'aucune icône ne se
+      // retrouve pile sur une épingle de clinique, à n'importe quel niveau de zoom usuel.
+      const m = L.marker([h.lat, h.lng], { icon: makeHopitalIcon(), draggable:false, zIndexOffset: -100 }).addTo(map);
       m.bindTooltip(`<b>${esc(h.nom)}</b>`, { direction:'top', offset:[0,-14] });
       m.bindPopup(hopitalPopupHtml(h));
       hospitalMarkers[h.id] = m;

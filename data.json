@@ -18,7 +18,7 @@
       "rls": "Pierre-Boucher",
       "region": "Est",
       "lat": 45.53781,
-      "lng": -73.45925
+      "lng": -73.460532
     },
     {
       "id": 2,
@@ -30,7 +30,7 @@
       "rls": "Richelieu-Yamaska",
       "region": "Est",
       "lat": 45.634864,
-      "lng": -72.959487
+      "lng": -72.958202
     },
     {
       "id": 3,
@@ -41,7 +41,7 @@
       "site": "https://www.santemonteregie.qc.ca/installations/hotel-dieu-de-sorel",
       "rls": "Pierre-De Saurel",
       "region": "Est",
-      "lat": 46.045277,
+      "lat": 46.044379,
       "lng": -73.095157
     }
   ],

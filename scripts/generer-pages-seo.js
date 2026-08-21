@@ -481,9 +481,26 @@ ${lignes.join('\n')}
 /* PAGE D'UN RLS                                                                                */
 /* ------------------------------------------------------------------------------------------- */
 
+/*
+ * Les 3 RLS de la Montérégie-Est. Demande d'Olivier le 21 août 2026, affinée le même jour après
+ * une suggestion (relayée par Olivier) : sur CES pages RLS-là uniquement, on ne renvoie plus vers
+ * /cliniques/ (le répertoire des TROIS territoires) — pour ne jamais offrir, même indirectement
+ * (via le menu discret « i » de /monteregie-est/ → une de ces 3 pages), un chemin de clic vers les
+ * cliniques des autres territoires. Contrairement au premier réflexe (retirer purement et
+ * simplement le lien), on le REMPLACE par un lien vers /monteregie-est/ : les pages restent
+ * indexables et gardent leur valeur SEO (le maillage interne du site n'est pas amputé), mais pour
+ * un visiteur humain qui vient de l'univers Montérégie-Est, tout reste fermé sur ce territoire —
+ * fil d'Ariane et bouton renvoient vers la carte Est plutôt que vers le répertoire des 3
+ * territoires. Ces 3 RLS sont d'ailleurs exclusivement Montérégie-Est : aucune de leurs cliniques
+ * n'appartient à un autre territoire, donc ce cadrage reste cohérent même pour un visiteur venu de
+ * la carte générale.
+ */
+const RLS_EST = ['Pierre-Boucher', 'Richelieu-Yamaska', 'Pierre-De Saurel'];
+
 function pageRls(rls, liste, slugs, majDonnees) {
   const slug = slugifier(rls);
   const url = `${SITE}/rls/${slug}/`;
+  const estRls = RLS_EST.includes(rls);
   const villes = [...new Set(liste.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
   const types = [...new Set(liste.map(c => c.type))].sort((a, b) => a.localeCompare(b, 'fr'));
   const prats = [...new Set(liste.flatMap(c => c.pratiques || []))].map(p => PRATIQUES[p] || p).sort();
@@ -504,7 +521,11 @@ function pageRls(rls, liste, slugs, majDonnees) {
       },
       {
         '@type': 'BreadcrumbList',
-        itemListElement: [
+        itemListElement: estRls ? [
+          { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE + '/' },
+          { '@type': 'ListItem', position: 2, name: 'Montérégie-Est', item: SITE + '/monteregie-est/' },
+          { '@type': 'ListItem', position: 3, name: 'RLS ' + rls, item: url }
+        ] : [
           { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE + '/' },
           { '@type': 'ListItem', position: 2, name: 'Cliniques', item: SITE + '/cliniques/' },
           { '@type': 'ListItem', position: 3, name: 'RLS ' + rls, item: url }
@@ -520,7 +541,7 @@ function pageRls(rls, liste, slugs, majDonnees) {
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="/">Voir ce RLS sur la carte</a>
-      <a class="button secondary" href="/cliniques/">Toutes les cliniques</a>
+      <a class="button secondary" href="${estRls ? '/monteregie-est/' : '/cliniques/'}">${estRls ? 'Retour à la carte Montérégie-Est' : 'Toutes les cliniques'}</a>
     </div>
   </section>
 
@@ -547,7 +568,9 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
     titre: `Cliniques en recrutement — RLS ${rls} (Montérégie) | Trouve ta clinique`,
     description: `Les ${liste.length} cliniques en recrutement de médecins de famille du RLS ${rls}, en Montérégie : ${villes.slice(0, 4).join(', ')}. Type de milieu, pratiques et fiche détaillée pour chacune.`,
     url, profondeur: 2, indexable: true, jsonLd, actif: 'cliniques',
-    filDAriane: `<a href="/">Accueil</a> › <a href="/cliniques/">Cliniques</a> › RLS ${esc(rls)}`,
+    filDAriane: estRls
+      ? `<a href="/">Accueil</a> › <a href="/monteregie-est/">Montérégie-Est</a> › RLS ${esc(rls)}`
+      : `<a href="/">Accueil</a> › <a href="/cliniques/">Cliniques</a> › RLS ${esc(rls)}`,
     corps
   });
 }
