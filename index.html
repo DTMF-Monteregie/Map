@@ -958,6 +958,14 @@ body.cmp-open { overflow:hidden; }
       <button class="cmp-export-btn" id="cmp-export-btn">⤓ Exporter le comparatif (PDF)</button>
       <div class="reg-filter" id="reg-filter" role="group" aria-label="Filtrer par région"></div>
       <select class="rls-filter" id="rls-filter" aria-label="Filtrer par RLS"></select>
+      <!-- hors-est:debut — Le bouton « PTEM / AMP » et ses 3 liens (guides PTEM, AMP, et
+           répertoire des 61 cliniques des TROIS territoires) sont retirés en bloc sur la page
+           Montérégie-Est : demande explicite d'Olivier du 21 août (les guides PTEM/AMP, neutres
+           avant cette date, sont désormais aussi jugés hors-sujet sur la page dédiée à l'Est).
+           scripts/publier-monteregie-est.js SUPPRIME tout ce qui est entre ces deux marqueurs
+           lorsqu'il fabrique la page Montérégie-Est : ce bouton n'existe donc même pas dans le
+           code source de cette page-là, ni pour un visiteur, ni pour Google, ni si le JavaScript
+           ne s'exécute pas. -->
       <div class="docs-wrap" id="docs-wrap">
         <button type="button" class="docs-toggle" id="docs-toggle" aria-expanded="false" aria-controls="docs-panel">
           <span>📄 PTEM / AMP</span>
@@ -973,20 +981,14 @@ body.cmp-open { overflow:hidden; }
               <span class="doc-circ" aria-hidden="true">📗</span>
               <span class="doc-circ-lbl">Guide des AMP</span>
             </a>
-            <!-- hors-est:debut — Ce lien mène au répertoire des 61 cliniques des TROIS territoires.
-                 scripts/publier-monteregie-est.js SUPPRIME tout ce qui est entre ces deux marqueurs
-                 lorsqu'il fabrique la page Montérégie-Est : le lien n'existe donc même pas dans le
-                 code source de cette page-là, ni pour un visiteur, ni pour Google, ni si le
-                 JavaScript ne s'exécute pas. Les guides PTEM et AMP, eux, restent : ils ne sont
-                 rattachés à aucun territoire. -->
             <a class="doc-circ-link" href="/cliniques/">
               <span class="doc-circ" aria-hidden="true">📋</span>
               <span class="doc-circ-lbl">Liste des cliniques</span>
             </a>
-            <!-- hors-est:fin -->
           </div>
         </div>
       </div>
+      <!-- hors-est:fin -->
     </div>
     <div class="sb-list" id="sb-list"></div>
   </div>

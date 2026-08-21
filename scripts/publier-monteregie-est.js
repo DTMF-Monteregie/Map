@@ -33,6 +33,12 @@ const REMPLACEMENTS = [
     '<meta name="description" content="Explorez les cliniques en recrutement en Montérégie et comparez les milieux de pratique pour préparer votre PTEM en médecine familiale et vos AMP.">',
     '<meta name="description" content="Carte interactive des cliniques en recrutement en Montérégie-Est : coordonnées, pratiques, horaires et personnes-ressources, pour préparer votre PTEM en médecine familiale.">'
   ],
+  // Menu « i » : le premier lien pointe, sur la page dédiée, vers la page de recrutement propre
+  // au territoire Est plutôt que vers la page générale Montérégie (demande du 21 août).
+  [
+    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>',
+    '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/est/recrutement-medical-monteregie-est" target="_blank" rel="noopener">\n        <span class="info-menu-ic">↗</span> À propos du recrutement\n      </a>'
+  ],
   [
     '<link rel="canonical" href="https://trouvetaclinique.ca/">',
     '<link rel="canonical" href="https://trouvetaclinique.ca/monteregie-est/">'
