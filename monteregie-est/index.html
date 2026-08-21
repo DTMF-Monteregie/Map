@@ -2267,9 +2267,24 @@ function initData(data) {
   // Ordre de la liste principale : toujours l'ordre par défaut (RLS puis alphabétique), non réordonnable
   const typeRank = { 'GMF-U': 0, 'GMF-R': 1, 'GMF': 2, 'GMF satellite': 3, 'CH': 4 };
   const regRank = { 'Ouest': 0, 'Centre': 1, 'Est': 2 };
+  /* Sur la carte des trois territoires, le premier critère de tri est le TERRITOIRE : la liste
+     est donc déjà regroupée par couleur d'épingle. Sur la carte Montérégie-Est, ce critère
+     devient inopérant puisque tout est « Est » — la liste retombait sur le type de milieu et
+     les trois couleurs de RLS s'alternaient au fil de la liste et de la numérotation.
+     On remplace donc ce premier palier par le RLS sur cette page. L'ordre des RLS est celui de
+     RLS_COLORS_EST, donc exactement celui de la légende : la liste, la numérotation des
+     épingles et la légende racontent la même histoire. */
+  const rlsRank = MODE_EST
+    ? Object.keys(RLS_COLORS_EST).reduce((o, r, i) => (o[r] = i, o), {})
+    : null;
   order = gmfs.slice().sort((a, b) => {
-    const rga = regRank[a.region] ?? 9, rgb = regRank[b.region] ?? 9;
-    if (rga !== rgb) return rga - rgb;
+    if (rlsRank) {
+      const rla = rlsRank[a.rls] ?? 99, rlb = rlsRank[b.rls] ?? 99;
+      if (rla !== rlb) return rla - rlb;
+    } else {
+      const rga = regRank[a.region] ?? 9, rgb = regRank[b.region] ?? 9;
+      if (rga !== rgb) return rga - rgb;
+    }
     const ra = typeRank[a.type] ?? 99, rb = typeRank[b.type] ?? 99;
     if (ra !== rb) return ra - rb;
     return (a.nom || '').localeCompare(b.nom || '', 'fr', { sensitivity: 'base' });
