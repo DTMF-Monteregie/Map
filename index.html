@@ -561,7 +561,10 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
    dans la carte complète (il est inséré par scripts/publier-monteregie-est.js), donc ces règles
    n'y ont aucun effet et la police Kaushan Script n'y est même pas téléchargée : un navigateur
    ne charge une police web que si un élément l'utilise vraiment. Rose #e6007e = la couleur qui
-   désigne déjà la Montérégie-Est partout dans l'app (punaises, pastille de filtre). */
+   désigne déjà la Montérégie-Est partout dans l'app (punaises, pastille de filtre). Choix
+   retenu par Olivier le 20 août (option « G7 ») ; un essai d'agencement différent (PTEM 2027 en
+   haut, Montérégie blanc + est sur la même ligne) a été testé le 21 août puis écarté au profit
+   de celui-ci, qu'on garde. */
 #app-loader .ldr-brand .ldr-est { display: block; font-family: 'Kaushan Script', cursive;
   font-weight: 400; font-size: 54px; line-height: 1; margin-top: 1px;
   color: #ff3d96; text-shadow: 0 0 26px rgba(230,0,126,.8); }
@@ -638,6 +641,20 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .rls-filter { margin-top:8px; width:100%; box-sizing:border-box; padding:8px 10px; border:1.5px solid var(--navy);
   border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:var(--champ); color:var(--texte); cursor:pointer; }
 .rls-filter:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,128,215,.16); }
+/* Carte Montérégie-Est SEULEMENT (voir buildFilters/populateRlsButtons) : remplace le menu
+   déroulant #rls-filter par 3 boutons pleine largeur, un par RLS — demande d'Olivier du
+   21 août. Seulement 3 RLS sur cette carte (contre jusqu'à 9 sur la carte des trois
+   territoires) : un choix de boutons reste lisible ici, ce qui ne serait pas le cas sur la
+   carte des trois territoires — raison pour laquelle #rls-filter, lui, reste un menu
+   déroulant partout ailleurs. */
+.rls-btns { margin-top:8px; width:100%; display:flex; gap:7px; }
+.rls-btn { flex:1 1 0; min-width:0; padding:8px 4px; box-sizing:border-box; border-radius:9px;
+  border:1.5px solid var(--c); background:var(--champ); color:var(--c); cursor:pointer;
+  font-family:'Raleway',sans-serif; font-weight:700; font-size:11.5px; line-height:1.18;
+  text-align:center; transition:background .15s ease,color .15s ease; }
+.rls-btn:hover { background:color-mix(in srgb, var(--c) 12%, var(--champ)); }
+.rls-btn.on { background:var(--c); color:#fff; }
+.rls-btn:focus-visible { outline:2px solid var(--orange); outline-offset:2px; }
 /* PTEM / AMP — accès rapide aux 3 pages du site (icônes rondes), repliées
    derrière un bouton « 📄 PTEM / AMP » comme avant (Olivier voulait garder ce
    petit clic pour ne pas tout étaler d'emblée). Les 2 PDF externes (moins
@@ -958,6 +975,7 @@ body.cmp-open { overflow:hidden; }
       <button class="cmp-export-btn" id="cmp-export-btn">⤓ Exporter le comparatif (PDF)</button>
       <div class="reg-filter" id="reg-filter" role="group" aria-label="Filtrer par région"></div>
       <select class="rls-filter" id="rls-filter" aria-label="Filtrer par RLS"></select>
+      <div class="rls-btns" id="rls-btns" role="group" aria-label="Filtrer par RLS" hidden></div>
       <!-- hors-est:debut — Le bouton « PTEM / AMP » et ses 3 liens (guides PTEM, AMP, et
            répertoire des 61 cliniques des TROIS territoires) sont retirés en bloc sur la page
            Montérégie-Est : demande explicite d'Olivier du 21 août (les guides PTEM/AMP, neutres
@@ -1765,6 +1783,38 @@ function populateRlsSelect() {
   if (prev && opts.indexOf(prev) !== -1) { sel.value = prev; }
   else { rlsFilter = ''; sel.value = ''; }
 }
+/* Carte Montérégie-Est SEULEMENT : 3 boutons pleine largeur (un par RLS) à la place du menu
+   déroulant #rls-filter, qui reste utilisé partout ailleurs (voir buildFilters). Un clic sur
+   le bouton déjà actif désélectionne, comme choisir « Tous les RLS » dans le menu déroulant. */
+function populateRlsButtons() {
+  const wrap = document.getElementById('rls-btns');
+  if (!wrap) return;
+  const opts = Object.keys(RLS_COLORS_EST).filter(r => rlsForRegions().includes(r));
+  wrap.innerHTML = '';
+  opts.forEach(r => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'rls-btn';
+    // Nom complet, sur 2 lignes : coupé au tiret quand il y en a un, sinon à la 1re espace.
+    const coupure = r.includes('-') ? r.indexOf('-') + 1 : r.indexOf(' ');
+    const ligne1 = coupure > 0 ? r.slice(0, coupure) : r;
+    const ligne2 = coupure > 0 ? r.slice(coupure) : '';
+    b.innerHTML = ligne2 ? `${esc(ligne1)}<br>${esc(ligne2)}` : esc(ligne1);
+    b.style.setProperty('--c', RLS_COLORS_EST[r]);
+    b.setAttribute('aria-label', 'Filtrer : ' + r);
+    b.setAttribute('aria-pressed', rlsFilter === r ? 'true' : 'false');
+    b.classList.toggle('on', rlsFilter === r);
+    b.addEventListener('click', () => {
+      rlsFilter = (rlsFilter === r) ? '' : r;
+      wrap.querySelectorAll('.rls-btn').forEach(btn => {
+        const actif = btn === b && rlsFilter === r;
+        btn.classList.toggle('on', actif);
+        btn.setAttribute('aria-pressed', actif ? 'true' : 'false');
+      });
+      renderSidebar(); updateMarkerVisibility(); fitToVisible();
+    });
+    wrap.appendChild(b);
+  });
+}
 function syncRegChips() {
   // Un ensemble vide veut dire « aucun filtre », donc les trois régions sont affichées :
   // les trois pastilles doivent alors paraître pleines. Une pastille pleine signifie
@@ -1804,7 +1854,11 @@ function buildFilters() {
     syncRegChips();
   }
   const sel = document.getElementById('rls-filter');
-  if (sel) {
+  const btnWrap = document.getElementById('rls-btns');
+  if (MODE_EST) {
+    if (sel) sel.hidden = true;
+    if (btnWrap) { btnWrap.hidden = false; populateRlsButtons(); }
+  } else if (sel) {
     populateRlsSelect();
     sel.addEventListener('change', () => {
       rlsFilter = sel.value;

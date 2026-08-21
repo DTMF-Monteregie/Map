@@ -106,7 +106,8 @@ const REMPLACEMENTS = [
     '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">',
     '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&family=Kaushan+Script&display=swap" rel="stylesheet">'
   ],
-  // Écran de chargement : « est » sous MONTÉRÉGIE.
+  // Écran de chargement : « est » sous MONTÉRÉGIE (option « G7 » retenue le 20 août — un essai
+  // d'agencement différent, testé le 21 août, a été écarté par Olivier au profit de celui-ci).
   [
     '      <span class="ldr-region">MONTÉRÉGIE</span>',
     '      <span class="ldr-region">MONTÉRÉGIE</span>\n      <span class="ldr-est">est</span>'
@@ -131,6 +132,19 @@ const REMPLACEMENTS = [
  */
 const BLOC_HORS_EST = /[ \t]*<!-- hors-est:debut[\s\S]*?hors-est:fin -->[ \t]*\r?\n?/g;
 
+/*
+ * Logo de l'écran de chargement (--app-pin) sur la page Montérégie-Est : le petit point passe
+ * au rose #ff3d96 — demande du 21 août. --app-logo (le logo de l'en-tête et du PDF comparatif)
+ * N'EST PAS touché : seul l'écran de chargement a été demandé. Recolorié pixel par pixel (le
+ * point isolé du reste du dégradé par remplissage par diffusion depuis un pixel de départ dans
+ * le point), pas un filtre global sur l'image.
+ * Le remplacement se fait par expression régulière plutôt que par un REMPLACEMENTS exact, pour
+ * éviter de faire vivre deux fois, dans ce fichier, les ~50 Ko de base64 de l'image d'origine.
+ * Le nouveau base64 vit dans app-pin-est.b64.txt, à côté de ce script.
+ */
+const APP_PIN_EST_B64 = fs.readFileSync(path.join(__dirname, 'app-pin-est.b64.txt'), 'utf8').trim();
+const RE_APP_PIN = /(--app-pin:\s*url\(data:image\/png;base64,)[A-Za-z0-9+/=]+(\))/;
+
 function main() {
   const source = fs.readFileSync(path.join(RACINE, 'index.html'), 'utf8');
   let sortie = source;
@@ -145,6 +159,14 @@ function main() {
   }
   console.log(`  ${blocs.length} bloc(s) « hors-est » retiré(s).`);
   sortie = sortie.replace(BLOC_HORS_EST, '');
+
+  if (!RE_APP_PIN.test(sortie)) {
+    console.error('publier-monteregie-est.js : la déclaration --app-pin est introuvable dans ' +
+      'index.html (renommée ou supprimée ?). Publication annulée plutôt que de produire une ' +
+      'page Montérégie-Est avec le logo d\'origine (point bleu) à la place du point rose.');
+    process.exit(1);
+  }
+  sortie = sortie.replace(RE_APP_PIN, `$1${APP_PIN_EST_B64}$2`);
 
   for (const [ancien, nouveau] of REMPLACEMENTS) {
     if (!sortie.includes(ancien)) { manques.push(ancien.slice(0, 70)); continue; }
