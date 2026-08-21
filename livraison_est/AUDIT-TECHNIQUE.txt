@@ -1,0 +1,249 @@
+AUDIT TECHNIQUE — carte dédiée Montérégie-Est
+================================================
+20 août 2026. Audit fait APRÈS la première livraison, à ta demande.
+
+
+RÉSUMÉ
+--------
+6 problèmes trouvés, 6 corrigés. Deux étaient sérieux : l'un venait d'une
+erreur que j'avais moi-même introduite dans la première version, l'autre
+aurait affiché une activité de la Montérégie-Ouest sur la page dédiée.
+La première version livrée ne devrait donc PAS être déposée — ce zip-ci la
+remplace.
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 1 (sérieux, de mon fait) — chemins absolus
+─────────────────────────────────────────────────────────────────────
+CE QUE J'AVAIS FAIT
+  Pour que le même index.html fonctionne aussi depuis /monteregie-est/,
+  j'avais changé 8 chemins de « ./data.json » à « /data.json », etc.
+
+POURQUOI C'ÉTAIT UN PROBLÈME
+  Ça fonctionne sur trouvetaclinique.ca (site à la racine), mais casse
+  complètement le site s'il est servi depuis un sous-dossier. Or ton ancienne
+  adresse GitHub Pages — https://dtmf-monteregie.github.io/Map/ — est
+  exactement ce cas. Et surtout : c'est CETTE adresse qui est encodée dans le
+  code QR imprimé sur tes comparatifs PDF exportés (je l'ai décodé pour en
+  avoir le cœur net). Quelqu'un scannant un ancien PDF serait tombé sur une
+  carte vide, avec « Données indisponibles ».
+
+CORRECTION
+  Chemins remis en relatif dans index.html; c'est le script de publication
+  qui les adapte (« ./ » → « ../ ») dans la copie Montérégie-Est. Le détail
+  de la structure des URL n'est donc plus une hypothèse fragile.
+
+VÉRIFIÉ
+  Les 4 combinaisons testées, toutes fonctionnelles, 0 erreur, 0 ressource
+  manquante : /, /monteregie-est/, /Map/, /Map/monteregie-est/.
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 2 (sérieux) — la bannière d'annonce d'un autre territoire
+─────────────────────────────────────────────────────────────────────
+CONSTAT
+  data.json contient une seule annonce pour tout le site. Au moment de
+  l'audit : « JR Express — RLS Jardins-Roussillon » — Montérégie-OUEST.
+  Elle se serait affichée en évidence sur la page dédiée à l'Est.
+  (Elle est expirée aujourd'hui, donc invisible — c'est un hasard, pas une
+  protection : la prochaine annonce se serait affichée.)
+
+CORRECTION
+  Sur la page Est, l'annonce ne s'affiche que si elle porte "region": "Est".
+  Voir ETAPES-A-SUIVRE.txt, section 2.
+
+VÉRIFIÉ
+  Annonce sans "region"       → carte complète : affichée / page Est : masquée
+  Annonce avec "region":"Est" → affichée sur les deux
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 3 — titre invisible mentionnant les trois territoires
+─────────────────────────────────────────────────────────────────────
+CONSTAT
+  La page contient un titre et un paragraphe invisibles à l'œil (lus par
+  Google et les lecteurs d'écran) qui disaient encore : « en Montérégie, sur
+  les trois territoires : Montérégie-Est, Montérégie-Centre et Montérégie-
+  Ouest ». Sur la page dédiée, c'est justement la phrase à ne pas avoir —
+  et c'est celle que Google aurait indexée.
+
+CORRECTION
+  Le script de publication les remplace par un texte propre à l'Est,
+  nommant les 3 RLS du territoire.
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 4 — lien vers le répertoire des 3 territoires
+─────────────────────────────────────────────────────────────────────
+CONSTAT
+  Le menu « PTEM / AMP » contenait « Liste des cliniques », qui mène à
+  /cliniques/ — le répertoire des 61 cliniques des trois territoires.
+  Un clic depuis la page « exclusivement Est » et on voyait tout.
+
+CORRECTION
+  Ce lien est retiré de la page Est. Les deux guides (PTEM, AMP) restent :
+  ils sont neutres sur le plan territorial et utiles à un résident de l'Est.
+
+  C'est un choix de ma part, pas une contrainte technique. Pour le remettre,
+  enlève l'attribut « data-hors-est » sur ce lien dans index.html (le
+  commentaire à côté explique où).
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 5 — le mode hors ligne aurait pu servir la mauvaise carte
+─────────────────────────────────────────────────────────────────────
+CONSTAT
+  Le service worker (mode hors ligne) range l'accueil sous une clé de cache
+  unique. En ajoutant la page Est, deux pages différentes se seraient
+  disputé la même clé : hors ligne, quelqu'un ouvrant la page Est aurait pu
+  recevoir la carte des trois territoires. C'est précisément le type de bug
+  déjà corrigé sur ce fichier le 19 août.
+
+CORRECTION
+  Deux clés de cache distinctes. Et le repli hors ligne de la page Est ne
+  se rabat plus jamais sur la carte complète.
+
+
+─────────────────────────────────────────────────────────────────────
+PROBLÈME 6 — le mode hors ligne pouvait casser pour tout le monde
+─────────────────────────────────────────────────────────────────────
+CONSTAT
+  J'avais ajouté /monteregie-est/ à la liste de préchargement. Cette liste
+  est chargée « tout ou rien » : si le dossier manquait (déploiement partiel,
+  fichier oublié), l'installation entière échouait et le mode hors ligne
+  disparaissait pour TOUS les visiteurs, carte principale comprise.
+
+CORRECTION
+  La page Est est préchargée à part, de façon tolérante : si elle manque, on
+  perd seulement son mode hors ligne à elle.
+
+
+─────────────────────────────────────────────────────────────────────
+CE QUI A ÉTÉ VÉRIFIÉ ET QUI ÉTAIT DÉJÀ CORRECT
+─────────────────────────────────────────────────────────────────────
+
+Étanchéité du filtrage
+  Les cliniques hors-Est ne sont pas masquées : elles ne sont jamais chargées.
+  Sur la page Est, la liste interne des cliniques ne contient que la région
+  « Est » (vérifié en mémoire, pas seulement à l'écran). 26 cliniques,
+  26 marqueurs, 3 RLS.
+
+Lien direct vers une clinique d'un autre territoire
+  Testé : /monteregie-est/?c=27 (une clinique de la Montérégie-Ouest).
+  Résultat : aucune fiche ne s'ouvre, aucun nom n'apparaît, l'adresse est
+  nettoyée. Aucune fuite. Le même lien sur la carte complète fonctionne
+  normalement (aucune régression).
+
+Favoris enregistrés d'un côté, consultés de l'autre
+  Testé : favoris contenant une clinique de l'Ouest, puis ouverture de la
+  page Est en mode « Voir mes favoris ». Résultat : seule la clinique de
+  l'Est s'affiche, 1 marqueur. Aucune fuite.
+
+Comparatif PDF exporté depuis la page Est
+  Ne peut porter que sur des cliniques de l'Est (il part de la même liste
+  filtrée). Le titre et le pied de page disent « Montérégie-Est ».
+
+Bouton Partager
+  Depuis la page Est, partage l'adresse /monteregie-est/ — pas la carte
+  complète.
+
+Aucune duplication
+  Le corps des deux fichiers index.html est identique au caractère près.
+  Seules 9 lignes du <head> et 3 chemins diffèrent, tous produits
+  automatiquement par le script de publication.
+
+Non-régression de la carte complète
+  61 cliniques, 6 RLS, 3 pastilles de région, légende des couleurs,
+  lien vers le répertoire : tout est strictement inchangé.
+
+Reste du site
+  Cloudflare Analytics : présent une seule fois sur chacune des 72 pages
+  (la nouvelle page comprise).
+  JSON-LD valide sur les 72 pages. sitemap.xml valide, 48 URL,
+  /monteregie-est/ inclus.
+  Aucune adresse courriel de clinique ni champ interne dans les pages
+  publiques (la seule adresse présente est la tienne, dans le lien
+  « Signaler une correction » — déjà là avant, normal).
+  Mobile 375 px : aucun débordement horizontal. Mode sombre : correct.
+  data.json : jamais modifié de tout l'audit.
+
+
+─────────────────────────────────────────────────────────────────────
+POINTS RESTÉS OUVERTS (aucun n'est bloquant)
+─────────────────────────────────────────────────────────────────────
+
+1. Installation sur écran d'accueil (PWA)
+   Comme convenu, la page Est n'a pas encore son propre manifeste : quelqu'un
+   qui l'installe sur son téléphone obtient l'icône « PTEM 2027 » et
+   l'application s'ouvre sur la carte complète. À faire dans un suivi rapide
+   si tu veux que Nancy puisse la proposer à l'installation.
+
+2. Formulaires
+   Non touchés, comme demandé. À reprendre ensuite avec l'ouverture de
+   Nancy pour une version adaptée à la Montérégie-Est.
+
+3. Ancienne adresse dtmf-monteregie.github.io/Map/
+   Elle fonctionne de nouveau intégralement (problème 1 corrigé), mais les
+   liens internes vers /ptem/, /amp/ et /cliniques/ y sont cassés depuis
+   avant mon intervention (ils sont écrits en absolu de longue date). Ça ne
+   touche pas la carte elle-même. À voir un jour : soit rediriger cette
+   adresse vers trouvetaclinique.ca, soit regénérer le code QR des PDF avec
+   la nouvelle adresse. Rien d'urgent, je n'y ai pas touché.
+
+
+═══════════════════════════════════════════════════════
+AUDIT DU 21 AOÛT (SOIR) — site + scripts Apps Script
+═══════════════════════════════════════════════════════
+Fait en même temps que l'ajout des hôpitaux, sur l'ensemble du code
+(index.html, sw.js, publier-monteregie-est.js, data.json, manifests,
+et les trois fichiers .gs les plus récents). Rien de cassé trouvé —
+deux points mineurs à corriger et un point d'architecture à garder
+en tête pour l'étape suivante (cliniques non-recruteuses).
+
+1. Code mort dans PTEM2027_v2.gs (MOYEN)
+   La fonction appliquerTourneeJardinsRoussillon() (une correction
+   ponctuelle « une seule fois », déjà exécutée en août) contient
+   encore 3 lignes qui écrivent dans le champ qgarde_labo, retiré du
+   formulaire ce soir. Cette fonction ne DOIT plus jamais être
+   relancée (elle est documentée comme telle), donc aucun risque
+   immédiat. Mais si quelqu'un la relance par erreur un jour, elle
+   plantera en plein milieu de son travail, dans un état à moitié
+   appliqué. Je peux retirer ces 3 lignes mortes dans un prochain
+   passage si tu veux fermer complètement cette porte — dis-moi.
+
+2. PTEM2027_integration.gs — cas limite mineur
+   Si deux réponses du même lot modifient le même champ de la même
+   clinique (rare — ça suppose deux réponses non encore traitées pour
+   la même fiche), chacune génère sa propre proposition dans Révision
+   comparée à la même valeur de départ, au lieu d'une seule proposition
+   consolidée. Pas de perte de données, juste un doublon à démêler à
+   l'œil lors de l'approbation. Pas de correctif nécessaire pour
+   l'instant à moins que ça devienne fréquent en pratique.
+
+3. Architecture — à garder en tête pour les cliniques non-recruteuses
+   Aujourd'hui, la carte n'a qu'un seul concept binaire : « visible »
+   veut dire à la fois « existe » ET « recrute ». Il n'y a aucun champ
+   séparé pour un statut « existe mais ne recrute pas » qui traverse
+   tout le pipeline (marqueurs, sidebar, recherche, comparatif PDF).
+   Un type 'CH' est déjà prévu dans le code de couleurs et la légende,
+   mais seulement comme type de clinique recruteuse — pas comme statut
+   informatif séparé. Concrètement : quand on abordera l'ajout des
+   cliniques qui ne recrutent pas (2e temps, comme discuté avec Nancy),
+   il faudra construire ce concept de statut plutôt que de détourner
+   le champ « visible » existant. Pas un problème aujourd'hui, juste
+   la chose à prévoir avant de commencer ce chantier — je m'en sers
+   moi-même comme point de départ quand on y arrivera.
+
+4. manifest.json (MINEUR)
+   Les captures d'écran déclarées (screenshot-carte.png, etc.)
+   n'étaient pas présentes dans le dossier local que j'ai audité —
+   à vérifier que ton déploiement réel les inclut bien. Si elles n'y
+   sont pas, aucun risque : Chrome les ignore simplement lors de
+   l'installation, l'app reste installable sans elles.
+
+Aucun problème trouvé dans : sw.js (cache cohérent avec les fichiers
+réels), le filtrage Montérégie-Est dans index.html (aucune fuite
+possible d'une clinique d'un autre territoire), publier-monteregie-est.js
+(tourne sans erreur), et la correspondance des champs entre data.json,
+index.html et les scripts .gs (aucun champ orphelin ou manquant, à
+part le code mort du point 1).
