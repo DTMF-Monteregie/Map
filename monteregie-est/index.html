@@ -150,19 +150,19 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
    sans rien déplacer, et l'en-tête retrouve exactement la même mise en page que l'autre carte. */
 .logo-text .brand-est { font-family: 'Kaushan Script', cursive; font-weight: 400;
   font-size: 1.45em; line-height: 0; margin-left: 1px;
-  color: #ff4fa0;
-  background-image: linear-gradient(180deg, #fff 8%, #ff7ab8 46%, #e6007e 96%);
-  -webkit-background-clip: text; background-clip: text;
+  /* Couleur pleine, pas de dégradé (retiré le 21 août à la demande d'Olivier — la « brillance »
+     du dégradé blanc→rose ne convenait plus pour la bannière de l'en-tête). Même rose que le
+     trait d'union juste en dessous et que le « est » de l'écran de chargement (.ldr-est) : les
+     3 usages du lettrage manuscrit restent visuellement cohérents entre eux. */
+  color: #ff3d96;
   /* La hampe du « t » de Kaushan Script dépasse d'environ 10 % de sa largeur au-delà de la
-     largeur d'avance déclarée par la police. Or « background-clip: text » ne peint que ce qui
-     tombe DANS la boîte de l'élément : sans cette marge intérieure, le haut du « t » se
-     retrouvait tranché net à la verticale (constaté le 20 août). Le remplissage agrandit la
-     zone peinte; la marge négative annule l'espace ajouté pour que rien ne bouge autour. */
+     largeur d'avance déclarée par la police (constaté le 20 août, à l'époque où ce padding
+     servait aussi de marge intérieure pour le dégradé en background-clip). Sans lien avec le
+     dégradé désormais retiré, ce padding reste utile : il agrandit la zone du texte pour que le
+     haut du « t » ne soit pas tranché net à la verticale; la marge négative annule l'espace
+     ajouté pour que rien ne bouge autour. */
   padding: .12em .3em .06em 0; margin-right: -.3em;
   filter: drop-shadow(0 0 10px rgba(230,0,126,.8)); }
-@supports ((-webkit-background-clip: text) or (background-clip: text)) {
-  .logo-text .brand-est { color: transparent; }
-}
 /* Trait d'union rose entre « Montérégie » et le « est » manuscrit. Il reste dans la graisse du
    titre (Raleway 700) : c'est le lettrage qui doit attirer l'œil, pas le tiret. */
 .logo-text .brand-tiret { color: #ff3d96; }
@@ -1295,18 +1295,24 @@ function buildMarkers() {
 // gros) et toujours rouge, avec un rond blanc et un « H » rouge au centre. Pas de variante
 // « active » : un hôpital ne s'ouvre jamais dans le panneau de détail des cliniques, un
 // simple popup Leaflet suffit (buildHopitalMarkers()).
-/* Icône d'hôpital, en DEUX temps (21 août, demande d'Olivier).
-   À l'ouverture de la carte, le repère « H » est volontairement grand : c'est le moment où
-   l'usager balaie la carte et où il a besoin de situer les 3 hôpitaux d'un coup d'œil.
-   Après HOPITAL_DELAI_REDUCTION, il rétrécit à EXACTEMENT la taille d'une épingle de clinique
-   au repos (20px, voir makeIcon) : passé la première lecture, l'hôpital n'est plus qu'un repère
-   géographique secondaire et ne doit plus attirer l'œil davantage qu'une clinique.
+/* Icône d'hôpital, en DEUX temps (21 août, demande d'Olivier — délai porté de 5 à 10 secondes
+   le même soir).
+   À l'ouverture de la carte, le repère « H » est volontairement grand ET AU PREMIER PLAN
+   (zIndexOffset positif, voir buildHopitalMarkers) : c'est le moment où l'usager balaie la carte
+   et où il a besoin de situer les 3 hôpitaux d'un coup d'œil, sans qu'une clinique voisine ne
+   passe par-dessus.
+   Après HOPITAL_DELAI_REDUCTION, il rétrécit à EXACTEMENT la taille d'une épingle de clinique au
+   repos (20px, voir makeIcon) ET repasse à l'arrière-plan : passé la première lecture, l'hôpital
+   n'est plus qu'un repère géographique secondaire et ne doit plus attirer l'œil ni intercepter
+   les clics davantage qu'une clinique.
    Les deux tailles gardent iconAnchor = [size/2, size], donc la pointe de la goutte reste
    exactement sur les coordonnées réelles de l'hôpital : le changement de taille ne déplace
    jamais le marqueur (les coordonnées de data.json sont les vraies, aucun décalage). */
 const HOPITAL_TAILLE_GRANDE = 32;
 const HOPITAL_TAILLE_NORMALE = 20;   // = makeIcon(false) : même taille qu'une épingle de clinique
-const HOPITAL_DELAI_REDUCTION = 5000;
+const HOPITAL_ZINDEX_GRAND = 1000;   // premier plan pendant HOPITAL_DELAI_REDUCTION
+const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan une fois rétréci — voir buildHopitalMarkers
+const HOPITAL_DELAI_REDUCTION = 10000;
 
 function makeHopitalIcon(grand) {
   const size = grand ? HOPITAL_TAILLE_GRANDE : HOPITAL_TAILLE_NORMALE;
@@ -1339,15 +1345,11 @@ function hopitalPopupHtml(h) {
 function buildHopitalMarkers() {
   hopitaux.forEach(h => {
     try {
-      // zIndexOffset TRÈS négatif : quand on dézoome et que les marqueurs s'empilent, ce sont
-      // les cliniques — le sujet de la carte — qui doivent rester devant et cliquables. Les
-      // hôpitaux passent systématiquement derrière. (Demande d'Olivier du 21 août ; remplace le
-      // zIndexOffset positif d'origine, qui faisait exactement l'inverse et cachait par exemple
-      // les 2 cliniques voisines de l'Hôtel-Dieu de Sorel.) Les coordonnées, elles, restent les
-      // vraies coordonnées de l'hôpital : on ne déplace jamais un repère pour régler un
-      // chevauchement.
+      // Premier plan pendant les 10 premières secondes (voir HOPITAL_ZINDEX_GRAND) : le temps
+      // où l'icône est grande, elle doit aussi passer devant une clinique voisine plutôt que
+      // d'être à moitié masquée par elle. Repasse à l'arrière-plan au rétrécissement, plus bas.
       const m = L.marker([h.lat, h.lng], {
-        icon: makeHopitalIcon(true), draggable:false, zIndexOffset: -1000
+        icon: makeHopitalIcon(true), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
       }).addTo(map);
       m.bindTooltip(`<b>${esc(h.nom)}</b>`, { direction:'top', offset:[0,-14] });
       m.bindPopup(hopitalPopupHtml(h));
@@ -1357,13 +1359,22 @@ function buildHopitalMarkers() {
     }
   });
 
-  // Après quelques secondes, les repères « H » rapetissent à la taille d'une épingle de
-  // clinique. setIcon() remplace l'élément : l'animation .hosp-pin-shrink joue donc à
-  // l'apparition du nouvel élément, ce qui donne bien un rétrécissement visible.
+  // Après HOPITAL_DELAI_REDUCTION, les repères « H » rapetissent à la taille d'une épingle de
+  // clinique ET repassent à l'arrière-plan (demande d'Olivier du 21 août — remplace le
+  // zIndexOffset négatif permanent d'une version précédente, qui cachait par exemple les 2
+  // cliniques voisines de l'Hôtel-Dieu de Sorel dès l'ouverture de la carte; ici les hôpitaux ne
+  // passent derrière qu'une fois rétrécis, plus après). setIcon() remplace l'élément : l'animation
+  // .hosp-pin-shrink joue donc à l'apparition du nouvel élément, ce qui donne bien un
+  // rétrécissement visible. Les coordonnées, elles, restent les vraies coordonnées de l'hôpital :
+  // on ne déplace jamais un repère pour régler un chevauchement.
   if (Object.keys(hospitalMarkers).length) {
     setTimeout(() => {
       Object.keys(hospitalMarkers).forEach(id => {
-        try { hospitalMarkers[id].setIcon(makeHopitalIcon(false)); } catch (e) {}
+        try {
+          const m = hospitalMarkers[id];
+          m.setIcon(makeHopitalIcon(false));
+          m.setZIndexOffset(HOPITAL_ZINDEX_NORMAL);
+        } catch (e) {}
       });
     }, HOPITAL_DELAI_REDUCTION);
   }
