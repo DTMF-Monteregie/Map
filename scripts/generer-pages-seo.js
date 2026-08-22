@@ -9,6 +9,7 @@
  *   data.json  ──►  cliniques/index.html              (répertoire, hub)
  *                   cliniques/<slug>/index.html       (une page par clinique publiée)
  *                   rls/<slug>/index.html             (une page par RLS ayant des cliniques)
+ *                   monteregie-est/rls/index.html     (hub des 3 RLS de l'univers Est, 22 août)
  *                   sitemap.xml                       (toutes les URL du site)
  *
  * POURQUOI
@@ -667,6 +668,78 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
 }
 
 /* ------------------------------------------------------------------------------------------- */
+/* HUB /monteregie-est/rls/ — les 3 RLS de l'univers Est, uniquement                            */
+/* ------------------------------------------------------------------------------------------- */
+
+/*
+ * Ajouté le 22 août 2026, à la demande d'Olivier (question posée avant de coder : la décision du
+ * 21 août ci-dessus retire volontairement toute entrée « Cliniques » de l'univers Est, pour ne
+ * jamais offrir un chemin de clic vers les cliniques des autres territoires). Cette page-ci reste
+ * cohérente avec ce choix : elle ne liste QUE les 3 RLS qui sont exclusivement Montérégie-Est
+ * (RLS_EST) et ne pointe jamais ailleurs que vers l'univers Est (carte, PTEM, AMP, pages de RLS
+ * Est). Pas d'entrée dans la barre de navigation (actif reste null, comme pageRls) : la page
+ * existe pour le maillage interne et le sitemap, pas comme onglet visible.
+ */
+function pageRlsHubEst(parRls, majDonnees) {
+  const u = UNIVERS_EST;
+  const url = `${SITE}${u.prefixe}/rls/`;
+
+  const rlsEstPresents = RLS_EST.filter(rls => parRls.has(rls));
+
+  const sections = rlsEstPresents.map(rls => {
+    const liste = parRls.get(rls);
+    const villes = [...new Set(liste.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
+    return `  <section id="rls-${slugifier(rls)}">
+    <h2>RLS ${esc(rls)} <span class="compte">${liste.length}</span></h2>
+    <p class="rep-lien">${esc(villes.join(', '))}</p>
+    <p class="rep-lien"><a href="${u.prefixe}/rls/${slugifier(rls)}/">Voir les ${liste.length} milieu${liste.length > 1 ? 'x' : ''} en recrutement du RLS ${esc(rls)} →</a></p>
+  </section>`;
+  }).join('\n\n');
+
+  const total = rlsEstPresents.reduce((n, rls) => n + parRls.get(rls).length, 0);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage', '@id': url + '#webpage', url,
+        name: 'Réseaux locaux de services (RLS) — Montérégie-Est | Trouve ta clinique',
+        inLanguage: 'fr-CA', dateModified: majDonnees,
+        isPartOf: { '@id': SITE + '/#website' }
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Montérégie-Est', item: SITE + u.accueil },
+          { '@type': 'ListItem', position: 2, name: 'RLS', item: url }
+        ]
+      }
+    ]
+  };
+
+  const corps = `  <section class="hero">
+    <p class="eyebrow">Réseaux locaux de services · Montérégie-Est</p>
+    <h1>Les RLS de la Montérégie-Est</h1>
+    <p class="lead">Le territoire de la Montérégie-Est compte <strong>${rlsEstPresents.length} réseaux locaux de services</strong>, avec au total ${total} milieu${total > 1 ? 'x' : ''} actuellement en recrutement de médecins de famille.</p>
+    <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
+    <div class="cta-row">
+      <a class="button primary" href="${u.accueil}">Voir sur la carte interactive</a>
+      <a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>
+    </div>
+  </section>
+
+${sections}`;
+
+  return page({
+    titre: 'Réseaux locaux de services (RLS) — Montérégie-Est | Trouve ta clinique',
+    description: `Les ${rlsEstPresents.length} RLS de la Montérégie-Est et leurs milieux en recrutement de médecins de famille.`,
+    url, profondeur: 1, indexable: true, jsonLd, univers: u, actif: null,
+    filDAriane: `<a href="${u.accueil}">Montérégie-Est</a> › RLS`,
+    corps
+  });
+}
+
+/* ------------------------------------------------------------------------------------------- */
 /* RÉPERTOIRE /cliniques/                                                                       */
 /* ------------------------------------------------------------------------------------------- */
 
@@ -948,8 +1021,10 @@ function main() {
     copiesEst++;
   }
 
-  /* Répertoire + sitemap */
+  /* Répertoire général + hub RLS de l'univers Est + sitemap */
   ecrire(path.join('cliniques', 'index.html'), pageRepertoire(cliniques, slugs, parRls, majDonnees));
+  ecrire(path.join(UNIVERS_EST.dossier, 'rls', 'index.html'), pageRlsHubEst(parRls, majDonnees));
+  entrees.push({ loc: `${UNIVERS_EST.prefixe}/rls/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
   ecrire('sitemap.xml', sitemap(entrees));
 
   /* Rapport */
