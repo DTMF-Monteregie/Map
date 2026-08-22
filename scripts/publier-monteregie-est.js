@@ -167,6 +167,29 @@ const REMPLACEMENTS = [
   [
     '    <strong>Montérégie</strong>',
     '    <strong>Montérégie<span class="brand-tiret">-</span><span class="brand-est">est</span></strong>'
+  ],
+  // Aperçu de partage (og:image / twitter:image) : la bannière Montérégie-Est plutôt que celle
+  // de la carte générale (22 août, demande d'Olivier — cohérence avec les copies Est de
+  // /ptem/ et /amp/, voir copieEstPageStatique dans generer-pages-seo.js).
+  [
+    '<meta property="og:image" content="https://trouvetaclinique.ca/og-image.png?v=2">',
+    '<meta property="og:image" content="https://trouvetaclinique.ca/assets/banniere_monteregie-est.png">'
+  ],
+  [
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:width" content="1600">'
+  ],
+  [
+    '<meta property="og:image:height" content="630">',
+    '<meta property="og:image:height" content="400">'
+  ],
+  [
+    '<meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.">',
+    '<meta property="og:image:alt" content="Carte interactive Montérégie-Est — Trouve ta clinique.">'
+  ],
+  [
+    '<meta name="twitter:image" content="https://trouvetaclinique.ca/og-image.png?v=2">',
+    '<meta name="twitter:image" content="https://trouvetaclinique.ca/assets/banniere_monteregie-est.png">'
   ]
 ];
 
@@ -183,17 +206,14 @@ const REMPLACEMENTS = [
 const BLOC_HORS_EST = /[ \t]*<!-- hors-est:debut[\s\S]*?hors-est:fin -->[ \t]*\r?\n?/g;
 
 /*
- * Logo de l'écran de chargement (--app-pin) sur la page Montérégie-Est : le petit point passe
- * au rose #ff3d96 — demande du 21 août. --app-logo (le logo de l'en-tête et du PDF comparatif)
- * N'EST PAS touché : seul l'écran de chargement a été demandé. Recolorié pixel par pixel (le
- * point isolé du reste du dégradé par remplissage par diffusion depuis un pixel de départ dans
- * le point), pas un filtre global sur l'image.
- * Le remplacement se fait par expression régulière plutôt que par un REMPLACEMENTS exact, pour
- * éviter de faire vivre deux fois, dans ce fichier, les ~50 Ko de base64 de l'image d'origine.
- * Le nouveau base64 vit dans app-pin-est.b64.txt, à côté de ce script.
+ * Logo de l'écran de chargement (--app-pin) : le 21 août, le petit point avait été passé au
+ * rose #ff3d96 sur la page Montérégie-Est. Olivier est revenu là-dessus le 22 août : « remettre
+ * le logo original avec le point BLEU partout... je ne veux plus la variante avec le point
+ * rose ». --app-pin n'est donc PLUS touché ici — la page Est garde exactement le même logo
+ * (point bleu) que la carte générale, comme --app-logo l'a toujours fait. Le fichier
+ * app-pin-est.b64.txt (l'ancien base64 recolorié en rose) reste sur le disque au cas où, mais
+ * n'est plus lu par ce script.
  */
-const APP_PIN_EST_B64 = fs.readFileSync(path.join(__dirname, 'app-pin-est.b64.txt'), 'utf8').trim();
-const RE_APP_PIN = /(--app-pin:\s*url\(data:image\/png;base64,)[A-Za-z0-9+/=]+(\))/;
 
 function main() {
   const source = fs.readFileSync(path.join(RACINE, 'index.html'), 'utf8');
@@ -209,14 +229,6 @@ function main() {
   }
   console.log(`  ${blocs.length} bloc(s) « hors-est » retiré(s).`);
   sortie = sortie.replace(BLOC_HORS_EST, '');
-
-  if (!RE_APP_PIN.test(sortie)) {
-    console.error('publier-monteregie-est.js : la déclaration --app-pin est introuvable dans ' +
-      'index.html (renommée ou supprimée ?). Publication annulée plutôt que de produire une ' +
-      'page Montérégie-Est avec le logo d\'origine (point bleu) à la place du point rose.');
-    process.exit(1);
-  }
-  sortie = sortie.replace(RE_APP_PIN, `$1${APP_PIN_EST_B64}$2`);
 
   for (const [ancien, nouveau] of REMPLACEMENTS) {
     if (!sortie.includes(ancien)) { manques.push(ancien.slice(0, 70)); continue; }

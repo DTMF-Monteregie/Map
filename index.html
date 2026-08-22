@@ -369,13 +369,6 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .hosp-pin-circle-inner { width: 58%; height: 58%; background: #fff; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; }
 .hosp-pin-circle-inner span { color: #c0182c; font-family: 'Raleway', sans-serif; font-weight: 800; }
-/* Rétrécissement du repère « H » après les premières secondes (voir makeHopitalIcon).
-   L'origine est la pointe de la goutte — bas au centre, c'est-à-dire le point géographique
-   exact — pour que le marqueur rapetisse SUR PLACE sans jamais glisser ailleurs. */
-.hosp-pin-wrap { width: 100%; height: 100%; transform-origin: 50% 100%; }
-.hosp-pin-shrink { animation: hospShrink .38s ease-out; }
-@keyframes hospShrink { from { transform: scale(1.6); } to { transform: scale(1); } }
-@media (prefers-reduced-motion: reduce) { .hosp-pin-shrink { animation: none; } }
 .hosp-popup { font-family: 'Raleway', sans-serif; min-width: 200px; }
 .hosp-popup h4 { margin: 0 0 6px; font-size: 14px; color: var(--navy); }
 .hosp-popup p { margin: 3px 0; font-size: 12.5px; color: var(--muted); line-height: 1.4; }
@@ -673,12 +666,17 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
    carte des trois territoires — raison pour laquelle #rls-filter, lui, reste un menu
    déroulant partout ailleurs. */
 .rls-btns { margin-top:8px; width:100%; display:flex; gap:7px; }
+/* 22 août — demande d'Olivier : les 3 boutons sont foncés (pleins) par défaut, comme si les
+   trois RLS étaient actifs (ce qui est le cas tant qu'aucun filtre n'est choisi). Cliquer sur
+   l'un d'eux l'ISOLE : lui reste foncé, les 2 autres pâlissent (.dim) — voir populateRlsButtons.
+   Un 2e clic sur le même bouton retire le filtre et les 3 redeviennent foncés. */
 .rls-btn { flex:1 1 0; min-width:0; padding:8px 4px; box-sizing:border-box; border-radius:9px;
-  border:1.5px solid var(--c); background:var(--champ); color:var(--c); cursor:pointer;
+  border:1.5px solid var(--c); background:var(--c); color:#fff; cursor:pointer;
   font-family:'Raleway',sans-serif; font-weight:700; font-size:11.5px; line-height:1.18;
-  text-align:center; transition:background .15s ease,color .15s ease; }
-.rls-btn:hover { background:color-mix(in srgb, var(--c) 12%, var(--champ)); }
-.rls-btn.on { background:var(--c); color:#fff; }
+  text-align:center; transition:background .15s ease,color .15s ease,opacity .15s ease; }
+.rls-btn:hover { filter:brightness(1.08); }
+.rls-btn.dim { background:var(--champ); color:var(--c); }
+.rls-btn.dim:hover { background:color-mix(in srgb, var(--c) 12%, var(--champ)); filter:none; }
 .rls-btn:focus-visible { outline:2px solid var(--orange); outline-offset:2px; }
 /* PTEM / AMP — accès rapide aux 3 pages du site (icônes rondes), repliées
    derrière un bouton « 📄 PTEM / AMP » comme avant (Olivier voulait garder ce
@@ -1322,36 +1320,25 @@ function buildMarkers() {
 // gros) et toujours rouge, avec un rond blanc et un « H » rouge au centre. Pas de variante
 // « active » : un hôpital ne s'ouvre jamais dans le panneau de détail des cliniques, un
 // simple popup Leaflet suffit (buildHopitalMarkers()).
-/* Icône d'hôpital, en DEUX temps (21 août, demande d'Olivier — délai porté de 5 à 10 secondes
-   le même soir).
-   À l'ouverture de la carte, le repère « H » est volontairement grand ET AU PREMIER PLAN
-   (zIndexOffset positif, voir buildHopitalMarkers) : c'est le moment où l'usager balaie la carte
-   et où il a besoin de situer les 3 hôpitaux d'un coup d'œil, sans qu'une clinique voisine ne
-   passe par-dessus.
-   Après HOPITAL_DELAI_REDUCTION, il rétrécit à EXACTEMENT la taille d'une épingle de clinique au
-   repos (20px, voir makeIcon) ET repasse à l'arrière-plan : passé la première lecture, l'hôpital
-   n'est plus qu'un repère géographique secondaire et ne doit plus attirer l'œil ni intercepter
-   les clics davantage qu'une clinique.
-   Les deux tailles gardent iconAnchor = [size/2, size], donc la pointe de la goutte reste
-   exactement sur les coordonnées réelles de l'hôpital : le changement de taille ne déplace
-   jamais le marqueur (les coordonnées de data.json sont les vraies, aucun décalage). */
-const HOPITAL_TAILLE_GRANDE = 32;
-const HOPITAL_TAILLE_NORMALE = 20;   // = makeIcon(false) : même taille qu'une épingle de clinique
+/* Icône d'hôpital (21 août, demande d'Olivier — délai porté de 5 à 10 secondes le même soir ;
+   22 août : la taille ne change plus du tout, seul le plan change — voir plus bas).
+   À l'ouverture de la carte, le repère « H » est AU PREMIER PLAN (zIndexOffset positif, voir
+   buildHopitalMarkers) : c'est le moment où l'usager balaie la carte et où il a besoin de situer
+   les 3 hôpitaux d'un coup d'œil, sans qu'une clinique voisine ne passe par-dessus.
+   Après HOPITAL_DELAI_REDUCTION, il repasse à l'arrière-plan : passé la première lecture,
+   l'hôpital n'est plus qu'un repère géographique secondaire et ne doit plus intercepter les clics
+   davantage qu'une clinique. Sa taille, elle, NE CHANGE JAMAIS (demande explicite du 22 août :
+   « après 10 secondes, les icônes H doivent conserver exactement leur taille initiale » — une
+   seule icône, HOPITAL_TAILLE, plus de variante « grande »/« normale »). */
+const HOPITAL_TAILLE = 32;
 const HOPITAL_ZINDEX_GRAND = 1000;   // premier plan pendant HOPITAL_DELAI_REDUCTION
-const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan une fois rétréci — voir buildHopitalMarkers
+const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan ensuite — voir buildHopitalMarkers
 const HOPITAL_DELAI_REDUCTION = 10000;
 
-function makeHopitalIcon(grand) {
-  const size = grand ? HOPITAL_TAILLE_GRANDE : HOPITAL_TAILLE_NORMALE;
-  const bw = grand ? 3 : 2;
-  const fs = grand ? 13 : 8;
-  // .hosp-pin-wrap porte l'animation de rétrécissement (origine = pointe de la goutte, en bas
-  // au centre), pour que la réduction se voie comme un mouvement plutôt que comme un saut.
-  // Elle est séparée du div qui porte rotate(-45deg) : une animation de scale sur ce div-là
-  // écraserait sa rotation.
-  const wrapCls = grand ? 'hosp-pin-wrap' : 'hosp-pin-wrap hosp-pin-shrink';
+function makeHopitalIcon() {
+  const size = HOPITAL_TAILLE;
   return L.divIcon({ className:'',
-    html:`<div class="${wrapCls}"><div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:${bw}px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:${fs}px">H</span></div></div></div></div>`,
+    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:13px">H</span></div></div></div>`,
     iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
 }
 
@@ -1373,10 +1360,11 @@ function buildHopitalMarkers() {
   hopitaux.forEach(h => {
     try {
       // Premier plan pendant les 10 premières secondes (voir HOPITAL_ZINDEX_GRAND) : le temps
-      // où l'icône est grande, elle doit aussi passer devant une clinique voisine plutôt que
-      // d'être à moitié masquée par elle. Repasse à l'arrière-plan au rétrécissement, plus bas.
+      // où l'usager balaie la carte, l'icône doit passer devant une clinique voisine plutôt que
+      // d'être à moitié masquée par elle. Repasse à l'arrière-plan plus bas — la taille, elle,
+      // ne change jamais (demande du 22 août).
       const m = L.marker([h.lat, h.lng], {
-        icon: makeHopitalIcon(true), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
+        icon: makeHopitalIcon(), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
       }).addTo(map);
       m.bindTooltip(`<b>${esc(h.nom)}</b>`, { direction:'top', offset:[0,-14] });
       m.bindPopup(hopitalPopupHtml(h));
@@ -1386,20 +1374,16 @@ function buildHopitalMarkers() {
     }
   });
 
-  // Après HOPITAL_DELAI_REDUCTION, les repères « H » rapetissent à la taille d'une épingle de
-  // clinique ET repassent à l'arrière-plan (demande d'Olivier du 21 août — remplace le
-  // zIndexOffset négatif permanent d'une version précédente, qui cachait par exemple les 2
-  // cliniques voisines de l'Hôtel-Dieu de Sorel dès l'ouverture de la carte; ici les hôpitaux ne
-  // passent derrière qu'une fois rétrécis, plus après). setIcon() remplace l'élément : l'animation
-  // .hosp-pin-shrink joue donc à l'apparition du nouvel élément, ce qui donne bien un
-  // rétrécissement visible. Les coordonnées, elles, restent les vraies coordonnées de l'hôpital :
-  // on ne déplace jamais un repère pour régler un chevauchement.
+  // Après HOPITAL_DELAI_REDUCTION, les repères « H » repassent SEULEMENT à l'arrière-plan
+  // (demande du 22 août : « ne change pas leur taille, leur apparence, leurs coordonnées, leur
+  // popup, ni le délai de 10 secondes » — remplace la version du 21 août qui les rapetissait en
+  // plus). Un simple changement de zIndexOffset, plus de setIcon() : rien ne se reconstruit,
+  // aucune ré-animation, l'icône reste pixel pour pixel la même.
   if (Object.keys(hospitalMarkers).length) {
     setTimeout(() => {
       Object.keys(hospitalMarkers).forEach(id => {
         try {
           const m = hospitalMarkers[id];
-          m.setIcon(makeHopitalIcon(false));
           m.setZIndexOffset(HOPITAL_ZINDEX_NORMAL);
         } catch (e) {}
       });
@@ -1922,14 +1906,18 @@ function populateRlsButtons() {
     b.innerHTML = ligne2 ? `${esc(ligne1)}<br>${esc(ligne2)}` : esc(ligne1);
     b.style.setProperty('--c', RLS_COLORS_EST[r]);
     b.setAttribute('aria-label', 'Filtrer : ' + r);
+    // Pâle seulement si UN AUTRE bouton est le filtre actif ; foncé sinon (par défaut, ou si
+    // c'est lui le filtre actif).
+    const pale = rlsFilter !== '' && rlsFilter !== r;
+    b.classList.toggle('dim', pale);
     b.setAttribute('aria-pressed', rlsFilter === r ? 'true' : 'false');
-    b.classList.toggle('on', rlsFilter === r);
     b.addEventListener('click', () => {
       rlsFilter = (rlsFilter === r) ? '' : r;
       wrap.querySelectorAll('.rls-btn').forEach(btn => {
-        const actif = btn === b && rlsFilter === r;
-        btn.classList.toggle('on', actif);
-        btn.setAttribute('aria-pressed', actif ? 'true' : 'false');
+        const nomBtn = btn.getAttribute('aria-label').slice('Filtrer : '.length);
+        const paleBtn = rlsFilter !== '' && rlsFilter !== nomBtn;
+        btn.classList.toggle('dim', paleBtn);
+        btn.setAttribute('aria-pressed', rlsFilter === nomBtn ? 'true' : 'false');
       });
       renderSidebar(); updateMarkerVisibility(); fitToVisible();
     });

@@ -277,6 +277,16 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
   const robots = indexable
     ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
     : 'noindex,follow';
+  // Aperçu de partage (og:image) : la bannière Montérégie-Est dans l'univers Est, pour qu'un
+  // lien partagé (courriel à Nancy, réseaux sociaux…) affiche la bonne image — pas celle de la
+  // carte générale des 3 territoires (22 août, demande d'Olivier : « bannière officielle... de
+  // façon cohérente partout »).
+  const ogImage = u.est ? `${SITE}/assets/banniere_monteregie-est.png` : `${SITE}/og-image.png?v=2`;
+  const ogImageW = u.est ? '1600' : '1200';
+  const ogImageH = u.est ? '400' : '630';
+  const ogImageAlt = u.est
+    ? 'Carte interactive Montérégie-Est — Trouve ta clinique.'
+    : 'Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.';
   /* Pas d'entrée « Cliniques » dans l'univers Est : ce répertoire regroupe les 61 cliniques des
      TROIS territoires. Les cliniques de l'Est se rejoignent par leur page de RLS. */
   const liens = u.est
@@ -305,14 +315,14 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
   <meta property="og:title" content="${esc(titre)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${esc(url)}">
-  <meta property="og:image" content="${SITE}/og-image.png?v=2">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.">
+  <meta property="og:image" content="${ogImage}">
+  <meta property="og:image:width" content="${ogImageW}">
+  <meta property="og:image:height" content="${ogImageH}">
+  <meta property="og:image:alt" content="${esc(ogImageAlt)}">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${esc(titre)}">
   <meta name="twitter:description" content="${esc(description)}">
-  <meta name="twitter:image" content="${SITE}/og-image.png?v=2">
+  <meta name="twitter:image" content="${ogImage}">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
@@ -801,6 +811,17 @@ function copieEstPageStatique(source, urlCanonique) {
         forme. On les passe en absolu, seule forme juste quelle que soit la profondeur. */
   html = html.replace(/(href|src)="\.\.\/assets\//g, '$1="/assets/');
 
+  /* 3bis. Bannière : PTEM et AMP illustrent leur en-tête avec la bannière générale de la carte
+     (carte-interactive-monteregie.png). Sur les copies Est, demande d'Olivier du 21 août : la
+     bannière déjà préparée pour la Montérégie-Est (banniere_monteregie-est.png, 20 août) doit
+     apparaître à la place — cohérent avec le reste de l'univers Est, et déjà utilisée ailleurs
+     sur ce territoire (le site lui-même). Le fichier existe déjà dans assets/, rien à créer. */
+  html = html.replace(/carte-interactive-monteregie\.png/g, 'banniere_monteregie-est.png');
+  html = html.replace(
+    /Bannière Trouve ta clinique — carte interactive des cliniques en recrutement en Montérégie/g,
+    'Bannière Trouve ta clinique — carte interactive des cliniques en recrutement en Montérégie-Est'
+  );
+
   /* 4. Identité de l'univers Est dans l'en-tête et le fil d'Ariane. */
   html = html.replace(/(<a class="brand" href="\/monteregie-est\/">)Trouve ta clinique(<\/a>)/,
                       '$1Trouve ta clinique — Montérégie-Est$2');
@@ -814,6 +835,17 @@ function copieEstPageStatique(source, urlCanonique) {
                       `<link href="${urlCanonique}" rel="canonical"/>`);
   html = html.replace(/<meta content="index,follow[^"]*" name="robots"\/>/,
                       '<meta content="noindex,follow" name="robots"/>');
+
+  /* 5bis. Aperçu de partage (og:image / twitter:image) : la bannière Montérégie-Est plutôt que
+     celle de la carte générale, pour les mêmes raisons qu'au point 3bis (22 août). */
+  html = html.replace(/<meta content="[^"]*og-image\.png\?v=2" (property="og:image"|name="twitter:image")\/>/g,
+                      `<meta content="${SITE}/assets/banniere_monteregie-est.png" $1/>`);
+  html = html.replace(/<meta content="1200" property="og:image:width"\/>/,
+                      '<meta content="1600" property="og:image:width"/>');
+  html = html.replace(/<meta content="630" property="og:image:height"\/>/,
+                      '<meta content="400" property="og:image:height"/>');
+  html = html.replace(/<meta content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique\." property="og:image:alt"\/>/,
+                      '<meta content="Carte interactive Montérégie-Est — Trouve ta clinique." property="og:image:alt"/>');
 
   if (html === avant) {
     throw new Error(`copieEstPageStatique : aucune transformation appliquée à ${source} — ` +
