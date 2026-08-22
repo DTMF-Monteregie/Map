@@ -186,7 +186,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .info-menu hr { border: none; border-top: 1px solid var(--filet); margin: 6px 4px; }
 .btn-install { background: var(--orange); color: #fff; font-family: 'Raleway', sans-serif;
   font-size: 13.5px; font-weight: 700; padding: 9px 16px; border-radius: 7px; border: none;
-  cursor: pointer; letter-spacing: .03em; display: none; white-space: nowrap; }
+  cursor: pointer; letter-spacing: .03em; display: none; white-space: nowrap; flex-shrink: 0; }
 .btn-install:hover { filter: brightness(1.08); }
 /* Bouton Partager — même gabarit rond que le bouton « i ».
    L'icône est un SVG et non un caractère : aucune police n'a besoin de le contenir. */
@@ -209,6 +209,36 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .btn-share circle { fill: currentColor; }
 .btn-share path { fill: none; stroke: currentColor; stroke-width: 1.7; }
 .btn-install.show { display: inline-block; }
+/* Sous 480px, le libellé complet (« Installer... ») ferait déborder l'en-tête et pousserait les
+   boutons lune/partage/i hors de l'écran (bogue trouvé le 22 août, quand le bouton d'installation
+   est redevenu visible en permanence) : on ne garde que le pictogramme « ⤓ » dans un rond compact,
+   comme les autres boutons de l'en-tête, et le libellé complet reste lisible dans le menu « i ».
+   Cette règle vient APRÈS .btn-install.show ci-dessus pour la emporter sur elle en cascade. */
+@media (max-width: 480px) {
+  .btn-install.show { width: 32px; height: 32px; padding: 0; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 15px; }
+  .btn-install-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  /* Le 4e rond (installer) ne tenait pas à côté des 3 autres sur un téléphone étroit une fois
+     redevenu permanent (22 août) : resserré ici plutôt qu'en permanence, pour ne pas rapetisser
+     les cibles tactiles sur les écrans qui ont la place. Mesuré à 375px (iPhone standard) : sans
+     ce qui suit, le bouton « i » sortait de 30px de l'écran — le logo et l'espacement de l'en-tête
+     devaient aussi rétrécir, pas seulement les 4 ronds. */
+  header { padding-left: 12px; gap: 8px; }
+  .brand { gap: 8px; }
+  .logo-img { width: 40px; height: 40px; }
+  .header-right { gap: 6px; padding-right: 6px; }
+  .btn-theme, .btn-share, .btn-info { width: 32px; height: 32px; }
+}
+/* Sous 360px (téléphones les plus étroits — iPhone SE 1re génération, quelques Android d'entrée
+   de gamme), même resserré au maximum, 4 ronds ne tiennent plus à côté du titre « Montérégie-est »
+   sans le rendre illisible (18px est déjà le plancher du titre). Plutôt que de sacrifier la
+   lisibilité du titre ou la taille des cibles tactiles, le rond « installer » de l'en-tête
+   s'efface à cette largeur — l'entrée du menu « i » (#info-menu-install) reste l'accès de
+   secours, elle est déjà toujours présente quel que soit l'écran. */
+@media (max-width: 360px) {
+  .btn-install.show { display: none; }
+}
 .ios-tip { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
   background: var(--navy); color: #fff; padding: 12px 16px; border-radius: 10px;
   font-size: 14px; line-height: 1.45; max-width: 92%; box-shadow: 0 6px 24px rgba(0,0,0,.3);
@@ -931,7 +961,7 @@ body.cmp-open { overflow:hidden; }
   </div>
   </div>
   <div class="header-right">
-    <button class="btn-install" id="btn-install">⤓ Installer l'application</button>
+    <button class="btn-install" id="btn-install">⤓ <span class="btn-install-label">Installer l'application</span></button>
     <button class="btn-theme" id="btn-theme" title="Basculer le mode sombre"
       aria-label="Basculer le mode sombre" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -966,6 +996,10 @@ body.cmp-open { overflow:hidden; }
       <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/11/amp-2025_maj-octobre-2025.pdf" target="_blank" rel="noopener">
         <span class="info-menu-ic">⤓</span> Activités médicales particulières (AMP)
       </a>
+      <hr>
+      <button type="button" class="info-menu-link" role="menuitem" id="info-menu-install">
+        <span class="info-menu-ic">⤓</span> Installer l'application
+      </button>
     </div>
   </div>
 </header>
@@ -2599,9 +2633,14 @@ fetch('./data.json', { cache: 'no-cache' })
 </script>
 
 <script>
-// Bouton d'installation visible (PWA)
+// Bouton d'installation visible (PWA). Visible EN PERMANENCE dans l'en-tête (tant que l'appli
+// n'est pas déjà installée) — plus seulement quand le navigateur déclenche son invite native
+// (Chrome/Edge attend parfois plusieurs visites avant de le faire, et Safari ne le fait jamais) :
+// demande d'Olivier du 22 août, « comme avant ». Un second accès identique vit dans le menu
+// « i » (#info-menu-install), pour qui ne remarque pas le bouton de l'en-tête.
 (function () {
   var btn = document.getElementById('btn-install');
+  var menuBtn = document.getElementById('info-menu-install');
   var tip = document.getElementById('ios-tip');
   var tipMsg = document.getElementById('ios-tip-msg');
   var tipClose = document.getElementById('ios-tip-close');
@@ -2609,36 +2648,48 @@ fetch('./data.json', { cache: 'no-cache' })
 
   var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (standalone) { return; } // déjà installée : on n'affiche rien
+  if (standalone) {
+    // Déjà installée : rien à proposer nulle part, y compris l'entrée du menu « i ».
+    if (menuBtn) menuBtn.style.display = 'none';
+    return;
+  }
 
   function showTip(msg) { tipMsg.innerHTML = msg; tip.classList.add('show'); }
   if (tipClose) tipClose.addEventListener('click', function () { tip.classList.remove('show'); });
 
-  // Android / Chrome / Edge : on capte l'invite native du navigateur
+  // Toujours visible dès le chargement — ne dépend plus de beforeinstallprompt pour apparaître.
+  btn.classList.add('show');
+
+  // Android / Chrome / Edge : on capte quand même l'invite native, pour l'utiliser au clic.
   window.addEventListener('beforeinstallprompt', function (e) {
     e.preventDefault();
     deferred = e;
-    btn.classList.add('show');
   });
 
-  // iPhone / iPad : pas d'invite native, on montre quand même le bouton
-  if (isIOS) btn.classList.add('show');
-
-  btn.addEventListener('click', async function () {
+  async function lancerInstallation() {
     if (deferred) {
       deferred.prompt();
       try { await deferred.userChoice; } catch (e) {}
       deferred = null;
-      btn.classList.remove('show');
     } else if (isIOS) {
       showTip("Pour installer\u00a0: touchez le bouton <b>Partager</b> \u2b06\ufe0f en bas de Safari, puis <b>\u00ab Sur l\u2019\u00e9cran d\u2019accueil \u00bb</b>.");
     } else {
       showTip("Pour installer\u00a0: ouvrez le menu de votre navigateur (\u22ee) puis choisissez <b>\u00ab Installer l\u2019application \u00bb</b>.");
     }
+  }
+  btn.addEventListener('click', lancerInstallation);
+  if (menuBtn) menuBtn.addEventListener('click', function () {
+    // Referme le menu « i » avant de lancer l'invite, comme un lien normal du menu.
+    var im = document.getElementById('info-menu');
+    var bi = document.getElementById('btn-info');
+    if (im) im.hidden = true;
+    if (bi) bi.setAttribute('aria-expanded', 'false');
+    lancerInstallation();
   });
 
   window.addEventListener('appinstalled', function () {
     btn.classList.remove('show');
+    if (menuBtn) menuBtn.style.display = 'none';
     tip.classList.remove('show');
   });
 })();

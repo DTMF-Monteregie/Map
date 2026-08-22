@@ -137,7 +137,12 @@ const REMPLACEMENTS = [
   // l'invite native est déjà partagée et fonctionne sans changement — le navigateur installe
   // TOUJOURS le manifeste lié à la page où on clique, donc jamais la carte générale par erreur
   // depuis /monteregie-est/. Seul le texte change ici.
-  ["<button class=\"btn-install\" id=\"btn-install\">⤓ Installer l'application</button>", '<button class="btn-install" id="btn-install">⤓ Installer la carte Montérégie-Est</button>'],
+  ["<button class=\"btn-install\" id=\"btn-install\">⤓ <span class=\"btn-install-label\">Installer l'application</span></button>", '<button class="btn-install" id="btn-install">⤓ <span class="btn-install-label">Installer la carte Montérégie-Est</span></button>'],
+  // Même bouton, dans le menu « i » (ajouté le 22 août — second accès à l'installation).
+  [
+    '<button type="button" class="info-menu-link" role="menuitem" id="info-menu-install">\n        <span class="info-menu-ic">⤓</span> Installer l\'application\n      </button>',
+    '<button type="button" class="info-menu-link" role="menuitem" id="info-menu-install">\n        <span class="info-menu-ic">⤓</span> Installer la carte Montérégie-Est\n      </button>'
+  ],
   ['<link rel="stylesheet" href="./leaflet.css">', '<link rel="stylesheet" href="../leaflet.css">'],
   ['<script src="./leaflet.js"></script>', '<script src="../leaflet.js"></script>'],
   ["fetch('./data.json', { cache: 'no-cache' })", "fetch('../data.json', { cache: 'no-cache' })"],
