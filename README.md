@@ -230,15 +230,6 @@ de la personne : ils sont conservés dans le `localStorage` de son navigateur, n
 transmis à aucun serveur, et ne sont visibles de personne d'autre — pas même de
 l'administrateur du projet. Aucun compte, aucune inscription, aucun formulaire de contact.
 
-En revanche, **ouvrir la page met le navigateur en contact avec deux services externes**,
-qui reçoivent donc l'adresse IP du visiteur, comme tout site qui charge une ressource
-tierce :
-
-| Service | Ce qu'il fournit | Où c'est appelé |
-|---|---|---|
-| Google Fonts | les polices Raleway et Lato | `index.html`, `<link>` du `<head>` |
-| CartoDB / OpenStreetMap | les tuiles du fond de carte | `index.html`, couche Leaflet |
-
 Aucun cookie n'est déposé par l'application elle-même, et aucun outil de mesure d'audience
 n'est installé à ce jour. Cette section doit être mise à jour si l'un ou l'autre change.
 
