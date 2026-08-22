@@ -11,7 +11,13 @@
 // (épingles ou bouton « Installer » figés dans l'état où ils ont été mis en cache la première
 // fois). Bump systématique à chaque dépôt d'un index.html modifié, pas seulement pour les
 // changements structurels du service worker lui-même.
-const CACHE = 'ptem-2027-v31';
+// v32 (22 août 2026) : icônes H des hôpitaux (taille fixe, seul le z-index change après 10 s),
+// bannières og:image cohérentes dans tout l'univers Est, retour du logo point BLEU partout
+// (icônes PWA icon-est-*.png/apple-touch-icon-est.png remplacées), boutons RLS foncés par défaut
+// (pâles seulement à l'isolement), bouton d'installation toujours visible + entrée dans le menu
+// (i), correction du rognage mobile des bannières visual-banner, short_name/
+// apple-mobile-web-app-title de l'univers Est alignés sur « PTEM 2027 ».
+const CACHE = 'ptem-2027-v32';
 const CORE = [
   './',
   './index.html',

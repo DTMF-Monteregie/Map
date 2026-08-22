@@ -123,12 +123,13 @@ const REMPLACEMENTS = [
   // Manifeste et icônes d'installation (PWA) : PAS un simple ajustement de chemin comme les
   // autres lignes ci-dessous. Depuis le 21 août, la page Montérégie-Est utilise SON PROPRE
   // manifeste (manifest-est.webmanifest, à la racine à côté de manifest.json) et SES PROPRES
-  // icônes (icon-est-*.png, apple-touch-icon-est.png — même logo, point rose), pour s'installer
-  // comme une application distincte de la carte des trois territoires. Voir
-  // manifest-est.webmanifest : id/start_url/scope = /monteregie-est/, ce qui garantit à Android/
-  // Chrome que c'est une app séparée de celle dont le manifeste dit /dtmf-monteregie/.
+  // icônes (icon-est-*.png, apple-touch-icon-est.png — même logo bleu que la carte générale,
+  // depuis le 22 août), pour s'installer comme une application distincte de la carte des trois
+  // territoires. Voir manifest-est.webmanifest : id/start_url/scope = /monteregie-est/, ce qui
+  // garantit à Android/Chrome que c'est une app séparée de celle dont le manifeste dit
+  // /dtmf-monteregie/. short_name et apple-mobile-web-app-title restent "PTEM 2027" — identiques
+  // à la carte générale (décision du 22 août) : aucun swap de texte ici.
   ['<link rel="manifest" href="./manifest.json">', '<link rel="manifest" href="../manifest-est.webmanifest">'],
-  ['<meta name="apple-mobile-web-app-title" content="PTEM 2027">', '<meta name="apple-mobile-web-app-title" content="Montérégie-Est">'],
   ['<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">', '<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png">'],
   ['<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png">', '<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png">'],
   ['<link rel="icon" type="image/png" sizes="48x48" href="./favicon-48.png">', '<link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png">'],
