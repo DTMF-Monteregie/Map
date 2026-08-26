@@ -28,7 +28,12 @@
 // (11 fiches), Suroît (6 fiches) et Haut-Saint-Laurent (4 fiches), 21 nouvelles cliniques au
 // total (61 → 82). Jardins-Roussillon revérifié, aucun changement. Pages SEO régénérées
 // (/cliniques/, /rls/*, sitemap.xml). Aucun changement de design, filtres ou logique.
-const CACHE = 'ptem-2027-v35';
+// v36 (26 août 2026) : badge « Vérifié » (sceau compact, icône seule) ajouté après le nom d'une
+// clinique dont validation.statut === 'valide' dans data.json — sidebar, panneau détail, pages
+// SEO individuelles, répertoire /cliniques/ et pages /rls/*. N'affecte AUCUNE fiche pour le
+// moment : aucune clinique n'a encore ce champ, donc aucun badge visible tant qu'on ne l'active
+// pas volontairement, fiche par fiche, après révision manuelle. Design/filtres/logique inchangés.
+const CACHE = 'ptem-2027-v36';
 const CORE = [
   './',
   './index.html',

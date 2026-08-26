@@ -424,6 +424,29 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .dp-name-display { font-family:'Raleway',sans-serif; font-weight:800; font-size:24px; line-height:1.22; padding-right: 30px; }
 .dp-body { flex:1; overflow-y:auto; padding: 0 0 20px; }
 
+/* Badge « Vérifié » — sceau compact affiché après le nom d'une clinique dont les informations
+   ont été transmises via le formulaire ET validées manuellement (voir estValide() / champ
+   validation.statut === 'valide' dans data.json). Ajouté le 26 août 2026. Icône seule (pas de
+   texte permanent), couleur d'accent existante (--green), explication au survol/focus/toucher
+   via une infobulle maison (le projet n'a pas de composant tooltip commun et --title seul ne
+   se déclenche pas de façon fiable au toucher). */
+.badge-verif { display: inline-flex; align-items: center; justify-content: center; width: 18px;
+  height: 18px; padding: 0; margin-left: 5px; vertical-align: -3px; background: none; border: none;
+  color: var(--green); cursor: pointer; position: relative; flex: none; -webkit-tap-highlight-color: transparent; }
+.badge-verif svg { width: 16px; height: 16px; display: block; }
+.badge-verif-tip { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%) translateY(4px);
+  background: var(--navy); color: #fff; font-size: 12px; font-weight: 500; line-height: 1.42;
+  padding: 8px 10px; border-radius: 8px; white-space: normal; width: max-content; max-width: 230px;
+  box-shadow: 0 8px 20px rgba(15,34,64,.24); opacity: 0; visibility: hidden;
+  transition: opacity .12s ease, transform .12s ease; pointer-events: none; z-index: 1400; text-align: left; }
+.badge-verif-tip::after { content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--navy); }
+.badge-verif:hover .badge-verif-tip, .badge-verif:focus-visible .badge-verif-tip,
+.badge-verif.show .badge-verif-tip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+@media (max-width: 480px) { .badge-verif-tip { max-width: 190px; font-size: 11.5px; left: auto; right: -6px;
+    transform: translateY(4px); } .badge-verif.show .badge-verif-tip, .badge-verif:hover .badge-verif-tip,
+    .badge-verif:focus-visible .badge-verif-tip { transform: translateY(0); } .badge-verif-tip::after { left: auto; right: 10px; transform: none; } }
+
 /* DISPLAY SECTIONS */
 .vw-sec { padding: 14px 18px 0; }
 .vw-sec-title { font-family:'Raleway',sans-serif; font-weight:700; font-size:13px;
@@ -1285,6 +1308,43 @@ const TYPE_LABELS = {
 };
 function typeLabel(t) { return TYPE_LABELS[t] || t || ''; }
 
+/* Badge « Vérifié » — voir aussi le bloc CSS .badge-verif (recherche « Ajouté le 26 août 2026 »).
+   Le badge ne s'affiche QUE si validation.statut === 'valide' : une simple réponse reçue au
+   formulaire (statut vide, « recu », « en_revision », etc.) ne l'active jamais — seule une
+   validation manuelle explicite le fait. */
+function estValide(g) { return !!(g && g.validation && g.validation.statut === 'valide'); }
+
+// Réutilise MOIS_FR déjà défini plus bas (voir dateDuTexte) — un seul tableau des mois pour
+// tout le fichier, pas de doublon.
+function dateLisibleFr(iso) {
+  if (typeof iso !== 'string') return '';
+  const m = iso.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return '';
+  const mois = MOIS_FR[parseInt(m[2], 10) - 1];
+  if (!mois) return '';
+  return `${parseInt(m[3], 10)} ${mois} ${m[1]}`;
+}
+
+const SVG_BADGE_VERIF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>';
+
+function badgeVerifHtml(g) {
+  if (!estValide(g)) return '';
+  const date = dateLisibleFr(g.validation.date);
+  const msg = 'Informations confirmées par la clinique via le formulaire.'
+    + (date ? ' Dernière validation : ' + date + '.' : '');
+  return `<button type="button" class="badge-verif" title="${esc(msg)}" aria-label="${esc(msg)}"><span class="badge-verif-tip" aria-hidden="true">${esc(msg)}</span>${SVG_BADGE_VERIF}</button>`;
+}
+// Un seul écouteur délégué : bascule l'infobulle au toucher/clic (le survol et le focus clavier
+// sont déjà gérés en CSS pur). Ferme toute infobulle ouverte au clic ailleurs ou sur Échap.
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest && e.target.closest('.badge-verif');
+  document.querySelectorAll('.badge-verif.show').forEach(b => { if (b !== btn) b.classList.remove('show'); });
+  if (btn) { e.stopPropagation(); btn.classList.toggle('show'); }
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') document.querySelectorAll('.badge-verif.show').forEach(b => b.classList.remove('show'));
+});
+
 function makeIcon(active, rank, couleur) {
   const c = couleur;
   const size = active ? 26 : 20;
@@ -1455,7 +1515,7 @@ function renderSidebar() {
     el.innerHTML = `${dragEnabled ? '<span class="sb-grip" title="Glisser pour reclasser">⠿</span>' : ''}
       <div class="sb-num" style="--rls:${couleurMilieu(g)}">${i+1}</div>
       <div class="sb-info">
-        <div class="sb-name">${esc(nomMain)}</div>
+        <div class="sb-name">${esc(nomMain)}${badgeVerifHtml(g)}</div>
         <div class="sb-city">📍 ${esc(g.ville)}</div>
       </div>
       <button class="sb-star${favoris.has(id) ? ' fav' : ''}" title="Marquer comme favori" aria-label="${esc((favoris.has(id) ? 'Retirer ' : 'Ajouter ') + nomMain + (favoris.has(id) ? ' des favoris' : ' aux favoris'))}" draggable="false">${favoris.has(id) ? '★' : '☆'}</button>`;
@@ -2016,7 +2076,7 @@ function openDetail(id) {
   if (typeof peekOff === 'function') peekOff();
 
   document.getElementById('dp-tag').textContent = typeLabel(g.type);
-  document.getElementById('dp-name-disp').textContent = g.nom.trim();
+  document.getElementById('dp-name-disp').innerHTML = esc(g.nom.trim()) + badgeVerifHtml(g);
   (function(){ var c = couleurMilieu(g); var dh = document.querySelector('#detail .dp-head'); if (dh) { dh.style.background = ''; dh.style.borderBottomColor = c; } var tg = document.getElementById('dp-tag'); if (tg) tg.style.color = c; })();
 
   // Horaire (lecture seule)

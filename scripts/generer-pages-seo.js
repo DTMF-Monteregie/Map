@@ -50,6 +50,18 @@ const CLOUDFLARE_ANALYTICS = `<!-- Cloudflare Web Analytics -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"ceb6d077f71c46ffa566fe67de3eb336"}'></script>
 <!-- End Cloudflare Web Analytics -->`;
 
+/*
+ * Badge « Vérifié » — bascule l'infobulle au toucher/clic. Le survol et le focus clavier sont
+ * déjà gérés en CSS pure (voir assets/seo-pages.css) ; seul le toucher a besoin de JS, un simple
+ * :focus ne se déclenchant pas de façon fiable au tap sur mobile. Ajouté le 26 août 2026, aucune
+ * dépendance externe. N'apparaît dans la page que si elle contient au moins un badge (voir
+ * l'usage de cette constante dans page() plus bas).
+ */
+const BADGE_VERIF_SCRIPT = `<script>
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.badge-verif');document.querySelectorAll('.badge-verif.show').forEach(function(x){if(x!==b)x.classList.remove('show')});if(b){e.stopPropagation();b.classList.toggle('show')}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.querySelectorAll('.badge-verif.show').forEach(function(b){b.classList.remove('show')})});
+</script>`;
+
 /* ------------------------------------------------------------------------------------------- */
 /* RÉGLAGES                                                                                     */
 /* ------------------------------------------------------------------------------------------- */
@@ -99,7 +111,11 @@ const CHAMPS_SUBSTANCE = [
 const CHAMPS_PUBLICS = [
   'id', 'nom', 'ville', 'adresse', 'type', 'region', 'rls', 'niveau', 'niveaux',
   'dme', 'pratiques', 'bureau', 'frais', 'horaire', 'personnel', 'site',
-  'porteOuverte', 'presentation', 'infos', 'gardeUrgence', 'gardeAutre'
+  'porteOuverte', 'presentation', 'infos', 'gardeUrgence', 'gardeAutre',
+  /* validation → ajouté le 26 août 2026. N'est PAS affiché comme ligne de fiche ; sert
+     uniquement à décider si le badge « Vérifié » apparaît et à afficher sa date (voir
+     estValide()/badgeVerif() plus bas). Le sous-champ "source" n'est jamais publié. */
+  'validation'
 ];
 
 /* Libellés lisibles des codes de pratique (mêmes libellés que la légende de la carte). */
@@ -153,6 +169,31 @@ function rempli(v) {
   if (Array.isArray(v)) return v.length > 0;
   if (typeof v === 'object') return Object.values(v).some(rempli);
   return true;
+}
+
+/*
+ * Badge « Vérifié » — voir aussi index.html (.badge-verif / estValide / badgeVerifHtml, ajoutés
+ * le 26 août 2026 pour l'application). Même logique côté pages statiques : le badge n'apparaît
+ * QUE si validation.statut === 'valide' (révision manuelle terminée), jamais sur une simple
+ * réponse reçue au formulaire. Champ ajouté volontairement à CHAMPS_PUBLICS ci-dessus — voir la
+ * liste blanche — mais UNIQUEMENT pour décider d'afficher ce badge et sa date ; le contenu brut
+ * de "validation" n'est jamais affiché comme ligne de la fiche (pas de source/statut visibles).
+ */
+const MOIS_FR_SEO = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+function dateLisibleFr(iso) {
+  const m = typeof iso === 'string' && iso.trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return '';
+  const mois = MOIS_FR_SEO[parseInt(m[2], 10) - 1];
+  return mois ? `${parseInt(m[3], 10)} ${mois} ${m[1]}` : '';
+}
+function estValide(c) { return !!(c && c.validation && c.validation.statut === 'valide'); }
+const SVG_BADGE_VERIF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></svg>';
+function badgeVerif(c) {
+  if (!estValide(c)) return '';
+  const date = dateLisibleFr(c.validation.date);
+  const msg = 'Informations confirmées par la clinique via le formulaire.'
+    + (date ? ' Dernière validation : ' + date + '.' : '');
+  return `<button type="button" class="badge-verif" title="${esc(msg)}" aria-label="${esc(msg)}"><span class="badge-verif-tip" aria-hidden="true">${esc(msg)}</span>${SVG_BADGE_VERIF}</button>`;
 }
 
 /* Slug lisible et stable : minuscules, sans accent, tirets. Le contenu entre parenthèses est
@@ -348,7 +389,7 @@ ${nav}
 ${corps}
 </main>
 <footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les fiches regroupent les données du répertoire, des sources publiques et, lorsqu’elles sont disponibles, des informations communiquées par les milieux. Ces renseignements peuvent changer; pour toute décision officielle, validez l’information auprès du milieu, du DTMF ou des sources gouvernementales compétentes.</div></footer>
-${CLOUDFLARE_ANALYTICS}
+${corps.includes('badge-verif') ? BADGE_VERIF_SCRIPT + '\n' : ''}${CLOUDFLARE_ANALYTICS}
 </body>
 </html>
 `;
@@ -517,7 +558,7 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
 
   const corps = `  <section class="hero">
     <p class="eyebrow">${esc(c.type)}${rempli(c.rls) ? ' · RLS ' + esc(c.rls) : ''}</p>
-    <h1>${esc(c.nom)}</h1>
+    <h1>${esc(c.nom)}${badgeVerif(c)}</h1>
     <p class="lead">${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie — recrute des médecins de famille. Cette page rassemble les renseignements actuellement publiés dans le répertoire pour aider à évaluer le milieu avant de le contacter.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
@@ -595,8 +636,10 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
   const types = [...new Set(liste.map(c => c.type))].sort((a, b) => a.localeCompare(b, 'fr'));
   const prats = [...new Set(liste.flatMap(c => c.pratiques || []))].map(p => PRATIQUES[p] || p).sort();
 
+  // NB : le badge est un frère de <a>, jamais imbriqué dedans — un <button> à l'intérieur d'un
+  // <a> est du HTML invalide (contenu interactif imbriqué) et casserait le clic/le focus.
   const items = liste.map(c => `      <li>
-        <a href="${u.prefixe}/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>
+        <a href="${u.prefixe}/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
         <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}${rempli(c.dme) ? ' · DMÉ ' + esc(c.dme) : ''}</span>
       </li>`).join('\n');
 
@@ -750,7 +793,7 @@ function pageRepertoire(cliniques, slugs, parRls, majDonnees) {
   const sections = [...parRls.keys()].sort((a, b) => a.localeCompare(b, 'fr')).map(rls => {
     const liste = parRls.get(rls);
     const items = liste.map(c => `      <li>
-        <a href="/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>
+        <a href="/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
         <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}</span>
       </li>`).join('\n');
     return `  <section id="rls-${slugifier(rls)}">
