@@ -38,6 +38,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://trouvetaclinique.ca/cliniques/beauharnois-en-sante-cooperative-de-solidarite/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/cliniques/gmf-carrefour-de-la-vallee/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -92,6 +98,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-hudson-hudson-medicentre/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-du-haut-saint-laurent-centre-medical-huntingdon/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/cliniques/camu-longueuil-gmf-petit-bois/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -129,6 +147,24 @@
   </url>
   <url>
     <loc>https://trouvetaclinique.ca/cliniques/gmf-mercier/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-ormstown-clinique-medicale-ormstown/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/centre-de-sante-medicentre-pincourt-gmf/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-rigaud-centre-de-sante-de-rigaud/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -206,6 +242,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://trouvetaclinique.ca/cliniques/groupe-de-medecine-familiale-sante-ste-angelique/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/cliniques/clinique-medicale-les-2-chenes/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
@@ -225,6 +267,24 @@
   </url>
   <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/cliniques/gmf-sainte-julie/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/clinique-medicale-des-batisseurs-gmf-des-batisseurs/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-du-lac-saint-francois-clinique-medicale-havre-sante/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-salaberry-clinique-medi-val/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -254,7 +314,31 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://trouvetaclinique.ca/cliniques/centre-medical-des-trois-lacs-gmf-des-trois-lacs/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-gmf-r-vaudreuil-dorion-polyclinique-medicale-vaudreuil/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/cliniques/gmf-u-de-vaudreuil-soulanges/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/rls/richelieu-yamaska/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/rls/du-suroit/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -279,6 +363,18 @@
   </url>
   <url>
     <loc>https://trouvetaclinique.ca/rls/haut-richelieu-rouville/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/rls/vaudreuil-soulanges/</loc>
+    <lastmod>2026-08-21</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://trouvetaclinique.ca/rls/du-haut-saint-laurent/</loc>
     <lastmod>2026-08-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

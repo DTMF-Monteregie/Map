@@ -24,7 +24,11 @@
 // vérifiée diff par diff contre son code : « RECRUTEMENT » → « TROUVE TA CLINIQUE » en
 // majuscules, CSS de `.brand-org` totalement inchangée (même taille, graisse, espacement,
 // position au-dessus du titre). Écran de chargement toujours non touché.
-const CACHE = 'ptem-2027-v34';
+// v35 (26 août 2026) : data.json enrichi de 3 RLS de la Montérégie-Ouest — Vaudreuil-Soulanges
+// (11 fiches), Suroît (6 fiches) et Haut-Saint-Laurent (4 fiches), 21 nouvelles cliniques au
+// total (61 → 82). Jardins-Roussillon revérifié, aucun changement. Pages SEO régénérées
+// (/cliniques/, /rls/*, sitemap.xml). Aucun changement de design, filtres ou logique.
+const CACHE = 'ptem-2027-v35';
 const CORE = [
   './',
   './index.html',
