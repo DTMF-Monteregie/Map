@@ -1,7 +1,14 @@
-# PTEM 2027 — Carte des cliniques en recrutement
+# Trouve ta clinique — Carte des cliniques en recrutement (PTEM 2027)
 
 Carte web interactive des cliniques en recrutement médical de la **Montérégie**, sur les
 trois territoires : Montérégie-Est, Montérégie-Centre et Montérégie-Ouest.
+
+**18 août 2026 — renommage de la marque.** L'application s'appelle maintenant « Trouve ta
+clinique » (nom stable, lié au domaine) plutôt que « PTEM 2027 » (nom du plan gouvernemental,
+qui change tous les ans). Voir la section « Renommage annuel » plus bas : la corvée de
+décembre passe de 8 endroits à 6, tous des étiquettes de données, plus aucun n'étant la marque
+elle-même. Le classeur Google et son menu Apps Script gardent le nom « PTEM 2027 » — c'est un
+outil de travail interne, pas la marque publique.
 
 **En ligne :** https://trouvetaclinique.ca/
 
@@ -204,10 +211,14 @@ Un fichier ouvert directement (`file://`) ne fonctionnera pas : le service worke
 
 ## Renommage annuel
 
-Le nom « PTEM 2027 » apparaît à huit endroits, tous signalés par un commentaire en tête
-d'`index.html` : le `<title>`, les métadonnées `og:` et `twitter:`, le bloc de données
-structurées (`JSON-LD`), le `<h1>` en tête de `<body>`, le titre du comparatif, l'objet du
-courriel de correction, le `console.log` final et `manifest.json`.
+Depuis le 18 août 2026, « Trouve ta clinique » est le nom stable de l'application — il
+n'apparaît **jamais** dans le titre, les balises `og:`/`twitter:`, le `<h1>` ou le nom du
+manifeste, et n'a donc plus besoin d'être renommé. Seul « PTEM 2027 », le nom du **plan**
+gouvernemental (pas de l'application), doit encore être mis à jour chaque décembre — à six
+endroits, tous signalés par un commentaire en tête d'`index.html` : le `short_name` de
+`manifest.json` (texte sous l'icône Android), `apple-mobile-web-app-title` (texte sous
+l'icône iOS), le sous-titre de l'écran de chargement (`.ldr-ptem`), l'infobulle du bouton
+« i », le `alternateName` du JSON-LD, et le commentaire lui-même.
 
 **À ne pas renommer :** les clés `localStorage` `dtmf-mtg-*` (les favoris et les notes de
 tout le monde seraient perdus), le champ `id` du manifeste, et le nom de domaine.
@@ -229,6 +240,15 @@ Les favoris, les notes personnelles et l'ordre personnalisé **ne quittent jamai
 de la personne : ils sont conservés dans le `localStorage` de son navigateur, ne sont
 transmis à aucun serveur, et ne sont visibles de personne d'autre — pas même de
 l'administrateur du projet. Aucun compte, aucune inscription, aucun formulaire de contact.
+
+En revanche, **ouvrir la page met le navigateur en contact avec deux services externes**,
+qui reçoivent donc l'adresse IP du visiteur, comme tout site qui charge une ressource
+tierce :
+
+| Service | Ce qu'il fournit | Où c'est appelé |
+|---|---|---|
+| Google Fonts | les polices Raleway et Lato | `index.html`, `<link>` du `<head>` |
+| CartoDB / OpenStreetMap | les tuiles du fond de carte | `index.html`, couche Leaflet |
 
 Aucun cookie n'est déposé par l'application elle-même, et aucun outil de mesure d'audience
 n'est installé à ce jour. Cette section doit être mise à jour si l'un ou l'autre change.

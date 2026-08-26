@@ -1,8 +1,8 @@
 {
   "id": "/dtmf-monteregie/",
-  "name": "PTEM 2027 — Cliniques en recrutement de la Montérégie",
+  "name": "Trouve ta clinique — Cliniques en recrutement de la Montérégie",
   "short_name": "PTEM 2027",
-  "description": "PTEM 2027 — carte interactive des cliniques en recrutement de la Montérégie (Est, Centre et Ouest). Coordonnées, horaires et personnes-ressources.",
+  "description": "Trouve ta clinique — carte interactive des cliniques en recrutement de la Montérégie (Est, Centre et Ouest), selon le plan PTEM 2027. Coordonnées, horaires et personnes-ressources.",
   "lang": "fr-CA",
   "dir": "ltr",
   "start_url": "./",
