@@ -17,7 +17,14 @@
 // (pâles seulement à l'isolement), bouton d'installation toujours visible + entrée dans le menu
 // (i), correction du rognage mobile des bannières visual-banner, short_name/
 // apple-mobile-web-app-title de l'univers Est alignés sur « PTEM 2027 ».
-const CACHE = 'ptem-2027-v32';
+// v33 (26 août 2026, 1er essai — corrigé par v34) : en-tête — tentative de remplacer
+// « RECRUTEMENT » par « Trouve ta clinique », mais avec un style et un ordre inventés plutôt
+// que copiés du brouillon d'Olivier (OLaplante/Monteregie-Est) — deux essais faux d'affilée.
+// v34 (26 août 2026) : bannière corrigée pour de bon — reprise EXACTE du brouillon d'Olivier,
+// vérifiée diff par diff contre son code : « RECRUTEMENT » → « TROUVE TA CLINIQUE » en
+// majuscules, CSS de `.brand-org` totalement inchangée (même taille, graisse, espacement,
+// position au-dessus du titre). Écran de chargement toujours non touché.
+const CACHE = 'ptem-2027-v34';
 const CORE = [
   './',
   './index.html',
