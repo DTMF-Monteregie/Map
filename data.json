@@ -43,6 +43,81 @@
       "region": "Est",
       "lat": 46.045277,
       "lng": -73.095157
+    },
+    {
+      "id": 4,
+      "nom": "Hôpital Charles-Le Moyne",
+      "adresse": "3120, boulevard Taschereau",
+      "ville": "Longueuil (Greenfield Park)",
+      "telephone": "450 466-5000",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-charles-le-moyne",
+      "rls": "Champlain",
+      "region": "Centre",
+      "lat": 45.49697,
+      "lng": -73.48655
+    },
+    {
+      "id": 5,
+      "nom": "Hôpital du Haut-Richelieu",
+      "adresse": "920, boulevard du Séminaire Nord",
+      "ville": "Saint-Jean-sur-Richelieu",
+      "telephone": "450 359-5000",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-du-haut-richelieu",
+      "rls": "Haut-Richelieu–Rouville",
+      "region": "Centre",
+      "lat": 45.3324042,
+      "lng": -73.2702951
+    },
+    {
+      "id": 6,
+      "nom": "Hôpital Anna-Laberge",
+      "adresse": "200, boulevard Brisebois",
+      "ville": "Châteauguay",
+      "telephone": "450 699-2425",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-anna-laberge",
+      "rls": "Jardins-Roussillon",
+      "region": "Ouest",
+      "lat": 45.345065,
+      "lng": -73.762252
+    },
+    {
+      "id": 7,
+      "nom": "Hôpital du Suroît",
+      "adresse": "150, rue Saint-Thomas",
+      "ville": "Salaberry-de-Valleyfield",
+      "telephone": "450 371-9920",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-du-suroit",
+      "rls": "du Suroît",
+      "region": "Ouest",
+      "lat": 45.250996,
+      "lng": -74.130976
+    },
+    {
+      "id": 8,
+      "nom": "Hôpital Barrie Memorial",
+      "adresse": "28, rue Gale",
+      "ville": "Ormstown",
+      "telephone": "450 829-2321",
+      "site": "https://www.santemonteregie.qc.ca/installations/hopital-barrie-memorial-barrie-memorial-hospital",
+      "rls": "du Haut-Saint-Laurent",
+      "region": "Ouest",
+      "lat": 45.12639,
+      "lng": -73.99975
+    },
+    {
+      "id": 9,
+      "nom": "Hôpital de Vaudreuil-Soulanges",
+      "adresse": "Au nord-ouest de l'intersection du boulevard de la Cité-des-Jeunes et de l'autoroute 30",
+      "ville": "Vaudreuil-Dorion",
+      "telephone": "",
+      "site": "https://hopitalvaudreuilsoulanges.com/",
+      "rls": "Vaudreuil-Soulanges",
+      "region": "Ouest",
+      "statut": "construction",
+      "ouverturePrevue": "été 2028",
+      "posApprox": true,
+      "lat": 45.38851,
+      "lng": -74.04807
     }
   ],
   "cliniques": [

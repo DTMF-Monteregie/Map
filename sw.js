@@ -33,7 +33,22 @@
 // SEO individuelles, répertoire /cliniques/ et pages /rls/*. N'affecte AUCUNE fiche pour le
 // moment : aucune clinique n'a encore ce champ, donc aucun badge visible tant qu'on ne l'active
 // pas volontairement, fiche par fiche, après révision manuelle. Design/filtres/logique inchangés.
-const CACHE = 'ptem-2027-v36';
+// v37 (26 août 2026) : data.json enrichi de 5 hôpitaux manquants — Hôpital Charles-Le Moyne et
+// Hôpital du Haut-Richelieu (Montérégie-Centre), Hôpital Anna-Laberge, Hôpital du Suroît et
+// Hôpital Barrie Memorial (Montérégie-Ouest). Total 3 → 8 hôpitaux (coordonnées, adresses et
+// téléphones vérifiés sur santemonteregie.qc.ca). L'Hôpital de Vaudreuil-Soulanges, encore en
+// construction et non ouvert, n'a PAS été ajouté. Changement de code : les hôpitaux
+// s'affichent maintenant sur la carte générale des 3 territoires (auparavant réservés à la
+// seule page Montérégie-Est) ; la page Montérégie-Est continue de ne montrer que les hôpitaux
+// region === 'Est'. Icônes, popups, comportement de zoom/z-index inchangés.
+// v38 (26 août 2026) : ajout d'un 9e hôpital — l'Hôpital de Vaudreuil-Soulanges, encore en
+// chantier (ouverture prévue à l'été 2028, aucune adresse civique officielle assignée pour
+// l'instant — position approximative, posApprox:true). Affiché différemment des hôpitaux en
+// fonction pour éviter toute confusion : icône ambre pointillée (🚧 au lieu de « H »), infobulle
+// « (en chantier) », popup avec mention explicite « Pas encore ouvert […] Ne pas s'y présenter »
+// et sans numéro de téléphone. Nouveau champ data.json optionnel : statut:'construction' (+
+// ouverturePrevue). N'affecte aucun autre hôpital ni aucune clinique.
+const CACHE = 'ptem-2027-v38';
 const CORE = [
   './',
   './index.html',

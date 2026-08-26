@@ -1402,15 +1402,34 @@ const HOPITAL_ZINDEX_GRAND = 1000;   // premier plan pendant HOPITAL_DELAI_REDUC
 const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan ensuite — voir buildHopitalMarkers
 const HOPITAL_DELAI_REDUCTION = 10000;
 
-function makeHopitalIcon() {
+// 26 août 2026 : hôpitaux « en chantier » (h.statut === 'construction') — cas de l'Hôpital de
+// Vaudreuil-Soulanges, pas encore ouvert (ouverture prévue à l'été 2028). Couleur ambre distincte
+// du rouge des hôpitaux en fonction, pour qu'on ne les confonde jamais au premier coup d'œil sur
+// la carte (un usager ne doit pas croire qu'il peut s'y présenter aux urgences).
+function estHopitalEnChantier(h) { return h && h.statut === 'construction'; }
+
+function makeHopitalIcon(h) {
   const size = HOPITAL_TAILLE;
+  const enChantier = estHopitalEnChantier(h);
+  const couleur = enChantier ? '#b8770f' : '#c0182c';
+  const bordure = enChantier ? '3px dashed #fff' : '3px solid #fff';
   return L.divIcon({ className:'',
-    html:`<div style="position:relative;width:${size}px;height:${size}px;background:#c0182c;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:13px">H</span></div></div></div>`,
+    html:`<div style="position:relative;width:${size}px;height:${size}px;background:${couleur};border:${bordure};border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 6px rgba(0,0,0,.4)"><div class="hosp-pin-circle"><div class="hosp-pin-circle-inner"><span style="font-size:13px">${enChantier ? '🚧' : 'H'}</span></div></div></div>`,
     iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
 }
 
 function hopitalPopupHtml(h) {
   const tel = String(h.telephone || '').replace(/[^\d+]/g, '');
+  const enChantier = estHopitalEnChantier(h);
+  if (enChantier) {
+    return `<div class="hosp-popup">
+      <span class="hosp-tag" style="background:#b8770f">Chantier en cours</span>
+      <h4>${esc(h.nom)}</h4>
+      <p>${esc(h.adresse)}${h.ville ? ', ' + esc(h.ville) : ''}</p>
+      <p><em>Pas encore ouvert${h.ouverturePrevue ? ' — ouverture prévue ' + esc(h.ouverturePrevue) : ''}. Ne pas s'y présenter en attendant.</em></p>
+      ${h.site ? `<p><a href="${esc(h.site)}" target="_blank" rel="noopener">Suivre le projet ↗</a></p>` : ''}
+    </div>`;
+  }
   return `<div class="hosp-popup">
     <span class="hosp-tag">Hôpital</span>
     <h4>${esc(h.nom)}</h4>
@@ -1431,9 +1450,9 @@ function buildHopitalMarkers() {
       // d'être à moitié masquée par elle. Repasse à l'arrière-plan plus bas — la taille, elle,
       // ne change jamais (demande du 22 août).
       const m = L.marker([h.lat, h.lng], {
-        icon: makeHopitalIcon(), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
+        icon: makeHopitalIcon(h), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
       }).addTo(map);
-      m.bindTooltip(`<b>${esc(h.nom)}</b>`, { direction:'top', offset:[0,-14] });
+      m.bindTooltip(`<b>${esc(h.nom)}</b>${estHopitalEnChantier(h) ? ' <small>(en chantier)</small>' : ''}`, { direction:'top', offset:[0,-14] });
       m.bindPopup(hopitalPopupHtml(h));
       hospitalMarkers[h.id] = m;
     } catch (e) {
@@ -2511,20 +2530,21 @@ function initData(data) {
   dataMeta = Array.isArray(data) ? {} : (data || {});
 
   // Hôpitaux : mêmes garde-fous de validité que les cliniques (lat/lng/nom), mais aucun
-  // autre traitement — pas de tri, pas de favoris, pas de recherche. Pour l'instant, comme
-  // pour les cliniques, on ne garde que la Montérégie-Est (seule version où des hôpitaux ont
-  // été ajoutés à ce jour) ; hors de MODE_EST, hopitaux reste vide et rien ne s'affiche —
-  // ajouter d'autres territoires plus tard n'exigera qu'un ajout de données, pas de code.
+  // autre traitement — pas de tri, pas de favoris, pas de recherche.
+  // 26 août 2026 : les 8 hôpitaux de la Montérégie (3 Est + 2 Centre + 3 Ouest) s'affichent
+  // désormais sur la carte générale des 3 territoires. Sur la page dédiée Montérégie-Est
+  // (MODE_EST), on garde le filtre à region === 'Est' pour la même raison que les cliniques —
+  // cette page ne doit jamais laisser voir un établissement d'un autre territoire.
   const hopBrut = Array.isArray(data) ? [] : (data.hopitaux || []);
-  hopitaux = MODE_EST ? hopBrut.filter(h => {
-    if (h.region !== 'Est') return false;
+  hopitaux = hopBrut.filter(h => {
+    if (MODE_EST && h.region !== 'Est') return false;
     const lat = (typeof h.lat === 'number' || typeof h.lat === 'string') ? Number(h.lat) : NaN;
     const lng = (typeof h.lng === 'number' || typeof h.lng === 'string') ? Number(h.lng) : NaN;
     const ok = isFinite(lat) && isFinite(lng) && typeof h.nom === 'string' && h.nom.trim();
     if (!ok) { console.warn('Hôpital ignoré (données invalides) :', h && h.id, h && h.nom, h); return false; }
     h.lat = lat; h.lng = lng;
     return true;
-  }) : [];
+  });
 
   // Notes personnelles sauvegardées
   gmfs.forEach(g => { const n = SAFE.get(NOTE_KEY(g.id)); if (n !== null) g.notes = n; });
