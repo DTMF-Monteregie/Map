@@ -139,22 +139,30 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
      le texte, tombait sinon sous la ligne sur les téléphones étroits. Sans effet sur la carte
      complète, où le titre est un seul mot qui n'a jamais eu de raison de se couper. */
   white-space: nowrap; }
-/* « est » manuscrit de l'en-tête — page Montérégie-Est seulement (élément inséré par
-   scripts/publier-monteregie-est.js, absent de la carte complète). Il remplace le « -Est »
-   qui était auparavant écrit en toutes lettres. Taille en « em » : il suit donc
-   automatiquement la réduction de .logo-text strong sur les écrans étroits. */
-/* line-height: 0 — le « est » est 1,45 fois plus grand que le titre. À hauteur de ligne normale,
+/* ── LETTRAGE MANUSCRIT DU TERRITOIRE ───────────────────────────────────────────────────────
+   « est », « centre » ou « ouest » en Kaushan Script, sur les pages régionales seulement (les
+   éléments sont insérés par scripts/publier-regions.js et n'existent pas dans la carte des trois
+   territoires). Une seule paire de règles sert les trois pages : seules ces deux variables
+   changent d'un territoire à l'autre, et c'est le script de publication qui les remplace.
+   Valeur par défaut = le rose de la Montérégie-Est, première page à avoir eu ce lettrage.
+   Les teintes sont les couleurs de territoire (REGION_COLORS) éclaircies pour rester lisibles
+   sur le bleu marine de l'en-tête et de l'écran de chargement — exactement le rapport qu'il y a
+   entre le rose de carte #e6007e et le rose de lettrage #ff3d96. */
+:root { --mot-region: #ff3d96; --mot-halo: rgba(230,0,126,.8); }
+/* Taille en « em » : le lettrage suit donc automatiquement la réduction de .logo-text strong
+   sur les écrans étroits. */
+/* line-height: 0 — le mot est 1,45 fois plus grand que le titre. À hauteur de ligne normale,
    il gonflait la boîte de ligne du titre de 29,4 à 40,6 px; le bloc étant centré verticalement
    dans l'en-tête, « RECRUTEMENT » remontait de 5,6 px par rapport à la carte complète. À zéro,
    le lettrage ne participe plus au calcul de la hauteur de ligne : il se dessine par-dessus,
    sans rien déplacer, et l'en-tête retrouve exactement la même mise en page que l'autre carte. */
-.logo-text .brand-est { font-family: 'Kaushan Script', cursive; font-weight: 400;
+.logo-text .brand-mot { font-family: 'Kaushan Script', cursive; font-weight: 400;
   font-size: 1.45em; line-height: 0; margin-left: 1px;
   /* Couleur pleine, pas de dégradé (retiré le 21 août à la demande d'Olivier — la « brillance »
-     du dégradé blanc→rose ne convenait plus pour la bannière de l'en-tête). Même rose que le
-     trait d'union juste en dessous et que le « est » de l'écran de chargement (.ldr-est) : les
+     du dégradé blanc→rose ne convenait plus pour la bannière de l'en-tête). Même teinte que le
+     trait d'union juste en dessous et que le mot de l'écran de chargement (.ldr-mot) : les
      3 usages du lettrage manuscrit restent visuellement cohérents entre eux. */
-  color: #ff3d96;
+  color: var(--mot-region);
   /* La hampe du « t » de Kaushan Script dépasse d'environ 10 % de sa largeur au-delà de la
      largeur d'avance déclarée par la police (constaté le 20 août, à l'époque où ce padding
      servait aussi de marge intérieure pour le dégradé en background-clip). Sans lien avec le
@@ -162,10 +170,10 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
      haut du « t » ne soit pas tranché net à la verticale; la marge négative annule l'espace
      ajouté pour que rien ne bouge autour. */
   padding: .12em .3em .06em 0; margin-right: -.3em;
-  filter: drop-shadow(0 0 10px rgba(230,0,126,.8)); }
-/* Trait d'union rose entre « Montérégie » et le « est » manuscrit. Il reste dans la graisse du
+  filter: drop-shadow(0 0 10px var(--mot-halo)); }
+/* Trait d'union coloré entre « Montérégie » et le mot manuscrit. Il reste dans la graisse du
    titre (Raleway 700) : c'est le lettrage qui doit attirer l'œil, pas le tiret. */
-.logo-text .brand-tiret { color: #ff3d96; }
+.logo-text .brand-tiret { color: var(--mot-region); }
 .header-right { margin-left: auto; display: flex; gap: 10px; align-items: center; padding-right: 12px; position: relative; }
 .btn-info { display: inline-flex; align-items: center; justify-content: center;
   width: 35px; height: 35px; border-radius: 50%; flex-shrink: 0; padding: 0;
@@ -276,8 +284,22 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .sb-head { position: relative; padding: 14px 16px 10px; border-bottom: 1px solid var(--border); background: var(--cream); flex-shrink: 0; }
 .sb-close { display: none; position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border: none; background: transparent; color: var(--muted); font-size: 22px; line-height: 1; cursor: pointer; border-radius: 8px; z-index: 1; }
 .sb-close:hover { background: var(--cream); color: var(--texte); }
-.sb-head h2 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 15px;
-  text-transform: uppercase; letter-spacing: .04em; color: var(--texte2); }
+/* ── ACCENT DE TERRITOIRE ───────────────────────────────────────────────────────────────────
+   Couleur du trait sous « CLINIQUES EN RECRUTEMENT », en haut de la liste. Sur la carte des
+   trois territoires, c'est EXACTEMENT le dégradé turquoise du filet sous l'en-tête
+   (header::after) : les deux traits se répondent. Sur une carte régionale, c'est la couleur
+   pleine du territoire — rose pour l'Est, vert pour le Centre, bleu pour l'Ouest, soit les
+   mêmes teintes que ses épingles sur la carte générale (REGION_COLORS).
+   Une seule déclaration, remplacée à la publication par scripts/publier-regions.js : rien
+   d'autre dans la feuille de style n'a à connaître le territoire. */
+:root { --sb-accent: linear-gradient(90deg, var(--logo-blue), var(--logo-teal), var(--logo-mint)); }
+.sb-head h2 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 20px;
+  text-transform: uppercase; letter-spacing: .01em; color: var(--texte); line-height: 1.15; }
+/* Trait de couleur sous le titre (26 août 2026, demande d'Olivier — reprise du brouillon
+   Montérégie-Est). En ::after plutôt qu'en border-bottom : la hauteur, les coins arrondis et
+   le dégradé ne sont pas exprimables sur une bordure. */
+.sb-head h2::after { content: ''; display: block; height: 4px; border-radius: 2px;
+  margin-top: 7px; background: var(--sb-accent); }
 /* Sous 400px, le bouton fermer (32px, absolu à droite) peut passer sous le
    titre en nowrap : on lui réserve sa place et on autorise le titre à passer
    à la ligne plutôt que de disparaître derrière (audit du 18 août). */
@@ -628,17 +650,18 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 @supports ((-webkit-background-clip: text) or (background-clip: text)) {
   #app-loader .ldr-brand .ldr-region { color: transparent; }
 }
-/* « est » manuscrit — UNIQUEMENT sur la page Montérégie-Est. L'élément .ldr-est n'existe pas
-   dans la carte complète (il est inséré par scripts/publier-monteregie-est.js), donc ces règles
-   n'y ont aucun effet et la police Kaushan Script n'y est même pas téléchargée : un navigateur
-   ne charge une police web que si un élément l'utilise vraiment. Rose #e6007e = la couleur qui
-   désigne déjà la Montérégie-Est partout dans l'app (punaises, pastille de filtre). Choix
-   retenu par Olivier le 20 août (option « G7 ») ; un essai d'agencement différent (PTEM 2027 en
-   haut, Montérégie blanc + est sur la même ligne) a été testé le 21 août puis écarté au profit
-   de celui-ci, qu'on garde. */
-#app-loader .ldr-brand .ldr-est { display: block; font-family: 'Kaushan Script', cursive;
+/* Mot manuscrit du territoire (« est », « centre », « ouest ») — UNIQUEMENT sur les pages
+   régionales. L'élément .ldr-mot n'existe pas dans la carte complète (il est inséré par
+   scripts/publier-regions.js), donc ces règles n'y ont aucun effet et la police Kaushan Script
+   n'y est même pas téléchargée : un navigateur ne charge une police web que si un élément
+   l'utilise vraiment. La couleur est celle qui désigne déjà le territoire partout dans l'app
+   (punaises, pastille de filtre) — voir --mot-region plus haut. Agencement retenu par Olivier
+   le 20 août pour l'Est (option « G7 ») ; un essai différent (PTEM 2027 en haut, Montérégie
+   blanc + est sur la même ligne) a été testé le 21 août puis écarté au profit de celui-ci.
+   Étendu au Centre (vert) et à l'Ouest (bleu) le 26 août 2026, sans rien changer d'autre. */
+#app-loader .ldr-brand .ldr-mot { display: block; font-family: 'Kaushan Script', cursive;
   font-weight: 400; font-size: 54px; line-height: 1; margin-top: 1px;
-  color: #ff3d96; text-shadow: 0 0 26px rgba(230,0,126,.8); }
+  color: var(--mot-region); text-shadow: 0 0 26px var(--mot-halo); }
 #app-loader .ldr-brand .ldr-ptem { font-size: 18px; font-weight: 600; letter-spacing: .3em;
   text-transform: uppercase; color: #cfe0f2; margin-top: 13px; }
 #app-loader .ldr-map { position: relative; width: 240px; height: 190px; }
@@ -718,12 +741,23 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
    territoires) : un choix de boutons reste lisible ici, ce qui ne serait pas le cas sur la
    carte des trois territoires — raison pour laquelle #rls-filter, lui, reste un menu
    déroulant partout ailleurs. */
-.rls-btns { margin-top:8px; width:100%; display:flex; gap:7px; }
+/* Les boutons se répartissent sur une seule ligne tant qu'ils tiennent, et passent à la ligne
+   sinon. flex-wrap ajouté le 26 août 2026 avec l'ouverture de la carte Montérégie-Ouest : ce
+   territoire a QUATRE RLS (contre trois pour l'Est, deux pour le Centre), et à 320 px de large
+   quatre boutons sur une ligne ne laissaient que 48 px chacun — « Jardins-Roussillon » et
+   « Vaudreuil-Soulanges » y étaient tranchés en plein mot. La règle vaut pour tous les
+   territoires : c'est le nombre de boutons et la largeur de l'écran qui décident, pas une
+   exception écrite pour l'Ouest. */
+.rls-btns { margin-top:8px; width:100%; display:flex; flex-wrap:wrap; gap:7px; }
 /* 22 août — demande d'Olivier : les 3 boutons sont foncés (pleins) par défaut, comme si les
    trois RLS étaient actifs (ce qui est le cas tant qu'aucun filtre n'est choisi). Cliquer sur
    l'un d'eux l'ISOLE : lui reste foncé, les 2 autres pâlissent (.dim) — voir populateRlsButtons.
    Un 2e clic sur le même bouton retire le filtre et les 3 redeviennent foncés. */
-.rls-btn { flex:1 1 0; min-width:0; padding:8px 4px; box-sizing:border-box; border-radius:9px;
+/* flex-basis en pourcentage plutôt que 0 : c'est lui qui déclenche le retour à la ligne. À
+   ~86 px de contenu minimum, 2 boutons tiennent côte à côte dès ~190 px de liste — donc une
+   ligne pour l'Est et le Centre partout, et deux lignes de deux pour l'Ouest sur les écrans
+   étroits seulement. */
+.rls-btn { flex:1 1 86px; min-width:0; padding:8px 4px; box-sizing:border-box; border-radius:9px;
   border:1.5px solid var(--c); background:var(--c); color:#fff; cursor:pointer;
   font-family:'Raleway',sans-serif; font-weight:700; font-size:11.5px; line-height:1.18;
   text-align:center; transition:background .15s ease,color .15s ease,opacity .15s ease; }
@@ -1005,13 +1039,23 @@ body.cmp-open { overflow:hidden; }
       <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">
         <span class="info-menu-ic">i</span> À propos du recrutement
       </a>
-      <!-- hors-est:debut — Lien vers la carte dédiée à la Montérégie-Est. Il n'existe que dans un
-           sens : depuis la carte des trois territoires vers la carte Est. La page Est, elle, ne
-           renvoie jamais vers la carte générale (marqueurs supprimés à la publication). -->
+      <!-- hors-region:debut — Liens vers les trois cartes régionales. Ils n'existent que dans un
+           sens : depuis la carte des trois territoires vers chaque carte régionale. Les pages
+           régionales, elles, ne renvoient jamais vers la carte générale ni vers un autre
+           territoire (marqueurs supprimés à la publication — voir scripts/publier-regions.js).
+           Pastilles aux couleurs de territoire (REGION_COLORS) : le menu, les épingles et la
+           légende de la carte disent la même chose. Ajouté le 26 août 2026 à la demande
+           d'Olivier, en même temps que l'ouverture des cartes Centre et Ouest. -->
       <a class="info-menu-link" role="menuitem" href="/monteregie-est/">
         <span class="info-menu-ic" style="background:#e6007e">📍</span> Carte Montérégie-Est
       </a>
-      <!-- hors-est:fin -->
+      <a class="info-menu-link" role="menuitem" href="/monteregie-centre/">
+        <span class="info-menu-ic" style="background:#43a047">📍</span> Carte Montérégie-Centre
+      </a>
+      <a class="info-menu-link" role="menuitem" href="/monteregie-ouest/">
+        <span class="info-menu-ic" style="background:#0080d7">📍</span> Carte Montérégie-Ouest
+      </a>
+      <!-- hors-region:fin -->
       <hr>
       <a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/sites/default/files/2025/06/besoins-etablissement_en-bref_2026v2_0.pdf" target="_blank" rel="noopener">
         <span class="info-menu-ic">⤓</span> Besoins en établissement 2026
@@ -1056,14 +1100,15 @@ body.cmp-open { overflow:hidden; }
       <div class="reg-filter" id="reg-filter" role="group" aria-label="Filtrer par région"></div>
       <select class="rls-filter" id="rls-filter" aria-label="Filtrer par RLS"></select>
       <div class="rls-btns" id="rls-btns" role="group" aria-label="Filtrer par RLS" hidden></div>
-      <!-- hors-est:debut — Le bouton « PTEM / AMP » et ses 3 liens (guides PTEM, AMP, et
-           répertoire des 61 cliniques des TROIS territoires) sont retirés en bloc sur la page
-           Montérégie-Est : demande explicite d'Olivier du 21 août (les guides PTEM/AMP, neutres
-           avant cette date, sont désormais aussi jugés hors-sujet sur la page dédiée à l'Est).
-           scripts/publier-monteregie-est.js SUPPRIME tout ce qui est entre ces deux marqueurs
-           lorsqu'il fabrique la page Montérégie-Est : ce bouton n'existe donc même pas dans le
-           code source de cette page-là, ni pour un visiteur, ni pour Google, ni si le JavaScript
-           ne s'exécute pas. -->
+      <!-- hors-region:debut — Le bouton « PTEM / AMP » et ses 3 liens (guides PTEM, AMP, et
+           répertoire des cliniques des TROIS territoires) sont retirés en bloc sur les pages
+           régionales : demande explicite d'Olivier du 21 août pour l'Est (les guides PTEM/AMP,
+           neutres avant cette date, sont désormais aussi jugés hors-sujet sur une page dédiée),
+           étendue aux trois territoires le 26 août.
+           scripts/publier-regions.js SUPPRIME tout ce qui est entre ces deux marqueurs lorsqu'il
+           fabrique une page régionale : ce bouton n'existe donc même pas dans le code source de
+           ces pages-là, ni pour un visiteur, ni pour Google, ni si le JavaScript ne s'exécute
+           pas. -->
       <div class="docs-wrap" id="docs-wrap">
         <button type="button" class="docs-toggle" id="docs-toggle" aria-expanded="false" aria-controls="docs-panel">
           <span>📄 PTEM / AMP</span>
@@ -1086,7 +1131,7 @@ body.cmp-open { overflow:hidden; }
           </div>
         </div>
       </div>
-      <!-- hors-est:fin -->
+      <!-- hors-region:fin -->
     </div>
     <div class="sb-list" id="sb-list"></div>
   </div>
@@ -1109,25 +1154,38 @@ body.cmp-open { overflow:hidden; }
 <script src="./leaflet.js"></script>
 <script>
 // ═══════════════════════════════════════════
-//  MODE « MONTÉRÉGIE-EST » (vue dédiée, même app/mêmes données)
+//  MODE « CARTE RÉGIONALE » (vue dédiée, même app/mêmes données)
 // ═══════════════════════════════════════════
-// Ce fichier index.html est servi tel quel à deux endroits : « / » (carte complète) et
-// « /monteregie-est/ » (copie strictement identique, recopiée automatiquement par le workflow
-// GitHub — voir .github/workflows/generer-pages-seo.yml). Une seule ligne de détection au
-// chargement suffit à faire dévier tout le comportement ci-dessous : on ne garde AUCUNE copie
-// séparée de la logique, du CSS ou des données. Ajouté le 20 août 2026 à la demande d'Olivier
-// (courriel de Nancy Langlois, DTMF Montérégie-Est, qui ne peut pas relayer une carte montrant
-// les trois territoires).
-// Le test porte sur le SEGMENT « monteregie-est » n'importe où dans le chemin, et non sur un
-// début de chemin figé : le site est servi à la racine (trouvetaclinique.ca/monteregie-est/)
+// Ce fichier index.html est servi tel quel à quatre endroits : « / » (carte des trois
+// territoires) et « /monteregie-est/ », « /monteregie-centre/ », « /monteregie-ouest/ »
+// (copies strictement identiques, fabriquées automatiquement par scripts/publier-regions.js —
+// voir .github/workflows/generer-pages-seo.yml). Une seule ligne de détection au chargement
+// suffit à faire dévier tout le comportement ci-dessous : on ne garde AUCUNE copie séparée de
+// la logique, du CSS ou des données. Né le 20 août 2026 pour la seule Montérégie-Est (courriel
+// de Nancy Langlois, DTMF Montérégie-Est, qui ne peut pas relayer une carte montrant les trois
+// territoires) ; généralisé aux trois territoires le 26 août 2026 à la demande d'Olivier.
+// Le test porte sur le SEGMENT « monteregie-<territoire> » n'importe où dans le chemin, et non
+// sur un début de chemin figé : le site est servi à la racine (trouvetaclinique.ca/monteregie-est/)
 // mais aussi, historiquement, dans un sous-dossier (dtmf-monteregie.github.io/Map/) — l'ancienne
 // adresse encodée dans le code QR du comparatif PDF. Un test « startsWith('/monteregie-est') »
 // aurait été faux sous /Map/ et aurait affiché les TROIS territoires sur la page dédiée.
-const MODE_EST = /(^|\/)monteregie-est(\/|$)/.test(location.pathname);
-// NOTE : rien n'est retiré ni réécrit ici au chargement. Tout ce qui distingue la page
-// Montérégie-Est — titre de l'en-tête, « est » manuscrit, absence des liens vers les autres
+//
+// REGION_PAGE vaut exactement la valeur du champ « region » de data.json ('Est' | 'Centre' |
+// 'Ouest'), ou null sur la carte générale : tous les filtres ci-dessous comparent donc
+// directement à g.region, sans table de correspondance à tenir à jour.
+const REGION_PAGE = (() => {
+  const m = /(^|\/)monteregie-(est|centre|ouest)(\/|$)/.exec(location.pathname);
+  return m ? { est: 'Est', centre: 'Centre', ouest: 'Ouest' }[m[2]] : null;
+})();
+const MODE_REGION = REGION_PAGE !== null;   // sur une carte régionale, quelle qu'elle soit
+// MODE_EST reste défini à part : quelques éléments demeurent propres à la Montérégie-Est
+// (adresse de la page « À propos du recrutement », bannière de partage). Tout le reste passe
+// désormais par MODE_REGION / REGION_PAGE et vaut pour les trois territoires.
+const MODE_EST = REGION_PAGE === 'Est';
+// NOTE : rien n'est retiré ni réécrit ici au chargement. Tout ce qui distingue une page
+// régionale — titre de l'en-tête, lettrage manuscrit, absence des liens vers les autres
 // territoires — est inscrit directement dans le HTML de cette page par
-// scripts/publier-monteregie-est.js. Faire ce travail en JavaScript aurait eu deux défauts :
+// scripts/publier-regions.js. Faire ce travail en JavaScript aurait eu deux défauts :
 // un clignotement au chargement, et surtout des liens vers les trois territoires toujours
 // présents dans le code source, donc suivis par Google et visibles si le JavaScript échoue.
 
@@ -1258,31 +1316,53 @@ map.on('locationerror', function () {
 
 const REGION_COLORS = { 'Est': '#e6007e', 'Centre': '#43a047', 'Ouest': '#0080d7' };
 function regionColor(r) { return REGION_COLORS[r] || '#64748b'; }
-/* Couleurs par RLS — utilisées UNIQUEMENT sur la carte Montérégie-Est. Sur la carte des trois
+/* Couleurs par RLS — utilisées UNIQUEMENT sur les cartes régionales. Sur la carte des trois
    territoires, les épingles restent colorées par territoire (rose/vert/bleu) : y ajouter des
-   couleurs de RLS donnerait huit couleurs concurrentes sans rien clarifier. Sur la carte Est,
-   à l'inverse, tout serait rose : distinguer les trois RLS y redevient utile, comme sur la
-   première carte du CISSS Montérégie-Est.
-   Ce sont les couleurs EXACTES de la toute première carte (cisssme.github.io/Map/), relevées
-   par échantillonnage de sa légende. Elles vivaient déjà dans ce fichier sans plus servir à
-   rien : ce sont celles des trois épingles de l'écran de chargement (.pin-rose, .pin-green,
-   .pin-blue). L'écran de chargement était donc le dernier vestige de ce code de couleurs — il
-   redevient cohérent avec la carte qu'il annonce. */
-const RLS_COLORS_EST = {
-  'Pierre-Boucher':    '#ee2d62',
-  'Richelieu-Yamaska': '#15803d',
-  'Pierre-De Saurel':  '#2f4a7a'
+   couleurs de RLS donnerait neuf couleurs concurrentes sans rien clarifier. Sur une carte
+   régionale, à l'inverse, tout serait de la même couleur : distinguer les RLS y redevient
+   utile, comme sur la première carte du CISSS Montérégie-Est.
+   MONTÉRÉGIE-EST — ce sont les couleurs EXACTES de la toute première carte
+   (cisssme.github.io/Map/), relevées par échantillonnage de sa légende. Elles vivaient déjà
+   dans ce fichier sans plus servir à rien : ce sont celles des trois épingles de l'écran de
+   chargement (.pin-rose, .pin-green, .pin-blue). L'écran de chargement était donc le dernier
+   vestige de ce code de couleurs — il redevient cohérent avec la carte qu'il annonce.
+   CENTRE et OUEST (26 août 2026) — couleurs choisies par Olivier : bleu et vert pour les deux
+   RLS du Centre ; bleu, vert, rose et violet pour les quatre RLS de l'Ouest. Le bleu et le vert
+   sont les teintes de territoire déjà utilisées partout dans l'app (REGION_COLORS ci-dessus) et
+   le rose celui de Pierre-Boucher — aucun risque de confusion, les cartes étant séparées. Le
+   violet #7c3aed complète la série sans se confondre avec le rouge des hôpitaux ni l'ambre des
+   chantiers. */
+const RLS_COLORS_PAR_REGION = {
+  'Est': {
+    'Pierre-Boucher':    '#ee2d62',
+    'Richelieu-Yamaska': '#15803d',
+    'Pierre-De Saurel':  '#2f4a7a'
+  },
+  'Centre': {
+    'Champlain':               '#0080d7',
+    'Haut-Richelieu–Rouville': '#43a047'
+  },
+  'Ouest': {
+    'Jardins-Roussillon':    '#0080d7',
+    'Vaudreuil-Soulanges':   '#43a047',
+    'du Suroît':             '#ee2d62',
+    'du Haut-Saint-Laurent': '#7c3aed'
+  }
 };
-/* Couleur d'un milieu : par RLS sur la carte Est, par territoire partout ailleurs. Tout passe
-   par cette seule fonction, de sorte que la carte des trois territoires garde exactement le
-   comportement qu'elle avait avant (regionColor, inchangé). */
+/* Couleurs de la page courante : le jeu du territoire sur une carte régionale, un objet vide
+   sur la carte générale. Tout le code en aval lit CETTE constante et n'a donc jamais à savoir
+   sur quel territoire il tourne. */
+const RLS_COLORS_REGION = (MODE_REGION && RLS_COLORS_PAR_REGION[REGION_PAGE]) || {};
+/* Couleur d'un milieu : par RLS sur une carte régionale, par territoire partout ailleurs. Tout
+   passe par cette seule fonction, de sorte que la carte des trois territoires garde exactement
+   le comportement qu'elle avait avant (regionColor, inchangé). */
 function couleurMilieu(g) {
-  if (MODE_EST && g && RLS_COLORS_EST[g.rls]) return RLS_COLORS_EST[g.rls];
+  if (MODE_REGION && g && RLS_COLORS_REGION[g.rls]) return RLS_COLORS_REGION[g.rls];
   return regionColor(g && g.region);
 }
 
 // Légende des couleurs. Carte des trois territoires : une ligne par territoire. Carte
-// Montérégie-Est : une ligne par RLS, puisque c'est ce que les épingles distinguent là-bas.
+// régionale : une ligne par RLS, puisque c'est ce que les épingles y distinguent.
 let legendEl = null;
 (function(){
   const legend = L.control({ position:'bottomleft' });
@@ -1290,9 +1370,9 @@ let legendEl = null;
     const d = L.DomUtil.create('div', 'rls-legend');
     const ligne = (couleur, texte) =>
       `<div class="rls-legend-row"><span class="rls-dot" style="background:${couleur}"></span>${texte}</div>`;
-    d.innerHTML = MODE_EST
+    d.innerHTML = MODE_REGION
       ? '<div class="rls-legend-title">Réseau local (RLS)</div>' +
-        Object.keys(RLS_COLORS_EST).map(r => ligne(RLS_COLORS_EST[r], r)).join('')
+        Object.keys(RLS_COLORS_REGION).map(r => ligne(RLS_COLORS_REGION[r], r)).join('')
       : '<div class="rls-legend-title">Région</div>' +
         ligne('#e6007e', 'Montérégie-Est') +
         ligne('#43a047', 'Montérégie-Centre') +
@@ -1427,7 +1507,10 @@ function buildMarkers() {
 const HOPITAL_TAILLE = 32;
 const HOPITAL_ZINDEX_GRAND = 1000;   // premier plan pendant HOPITAL_DELAI_REDUCTION
 const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan ensuite — voir buildHopitalMarkers
-const HOPITAL_DELAI_REDUCTION = 10000;
+// 26 août 2026 : délai ramené de 10 à 5 secondes à la demande d'Olivier. La première lecture
+// de la carte (« où sont les hôpitaux ? ») se fait plus vite qu'on ne l'avait estimé ; passé
+// ce temps, le repère « H » n'a plus de raison d'intercepter les clics avant les cliniques.
+const HOPITAL_DELAI_REDUCTION = 5000;
 
 // 26 août 2026 : hôpitaux « en chantier » (h.statut === 'construction') — cas de l'Hôpital de
 // Vaudreuil-Soulanges, pas encore ouvert (ouverture prévue à l'été 2028). Couleur ambre distincte
@@ -1834,7 +1917,7 @@ function buildComparatif(favs) {
         <td class="cmp-headmain">
           <div class="cmp-eyebrow">COMPARATIF</div>
           <div class="cmp-title">FAVORIS</div>
-          <div class="cmp-subtitle">Trouve ta clinique · Recrutement médical — ${MODE_EST ? 'Montérégie-Est' : 'Montérégie'}</div>
+          <div class="cmp-subtitle">Trouve ta clinique · Recrutement médical — ${MODE_REGION ? 'Montérégie-' + REGION_PAGE : 'Montérégie'}</div>
           <div class="cmp-exp">Exporté le ${date}</div>
         </td>
         <td class="cmp-headqr">
@@ -1852,7 +1935,7 @@ function buildComparatif(favs) {
         <div class="cmp-qrurl">trouvetaclinique.ca</div>
       </td>
     </tr></table>
-    <div class="cmp-note">Trouve ta clinique — Cliniques en recrutement · ${MODE_EST ? 'Montérégie-Est' : 'Montérégie'}</div>`;
+    <div class="cmp-note">Trouve ta clinique — Cliniques en recrutement · ${MODE_REGION ? 'Montérégie-' + REGION_PAGE : 'Montérégie'}</div>`;
   document.getElementById('cmp-print').innerHTML =
     '<div class="cmp-bar">' +
       '<span class="cmp-bar-t">Comparatif des favoris</span>' +
@@ -2001,13 +2084,15 @@ function populateRlsSelect() {
   if (prev && opts.indexOf(prev) !== -1) { sel.value = prev; }
   else { rlsFilter = ''; sel.value = ''; }
 }
-/* Carte Montérégie-Est SEULEMENT : 3 boutons pleine largeur (un par RLS) à la place du menu
-   déroulant #rls-filter, qui reste utilisé partout ailleurs (voir buildFilters). Un clic sur
-   le bouton déjà actif désélectionne, comme choisir « Tous les RLS » dans le menu déroulant. */
+/* Cartes RÉGIONALES seulement : un bouton pleine largeur par RLS du territoire, à la place du
+   menu déroulant #rls-filter, qui reste utilisé sur la carte générale (voir buildFilters). Un
+   clic sur le bouton déjà actif désélectionne, comme choisir « Tous les RLS » dans le menu
+   déroulant. Le nombre de boutons suit simplement le territoire : 3 pour l'Est, 2 pour le
+   Centre, 4 pour l'Ouest — rien à ajuster ici quand on ajoute un territoire. */
 function populateRlsButtons() {
   const wrap = document.getElementById('rls-btns');
   if (!wrap) return;
-  const opts = Object.keys(RLS_COLORS_EST).filter(r => rlsForRegions().includes(r));
+  const opts = Object.keys(RLS_COLORS_REGION).filter(r => rlsForRegions().includes(r));
   wrap.innerHTML = '';
   opts.forEach(r => {
     const b = document.createElement('button');
@@ -2017,7 +2102,7 @@ function populateRlsButtons() {
     const ligne1 = coupure > 0 ? r.slice(0, coupure) : r;
     const ligne2 = coupure > 0 ? r.slice(coupure) : '';
     b.innerHTML = ligne2 ? `${esc(ligne1)}<br>${esc(ligne2)}` : esc(ligne1);
-    b.style.setProperty('--c', RLS_COLORS_EST[r]);
+    b.style.setProperty('--c', RLS_COLORS_REGION[r]);
     b.setAttribute('aria-label', 'Filtrer : ' + r);
     // Pâle seulement si UN AUTRE bouton est le filtre actif ; foncé sinon (par défaut, ou si
     // c'est lui le filtre actif).
@@ -2050,10 +2135,10 @@ function syncRegChips() {
 }
 function buildFilters() {
   const wrap = document.getElementById('reg-filter');
-  // Vue Montérégie-Est : gmfs ne contient déjà que la Montérégie-Est (voir initData), donc les
-  // trois pastilles de région n'ont plus rien à filtrer — on les masque plutôt que d'afficher un
+  // Vue régionale : gmfs ne contient déjà que ce territoire (voir initData), donc les trois
+  // pastilles de région n'ont plus rien à filtrer — on les masque plutôt que d'afficher un
   // filtre à une seule option, toujours cochée, qui ne fait rien.
-  if (wrap && MODE_EST) { wrap.style.display = 'none'; }
+  if (wrap && MODE_REGION) { wrap.style.display = 'none'; }
   else if (wrap) {
     wrap.innerHTML = '';
     ['Est', 'Centre', 'Ouest'].forEach(key => {
@@ -2077,7 +2162,7 @@ function buildFilters() {
   }
   const sel = document.getElementById('rls-filter');
   const btnWrap = document.getElementById('rls-btns');
-  if (MODE_EST) {
+  if (MODE_REGION) {
     if (sel) sel.hidden = true;
     if (btnWrap) { btnWrap.hidden = false; populateRlsButtons(); }
   } else if (sel) {
@@ -2430,10 +2515,10 @@ function goHome() {
     setTimeout(function () { b.classList.remove('tapped'); }, 450); }
   if (typeof closeDrawer === 'function') closeDrawer();
   if (activeId !== null) closeDetail();
-  // Vue Montérégie-Est : HOME (centre/zoom de toute la Montérégie) montrerait surtout de
-  // l'eau et des cliniques absentes de cette page. On recadre plutôt sur les données
-  // réellement chargées (déjà limitées à l'Est — voir initData), comme au chargement initial.
-  if (MODE_EST) { fitToData(); return; }
+  // Vue régionale : HOME (centre/zoom de toute la Montérégie) montrerait surtout de l'eau et
+  // des cliniques absentes de cette page. On recadre plutôt sur les données réellement
+  // chargées (déjà limitées au territoire — voir initData), comme au chargement initial.
+  if (MODE_REGION) { fitToData(); return; }
   map.flyTo(HOME.center, HOME.zoom, { duration: 0.8 });
 }
 const brandHome = document.getElementById('brand-home');
@@ -2460,14 +2545,15 @@ function annonceContenu() {
   const a = dataMeta.annonce;
   if (!a) return { texte:'', lien:'', lienCarte:'', titre:'', dateFin:'' };
   if (typeof a === 'string') return { texte:a, lien:'', lienCarte:'', titre:'', dateFin:'' };
-  // Vue Montérégie-Est : l'annonce de data.json est UNE seule annonce pour tout le site. Sans ce
-  // garde-fou, la page dédiée afficherait en gros une activité d'un autre territoire (au moment
+  // Vue régionale : l'annonce de data.json est UNE seule annonce pour tout le site. Sans ce
+  // garde-fou, une page dédiée afficherait en gros une activité d'un autre territoire (au moment
   // d'écrire ceci, data.json annonce « JR Express — RLS Jardins-Roussillon », en Montérégie-
-  // OUEST) — exactement ce que la page dédiée doit éviter. On n'affiche donc l'annonce sur cette
-  // page QUE si elle est explicitement marquée comme étant de l'Est, via un champ facultatif
-  // "region": "Est" dans l'objet "annonce" de data.json. Une annonce sans ce champ reste
-  // affichée normalement sur la carte complète, et reste masquée sur la page Montérégie-Est.
-  if (MODE_EST && String(a.region || '').trim() !== 'Est') {
+  // OUEST) — exactement ce que ces pages doivent éviter. On n'affiche donc l'annonce sur une
+  // page régionale QUE si elle est explicitement marquée comme étant de ce territoire, via un
+  // champ facultatif "region": "Est" | "Centre" | "Ouest" dans l'objet "annonce" de data.json.
+  // Une annonce sans ce champ reste affichée normalement sur la carte des trois territoires, et
+  // reste masquée sur les trois pages régionales.
+  if (MODE_REGION && String(a.region || '').trim() !== REGION_PAGE) {
     return { texte:'', lien:'', lienCarte:'', titre:'', dateFin:'' };
   }
   return { texte: a.texte || '', lien: a.lien || '', lienCarte: a.lienCarte || '',
@@ -2549,22 +2635,21 @@ function initData(data) {
     g.lat = lat; g.lng = lng;
     return true;
   });
-  // Vue Montérégie-Est : on retire les cliniques des deux autres territoires ICI, à la source,
-  // pas seulement via un filtre visuel. gmfs ne contient alors jamais autre chose que la
-  // Montérégie-Est — carte, liste, recherche, favoris, comparatif PDF, menu RLS en découlent
-  // tous automatiquement, sans rien pouvoir « réactiver » depuis l'interface.
-  if (MODE_EST) gmfs = gmfs.filter(g => g.region === 'Est');
+  // Vue régionale : on retire les cliniques des deux autres territoires ICI, à la source, pas
+  // seulement via un filtre visuel. gmfs ne contient alors jamais autre chose que le territoire
+  // de la page — carte, liste, recherche, favoris, comparatif PDF, menu RLS en découlent tous
+  // automatiquement, sans rien pouvoir « réactiver » depuis l'interface.
+  if (MODE_REGION) gmfs = gmfs.filter(g => g.region === REGION_PAGE);
   dataMeta = Array.isArray(data) ? {} : (data || {});
 
   // Hôpitaux : mêmes garde-fous de validité que les cliniques (lat/lng/nom), mais aucun
   // autre traitement — pas de tri, pas de favoris, pas de recherche.
-  // 26 août 2026 : les 8 hôpitaux de la Montérégie (3 Est + 2 Centre + 3 Ouest) s'affichent
-  // désormais sur la carte générale des 3 territoires. Sur la page dédiée Montérégie-Est
-  // (MODE_EST), on garde le filtre à region === 'Est' pour la même raison que les cliniques —
-  // cette page ne doit jamais laisser voir un établissement d'un autre territoire.
+  // 26 août 2026 : les 9 hôpitaux de la Montérégie s'affichent sur la carte générale des 3
+  // territoires. Sur une page régionale, on les filtre par territoire pour la même raison que
+  // les cliniques — ces pages ne doivent jamais laisser voir un établissement d'ailleurs.
   const hopBrut = Array.isArray(data) ? [] : (data.hopitaux || []);
   hopitaux = hopBrut.filter(h => {
-    if (MODE_EST && h.region !== 'Est') return false;
+    if (MODE_REGION && h.region !== REGION_PAGE) return false;
     const lat = (typeof h.lat === 'number' || typeof h.lat === 'string') ? Number(h.lat) : NaN;
     const lng = (typeof h.lng === 'number' || typeof h.lng === 'string') ? Number(h.lng) : NaN;
     const ok = isFinite(lat) && isFinite(lng) && typeof h.nom === 'string' && h.nom.trim();
@@ -2580,14 +2665,14 @@ function initData(data) {
   const typeRank = { 'GMF-U': 0, 'GMF-R': 1, 'GMF': 2, 'GMF satellite': 3, 'CH': 4 };
   const regRank = { 'Ouest': 0, 'Centre': 1, 'Est': 2 };
   /* Sur la carte des trois territoires, le premier critère de tri est le TERRITOIRE : la liste
-     est donc déjà regroupée par couleur d'épingle. Sur la carte Montérégie-Est, ce critère
-     devient inopérant puisque tout est « Est » — la liste retombait sur le type de milieu et
-     les trois couleurs de RLS s'alternaient au fil de la liste et de la numérotation.
-     On remplace donc ce premier palier par le RLS sur cette page. L'ordre des RLS est celui de
-     RLS_COLORS_EST, donc exactement celui de la légende : la liste, la numérotation des
+     est donc déjà regroupée par couleur d'épingle. Sur une carte régionale, ce critère devient
+     inopérant puisque tout appartient au même territoire — la liste retombait sur le type de
+     milieu et les couleurs de RLS s'alternaient au fil de la liste et de la numérotation.
+     On remplace donc ce premier palier par le RLS sur ces pages. L'ordre des RLS est celui de
+     RLS_COLORS_REGION, donc exactement celui de la légende : la liste, la numérotation des
      épingles et la légende racontent la même histoire. */
-  const rlsRank = MODE_EST
-    ? Object.keys(RLS_COLORS_EST).reduce((o, r, i) => (o[r] = i, o), {})
+  const rlsRank = MODE_REGION
+    ? Object.keys(RLS_COLORS_REGION).reduce((o, r, i) => (o[r] = i, o), {})
     : null;
   order = gmfs.slice().sort((a, b) => {
     if (rlsRank) {
@@ -2673,14 +2758,16 @@ fetch('./data.json', { cache: 'no-cache' })
 (function () {
   var btn = document.getElementById('btn-share');
   if (!btn) return;
-  // Vue Montérégie-Est : partager doit renvoyer vers /monteregie-est/, pas vers la carte
+  // Vue régionale : partager doit renvoyer vers la page du territoire, pas vers la carte
   // complète — sinon le bouton « Partager » de cette page ferait exactement ce que Nancy
-  // Langlois ne voulait pas (promouvoir les autres territoires).
-  var estMode = typeof MODE_EST !== 'undefined' && MODE_EST;
-  var URL_APP = estMode ? 'https://trouvetaclinique.ca/monteregie-est/' : 'https://trouvetaclinique.ca/';
-  var TITRE = estMode ? 'Trouve ta clinique — Montérégie-Est' : 'Trouve ta clinique — Montérégie';
-  var TEXTE = estMode
-    ? 'Carte interactive des cliniques en recrutement en Montérégie-Est. Installable sur téléphone.'
+  // Langlois ne voulait pas pour l'Est (promouvoir les autres territoires).
+  var regMode = typeof MODE_REGION !== 'undefined' && MODE_REGION;
+  var regNom = regMode ? 'Montérégie-' + REGION_PAGE : 'Montérégie';
+  var regChemin = regMode ? 'monteregie-' + REGION_PAGE.toLowerCase().replace('é','e') + '/' : '';
+  var URL_APP = 'https://trouvetaclinique.ca/' + regChemin;
+  var TITRE = 'Trouve ta clinique — ' + regNom;
+  var TEXTE = regMode
+    ? 'Carte interactive des cliniques en recrutement en ' + regNom + '. Installable sur téléphone.'
     : 'Carte interactive des cliniques en recrutement dans la Montérégie. Installable sur téléphone.';
 
   btn.addEventListener('click', function () {
@@ -2725,6 +2812,13 @@ fetch('./data.json', { cache: 'no-cache' })
   var tipMsg = document.getElementById('ios-tip-msg');
   var tipClose = document.getElementById('ios-tip-close');
   var deferred = null;
+
+  // Cartes Montérégie-Centre et Montérégie-Ouest : ce sont des CARTES, pas des applications
+  // (décision d'Olivier du 26 août 2026). scripts/publier-regions.js retire les deux boutons
+  // d'installation du code source de ces pages ; sans ce garde-fou, la ligne
+  // « btn.classList.add('show') » plus bas lèverait une TypeError sur un bouton absent.
+  // Rien à installer, rien à faire : on sort avant tout le reste.
+  if (!btn) { if (menuBtn) menuBtn.style.display = 'none'; return; }
 
   var standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);

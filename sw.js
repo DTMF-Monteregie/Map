@@ -48,7 +48,18 @@
 // « (en chantier) », popup avec mention explicite « Pas encore ouvert […] Ne pas s'y présenter »
 // et sans numéro de téléphone. Nouveau champ data.json optionnel : statut:'construction' (+
 // ouverturePrevue). N'affecte aucun autre hôpital ni aucune clinique.
-const CACHE = 'ptem-2027-v38';
+// v39 (26 août 2026) : ouverture des cartes MONTÉRÉGIE-CENTRE et MONTÉRÉGIE-OUEST, sur le même
+// principe que la carte Montérégie-Est — /monteregie-centre/ et /monteregie-ouest/, chacune
+// filtrée sur son territoire (cliniques ET hôpitaux), épingles colorées par RLS, mot manuscrit
+// du territoire sur l'écran de chargement et dans l'en-tête (vert pour le Centre, bleu pour
+// l'Ouest), et univers SEO étanche (/rls/*, /cliniques/*, /ptem/, /amp/). Ce ne sont PAS des
+// applications installables : contrairement à l'Est, elles n'ont ni manifeste ni icônes propres
+// et leurs boutons « Installer » sont retirés (décision d'Olivier). Autres changements de la
+// même passe : le menu « i » de la carte générale mène désormais aux trois cartes régionales,
+// le titre « CLINIQUES EN RECRUTEMENT » reçoit un trait de couleur (dégradé turquoise sur la
+// carte générale, couleur du territoire sur une carte régionale), et le délai avant que les
+// repères « H » des hôpitaux repassent à l'arrière-plan passe de 10 à 5 secondes.
+const CACHE = 'ptem-2027-v39';
 const CORE = [
   './',
   './index.html',
@@ -66,15 +77,18 @@ const CORE = [
   './favicon-48.png'
 ];
 
-// Page dédiée Montérégie-Est : mise en cache À PART, et de façon tolérante. cache.addAll()
-// échoue EN BLOC si un seul de ses fichiers manque — si /monteregie-est/ n'était pas encore
-// déposé (ou venait à être retiré), l'installation entière échouerait et TOUT le mode hors
-// ligne disparaîtrait, y compris pour la carte principale. On l'ajoute donc séparément, et un
-// échec ici ne fait perdre que le hors-ligne de cette page-là.
-// Depuis le 21 août : son manifeste et ses icônes d'installation (propres à cette page, point
-// rose) en font partie — sans quoi l'installation de l'app Montérégie-Est échouerait hors ligne.
-const CORE_EST = [
+// Pages régionales : mises en cache À PART, et de façon tolérante. cache.addAll() échoue EN BLOC
+// si un seul de ses fichiers manque — si /monteregie-est/ n'était pas encore déposé (ou venait à
+// être retiré), l'installation entière échouerait et TOUT le mode hors ligne disparaîtrait, y
+// compris pour la carte principale. On les ajoute donc séparément, et un échec ici ne fait
+// perdre que le hors-ligne de la page concernée.
+// Le manifeste et les icônes d'installation de la Montérégie-Est en font partie depuis le
+// 21 août — sans quoi l'installation de cette app échouerait hors ligne. Le Centre et l'Ouest
+// (26 août) n'ont ni manifeste ni icônes : ce sont des cartes, pas des applications.
+const CORE_REGIONS = [
   './monteregie-est/', './monteregie-est/index.html',
+  './monteregie-centre/', './monteregie-centre/index.html',
+  './monteregie-ouest/', './monteregie-ouest/index.html',
   './manifest-est.webmanifest',
   './icon-est-192.png', './icon-est-512.png',
   './icon-est-192-maskable.png', './icon-est-512-maskable.png',
@@ -86,7 +100,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE)
       .then(cache => cache.addAll(CORE)
-        .then(() => Promise.allSettled(CORE_EST.map(u => cache.add(u)))))
+        .then(() => Promise.allSettled(CORE_REGIONS.map(u => cache.add(u)))))
       .then(() => self.skipWaiting())
   );
 });
@@ -115,16 +129,20 @@ self.addEventListener('fetch', event => {
   // de chemins écrits un par un, qu'il fallait penser à allonger à chaque nouvelle page — un
   // oubli aurait suffi à réintroduire le bug ci-dessous. Il n'y a maintenant plus rien à
   // maintenir ici quand on ajoute une page.
-  // Deux « accueils » depuis le 20 août 2026 : la carte complète et la carte dédiée à la
-  // Montérégie-Est. Ce sont DEUX documents distincts (contenu filtré différemment), donc deux
-  // clés de cache distinctes — voir cacheKey plus bas. Les confondre reviendrait à servir hors
-  // ligne la carte des trois territoires à quelqu'un qui a ouvert la page Montérégie-Est.
+  // QUATRE « accueils » depuis le 26 août 2026 : la carte des trois territoires et les trois
+  // cartes régionales (Est depuis le 20 août, Centre et Ouest depuis le 26). Ce sont QUATRE
+  // documents distincts (contenu filtré différemment), donc quatre clés de cache distinctes —
+  // voir cacheKey plus bas. Les confondre reviendrait à servir hors ligne la carte des trois
+  // territoires à quelqu'un qui a ouvert une page régionale, ou pire, la carte d'un autre
+  // territoire que celui qu'il a demandé.
+  const REGIONS = ['monteregie-est', 'monteregie-centre', 'monteregie-ouest'];
   const memeOrigine = url.origin === self.location.origin;
   const estAccueilPrincipal = memeOrigine
     && (url.pathname === '/' || url.pathname === '/index.html');
-  const estAccueilEst = memeOrigine
-    && (url.pathname === '/monteregie-est/' || url.pathname === '/monteregie-est/index.html');
-  const estAccueil = estAccueilPrincipal || estAccueilEst;
+  const regionAccueil = memeOrigine
+    ? REGIONS.find(r => url.pathname === `/${r}/` || url.pathname === `/${r}/index.html`) || null
+    : null;
+  const estAccueil = estAccueilPrincipal || regionAccueil !== null;
 
   // Navigation vers une page statique autre que l'accueil : on ne l'intercepte pas du tout.
   // Sans cela, la clé de cache normalisée ci-dessous écraserait le cache hors-ligne de
@@ -143,7 +161,7 @@ self.addEventListener('fetch', event => {
   // (favoris et notes compris) une fois le budget de stockage dépassé
   // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
   if (estAccueil || url.pathname.endsWith('data.json')) {
-    const cacheKey = estAccueilEst ? './monteregie-est/index.html'
+    const cacheKey = regionAccueil ? `./${regionAccueil}/index.html`
                    : estAccueilPrincipal ? './index.html'
                    : req;
     event.respondWith(
@@ -156,8 +174,8 @@ self.addEventListener('fetch', event => {
       })
       // Hors ligne : on ne se rabat QUE sur la copie de la page demandée. L'ancien repli
       // « sinon, sers ./index.html » servirait la carte des trois territoires à la place de la
-      // page Montérégie-Est — un secours pire que la panne dans ce cas précis.
-      .catch(() => caches.match(cacheKey).then(m => m || (estAccueilEst ? undefined : caches.match('./index.html'))))
+      // page régionale demandée — un secours pire que la panne dans ce cas précis.
+      .catch(() => caches.match(cacheKey).then(m => m || (regionAccueil ? undefined : caches.match('./index.html'))))
     );
     return;
   }
