@@ -59,7 +59,11 @@
 // le titre « CLINIQUES EN RECRUTEMENT » reçoit un trait de couleur (dégradé turquoise sur la
 // carte générale, couleur du territoire sur une carte régionale), et le délai avant que les
 // repères « H » des hôpitaux repassent à l'arrière-plan passe de 10 à 5 secondes.
-const CACHE = 'ptem-2027-v39';
+// v40 (27 août 2026) : CARTO exige désormais une clé API pour ses fonds raster (light_all /
+// dark_all) — ajout de ?key=… à l'URL des tuiles dans index.html (et donc dans les copies
+// régionales, qui en héritent via scripts/publier-regions.js). Aucun autre changement ; même
+// styles de carte qu'avant (pas de bascule vers Voyager).
+const CACHE = 'ptem-2027-v40';
 const CORE = [
   './',
   './index.html',

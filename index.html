@@ -313,7 +313,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
      repliables, en-tête qui se réduit au défilement) resterait à envisager
      séparément si ça ne suffit pas. */
   .sb-search { margin-top: 8px; }
-  .fav-toggle { margin-top: 6px; }
+  .sb-view-row { margin-top: 6px; gap: 6px; }
   .reg-filter { margin-top: 8px; }
   .rls-filter { margin-top: 6px; }
   .docs-wrap { margin-top: 6px; }
@@ -329,12 +329,56 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 .sb-search-clear { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); border: none; background: transparent; cursor: pointer; color: var(--muted); font-size: 12px; line-height: 1; padding: 5px 7px; border-radius: 6px; display: none; }
 .sb-search-clear:hover { background: var(--cream); color: var(--texte); }
 .sb-search.has-text .sb-search-clear { display: block; }
-.fav-toggle { margin-top: 10px; display: inline-flex; align-items: center; gap: 5px;
+/* 27 août 2026 : le bouton favoris partage désormais sa ligne avec l'interrupteur « Toutes
+   les cliniques » (voir .sb-view-row ci-dessous), repris du brouillon Montérégie-Est — la
+   fonctionnalité qui affiche aussi les milieux ne recrutant pas actuellement, jusque-là
+   invisibles dans l'application (mais déjà présents dans data.json, `recrutementActif:false`,
+   avec leurs propres pages SEO). */
+.sb-view-row { margin-top: 10px; display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+  align-items: stretch; gap: 8px; }
+.fav-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   background: var(--champ); border: 1.5px solid var(--border); color: var(--texte2); cursor: pointer;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: .02em;
-  padding: 9px 12px; min-height: 24px; border-radius: 20px; transition: all .15s; }
+  width: 100%; padding: 9px 10px; min-height: 38px; border-radius: 20px; transition: all .15s; min-width: 0; }
 .fav-toggle:hover { border-color: #f5b301; }
 .fav-toggle.active { background: var(--jaune-doux); border-color: #f5b301; color: #9a6a00; }
+.all-clinics-wrap { position: relative; width: 100%; min-width: 0; }
+.all-clinics-toggle { width: 100%; min-height: 38px; display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 8px 10px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--champ);
+  color: var(--texte2); cursor: pointer; font-family: 'Raleway', sans-serif; font-weight: 700;
+  font-size: 11.5px; line-height: 1.1; transition: background .15s, border-color .15s, color .15s; }
+.all-clinics-toggle:hover { border-color: var(--blue); }
+.all-clinics-toggle[aria-checked="true"] { background: var(--blue-lt); border-color: var(--blue); color: var(--navy); }
+.mini-toggle { width: 29px; height: 17px; padding: 2px; border-radius: 999px; background: #c9c1ad;
+  display: inline-flex; align-items: center; flex: 0 0 auto; box-sizing: border-box; transition: background .15s; }
+.mini-toggle::after { content: ''; width: 13px; height: 13px; border-radius: 50%; background: #fff;
+  box-shadow: 0 1px 3px rgba(15,34,64,.28); transform: translateX(0); transition: transform .16s; }
+.all-clinics-toggle[aria-checked="true"] .mini-toggle { background: var(--blue); }
+.all-clinics-toggle[aria-checked="true"] .mini-toggle::after { transform: translateX(12px); }
+.all-clinics-info { position: absolute; top: -6px; right: -4px; width: 18px; height: 18px; display: flex;
+  align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--muted);
+  background: var(--white); color: var(--muted); font: italic 11px/1 Georgia, serif; cursor: pointer; padding: 0;
+  box-shadow: 0 1px 4px rgba(15,34,64,.15); z-index: 2; }
+.all-clinics-info:hover, .all-clinics-info[aria-expanded="true"] { border-color: var(--orange); color: var(--orange); }
+.all-clinics-tip { position: absolute; top: 46px; right: 0; width: min(250px, calc(100vw - 48px)); z-index: 20;
+  background: var(--navy); color: #fff; border-radius: 9px; padding: 9px 11px; font-size: 12px; line-height: 1.4;
+  box-shadow: 0 5px 18px rgba(15,34,64,.28); }
+.all-clinics-tip::before { content: ''; position: absolute; right: 9px; top: -6px; width: 12px; height: 12px;
+  background: var(--navy); transform: rotate(45deg); }
+:root[data-theme="sombre"] .all-clinics-toggle[aria-checked="true"] { background: #17314a; color: #dbeafe; }
+/* Épingle et rond de liste d'un milieu qui ne recrute pas : contour au lieu du remplissage
+   plein, pour rester lisible même dans sa couleur pâlie (voir RLS_COLORS_PALES_PAR_REGION plus
+   bas dans le script). */
+.sb-item.non-recruiting .sb-num { color: var(--navy); border: 1px solid var(--rls-base, var(--navy)); box-sizing: border-box; }
+.sb-status { display: inline-block; margin-top: 4px; padding: 2px 6px; border-radius: 999px; background: var(--cream);
+  border: 1px solid var(--border); color: var(--muted); font-size: 10.5px; line-height: 1.2; }
+.recruit-status { margin: 0; padding: 12px 14px; border-radius: 9px; display: flex;
+  align-items: center; gap: 9px; background: #fff3e8; border: 1px solid #efb27c; color: #8a470c;
+  font-size: 14px; line-height: 1.4; }
+.recruit-status strong { font-family: 'Raleway', sans-serif; font-size: 14.5px; font-weight: 800; }
+.recruit-status .status-i { width: 18px; height: 18px; flex: 0 0 auto; display: inline-flex; align-items: center;
+  justify-content: center; border-radius: 50%; background: #c56613; color: #fff; font: italic 11px/1 Georgia, serif; }
+:root[data-theme="sombre"] .recruit-status { background: #3d2918; border-color: #8f5526; color: #f7c99e; }
 .cmp-export-btn { margin-top: 8px; display: none; align-items: center; justify-content: center; gap: 6px; width: 100%;
   padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--navy); background: var(--navy); color: #fff;
   font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 12.5px; cursor: pointer; }
@@ -1088,14 +1132,23 @@ body.cmp-open { overflow:hidden; }
   <div class="sidebar">
     <div class="sb-head">
       <button class="sb-close" id="sb-close" aria-label="Fermer la liste">&times;</button>
-      <h2>Cliniques en recrutement</h2>
+      <h2 id="sb-title">Cliniques en recrutement</h2>
       <p class="maj" id="maj-date"></p>
       <div class="sb-search" id="sb-search">
         <span class="sb-search-ic" aria-hidden="true">🔍</span>
         <input type="search" id="sb-search-input" placeholder="Rechercher une clinique ou une ville…" autocomplete="off" aria-label="Rechercher une clinique ou une ville">
         <button type="button" class="sb-search-clear" id="sb-search-clear" aria-label="Effacer la recherche" title="Effacer">✕</button>
       </div>
-      <button class="fav-toggle" id="fav-toggle">★ Voir mes favoris</button>
+      <div class="sb-view-row">
+        <button class="fav-toggle" id="fav-toggle">★ Voir mes favoris</button>
+        <div class="all-clinics-wrap">
+          <button type="button" class="all-clinics-toggle" id="all-clinics-toggle" role="switch" aria-checked="false" aria-describedby="all-clinics-tip">
+            <span>Toutes les cliniques</span><span class="mini-toggle" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="all-clinics-info" id="all-clinics-info" aria-label="Information sur les autres cliniques" aria-expanded="false" aria-controls="all-clinics-tip">i</button>
+          <div class="all-clinics-tip" id="all-clinics-tip" role="tooltip" hidden>Inclut aussi les cliniques qui ne recrutent pas pour le moment. Leurs épingles sont affichées dans une couleur plus pâle.</div>
+        </div>
+      </div>
       <button class="cmp-export-btn" id="cmp-export-btn">⤓ Exporter le comparatif (PDF)</button>
       <div class="reg-filter" id="reg-filter" role="group" aria-label="Filtrer par région"></div>
       <select class="rls-filter" id="rls-filter" aria-label="Filtrer par RLS"></select>
@@ -1204,6 +1257,12 @@ let favOrder = [];
 let dataMeta = {};
 let favoris = new Set();
 let favOnly = false;
+// 27 août 2026 : « Toutes les cliniques », repris du brouillon Montérégie-Est d'Olivier. Par
+// défaut, seuls les milieux en recrutement (recrutementActif !== false) sont affichés — carte,
+// liste, recherche, favoris, comparatif, tout en découle via statutVisible() plus bas. Ce
+// drapeau réactive les autres, dans une couleur d'épingle pâlie et marqués comme tels partout
+// où ils apparaissent, sans jamais changer leur clas­sement une fois affichés.
+let showAllClinics = false;
 let regionFilter = new Set();
 let rlsFilter = '';
 let searchQuery = '';
@@ -1225,7 +1284,16 @@ const ANNONCE_KEY = 'dtmf-mtg-annonce-fermee';
 
 const byId = id => gmfs.find(g => g.id === id);
 const normTxt = s => (s == null ? '' : String(s)).toLowerCase().replace(/\u0153/g, 'oe').replace(/\u00e6/g, 'ae').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+// Un milieu \u00ab en recrutement \u00bb a recrutementActif !== false (absent = recrute, comme avant
+// l'ajout du champ). statutVisible() est LE point d'entr\u00e9e unique : matchesFilters(),
+// currentOrder() et fitToData() y passent tous, de sorte qu'activer \u00ab Toutes les cliniques \u00bb
+// r\u00e9active un milieu partout \u00e0 la fois (carte, liste, recherche, favoris, comparatif),
+// jamais seulement \u00e0 moiti\u00e9.
+const recruteActuellement = g => !!g && g.recrutementActif !== false;
+const statutVisible = g => showAllClinics || recruteActuellement(g);
 function matchesFilters(id) {
+  const g0 = byId(id);
+  if (!statutVisible(g0)) return false;
   if (favOnly && !favoris.has(id)) return false;
   if (searchQuery) {
     const g = byId(id);
@@ -1297,9 +1365,11 @@ map.on('locationerror', function () {
   // CartoDB fournit la même carte en clair et en sombre : on bascule la couche entière
   // plutôt que d'appliquer un filtre, qui délaverait les couleurs des épingles.
   var ATTR = '© OpenStreetMap © CartoDB<span class="credit-perso"> | © Olivier Laplante</span>';
+  // Clé API CARTO (exigée depuis le 27 août 2026 pour les fonds raster) — fournie par Olivier.
+  var CARTO_KEY = 'cb1_29ok_1_b602e4a604176e32ebdf7824';
   function couche(sombre) {
     return L.tileLayer('https://{s}.basemaps.cartocdn.com/' + (sombre ? 'dark_all' : 'light_all')
-      + '/{z}/{x}/{y}{r}.png', { attribution: ATTR, maxZoom: 19 });
+      + '/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, { attribution: ATTR, maxZoom: 19 });
   }
   var actuelle = couche(document.documentElement.dataset.theme === 'sombre');
   // « map » est déclaré avec const : il n'existe pas sur window. On le capture ici,
@@ -1353,12 +1423,49 @@ const RLS_COLORS_PAR_REGION = {
    sur la carte générale. Tout le code en aval lit CETTE constante et n'a donc jamais à savoir
    sur quel territoire il tourne. */
 const RLS_COLORS_REGION = (MODE_REGION && RLS_COLORS_PAR_REGION[REGION_PAGE]) || {};
+/* Versions pâlies des mêmes couleurs, réservées aux épingles des milieux qui ne recrutent pas
+   actuellement (voir showAllClinics/statutVisible plus haut) — reprise du brouillon
+   Montérégie-Est. Des couleurs FIXES plutôt qu'un éclaircissement calculé en CSS : un navigateur
+   plus ancien ne doit pas interpréter différemment un mélange, et les trois valeurs Est sont
+   celles déjà choisies dans le brouillon. Le Centre et l'Ouest n'ont pour l'instant aucun milieu
+   `recrutementActif:false` dans data.json ; ces valeurs n'attendent que le jour où ce sera le cas
+   pour s'appliquer automatiquement, sans code à ajouter. */
+const RLS_COLORS_PALES_PAR_REGION = {
+  'Est': {
+    'Pierre-Boucher':    '#f6a8bc',
+    'Richelieu-Yamaska': '#a7cfb2',
+    'Pierre-De Saurel':  '#b5bfd1'
+  },
+  'Centre': {
+    'Champlain':               '#8cc6ed',
+    'Haut-Richelieu–Rouville': '#aad4ac'
+  },
+  'Ouest': {
+    'Jardins-Roussillon':    '#8cc6ed',
+    'Vaudreuil-Soulanges':   '#aad4ac',
+    'du Suroît':             '#f7a0b8',
+    'du Haut-Saint-Laurent': '#c4a6f7'
+  }
+};
+const REGION_COLORS_PALES = { 'Est': '#f48cc5', 'Centre': '#aad4ac', 'Ouest': '#8cc6ed' };
+const RLS_COLORS_PALES_REGION = (MODE_REGION && RLS_COLORS_PALES_PAR_REGION[REGION_PAGE]) || {};
 /* Couleur d'un milieu : par RLS sur une carte régionale, par territoire partout ailleurs. Tout
    passe par cette seule fonction, de sorte que la carte des trois territoires garde exactement
-   le comportement qu'elle avait avant (regionColor, inchangé). */
+   le comportement qu'elle avait avant (regionColor, inchangé). C'est aussi la couleur « de
+   référence » (identité RLS/territoire) utilisée par la légende, le comparatif et le contour des
+   ronds de la liste — jamais pâlie, contrairement à couleurEpingle() ci-dessous. */
 function couleurMilieu(g) {
   if (MODE_REGION && g && RLS_COLORS_REGION[g.rls]) return RLS_COLORS_REGION[g.rls];
   return regionColor(g && g.region);
+}
+/* Couleur RÉELLEMENT peinte sur l'épingle et le rond de la liste : identique à couleurMilieu()
+   pour un milieu en recrutement, pâlie pour un milieu affiché seulement via « Toutes les
+   cliniques ». Toute la légende, le comparatif et les bordures de contour continuent de lire
+   couleurMilieu() (la couleur « pleine », jamais pâlie) pour rester une référence stable. */
+function couleurEpingle(g) {
+  if (!g || recruteActuellement(g)) return couleurMilieu(g);
+  if (MODE_REGION && RLS_COLORS_PALES_REGION[g.rls]) return RLS_COLORS_PALES_REGION[g.rls];
+  return REGION_COLORS_PALES[g.region] || couleurMilieu(g);
 }
 
 // Légende des couleurs. Carte des trois territoires : une ligne par territoire. Carte
@@ -1469,7 +1576,7 @@ function makeIcon(active, rank, couleur) {
 // touche pas plutôt que de leur écrire une icône fausse qui resterait figée
 // (bug du 18 août : jusqu'à « 0 » sur 58 épingles après un glisser-déposer).
 function refreshMarkerIcons() {
-  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), couleurMilieu(g))); });
+  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), couleurEpingle(g))); });
 }
 
 function buildMarkers() {
@@ -1479,8 +1586,12 @@ function buildMarkers() {
   // et fitToData() ne s'exécutent jamais et la page reste vide.
   gmfs.forEach(g => {
     try {
-      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), couleurMilieu(g)), draggable:false }).addTo(map);
-      m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}</small>`, { direction:'top', offset:[0,-20] });
+      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), couleurEpingle(g)), draggable:false });
+      // 27 août 2026 : n'ajouter à la carte que si le milieu satisfait déjà les filtres (donc
+      // statutVisible) — sinon les milieux ne recrutant pas s'afficheraient un instant au
+      // chargement, avant que quoi que ce soit ne les masque.
+      if (matchesFilters(g.id)) m.addTo(map);
+      m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}${recruteActuellement(g) ? '' : ' · Ne recrute pas actuellement'}</small>`, { direction:'top', offset:[0,-20] });
       m.on('click', (e) => { L.DomEvent.stopPropagation(e); toggleDetail(g.id); });
       markers[g.id] = m;
     } catch (e) {
@@ -1588,7 +1699,7 @@ function buildHopitalMarkers() {
 }
 
 function fitToData() {
-  const pts = gmfs.filter(g => g.lat && g.lng).map(g => [g.lat, g.lng]);
+  const pts = gmfs.filter(g => statutVisible(g) && g.lat && g.lng).map(g => [g.lat, g.lng]);
   if (pts.length) { try { map.fitBounds(pts, { padding:[40,40], maxZoom:11 }); } catch(e){} }
 }
 
@@ -1624,7 +1735,12 @@ function favListOrder() {
   const rest = order.filter(id => favoris.has(id) && !inFav.includes(id));
   return inFav.concat(rest);
 }
-function currentOrder() { return favOnly ? favListOrder() : order; }
+function currentOrder() {
+  const base = favOnly ? favListOrder() : order;
+  // Un milieu qui ne recrute pas ne participe au classement (numérotation continue) que si
+  // « Toutes les cliniques » est actif — sinon il resterait numéroté tout en étant invisible.
+  return base.filter(id => statutVisible(byId(id)));
+}
 
 function renderSidebar() {
   sbList.innerHTML = '';
@@ -1638,14 +1754,16 @@ function renderSidebar() {
     const parenMatch = g.nom.trim().match(/^(.*?)\s*(\(.*\))\s*$/);
     const nomMain = parenMatch ? parenMatch[1] : g.nom.trim();
     const el = document.createElement('div');
-    el.className = 'sb-item' + (id === activeId ? ' active' : '');
+    const nonRecruiting = !recruteActuellement(g);
+    el.className = 'sb-item' + (nonRecruiting ? ' non-recruiting' : '') + (id === activeId ? ' active' : '');
     el.id = 'si-' + id;
     el.draggable = dragEnabled;
     el.innerHTML = `${dragEnabled ? '<span class="sb-grip" title="Glisser pour reclasser">⠿</span>' : ''}
-      <div class="sb-num" style="--rls:${couleurMilieu(g)}">${i+1}</div>
+      <div class="sb-num" style="--rls:${couleurEpingle(g)};--rls-base:${couleurMilieu(g)}">${i+1}</div>
       <div class="sb-info">
         <div class="sb-name">${esc(nomMain)}${badgeVerifHtml(g)}</div>
         <div class="sb-city">📍 ${esc(g.ville)}</div>
+        ${nonRecruiting ? '<span class="sb-status">Ne recrute pas actuellement</span>' : ''}
       </div>
       <button class="sb-star${favoris.has(id) ? ' fav' : ''}" title="Marquer comme favori" aria-label="${esc((favoris.has(id) ? 'Retirer ' : 'Ajouter ') + nomMain + (favoris.has(id) ? ' des favoris' : ' aux favoris'))}" draggable="false">${favoris.has(id) ? '★' : '☆'}</button>`;
 
@@ -1854,6 +1972,39 @@ function toggleFavView() {
   refreshMarkerIcons();
 }
 
+// 27 août 2026 : interrupteur « Toutes les cliniques », repris du brouillon Montérégie-Est
+// d'Olivier — affiche aussi les milieux ne recrutant pas actuellement (voir statutVisible()).
+function syncAllClinicsToggle() {
+  const b = document.getElementById('all-clinics-toggle');
+  if (b) b.setAttribute('aria-checked', showAllClinics ? 'true' : 'false');
+  const titre = document.getElementById('sb-title');
+  if (titre) titre.textContent = showAllClinics ? 'Toutes les cliniques' : 'Cliniques en recrutement';
+}
+
+function toggleAllClinics() {
+  const prochainEtat = !showAllClinics;
+  const active = activeId !== null ? byId(activeId) : null;
+  // Si on désactive la vue complète alors qu'une fiche ne recrutant pas est ouverte, cette
+  // fiche va disparaître de la liste et de la carte : on la referme d'abord, avec la même
+  // protection des notes non sauvegardées qu'ailleurs dans l'application.
+  if (!prochainEtat && active && !recruteActuellement(active)) {
+    if (notesDirty && !confirm("Vos notes ne sont pas sauvegardées. Masquer cette clinique sans les sauvegarder ?")) return;
+    notesDirty = false;
+    detailHistoryActive = false;
+    closeDetailUI();
+  }
+  showAllClinics = prochainEtat;
+  syncAllClinicsToggle();
+  renderSidebar();
+  updateMarkerVisibility();
+  refreshMarkerIcons();
+  fitToVisible();
+  const n = currentOrder().filter(id => matchesFilters(id)).length;
+  annoncerA11y(showAllClinics
+    ? n + ' cliniques affichées, incluant celles qui ne recrutent pas actuellement.'
+    : n + ' cliniques en recrutement affichées.');
+}
+
 // ===== Export du comparatif des favoris (PDF via impression) =====
 const QR_DATA = "data:image/png;base64,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";
 
@@ -1895,6 +2046,7 @@ function buildComparatif(favs) {
   let rows = '';
   rows += row('Région', g => `<span class="cmp-dot" style="background:${regionColor(g.region)}"></span>${REGION_LABELS[g.region] || ''}`);
   rows += row('Réseau (RLS)', g => cmpVal(g.rls));
+  rows += row('Statut', g => recruteActuellement(g) ? 'En recrutement' : 'Ne recrute pas actuellement');
   rows += row('Niveaux', g => cmpVal(g.niveau));
   rows += row('Ville', g => cmpVal(g.ville));
   rows += row('Pratique', g => cmpChips(g.pratiques));
@@ -2328,9 +2480,11 @@ function openDetail(id) {
     <div class="vw-divider"></div>
     <div class="vw-sec">
       <div class="vw-sec-title">Recrutement</div>
+      ${recruteActuellement(g) ? `
       ${recruitRows}
       ${poRaw ? `<div class="vw-row"><span class="vw-label">Portes ouvertes</span><span class="vw-value">${poDisp}</span></div>` : ''}
       <div class="vw-row"><span class="vw-label">Contact</span><span class="vw-value">${contactLink(g.personneRessource)}</span></div>
+      ` : `<div class="recruit-status"><span class="status-i" aria-hidden="true">i</span><span><strong>Cette clinique ne recrute pas actuellement.</strong></span></div>`}
     </div>
     <div class="vw-divider"></div>
     ${gardeHasData ? `<div class="vw-sec">
@@ -2429,6 +2583,8 @@ window.addEventListener('popstate', function () {
 // l'application (audit du 18 août).
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
+  const infoTip = document.getElementById('all-clinics-tip');
+  if (infoTip && !infoTip.hidden) { closeAllClinicsInfo(); return; }
   const cp = document.getElementById('cmp-print');
   if (cp && cp.classList.contains('cmp-show')) { cmpClose(); return; }
   if (activeId !== null) { closeDetail(); return; }
@@ -2530,6 +2686,25 @@ if (sbOverlay) sbOverlay.addEventListener('click', closeDrawer);
 
 const favToggleBtn = document.getElementById('fav-toggle');
 if (favToggleBtn) favToggleBtn.addEventListener('click', toggleFavView);
+const allClinicsToggleBtn = document.getElementById('all-clinics-toggle');
+if (allClinicsToggleBtn) allClinicsToggleBtn.addEventListener('click', toggleAllClinics);
+const allClinicsInfoBtn = document.getElementById('all-clinics-info');
+const allClinicsTip = document.getElementById('all-clinics-tip');
+function closeAllClinicsInfo() {
+  if (allClinicsTip) allClinicsTip.hidden = true;
+  if (allClinicsInfoBtn) allClinicsInfoBtn.setAttribute('aria-expanded', 'false');
+}
+if (allClinicsInfoBtn && allClinicsTip) {
+  allClinicsInfoBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const ouvrir = allClinicsTip.hidden;
+    allClinicsTip.hidden = !ouvrir;
+    allClinicsInfoBtn.setAttribute('aria-expanded', ouvrir ? 'true' : 'false');
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.all-clinics-wrap')) closeAllClinicsInfo();
+  });
+}
 
 // Fermeture de la bannière d'annonce (mémorise la fermeture jusqu'au prochain message)
 const annonceClose = document.getElementById('annonce-close');
@@ -2640,6 +2815,9 @@ function initData(data) {
   // de la page — carte, liste, recherche, favoris, comparatif PDF, menu RLS en découlent tous
   // automatiquement, sans rien pouvoir « réactiver » depuis l'interface.
   if (MODE_REGION) gmfs = gmfs.filter(g => g.region === REGION_PAGE);
+  // 27 août 2026 : (ré)initialise la vue « Toutes les cliniques » à chaque chargement des
+  // données — un rechargement de page ne doit jamais garder une vue élargie ouverte par accident.
+  showAllClinics = false;
   dataMeta = Array.isArray(data) ? {} : (data || {});
 
   // Hôpitaux : mêmes garde-fous de validité que les cliniques (lat/lng/nom), mais aucun
@@ -2710,6 +2888,7 @@ function initData(data) {
   buildMarkers();
   buildHopitalMarkers();
   buildFilters();
+  syncAllClinicsToggle();
   renderSidebar();
   showUpdateDate();
   showBanner();
@@ -2717,7 +2896,19 @@ function initData(data) {
   // Lien direct : ?c=6 ouvre la fiche de la clinique 6.
   const cibleBrute = new URLSearchParams(location.search).get('c');
   const cible = Number(cibleBrute);
-  if (cible && byId(cible)) { openDetail(cible); return; }
+  if (cible && byId(cible)) {
+    const cliniqueCible = byId(cible);
+    // Un lien partagé (dont ceux des pages SEO /cliniques/<slug>/) vers une clinique qui ne
+    // recrute pas doit rester fonctionnel : on active la vue complète avant d'ouvrir sa fiche.
+    if (!recruteActuellement(cliniqueCible)) {
+      showAllClinics = true;
+      syncAllClinicsToggle();
+      renderSidebar();
+      updateMarkerVisibility();
+      refreshMarkerIcons();
+    }
+    openDetail(cible); return;
+  }
   // ?c= présent mais invalide (clinique retirée, lien copié il y a longtemps…) :
   // avant, rien ne s'affichait et l'URL gardait le paramètre mort en silence.
   if (cibleBrute) {

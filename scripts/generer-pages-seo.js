@@ -107,6 +107,11 @@ const CHAMPS_SUBSTANCE = [
  *   lat / lng        → utiles à la carte, inutiles au lecteur ; restent dans data.json
  *   posApprox        → indicateur technique de précision du géocodage
  *   visible          → drapeau de publication, pas du contenu
+ *   recrutementActif → drapeau de statut (même nature que « visible »), voir recrute() plus
+ *                      bas ; sert à choisir entre deux textes tout faits, jamais affiché tel quel
+ *   statutRecrutement→ texte libre du brouillon d'origine, non repris ; recrute() + un texte fixe
+ *                      (« Ne recrute pas actuellement ») suffisent et restent cohérents avec
+ *                      l'application (voir index.html)
  */
 const CHAMPS_PUBLICS = [
   'id', 'nom', 'ville', 'adresse', 'type', 'region', 'rls', 'niveau', 'niveaux',
@@ -117,6 +122,16 @@ const CHAMPS_PUBLICS = [
      estValide()/badgeVerif() plus bas). Le sous-champ "source" n'est jamais publié. */
   'validation'
 ];
+
+/*
+ * Un milieu « ne recrute pas actuellement » (recrutementActif === false, 27 août 2026 — 43
+ * fiches importées du brouillon Montérégie-Est d'Olivier) reste publié : sa page, sa présence
+ * dans le répertoire et dans sa page de RLS suivent exactement les mêmes règles qu'un milieu en
+ * recrutement (seuil de substance, liste blanche, etc.). Seul le TEXTE change à quelques
+ * endroits précis, pour ne jamais affirmer qu'un milieu recrute quand ce n'est pas le cas — voir
+ * chaque usage de recrute() ci-dessous.
+ */
+function recrute(c) { return c.recrutementActif !== false; }
 
 /* Libellés lisibles des codes de pratique (mêmes libellés que la légende de la carte). */
 const PRATIQUES = {
@@ -201,6 +216,12 @@ function badgeVerif(c) {
    (Monchamp) » et « GMF Saint-Constant (de la gare) »). */
 function slugifier(nom) {
   return String(nom)
+    /* Les ligatures "oe"/"ae" (27 aout 2026) ne sont pas des lettres accentuees : NFD ne les
+       decompose pas, elles survivraient donc telles quelles jusqu'au filtre [^a-z0-9] suivant et
+       tomberaient comme un tiret ("Coeur" -> "c-ur"). Repris de la meme normalisation que
+       normTxt() dans index.html (recherche), pour que "coeur" reste lisible dans l'URL plutot
+       qu'un tiret au milieu du mot. */
+    .replace(/\u0153/g, 'oe').replace(/\u0152/g, 'Oe').replace(/\u00e6/g, 'ae').replace(/\u00c6/g, 'Ae')
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .replace(/['’]/g, ' ')
@@ -445,6 +466,7 @@ function pageClinique(c, slug, majDonnees, u = UNIVERS_GENERAL) {
   const url = u.regional ? `${SITE}${u.prefixe}/cliniques/${slug}/` : urlGeneral;
   const substance = CHAMPS_SUBSTANCE.filter(k => rempli(c[k])).length;
   const assezRemplie = substance >= SEUIL_INDEXATION;
+  const enRecrutement = recrute(c);
 
   /* BASCULE SEO (21 août 2026, décision d'Olivier ; généralisée le 26 août). Une clinique dont
      le territoire a sa propre carte a DEUX pages : la page générale et la page régionale. Pour
@@ -566,7 +588,9 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
         '@type': 'WebPage',
         '@id': url + '#webpage',
         url: url,
-        name: `${c.nom} — clinique en recrutement en Montérégie | Trouve ta clinique`,
+        name: enRecrutement
+          ? `${c.nom} — clinique en recrutement en Montérégie | Trouve ta clinique`
+          : `${c.nom} — clinique de la Montérégie | Trouve ta clinique`,
         inLanguage: 'fr-CA',
         dateModified: majDonnees,
         isPartOf: { '@id': SITE + '/#website' },
@@ -590,15 +614,24 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
     ]
   };
 
-  const contact = PUBLIER_COURRIELS
+  /* 27 août 2026 : un milieu qui ne recrute pas actuellement n'a pas de courriel de recrutement
+     à joindre (voir data.json — personneRessource y est vide sur ces 43 fiches). Le bandeau de
+     contact est donc remplacé par une simple mention de statut, jamais affiché comme un appel à
+     contacter le milieu au sujet d'un recrutement qui n'a pas lieu. */
+  const contact = !enRecrutement
+    ? `
+  <div class="callout"><strong>Ne recrute pas actuellement :</strong> ce milieu est publié à titre de référence dans le répertoire. Consultez la carte interactive pour connaître les milieux du secteur qui recrutent actuellement.</div>`
+    : PUBLIER_COURRIELS
     ? ''
     : `
   <div class="callout"><strong>Pour joindre ce milieu au sujet du recrutement :</strong> les coordonnées de la personne-ressource sont affichées dans la fiche de la clinique sur la carte interactive. <a href="${u.accueil}?c=${c.id}">Ouvrir la fiche de ${esc(c.nom)} sur la carte →</a></div>`;
 
   const corps = `  <section class="hero">
-    <p class="eyebrow">${esc(c.type)}${rempli(c.rls) ? ' · RLS ' + esc(c.rls) : ''}</p>
+    <p class="eyebrow">${esc(c.type)}${rempli(c.rls) ? ' · RLS ' + esc(c.rls) : ''}${enRecrutement ? '' : ' · Ne recrute pas actuellement'}</p>
     <h1>${esc(c.nom)}${badgeVerif(c)}</h1>
-    <p class="lead">${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie — recrute des médecins de famille. Cette page rassemble les renseignements actuellement publiés dans le répertoire pour aider à évaluer le milieu avant de le contacter.</p>
+    <p class="lead">${enRecrutement
+      ? `${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie — recrute des médecins de famille. Cette page rassemble les renseignements actuellement publiés dans le répertoire pour aider à évaluer le milieu avant de le contacter.`
+      : `${esc(c.nom)} — ${esc(c.type)} situé à ${esc(c.ville)}, en Montérégie. Ce milieu ne recrute pas de médecin de famille actuellement; cette page rassemble les renseignements publiés dans le répertoire à titre de référence.`}</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}?c=${c.id}">Voir sur la carte interactive</a>
@@ -619,7 +652,7 @@ ${lignes.join('\n')}
   <section id="suite">
     <h2>Pour aller plus loin</h2>
     <ul class="source-list">
-      <li><a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">Autres cliniques en recrutement du RLS ${esc(c.rls)}</a></li>
+      <li><a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">Autres milieux du RLS ${esc(c.rls)}</a></li>
       <li><a href="${u.prefixe}/ptem/">Comprendre le PTEM et l’avis de conformité</a></li>
       <li><a href="${u.prefixe}/amp/">Comprendre les activités médicales particulières (AMP)</a></li>
       <li><a href="${u.accueil}?c=${c.id}">Fiche complète et itinéraire sur la carte interactive</a></li>
@@ -629,7 +662,9 @@ ${lignes.join('\n')}
   return {
     html: page({
       titre: `${c.nom} — ${c.ville} | Trouve ta clinique`,
-      description: `${c.nom}, ${c.type} de ${c.ville} (RLS ${c.rls}) en recrutement de médecins de famille en Montérégie : type de milieu, pratiques offertes${rempli(c.dme) ? ', DMÉ' : ''}${rempli(c.horaire) ? ', heures d’ouverture' : ''}.`,
+      description: enRecrutement
+        ? `${c.nom}, ${c.type} de ${c.ville} (RLS ${c.rls}) en recrutement de médecins de famille en Montérégie : type de milieu, pratiques offertes${rempli(c.dme) ? ', DMÉ' : ''}${rempli(c.horaire) ? ', heures d’ouverture' : ''}.`
+        : `${c.nom}, ${c.type} de ${c.ville} (RLS ${c.rls}) en Montérégie — ne recrute pas de médecin de famille actuellement : type de milieu, coordonnées et heures d’ouverture publiées à titre de référence.`,
       url, canonical, profondeur: 2, indexable, jsonLd, univers: u,
       actif: u.regional ? null : 'cliniques',
       filDAriane: u.regional
@@ -691,12 +726,22 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
   const types = [...new Set(liste.map(c => c.type))].sort((a, b) => a.localeCompare(b, 'fr'));
   const prats = [...new Set(liste.flatMap(c => c.pratiques || []))].map(p => PRATIQUES[p] || p).sort();
 
+  /* 27 août 2026 : un RLS peut désormais contenir des milieux qui ne recrutent pas actuellement
+     (recrutementActif:false). Ils restent publiés — chacun a sa propre page — mais dans une
+     section séparée, sous un titre distinct, pour ne jamais gonfler le compte « qui recrutent »
+     annoncé dans le titre et le résumé de cette page. */
+  const actifs = liste.filter(recrute);
+  const inactifs = liste.filter(c => !recrute(c));
+  const villesActifs = [...new Set(actifs.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
+
   // NB : le badge est un frère de <a>, jamais imbriqué dedans — un <button> à l'intérieur d'un
   // <a> est du HTML invalide (contenu interactif imbriqué) et casserait le clic/le focus.
-  const items = liste.map(c => `      <li>
+  const item = c => `      <li>
         <a href="${u.prefixe}/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
-        <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}${rempli(c.dme) ? ' · DMÉ ' + esc(c.dme) : ''}</span>
-      </li>`).join('\n');
+        <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}${rempli(c.dme) ? ' · DMÉ ' + esc(c.dme) : ''}${recrute(c) ? '' : ' · Ne recrute pas actuellement'}</span>
+      </li>`;
+  const items = actifs.map(item).join('\n');
+  const itemsInactifs = inactifs.map(item).join('\n');
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -724,7 +769,7 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
   const corps = `  <section class="hero">
     <p class="eyebrow">Réseau local de services · Montérégie</p>
     <h1>Cliniques en recrutement — RLS ${esc(rls)}</h1>
-    <p class="lead">${liste.length} milieu${liste.length > 1 ? 'x' : ''} du réseau local de services ${esc(rls)} recrute${liste.length > 1 ? 'nt' : ''} actuellement des médecins de famille, réparti${liste.length > 1 ? 's' : ''} dans ${villes.length} municipalité${villes.length > 1 ? 's' : ''} : ${esc(villes.join(', '))}.</p>
+    <p class="lead">${actifs.length} milieu${actifs.length > 1 ? 'x' : ''} du réseau local de services ${esc(rls)} recrute${actifs.length > 1 ? 'nt' : ''} actuellement des médecins de famille, réparti${actifs.length > 1 ? 's' : ''} dans ${villesActifs.length} municipalité${villesActifs.length > 1 ? 's' : ''} : ${esc(villesActifs.join(', '))}.${inactifs.length ? ` Le RLS compte aussi ${inactifs.length} autre${inactifs.length > 1 ? 's' : ''} milieu${inactifs.length > 1 ? 'x' : ''} publié${inactifs.length > 1 ? 's' : ''} à titre de référence, qui ${inactifs.length > 1 ? 'ne recrutent' : 'ne recrute'} pas actuellement.` : ''}</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir ce RLS sur la carte</a>
@@ -737,12 +782,20 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
   <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="${u.prefixe}/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
   <section id="milieux">
-    <h2>Les ${liste.length} milieu${liste.length > 1 ? 'x' : ''} qui recrutent</h2>
+    <h2>Les ${actifs.length} milieu${actifs.length > 1 ? 'x' : ''} qui recrutent</h2>
     <ul class="repertoire">
 ${items}
     </ul>
   </section>
-
+${inactifs.length ? `
+  <section id="autres-milieux">
+    <h2>Autres milieux du RLS <span class="compte">${inactifs.length}</span></h2>
+    <p class="note">Publiés à titre de référence; ils ne recrutent pas de médecin de famille pour le moment.</p>
+    <ul class="repertoire">
+${itemsInactifs}
+    </ul>
+  </section>
+` : ''}
   <section id="apercu">
     <h2>Aperçu du territoire</h2>
     <dl class="fiche">
@@ -755,7 +808,7 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
 
   return { indexable, html: page({
     titre: `Cliniques en recrutement — RLS ${rls} (Montérégie) | Trouve ta clinique`,
-    description: `Les ${liste.length} cliniques en recrutement de médecins de famille du RLS ${rls}, en Montérégie : ${villes.slice(0, 4).join(', ')}. Type de milieu, pratiques et fiche détaillée pour chacune.`,
+    description: `Les ${actifs.length} cliniques en recrutement de médecins de famille du RLS ${rls}, en Montérégie : ${villesActifs.slice(0, 4).join(', ')}. Type de milieu, pratiques et fiche détaillée pour chacune.${inactifs.length ? ` ${inactifs.length} autre(s) milieu(x) du RLS, publiés à titre de référence, ne recrutent pas actuellement.` : ''}`,
     url, canonical, profondeur: 2, indexable, jsonLd, univers: u,
     actif: u.regional ? null : 'cliniques',
     filDAriane: u.regional
@@ -787,8 +840,12 @@ function pageRlsHubRegion(u, parRls, majDonnees) {
     .filter(rls => REGION_DU_RLS[rls] === u.region)
     .sort((a, b) => rangRls(a) - rangRls(b) || a.localeCompare(b, 'fr'));
 
+  /* Ce hub reste focalisé sur le recrutement (voir son titre et son texte) : le compte affiché
+     par RLS, et le total ci-dessous, ne portent donc que sur les milieux en recrutement — les
+     milieux qui ne recrutent pas actuellement (recrutementActif:false) restent listés sur leur
+     propre page de RLS (voir pageRls), pas ici. */
   const sections = rlsPresents.map(rls => {
-    const liste = parRls.get(rls);
+    const liste = parRls.get(rls).filter(recrute);
     const villes = [...new Set(liste.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
     return `  <section id="rls-${slugifier(rls)}">
     <h2>RLS ${esc(rls)} <span class="compte">${liste.length}</span></h2>
@@ -797,7 +854,7 @@ function pageRlsHubRegion(u, parRls, majDonnees) {
   </section>`;
   }).join('\n\n');
 
-  const total = rlsPresents.reduce((n, rls) => n + parRls.get(rls).length, 0);
+  const total = rlsPresents.reduce((n, rls) => n + parRls.get(rls).filter(recrute).length, 0);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -850,11 +907,12 @@ function pageRepertoire(cliniques, slugs, parRls, majDonnees) {
   const url = `${SITE}/cliniques/`;
   const villes = new Set(cliniques.map(c => c.ville));
 
+  const enRecrutementTotal = cliniques.filter(recrute).length;
   const sections = [...parRls.keys()].sort((a, b) => a.localeCompare(b, 'fr')).map(rls => {
     const liste = parRls.get(rls);
     const items = liste.map(c => `      <li>
         <a href="/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
-        <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}</span>
+        <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}${recrute(c) ? '' : ' · Ne recrute pas actuellement'}</span>
       </li>`).join('\n');
     return `  <section id="rls-${slugifier(rls)}">
     <h2>RLS ${esc(rls)} <span class="compte">${liste.length}</span></h2>
@@ -887,7 +945,7 @@ ${items}
   const corps = `  <section class="hero">
     <p class="eyebrow">Médecine familiale · Montérégie</p>
     <h1>Cliniques en recrutement en Montérégie</h1>
-    <p class="lead">Les <strong>${cliniques.length} milieux actuellement publiés</strong> dans le répertoire, regroupés dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
+    <p class="lead">Les <strong>${cliniques.length} milieux actuellement publiés</strong> dans le répertoire, regroupés dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités — dont ${enRecrutementTotal} en recrutement actif de médecins de famille${enRecrutementTotal < cliniques.length ? `, les autres étant publiés à titre de référence` : ''}. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="/">Explorer sur la carte interactive</a>
@@ -903,7 +961,7 @@ ${sections}`;
 
   return page({
     titre: 'Cliniques en recrutement en Montérégie | Trouve ta clinique',
-    description: `Répertoire des ${cliniques.length} milieux actuellement publiés comme étant en recrutement de médecins de famille en Montérégie, classés par ${parRls.size} RLS avec fiche détaillée.`,
+    description: `Répertoire des ${cliniques.length} milieux publiés en Montérégie (dont ${enRecrutementTotal} en recrutement actif de médecins de famille), classés par ${parRls.size} RLS avec fiche détaillée.`,
     url, profondeur: 1, indexable: true, jsonLd, actif: 'cliniques',
     filDAriane: `<a href="/">Accueil</a> › Cliniques`,
     corps
@@ -1163,7 +1221,7 @@ function main() {
 
   /* Rapport */
   console.log('=== GÉNÉRATION DES PAGES SEO ===');
-  console.log(`data.json du ${majDonnees} — ${toutes.length} fiches, ${cliniques.length} publiées${ignorees ? `, ${ignorees} ignorée(s) (visible:false)` : ''}`);
+  console.log(`data.json du ${majDonnees} — ${toutes.length} fiches, ${cliniques.length} publiées${ignorees ? `, ${ignorees} ignorée(s) (visible:false)` : ''} (dont ${cliniques.filter(recrute).length} en recrutement, ${cliniques.filter(c => !recrute(c)).length} hors recrutement)`);
   console.log(`Pages de cliniques : ${cliniques.length} générées, ${indexables} indexables, ${minces.length} en noindex (moins de ${SEUIL_INDEXATION} champs remplis)`);
   console.log(`Pages de RLS       : ${parRls.size}`);
   console.log(`Répertoire         : cliniques/index.html`);
