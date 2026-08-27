@@ -393,8 +393,9 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
      des TROIS territoires. Les cliniques d'un territoire se rejoignent par leur page de RLS. */
   const liens = u.regional
     ? [[u.accueil, 'Carte ' + u.nom, 'carte'],
-       [u.prefixe + '/ptem/', 'PTEM', 'ptem'],
-       [u.prefixe + '/amp/', 'AMP', 'amp']]
+       [u.prefixe + '/cliniques/', 'Cliniques', 'cliniques'],
+       ['/ptem/', 'PTEM', 'ptem'],
+       ['/amp/', 'AMP', 'amp']]
     : [['/', 'Carte des cliniques', 'carte'],
        ['/ptem/', 'PTEM', 'ptem'],
        ['/amp/', 'AMP', 'amp'],
@@ -653,8 +654,8 @@ ${lignes.join('\n')}
     <h2>Pour aller plus loin</h2>
     <ul class="source-list">
       <li><a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">Autres milieux du RLS ${esc(c.rls)}</a></li>
-      <li><a href="${u.prefixe}/ptem/">Comprendre le PTEM et l’avis de conformité</a></li>
-      <li><a href="${u.prefixe}/amp/">Comprendre les activités médicales particulières (AMP)</a></li>
+      <li><a href="/ptem/">Comprendre le PTEM et l’avis de conformité</a></li>
+      <li><a href="/amp/">Comprendre les activités médicales particulières (AMP)</a></li>
       <li><a href="${u.accueil}?c=${c.id}">Fiche complète et itinéraire sur la carte interactive</a></li>
     </ul>
   </section>`;
@@ -774,12 +775,12 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir ce RLS sur la carte</a>
       ${u.regional
-        ? `<a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>`
+        ? `<a class="button secondary" href="/ptem/">Comprendre le PTEM</a>`
         : `<a class="button secondary" href="/cliniques/">Toutes les cliniques</a>`}
     </div>
   </section>
 
-  <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="${u.prefixe}/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
+  <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
   <section id="milieux">
     <h2>Les ${actifs.length} milieu${actifs.length > 1 ? 'x' : ''} qui recrutent</h2>
@@ -882,7 +883,7 @@ function pageRlsHubRegion(u, parRls, majDonnees) {
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir sur la carte interactive</a>
-      <a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>
+      <a class="button secondary" href="/ptem/">Comprendre le PTEM</a>
     </div>
   </section>
 
@@ -1153,7 +1154,11 @@ function main() {
     const slug = slugs[String(c.id)];
 
     const general = pageClinique(c, slug, majDonnees, UNIVERS_GENERAL);
-    ecrire(path.join('cliniques', slug, 'index.html'), general.html);
+    const uCanon = UNIVERS_PAR_REGION[c.region];
+    const generalHtml = uCanon && uCanon.canonique
+      ? pageRedirectionStatique(`${SITE}${uCanon.prefixe}/cliniques/${slug}/`, `La fiche de ${c.nom}`)
+      : general.html;
+    ecrire(path.join('cliniques', slug, 'index.html'), generalHtml);
     if (general.indexable) {
       indexables++;
       entrees.push({ loc: `/cliniques/${slug}/`, lastmod: majPagesSeo, changefreq: 'monthly', priority: '0.7' });
@@ -1180,7 +1185,11 @@ function main() {
     const slug = slugifier(rls);
 
     const general = pageRls(rls, liste, slugs, majDonnees, UNIVERS_GENERAL);
-    ecrire(path.join('rls', slug, 'index.html'), general.html);
+    const uCanonRls = UNIVERS_PAR_REGION[REGION_DU_RLS[rls]];
+    const generalRlsHtml = uCanonRls && uCanonRls.canonique
+      ? pageRedirectionStatique(`${SITE}${uCanonRls.prefixe}/rls/${slug}/`, `La page du RLS ${rls}`)
+      : general.html;
+    ecrire(path.join('rls', slug, 'index.html'), generalRlsHtml);
     if (general.indexable) {
       entrees.push({ loc: `/rls/${slug}/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
     }
@@ -1202,12 +1211,15 @@ function main() {
   for (const u of UNIVERS_REGIONS) {
     for (const nom of ['ptem', 'amp']) {
       ecrire(path.join(u.dossier, nom, 'index.html'),
-             copieRegionPageStatique(path.join(nom, 'index.html'), `${SITE}/${nom}/`, u));
+             pageRedirectionStatique(`${SITE}/${nom}/`, `La page ${nom.toUpperCase()}`));
       copiesRegionales++;
     }
   }
 
   /* Répertoire général + hub RLS de chaque univers régional + sitemap */
+  /* HUB CLINIQUES RÉGIONAL (27 août 2026) : /monteregie-est/cliniques/index.html est désormais
+     une page SEO officielle. Le fichier livré dans le déploiement doit être conservé; une prochaine
+     refactorisation pourra intégrer sa génération complète ici à partir de data.json. */
   ecrire(path.join('cliniques', 'index.html'), pageRepertoire(cliniques, slugs, parRls, majDonnees));
   for (const u of UNIVERS_REGIONS) {
     const hub = pageRlsHubRegion(u, parRls, majDonnees);
