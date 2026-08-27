@@ -63,12 +63,24 @@
 // dark_all) — ajout de ?key=… à l'URL des tuiles dans index.html (et donc dans les copies
 // régionales, qui en héritent via scripts/publier-regions.js). Aucun autre changement ; même
 // styles de carte qu'avant (pas de bascule vers Voyager).
-const CACHE = 'ptem-2027-v40';
+// v41 (27 août 2026) : passage du fond de carte de raster à VECTORIEL sur les 4 cartes
+// (générale + les 3 régionales) — reprise exacte de l'intégration déjà en place sur le brouillon
+// Montérégie-Est (OLaplante/Monteregie-Est) : MapLibre GL JS 5.24.0 + adaptateur MapLibre GL
+// Leaflet 0.1.4, fichiers vendor copiés tels quels. Styles CARTO Positron (clair) et Dark Matter
+// (sombre), même clé API. Leaflet garde toute la main sur les épingles, popups, filtres,
+// favoris, géolocalisation et contrôles — MapLibre ne dessine QUE le fond. Le fond raster avec
+// clé (v40) reste en solution de secours si WebGL est indisponible. Trois fichiers vendor
+// ajoutés au cache. Aucun changement de données, de marqueurs, de filtres, de texte ou de mise
+// en page.
+const CACHE = 'ptem-2027-v41';
 const CORE = [
   './',
   './index.html',
   './leaflet.css',
   './leaflet.js',
+  './vendor/maplibre-gl.css',
+  './vendor/maplibre-gl.js',
+  './vendor/leaflet-maplibre-gl.js',
   './data.json',
   './manifest.json',
   './icon-192.png',

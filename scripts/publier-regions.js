@@ -253,7 +253,10 @@ function remplacements(t) {
   pousser('<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16.png">', '<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16.png">');
   pousser('<link rel="icon" type="image/png" sizes="48x48" href="./favicon-48.png">', '<link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png">');
   pousser('<link rel="stylesheet" href="./leaflet.css">', '<link rel="stylesheet" href="../leaflet.css">');
+  pousser('<link rel="stylesheet" href="./vendor/maplibre-gl.css">', '<link rel="stylesheet" href="../vendor/maplibre-gl.css">');
   pousser('<script src="./leaflet.js"></script>', '<script src="../leaflet.js"></script>');
+  pousser('<script src="./vendor/maplibre-gl.js"></script>', '<script src="../vendor/maplibre-gl.js"></script>');
+  pousser('<script src="./vendor/leaflet-maplibre-gl.js"></script>', '<script src="../vendor/leaflet-maplibre-gl.js"></script>');
   pousser("fetch('./data.json', { cache: 'no-cache' })", "fetch('../data.json', { cache: 'no-cache' })");
   // Le service worker reste celui de la racine (un seul, partagé) : « ../sw.js » depuis
   // /monteregie-<territoire>/ pointe sur /sw.js, dont la portée par défaut est « / ». Toutes les

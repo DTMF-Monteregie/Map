@@ -71,6 +71,7 @@
 <link rel="icon" type="image/png" sizes="48x48" href="./favicon-48.png">
 <link rel="apple-touch-icon" href="./apple-touch-icon-180.png">
 <link rel="stylesheet" href="./leaflet.css">
+<link rel="stylesheet" href="./vendor/maplibre-gl.css">
 <style>
 :root {
   --navy: #0f2240; --navy2: #1a3558; --blue: #0080d7; --blue-lt: #dbeafe;
@@ -1205,6 +1206,8 @@ body.cmp-open { overflow:hidden; }
 </div>
 
 <script src="./leaflet.js"></script>
+<script src="./vendor/maplibre-gl.js"></script>
+<script src="./vendor/leaflet-maplibre-gl.js"></script>
 <script>
 // ═══════════════════════════════════════════
 //  MODE « CARTE RÉGIONALE » (vue dédiée, même app/mêmes données)
@@ -1362,32 +1365,81 @@ map.on('locationerror', function () {
   showToast("Localisation impossible. Vérifiez que l'accès à votre position est autorisé dans votre navigateur.");
 });
 (function () {
-  // CartoDB fournit la même carte en clair et en sombre : on bascule la couche entière
-  // plutôt que d'appliquer un filtre, qui délaverait les couleurs des épingles.
+  // Fond de carte CARTO, en clair et en sombre. Depuis le 27 août 2026 (2e volet), le fond est
+  // un fond VECTORIEL (tuiles .mvt) dessiné par MapLibre GL JS, plutôt qu'un fond raster (images
+  // PNG) chargé par Leaflet lui-même — reprise EXACTE de l'intégration déjà en place sur le
+  // brouillon Montérégie-Est (OLaplante/Monteregie-Est), MapLibre GL JS 5.24.0 + adaptateur
+  // MapLibre GL Leaflet 0.1.4, fichiers vendor copiés tels quels (voir ./vendor/). MapLibre ne
+  // fait QUE dessiner le fond : Leaflet garde entièrement la main sur les épingles, popups,
+  // filtres, favoris, géolocalisation et contrôles, exactement comme avant ce changement.
+  // Le fond raster avec clé (mis en place plus tôt le même jour, voir gabarit /rastertiles/ de
+  // docs.carto.com/faqs/carto-basemaps) ne sert plus que de solution de secours pour les
+  // navigateurs sans WebGL.
   var ATTR = '© OpenStreetMap © CartoDB<span class="credit-perso"> | © Olivier Laplante</span>';
-  // Clé API CARTO (exigée depuis le 27 août 2026 pour les fonds raster) — fournie par Olivier.
-  // 27 août 2026 (2e correction) : le premier essai gardait l'ancienne forme d'URL avec
-  // sous-domaines ({s}.basemaps.cartocdn.com/light_all/...), qui continuait de répondre
-  // « API key required » avec la clé. La documentation CARTO (docs.carto.com/faqs/carto-basemaps)
-  // donne un tout autre gabarit pour les tuiles authentifiees : pas de sous-domaine, et un
-  // segment /rastertiles/ dans le chemin. On bascule sur ce gabarit exact.
+  // Clé API CARTO (exigée depuis le 27 août 2026) — fournie par Olivier. Même clé pour les
+  // styles vectoriels et pour le repli raster.
   var CARTO_KEY = 'cb1_29ok_1_b602e4a604176e32ebdf7824';
-  function couche(sombre) {
+  var STYLE_CLAIR = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
+  var STYLE_SOMBRE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+
+  function styleUrl(sombre) {
+    return (sombre ? STYLE_SOMBRE : STYLE_CLAIR) + '?key=' + encodeURIComponent(CARTO_KEY);
+  }
+
+  // La build 5.24.0 de MapLibre GL JS (celle du brouillon, copiée telle quelle dans ./vendor/)
+  // n'exporte plus de fonction maplibregl.supported() — ce test n'a donc jamais pu passer,
+  // sur AUCUN navigateur, même quand WebGL est disponible. On considère le fond vectoriel
+  // possible dès que le script est chargé, et on continue de s'appuyer sur le bloc try/catch
+  // ci-dessous (déjà présent dans le brouillon) pour retomber sur le raster si la création de
+  // la carte MapLibre échoue réellement (WebGL absent ou désactivé).
+  var vectorielDisponible = !!(window.maplibregl && (typeof maplibregl.supported !== 'function' || maplibregl.supported()));
+
+  function coucheRasterRepli(sombre) {
     return L.tileLayer('https://basemaps.cartocdn.com/rastertiles/' + (sombre ? 'dark_all' : 'light_all')
       + '/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, { attribution: ATTR, maxZoom: 19 });
   }
-  var actuelle = couche(document.documentElement.dataset.theme === 'sombre');
+
+  function coucheVectorielle(sombre) {
+    return L.maplibreGL({
+      style: styleUrl(sombre),
+      interactive: false,
+      attributionControl: { customAttribution: ATTR }
+    });
+  }
+
+  function ajouterCouche(sombre) {
+    if (vectorielDisponible) {
+      try {
+        var vectorielle = coucheVectorielle(sombre);
+        vectorielle.addTo(map);
+        return vectorielle;
+      } catch (e) {
+        vectorielDisponible = false;
+        console.warn('Fond vectoriel indisponible, utilisation du fond raster de secours.', e);
+      }
+    }
+    var raster = coucheRasterRepli(sombre);
+    raster.addTo(map);
+    return raster;
+  }
+
+  var modeSombreActuel = document.documentElement.dataset.theme === 'sombre';
+  var actuelle = ajouterCouche(modeSombreActuel);
   // « map » est déclaré avec const : il n'existe pas sur window. On le capture ici,
   // dans la portée du script, plutôt que d'y accéder globalement.
   window.fondCarte = function (sombre) {
-    if (!actuelle) return;
-    var neuve = couche(sombre);
-    neuve.addTo(map);
+    if (!actuelle || sombre === modeSombreActuel) return;
+    modeSombreActuel = sombre;
+    var carteVectorielle = actuelle.getMaplibreMap && actuelle.getMaplibreMap();
+    if (carteVectorielle) {
+      carteVectorielle.setStyle(styleUrl(sombre));
+      return;
+    }
+    var neuve = ajouterCouche(sombre);
     map.removeLayer(actuelle);
     actuelle = neuve;
   };
-  return actuelle;
-})().addTo(map);
+})();
 
 const REGION_COLORS = { 'Est': '#e6007e', 'Centre': '#43a047', 'Ouest': '#0080d7' };
 function regionColor(r) { return REGION_COLORS[r] || '#64748b'; }
