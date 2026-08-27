@@ -1321,9 +1321,14 @@ map.on('locationerror', function () {
   // plutôt que d'appliquer un filtre, qui délaverait les couleurs des épingles.
   var ATTR = '© OpenStreetMap © CartoDB<span class="credit-perso"> | © Olivier Laplante</span>';
   // Clé API CARTO (exigée depuis le 27 août 2026 pour les fonds raster) — fournie par Olivier.
+  // 27 août 2026 (2e correction) : le premier essai gardait l'ancienne forme d'URL avec
+  // sous-domaines ({s}.basemaps.cartocdn.com/light_all/...), qui continuait de répondre
+  // « API key required » avec la clé. La documentation CARTO (docs.carto.com/faqs/carto-basemaps)
+  // donne un tout autre gabarit pour les tuiles authentifiees : pas de sous-domaine, et un
+  // segment /rastertiles/ dans le chemin. On bascule sur ce gabarit exact.
   var CARTO_KEY = 'cb1_29ok_1_b602e4a604176e32ebdf7824';
   function couche(sombre) {
-    return L.tileLayer('https://{s}.basemaps.cartocdn.com/' + (sombre ? 'dark_all' : 'light_all')
+    return L.tileLayer('https://basemaps.cartocdn.com/rastertiles/' + (sombre ? 'dark_all' : 'light_all')
       + '/{z}/{x}/{y}{r}.png?key=' + CARTO_KEY, { attribution: ATTR, maxZoom: 19 });
   }
   var actuelle = couche(document.documentElement.dataset.theme === 'sombre');
