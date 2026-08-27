@@ -9,9 +9,10 @@
 #     2. vérifie qu'aucune donnée privée n'a fui dans les pages produites ;
 #     3. publie le résultat directement sur le site.
 #   Dès que index.html est modifié, ce robot recopie aussi ce même fichier vers
-#   monteregie-est/index.html (avec juste le <head> — titre/description/canonical/Open Graph —
-#   adapté à ce territoire ; voir scripts/publier-monteregie-est.js). C'est la même application,
-#   les mêmes données : /monteregie-est/ n'est jamais maintenue à la main.
+#   monteregie-est/index.html, monteregie-centre/index.html et monteregie-ouest/index.html (avec
+#   le <head> — titre/description/canonical/Open Graph — et le lettrage du territoire adaptés ;
+#   voir scripts/publier-regions.js). C'est la même application, les mêmes données : les trois
+#   cartes régionales ne sont jamais maintenues à la main.
 #   Il n'y a donc plus rien à faire à la main après avoir modifié data.json ou index.html : le
 #   site se met à jour tout seul en une à deux minutes.
 #
@@ -69,8 +70,8 @@ jobs:
       - name: Régénérer les pages et le sitemap
         run: node scripts/generer-pages-seo.js
 
-      - name: Recopier index.html vers monteregie-est/index.html
-        run: node scripts/publier-monteregie-est.js
+      - name: Recopier index.html vers les trois cartes régionales
+        run: node scripts/publier-regions.js
 
       - name: Vérifier qu'aucune donnée privée n'a fui
         # Filet de sécurité : ce robot publie sans qu'un humain relise. Si le générateur venait à
@@ -78,10 +79,14 @@ jobs:
         # ligne des courriels nominatifs ou des notes personnelles.
         run: |
           set -e
-          # Les mêmes vérifications portent sur les copies étanches de l'univers Montérégie-Est.
-          # monteregie-est/index.html en est volontairement EXCLU : c'est la copie de
-          # l'application, qui contient l'adresse de contact d'Olivier — voulue, pas une fuite.
-          PAGES_GENEREES="cliniques/ rls/ monteregie-est/cliniques/ monteregie-est/rls/ monteregie-est/ptem/ monteregie-est/amp/"
+          # Les mêmes vérifications portent sur les copies étanches des trois univers régionaux.
+          # Les fichiers monteregie-*/index.html en sont volontairement EXCLUS : ce sont les
+          # copies de l'application, qui contiennent l'adresse de contact d'Olivier — voulue,
+          # pas une fuite.
+          PAGES_GENEREES="cliniques/ rls/"
+          for R in monteregie-est monteregie-centre monteregie-ouest; do
+            PAGES_GENEREES="$PAGES_GENEREES $R/cliniques/ $R/rls/ $R/ptem/ $R/amp/"
+          done
           echo "Recherche d'adresses courriel dans les pages générées..."
           if grep -rIEl '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' $PAGES_GENEREES ; then
             echo "::error::Une adresse courriel apparaît dans les pages générées. Publication annulée."
