@@ -278,9 +278,12 @@ function analyserPlages(texte) {
 /*
  * Depuis le 21 août 2026, le générateur produit DEUX jeux de pages à partir des mêmes données :
  *
- *   UNIVERS_GENERAL — /cliniques/…, /rls/…  : le site tel qu'il existait, les trois territoires.
- *   UNIVERS_EST     — /monteregie-est/…     : un univers COMPLÈTEMENT ÉTANCHE pour la
- *                                             Montérégie-Est.
+ *   UNIVERS_GENERAL  — /cliniques/…, /rls/… : le site tel qu'il existait, les trois territoires.
+ *   UNIVERS_REGIONS  — /monteregie-est/…,
+ *                      /monteregie-centre/…,
+ *                      /monteregie-ouest/…    : un univers COMPLÈTEMENT ÉTANCHE par territoire.
+ *                                               Né pour la seule Montérégie-Est le 21 août 2026,
+ *                                               étendu aux trois territoires le 26 août.
  *
  * Pourquoi un univers séparé plutôt qu'un simple filtre : demande d'Olivier du 21 août, en
  * réponse au besoin exprimé par le CISSS Montérégie-Est. Une personne qui entre par
@@ -295,26 +298,62 @@ function analyserPlages(texte) {
  * /monteregie-est/ qui est l'officielle et la page générale qui s'efface; jamais les deux.
  */
 const UNIVERS_GENERAL = {
-  est: false,
+  regional: false,
+  region: null,
+  nom: 'Montérégie',
   prefixe: '',
   accueil: '/',
   dossier: '',
-  marque: 'Trouve ta clinique'
+  marque: 'Trouve ta clinique',
+  canonique: true,
+  banniere: null
 };
-const UNIVERS_EST = {
-  est: true,
-  prefixe: '/monteregie-est',
-  accueil: '/monteregie-est/',
-  dossier: 'monteregie-est',
-  marque: 'Trouve ta clinique — Montérégie-Est'
-};
+
+/*
+ * CANONIQUE — laquelle des deux adresses d'un même contenu est l'officielle pour Google.
+ *
+ * Montérégie-Est : c'est la page RÉGIONALE (décision d'Olivier du 21 août 2026, voir plus bas
+ * dans pageClinique). La page générale reste en ligne mais s'efface au profit d'elle.
+ *
+ * Centre et Ouest : c'est la page GÉNÉRALE qui reste l'officielle. Leurs pages régionales,
+ * ouvertes le 26 août 2026, existent pour la navigation et l'étanchéité du territoire — pas
+ * pour prendre la place des pages générales dans l'index. Basculer les trois territoires d'un
+ * coup aurait mis EN NOINDEX la totalité de /cliniques/ et de /rls/, c'est-à-dire tout ce que
+ * le site a déjà acquis en référencement ; ce n'est pas ce qui a été demandé, et ça se décide
+ * séparément. Pour l'inverser un jour, il suffit de passer `canonique` à true ci-dessous :
+ * l'indexation, les canoniques et le sitemap suivent tout seuls.
+ */
+/* ordreRls — l'ordre dans lequel les RLS d'un territoire sont présentés sur son hub /rls/.
+   C'est EXACTEMENT celui de RLS_COLORS_PAR_REGION dans index.html, donc celui de la légende de
+   la carte : la carte, la liste latérale et cette page racontent la même histoire dans le même
+   ordre. Un RLS absent de cette liste (nouveau territoire, renommage) passerait à la fin plutôt
+   que de disparaître — voir rangRls(). */
+const UNIVERS_REGIONS = [
+  { region: 'Est',    nom: 'Montérégie-Est',    dossier: 'monteregie-est',    canonique: true,
+    ordreRls: ['Pierre-Boucher', 'Richelieu-Yamaska', 'Pierre-De Saurel'],
+    banniere: { fichier: 'banniere_monteregie-est.png', largeur: '1600', hauteur: '400' } },
+  { region: 'Centre', nom: 'Montérégie-Centre', dossier: 'monteregie-centre', canonique: false,
+    ordreRls: ['Champlain', 'Haut-Richelieu–Rouville'],
+    banniere: null },
+  { region: 'Ouest',  nom: 'Montérégie-Ouest',  dossier: 'monteregie-ouest',  canonique: false,
+    ordreRls: ['Jardins-Roussillon', 'Vaudreuil-Soulanges', 'du Suroît', 'du Haut-Saint-Laurent'],
+    banniere: null }
+].map(u => Object.assign({
+  regional: true,
+  prefixe: '/' + u.dossier,
+  accueil: '/' + u.dossier + '/',
+  marque: 'Trouve ta clinique — ' + u.nom
+}, u));
+
+/* Accès par territoire : UNIVERS_PAR_REGION['Est'] → l'univers de la Montérégie-Est. */
+const UNIVERS_PAR_REGION = Object.fromEntries(UNIVERS_REGIONS.map(u => [u.region, u]));
 
 function page({ titre, description, url, profondeur, indexable = true, canonical, jsonLd,
                 filDAriane, corps, actif, univers = UNIVERS_GENERAL }) {
   const u = univers;
   /* Feuille de style : chemin relatif dans l'univers général (comme avant), absolu dans
      l'univers Est, dont les pages ne vivent pas toutes à la même profondeur. */
-  const cssHref = u.est ? '/assets/seo-pages.css'
+  const cssHref = u.regional ? '/assets/seo-pages.css'
                         : (profondeur === 1 ? '../' : '../../') + 'assets/seo-pages.css';
   const robots = indexable
     ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
@@ -323,16 +362,16 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
   // lien partagé (courriel à Nancy, réseaux sociaux…) affiche la bonne image — pas celle de la
   // carte générale des 3 territoires (22 août, demande d'Olivier : « bannière officielle... de
   // façon cohérente partout »).
-  const ogImage = u.est ? `${SITE}/assets/banniere_monteregie-est.png` : `${SITE}/og-image.png?v=2`;
-  const ogImageW = u.est ? '1600' : '1200';
-  const ogImageH = u.est ? '400' : '630';
-  const ogImageAlt = u.est
-    ? 'Carte interactive Montérégie-Est — Trouve ta clinique.'
+  const ogImage = u.banniere ? `${SITE}/assets/${u.banniere.fichier}` : `${SITE}/og-image.png?v=2`;
+  const ogImageW = u.banniere ? u.banniere.largeur : '1200';
+  const ogImageH = u.banniere ? u.banniere.hauteur : '630';
+  const ogImageAlt = u.regional
+    ? `Carte interactive ${u.nom} — Trouve ta clinique.`
     : 'Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique.';
-  /* Pas d'entrée « Cliniques » dans l'univers Est : ce répertoire regroupe les 61 cliniques des
-     TROIS territoires. Les cliniques de l'Est se rejoignent par leur page de RLS. */
-  const liens = u.est
-    ? [[u.accueil, 'Carte Montérégie-Est', 'carte'],
+  /* Pas d'entrée « Cliniques » dans un univers régional : ce répertoire regroupe les cliniques
+     des TROIS territoires. Les cliniques d'un territoire se rejoignent par leur page de RLS. */
+  const liens = u.regional
+    ? [[u.accueil, 'Carte ' + u.nom, 'carte'],
        [u.prefixe + '/ptem/', 'PTEM', 'ptem'],
        [u.prefixe + '/amp/', 'AMP', 'amp']]
     : [['/', 'Carte des cliniques', 'carte'],
@@ -401,22 +440,22 @@ ${corps.includes('badge-verif') ? BADGE_VERIF_SCRIPT + '\n' : ''}${CLOUDFLARE_AN
 
 function pageClinique(c, slug, majDonnees, u = UNIVERS_GENERAL) {
   const urlGeneral = `${SITE}/cliniques/${slug}/`;
-  const urlEst = `${SITE}/monteregie-est/cliniques/${slug}/`;
-  const url = u.est ? urlEst : urlGeneral;
+  const uRegion = UNIVERS_PAR_REGION[c.region];
+  const urlRegional = uRegion ? `${SITE}${uRegion.prefixe}/cliniques/${slug}/` : urlGeneral;
+  const url = u.regional ? `${SITE}${u.prefixe}/cliniques/${slug}/` : urlGeneral;
   const substance = CHAMPS_SUBSTANCE.filter(k => rempli(c[k])).length;
   const assezRemplie = substance >= SEUIL_INDEXATION;
 
-  /* BASCULE SEO (21 août 2026, décision d'Olivier). Une clinique de la Montérégie-Est a
-     désormais DEUX pages : la page générale et la page de l'univers Est. Pour que Google n'ait
-     jamais à choisir entre deux adresses au contenu identique, une seule des deux est officielle
-     — et pour une clinique de l'Est, c'est celle de l'univers Est. La page générale reste en
-     ligne (aucun lien cassé, elle sert le parcours venant du répertoire des trois territoires)
-     mais elle est en noindex et désigne la page Est comme version de référence, ce qui lui
-     transmet la valeur déjà acquise plutôt que de la perdre.
-     Les cliniques du Centre et de l'Ouest, elles, n'ont qu'une page et ne changent pas. */
-  const contenuEst = c.region === 'Est';
-  const indexable = contenuEst ? (u.est && assezRemplie) : assezRemplie;
-  const canonical = contenuEst ? urlEst : urlGeneral;
+  /* BASCULE SEO (21 août 2026, décision d'Olivier ; généralisée le 26 août). Une clinique dont
+     le territoire a sa propre carte a DEUX pages : la page générale et la page régionale. Pour
+     que Google n'ait jamais à choisir entre deux adresses au contenu identique, une seule des
+     deux est officielle. Laquelle, c'est le champ `canonique` de l'univers du territoire qui le
+     dit (voir UNIVERS_REGIONS) : la page régionale pour la Montérégie-Est, la page générale
+     pour le Centre et l'Ouest. L'autre reste en ligne — aucun lien cassé — mais en noindex, et
+     désigne l'officielle comme version de référence, ce qui lui transmet la valeur déjà acquise
+     plutôt que de la perdre. */
+  const canonical = (uRegion && uRegion.canonique) ? urlRegional : urlGeneral;
+  const indexable = assezRemplie && url === canonical;
 
   /* --- Renseignements, champ par champ, uniquement depuis la liste blanche --- */
   const lignes = [];
@@ -536,9 +575,9 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
       clinique,
       {
         '@type': 'BreadcrumbList',
-        itemListElement: u.est
+        itemListElement: u.regional
           ? [
-            { '@type': 'ListItem', position: 1, name: 'Montérégie-Est', item: SITE + u.accueil },
+            { '@type': 'ListItem', position: 1, name: u.nom, item: SITE + u.accueil },
             { '@type': 'ListItem', position: 2, name: 'RLS ' + c.rls, item: `${SITE}${u.prefixe}/rls/${slugifier(c.rls || '')}/` },
             { '@type': 'ListItem', position: 3, name: c.nom, item: url }
           ]
@@ -563,7 +602,7 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}?c=${c.id}">Voir sur la carte interactive</a>
-      ${u.est
+      ${u.regional
         ? `<a class="button secondary" href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">Autres cliniques du RLS ${esc(c.rls)}</a>`
         : `<a class="button secondary" href="/cliniques/">Toutes les cliniques</a>`}
     </div>
@@ -592,9 +631,9 @@ ${lignes.join('\n')}
       titre: `${c.nom} — ${c.ville} | Trouve ta clinique`,
       description: `${c.nom}, ${c.type} de ${c.ville} (RLS ${c.rls}) en recrutement de médecins de famille en Montérégie : type de milieu, pratiques offertes${rempli(c.dme) ? ', DMÉ' : ''}${rempli(c.horaire) ? ', heures d’ouverture' : ''}.`,
       url, canonical, profondeur: 2, indexable, jsonLd, univers: u,
-      actif: u.est ? null : 'cliniques',
-      filDAriane: u.est
-        ? `<a href="${u.accueil}">Montérégie-Est</a> › <a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">RLS ${esc(c.rls)}</a> › ${esc(c.nom)}`
+      actif: u.regional ? null : 'cliniques',
+      filDAriane: u.regional
+        ? `<a href="${u.accueil}">${esc(u.nom)}</a> › <a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">RLS ${esc(c.rls)}</a> › ${esc(c.nom)}`
         : `<a href="/">Accueil</a> › <a href="/cliniques/">Cliniques</a> › ${esc(c.nom)}`,
       corps
     }),
@@ -620,18 +659,34 @@ ${lignes.join('\n')}
  * n'appartient à un autre territoire, donc ce cadrage reste cohérent même pour un visiteur venu de
  * la carte générale.
  */
-const RLS_EST = ['Pierre-Boucher', 'Richelieu-Yamaska', 'Pierre-De Saurel'];
+/* Territoire de chaque RLS — DÉDUIT de data.json plutôt qu'écrit à la main : un RLS
+   appartient à un seul CISSS, et la liste bougerait à chaque territoire ajouté. Si un RLS
+   apparaissait un jour à cheval sur deux territoires (erreur de saisie la plus probable), on
+   s'arrête net : tout le cadrage régional en dépend. */
+let REGION_DU_RLS = {};
+function indexerRlsParRegion(cliniques) {
+  const vu = {};
+  for (const c of cliniques) {
+    if (!rempli(c.rls) || !rempli(c.region)) continue;
+    if (vu[c.rls] && vu[c.rls] !== c.region) {
+      throw new Error(`RLS « ${c.rls} » rattaché à deux territoires (${vu[c.rls]} et ${c.region}) ` +
+                      'dans data.json — corriger la donnée avant de régénérer les pages.');
+    }
+    vu[c.rls] = c.region;
+  }
+  REGION_DU_RLS = vu;
+}
 
 function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
   const slug = slugifier(rls);
   const urlGeneral = `${SITE}/rls/${slug}/`;
-  const urlEst = `${SITE}/monteregie-est/rls/${slug}/`;
-  const url = u.est ? urlEst : urlGeneral;
-  /* Même bascule SEO que pour les fiches de cliniques (voir pageClinique) : pour un RLS de la
-     Montérégie-Est, la page officielle est celle de l'univers Est. */
-  const contenuEst = RLS_EST.includes(rls);
-  const indexable = contenuEst ? u.est : true;
-  const canonical = contenuEst ? urlEst : urlGeneral;
+  const uRegion = UNIVERS_PAR_REGION[REGION_DU_RLS[rls]];
+  const urlRegional = uRegion ? `${SITE}${uRegion.prefixe}/rls/${slug}/` : urlGeneral;
+  const url = u.regional ? `${SITE}${u.prefixe}/rls/${slug}/` : urlGeneral;
+  /* Même bascule SEO que pour les fiches de cliniques (voir pageClinique) : c'est le champ
+     `canonique` de l'univers du territoire qui désigne l'adresse officielle. */
+  const canonical = (uRegion && uRegion.canonique) ? urlRegional : urlGeneral;
+  const indexable = url === canonical;
   const villes = [...new Set(liste.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
   const types = [...new Set(liste.map(c => c.type))].sort((a, b) => a.localeCompare(b, 'fr'));
   const prats = [...new Set(liste.flatMap(c => c.pratiques || []))].map(p => PRATIQUES[p] || p).sort();
@@ -654,8 +709,8 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
       },
       {
         '@type': 'BreadcrumbList',
-        itemListElement: u.est ? [
-          { '@type': 'ListItem', position: 1, name: 'Montérégie-Est', item: SITE + u.accueil },
+        itemListElement: u.regional ? [
+          { '@type': 'ListItem', position: 1, name: u.nom, item: SITE + u.accueil },
           { '@type': 'ListItem', position: 2, name: 'RLS ' + rls, item: url }
         ] : [
           { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE + '/' },
@@ -673,7 +728,7 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir ce RLS sur la carte</a>
-      ${u.est
+      ${u.regional
         ? `<a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>`
         : `<a class="button secondary" href="/cliniques/">Toutes les cliniques</a>`}
     </div>
@@ -698,16 +753,16 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
     <p class="note">Ces éléments sont calculés à partir des fiches publiées ci-dessus; ils décrivent les milieux répertoriés par Trouve ta clinique, pas l’ensemble de l’offre du territoire.</p>
   </section>`;
 
-  return page({
+  return { indexable, html: page({
     titre: `Cliniques en recrutement — RLS ${rls} (Montérégie) | Trouve ta clinique`,
     description: `Les ${liste.length} cliniques en recrutement de médecins de famille du RLS ${rls}, en Montérégie : ${villes.slice(0, 4).join(', ')}. Type de milieu, pratiques et fiche détaillée pour chacune.`,
     url, canonical, profondeur: 2, indexable, jsonLd, univers: u,
-    actif: u.est ? null : 'cliniques',
-    filDAriane: u.est
-      ? `<a href="${u.accueil}">Montérégie-Est</a> › RLS ${esc(rls)}`
+    actif: u.regional ? null : 'cliniques',
+    filDAriane: u.regional
+      ? `<a href="${u.accueil}">${esc(u.nom)}</a> › RLS ${esc(rls)}`
       : `<a href="/">Accueil</a> › <a href="/cliniques/">Cliniques</a> › RLS ${esc(rls)}`,
     corps
-  });
+  }) };
 }
 
 /* ------------------------------------------------------------------------------------------- */
@@ -719,17 +774,20 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
  * 21 août ci-dessus retire volontairement toute entrée « Cliniques » de l'univers Est, pour ne
  * jamais offrir un chemin de clic vers les cliniques des autres territoires). Cette page-ci reste
  * cohérente avec ce choix : elle ne liste QUE les 3 RLS qui sont exclusivement Montérégie-Est
- * (RLS_EST) et ne pointe jamais ailleurs que vers l'univers Est (carte, PTEM, AMP, pages de RLS
- * Est). Pas d'entrée dans la barre de navigation (actif reste null, comme pageRls) : la page
- * existe pour le maillage interne et le sitemap, pas comme onglet visible.
+ * (REGION_DU_RLS) et ne pointe jamais ailleurs que dans son propre univers (carte, PTEM, AMP,
+ * pages de RLS du territoire). Pas d'entrée dans la barre de navigation (actif reste null, comme
+ * pageRls) : la page existe pour le maillage interne et le sitemap, pas comme onglet visible.
+ * Généralisée aux trois territoires le 26 août 2026.
  */
-function pageRlsHubEst(parRls, majDonnees) {
-  const u = UNIVERS_EST;
+function pageRlsHubRegion(u, parRls, majDonnees) {
   const url = `${SITE}${u.prefixe}/rls/`;
 
-  const rlsEstPresents = RLS_EST.filter(rls => parRls.has(rls));
+  const rangRls = rls => { const i = u.ordreRls.indexOf(rls); return i === -1 ? 99 : i; };
+  const rlsPresents = [...parRls.keys()]
+    .filter(rls => REGION_DU_RLS[rls] === u.region)
+    .sort((a, b) => rangRls(a) - rangRls(b) || a.localeCompare(b, 'fr'));
 
-  const sections = rlsEstPresents.map(rls => {
+  const sections = rlsPresents.map(rls => {
     const liste = parRls.get(rls);
     const villes = [...new Set(liste.map(c => c.ville))].sort((a, b) => a.localeCompare(b, 'fr'));
     return `  <section id="rls-${slugifier(rls)}">
@@ -739,21 +797,21 @@ function pageRlsHubEst(parRls, majDonnees) {
   </section>`;
   }).join('\n\n');
 
-  const total = rlsEstPresents.reduce((n, rls) => n + parRls.get(rls).length, 0);
+  const total = rlsPresents.reduce((n, rls) => n + parRls.get(rls).length, 0);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'CollectionPage', '@id': url + '#webpage', url,
-        name: 'Réseaux locaux de services (RLS) — Montérégie-Est | Trouve ta clinique',
+        name: `Réseaux locaux de services (RLS) — ${u.nom} | Trouve ta clinique`,
         inLanguage: 'fr-CA', dateModified: majDonnees,
         isPartOf: { '@id': SITE + '/#website' }
       },
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Montérégie-Est', item: SITE + u.accueil },
+          { '@type': 'ListItem', position: 1, name: u.nom, item: SITE + u.accueil },
           { '@type': 'ListItem', position: 2, name: 'RLS', item: url }
         ]
       }
@@ -761,9 +819,9 @@ function pageRlsHubEst(parRls, majDonnees) {
   };
 
   const corps = `  <section class="hero">
-    <p class="eyebrow">Réseaux locaux de services · Montérégie-Est</p>
-    <h1>Les RLS de la Montérégie-Est</h1>
-    <p class="lead">Le territoire de la Montérégie-Est compte <strong>${rlsEstPresents.length} réseaux locaux de services</strong>, avec au total ${total} milieu${total > 1 ? 'x' : ''} actuellement en recrutement de médecins de famille.</p>
+    <p class="eyebrow">Réseaux locaux de services · ${esc(u.nom)}</p>
+    <h1>Les RLS de la ${esc(u.nom)}</h1>
+    <p class="lead">Le territoire de la ${esc(u.nom)} compte <strong>${rlsPresents.length} ${rlsPresents.length > 1 ? 'réseaux locaux' : 'réseau local'} de services</strong>, avec au total ${total} milieu${total > 1 ? 'x' : ''} actuellement en recrutement de médecins de famille.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir sur la carte interactive</a>
@@ -774,10 +832,12 @@ function pageRlsHubEst(parRls, majDonnees) {
 ${sections}`;
 
   return page({
-    titre: 'Réseaux locaux de services (RLS) — Montérégie-Est | Trouve ta clinique',
-    description: `Les ${rlsEstPresents.length} RLS de la Montérégie-Est et leurs milieux en recrutement de médecins de famille.`,
-    url, profondeur: 1, indexable: true, jsonLd, univers: u, actif: null,
-    filDAriane: `<a href="${u.accueil}">Montérégie-Est</a> › RLS`,
+    titre: `Réseaux locaux de services (RLS) — ${u.nom} | Trouve ta clinique`,
+    description: `Les ${rlsPresents.length} RLS de la ${u.nom} et leurs milieux en recrutement de médecins de famille.`,
+    /* Indexable seulement là où le territoire tient aussi ses pages de RLS (voir `canonique`) :
+       sinon ce hub renverrait Google vers des pages qu'on a nous-mêmes mises en noindex. */
+    url, profondeur: 1, indexable: u.canonique, jsonLd, univers: u, actif: null,
+    filDAriane: `<a href="${u.accueil}">${esc(u.nom)}</a> › RLS`,
     corps
   });
 }
@@ -907,7 +967,7 @@ function ecrire(relatif, contenu) {
  * pour Google reste /ptem/ et /amp/. Les copies sont en noindex et la désignent comme telle.
  * Elles n'existent que pour ne pas faire sortir de l'univers Est quelqu'un qui vient d'y entrer.
  */
-function copieEstPageStatique(source, urlCanonique) {
+function copieRegionPageStatique(source, urlCanonique, u) {
   let html = fs.readFileSync(path.join(RACINE, source), 'utf8');
   const avant = html;
 
@@ -915,11 +975,11 @@ function copieEstPageStatique(source, urlCanonique) {
         (nav et boutons d'appel à l'action), plutôt que de la faire pointer ailleurs. */
   html = html.replace(/<a\b[^>]*href="\/cliniques\/"[^>]*>.*?<\/a>/gs, '');
 
-  /* 2. Les liens restants sont ramenés dans l'univers Est. L'ordre compte : /ptem/ et /amp/
-        d'abord, sinon la règle sur href="/" ne les toucherait pas mais celle-ci les
+  /* 2. Les liens restants sont ramenés dans l'univers du territoire. L'ordre compte : /ptem/ et
+        /amp/ d'abord, sinon la règle sur href="/" ne les toucherait pas mais celle-ci les
         préfixerait deux fois. */
-  html = html.replace(/href="\/(ptem|amp)\/"/g, 'href="/monteregie-est/$1/"');
-  html = html.replace(/href="\/"/g, 'href="/monteregie-est/"');
+  html = html.replace(/href="\/(ptem|amp)\/"/g, `href="${u.prefixe}/$1/"`);
+  html = html.replace(/href="\/"/g, `href="${u.accueil}"`);
 
   /* 3. Ressources (CSS, images) : la page d'origine vit à /ptem/, la copie à /monteregie-est/ptem/
         — un cran plus profond. Les chemins en « ../assets/… » y résoudraient vers
@@ -930,21 +990,25 @@ function copieEstPageStatique(source, urlCanonique) {
   /* 3bis. Bannière : PTEM et AMP illustrent leur en-tête avec la bannière générale de la carte
      (carte-interactive-monteregie.png). Sur les copies Est, demande d'Olivier du 21 août : la
      bannière déjà préparée pour la Montérégie-Est (banniere_monteregie-est.png, 20 août) doit
-     apparaître à la place — cohérent avec le reste de l'univers Est, et déjà utilisée ailleurs
-     sur ce territoire (le site lui-même). Le fichier existe déjà dans assets/, rien à créer. */
-  html = html.replace(/carte-interactive-monteregie\.png/g, 'banniere_monteregie-est.png');
+     apparaître à la place — cohérent avec le reste de l'univers Est. Les territoires qui n'ont
+     pas encore de bannière propre gardent l'image générale : mieux vaut une illustration
+     générique correcte qu'un lien mort vers un fichier inexistant. */
+  if (u.banniere) {
+    html = html.replace(/carte-interactive-monteregie\.png/g, u.banniere.fichier);
+  }
   html = html.replace(
     /Bannière Trouve ta clinique — carte interactive des cliniques en recrutement en Montérégie/g,
-    'Bannière Trouve ta clinique — carte interactive des cliniques en recrutement en Montérégie-Est'
+    `Bannière Trouve ta clinique — carte interactive des cliniques en recrutement en ${u.nom}`
   );
 
-  /* 4. Identité de l'univers Est dans l'en-tête et le fil d'Ariane. */
-  html = html.replace(/(<a class="brand" href="\/monteregie-est\/">)Trouve ta clinique(<\/a>)/,
-                      '$1Trouve ta clinique — Montérégie-Est$2');
-  html = html.replace(/(href="\/monteregie-est\/">)Carte des cliniques(<\/a>)/,
-                      '$1Carte Montérégie-Est$2');
-  html = html.replace(/(class="breadcrumbs"><a href="\/monteregie-est\/">)Accueil(<\/a>)/,
-                      '$1Montérégie-Est$2');
+  /* 4. Identité du territoire dans l'en-tête et le fil d'Ariane. */
+  const acc = u.accueil.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  html = html.replace(new RegExp(`(<a class="brand" href="${acc}">)Trouve ta clinique(</a>)`),
+                      `$1${u.marque}$2`);
+  html = html.replace(new RegExp(`(href="${acc}">)Carte des cliniques(</a>)`),
+                      `$1Carte ${u.nom}$2`);
+  html = html.replace(new RegExp(`(class="breadcrumbs"><a href="${acc}">)Accueil(</a>)`),
+                      `$1${u.nom}$2`);
 
   /* 5. Indexation : la page officielle reste la page générale (voir le commentaire ci-dessus). */
   html = html.replace(/<link href="[^"]*" rel="canonical"\/>/,
@@ -952,20 +1016,22 @@ function copieEstPageStatique(source, urlCanonique) {
   html = html.replace(/<meta content="index,follow[^"]*" name="robots"\/>/,
                       '<meta content="noindex,follow" name="robots"/>');
 
-  /* 5bis. Aperçu de partage (og:image / twitter:image) : la bannière Montérégie-Est plutôt que
+  /* 5bis. Aperçu de partage (og:image / twitter:image) : la bannière du territoire plutôt que
      celle de la carte générale, pour les mêmes raisons qu'au point 3bis (22 août). */
-  html = html.replace(/<meta content="[^"]*og-image\.png\?v=2" (property="og:image"|name="twitter:image")\/>/g,
-                      `<meta content="${SITE}/assets/banniere_monteregie-est.png" $1/>`);
-  html = html.replace(/<meta content="1200" property="og:image:width"\/>/,
-                      '<meta content="1600" property="og:image:width"/>');
-  html = html.replace(/<meta content="630" property="og:image:height"\/>/,
-                      '<meta content="400" property="og:image:height"/>');
+  if (u.banniere) {
+    html = html.replace(/<meta content="[^"]*og-image\.png\?v=2" (property="og:image"|name="twitter:image")\/>/g,
+                        `<meta content="${SITE}/assets/${u.banniere.fichier}" $1/>`);
+    html = html.replace(/<meta content="1200" property="og:image:width"\/>/,
+                        `<meta content="${u.banniere.largeur}" property="og:image:width"/>`);
+    html = html.replace(/<meta content="630" property="og:image:height"\/>/,
+                        `<meta content="${u.banniere.hauteur}" property="og:image:height"/>`);
+  }
   html = html.replace(/<meta content="Carte des cliniques en recrutement de la Montérégie — Trouve ta clinique\." property="og:image:alt"\/>/,
-                      '<meta content="Carte interactive Montérégie-Est — Trouve ta clinique." property="og:image:alt"/>');
+                      `<meta content="Carte interactive ${u.nom} — Trouve ta clinique." property="og:image:alt"/>`);
 
   if (html === avant) {
-    throw new Error(`copieEstPageStatique : aucune transformation appliquée à ${source} — ` +
-                    'le gabarit de la page a probablement changé, la copie Est ne serait plus étanche.');
+    throw new Error(`copieRegionPageStatique : aucune transformation appliquée à ${source} — ` +
+                    'le gabarit de la page a probablement changé, la copie régionale ne serait plus étanche.');
   }
   return html;
 }
@@ -1009,33 +1075,44 @@ function main() {
     parRls.get(c.rls).push(c);
   }
 
+  /* Territoire de chaque RLS — à établir AVANT toute génération : pageRls, le hub régional et
+     le choix des adresses canoniques en dépendent tous. */
+  indexerRlsParRegion(cliniques);
+
   const entrees = PAGES_FIXES.map(p => Object.assign({}, p, { lastmod: p.lastmod || majPagesSeo }));
   entrees.push({ loc: '/cliniques/', lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
 
-  /* Pages de cliniques — version générale, puis copie étanche pour les cliniques de l'Est.
+  /* Pages de cliniques — version générale, puis copie étanche dans l'univers du territoire.
      Une seule des deux entre dans le sitemap : celle qui est indexable (voir pageClinique). */
-  let indexables = 0, minces = [], copiesEst = 0;
+  let indexables = 0, minces = [], copiesRegionales = 0;
+  const dejaMince = new Set();
+  const noterMince = c => {
+    if (dejaMince.has(c.id)) return;      // une même fiche n'est signalée qu'une fois,
+    dejaMince.add(c.id);                  // même si ses deux versions sont trop minces
+    minces.push({ nom: c.nom, substance: CHAMPS_SUBSTANCE.filter(k => rempli(c[k])).length });
+  };
   for (const c of cliniques) {
     const slug = slugs[String(c.id)];
 
-    const { html, indexable, substance } = pageClinique(c, slug, majDonnees, UNIVERS_GENERAL);
-    ecrire(path.join('cliniques', slug, 'index.html'), html);
-    if (indexable) {
+    const general = pageClinique(c, slug, majDonnees, UNIVERS_GENERAL);
+    ecrire(path.join('cliniques', slug, 'index.html'), general.html);
+    if (general.indexable) {
       indexables++;
       entrees.push({ loc: `/cliniques/${slug}/`, lastmod: majPagesSeo, changefreq: 'monthly', priority: '0.7' });
-    } else if (c.region !== 'Est') {
-      minces.push({ nom: c.nom, substance });
+    } else if (general.substance < SEUIL_INDEXATION) {
+      noterMince(c);
     }
 
-    if (c.region === 'Est') {
-      const est = pageClinique(c, slug, majDonnees, UNIVERS_EST);
-      ecrire(path.join(UNIVERS_EST.dossier, 'cliniques', slug, 'index.html'), est.html);
-      copiesEst++;
-      if (est.indexable) {
+    const uRegion = UNIVERS_PAR_REGION[c.region];
+    if (uRegion) {
+      const reg = pageClinique(c, slug, majDonnees, uRegion);
+      ecrire(path.join(uRegion.dossier, 'cliniques', slug, 'index.html'), reg.html);
+      copiesRegionales++;
+      if (reg.indexable) {
         indexables++;
-        entrees.push({ loc: `${UNIVERS_EST.prefixe}/cliniques/${slug}/`, lastmod: majPagesSeo, changefreq: 'monthly', priority: '0.7' });
-      } else {
-        minces.push({ nom: c.nom, substance });
+        entrees.push({ loc: `${uRegion.prefixe}/cliniques/${slug}/`, lastmod: majPagesSeo, changefreq: 'monthly', priority: '0.7' });
+      } else if (reg.substance < SEUIL_INDEXATION) {
+        noterMince(c);
       }
     }
   }
@@ -1044,30 +1121,44 @@ function main() {
   for (const [rls, liste] of parRls) {
     const slug = slugifier(rls);
 
-    ecrire(path.join('rls', slug, 'index.html'), pageRls(rls, liste, slugs, majDonnees, UNIVERS_GENERAL));
-    if (!RLS_EST.includes(rls)) {
+    const general = pageRls(rls, liste, slugs, majDonnees, UNIVERS_GENERAL);
+    ecrire(path.join('rls', slug, 'index.html'), general.html);
+    if (general.indexable) {
       entrees.push({ loc: `/rls/${slug}/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
     }
 
-    if (RLS_EST.includes(rls)) {
-      ecrire(path.join(UNIVERS_EST.dossier, 'rls', slug, 'index.html'),
-             pageRls(rls, liste, slugs, majDonnees, UNIVERS_EST));
-      copiesEst++;
-      entrees.push({ loc: `${UNIVERS_EST.prefixe}/rls/${slug}/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
+    const uRegion = UNIVERS_PAR_REGION[REGION_DU_RLS[rls]];
+    if (uRegion) {
+      const reg = pageRls(rls, liste, slugs, majDonnees, uRegion);
+      ecrire(path.join(uRegion.dossier, 'rls', slug, 'index.html'), reg.html);
+      copiesRegionales++;
+      if (reg.indexable) {
+        entrees.push({ loc: `${uRegion.prefixe}/rls/${slug}/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
+      }
     }
   }
 
-  /* Copies étanches de /ptem/ et /amp/ pour l'univers Est (noindex : voir la fonction). */
-  for (const nom of ['ptem', 'amp']) {
-    ecrire(path.join(UNIVERS_EST.dossier, nom, 'index.html'),
-           copieEstPageStatique(path.join(nom, 'index.html'), `${SITE}/${nom}/`));
-    copiesEst++;
+  /* Copies étanches de /ptem/ et /amp/ dans chaque univers régional (noindex : voir la
+     fonction). Sans elles, le menu « i » d'une carte régionale — qui pointe en relatif vers
+     ptem/ et amp/ — donnerait deux liens morts. */
+  for (const u of UNIVERS_REGIONS) {
+    for (const nom of ['ptem', 'amp']) {
+      ecrire(path.join(u.dossier, nom, 'index.html'),
+             copieRegionPageStatique(path.join(nom, 'index.html'), `${SITE}/${nom}/`, u));
+      copiesRegionales++;
+    }
   }
 
-  /* Répertoire général + hub RLS de l'univers Est + sitemap */
+  /* Répertoire général + hub RLS de chaque univers régional + sitemap */
   ecrire(path.join('cliniques', 'index.html'), pageRepertoire(cliniques, slugs, parRls, majDonnees));
-  ecrire(path.join(UNIVERS_EST.dossier, 'rls', 'index.html'), pageRlsHubEst(parRls, majDonnees));
-  entrees.push({ loc: `${UNIVERS_EST.prefixe}/rls/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
+  for (const u of UNIVERS_REGIONS) {
+    const hub = pageRlsHubRegion(u, parRls, majDonnees);
+    ecrire(path.join(u.dossier, 'rls', 'index.html'), hub);
+    copiesRegionales++;
+    if (u.canonique) {
+      entrees.push({ loc: `${u.prefixe}/rls/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
+    }
+  }
   ecrire('sitemap.xml', sitemap(entrees));
 
   /* Rapport */
