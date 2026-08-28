@@ -72,10 +72,13 @@
 // clé (v40) reste en solution de secours si WebGL est indisponible. Trois fichiers vendor
 // ajoutés au cache. Aucun changement de données, de marqueurs, de filtres, de texte ou de mise
 // en page.
-const CACHE = 'ptem-2027-v41';
+// v42 (28 août 2026) : ajout des trois repères territoriaux CISSS sur la carte générale,
+// à partir des limites RLS officielles MSSS 2026. Aucun changement aux pages régionales.
+const CACHE = 'ptem-2027-v42';
 const CORE = [
   './',
   './index.html',
+  './territoires-monteregie.js',
   './leaflet.css',
   './leaflet.js',
   './vendor/maplibre-gl.css',

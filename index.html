@@ -1208,6 +1208,7 @@ body.cmp-open { overflow:hidden; }
 <script src="./leaflet.js"></script>
 <script src="./vendor/maplibre-gl.js"></script>
 <script src="./vendor/leaflet-maplibre-gl.js"></script>
+<script src="./territoires-monteregie.js"></script>
 <script>
 // ═══════════════════════════════════════════
 //  MODE « CARTE RÉGIONALE » (vue dédiée, même app/mêmes données)
@@ -1321,6 +1322,40 @@ const rankOf = id => currentOrder().indexOf(id) + 1;
 const HOME = { center:[45.45,-73.15], zoom:9 };
 const map = L.map('map', { center:HOME.center, zoom:HOME.zoom, zoomControl:false });
 L.control.zoom({ position:'topright' }).addTo(map);
+
+/* Repères des trois territoires CISSS, repris exactement du brouillon Montérégie-Est.
+   Les surfaces restent sous les épingles et ne captent aucun clic. */
+if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
+  map.createPane('territoiresCisssFond');
+  map.getPane('territoiresCisssFond').style.zIndex = '260';
+  map.getPane('territoiresCisssFond').style.pointerEvents = 'none';
+
+  window.TERRITOIRES_CISSS_MSSS_2026.forEach(function (territoire) {
+    L.geoJSON({
+      type: 'Feature',
+      properties: {
+        nom: territoire.nom,
+        source: 'MSSS',
+        version: '2026-04-01',
+        rls: territoire.rls
+      },
+      geometry: territoire.geometry
+    }, {
+      pane: 'territoiresCisssFond',
+      interactive: false,
+      style: {
+        color: territoire.contour,
+        opacity: 0.58,
+        weight: 1.5,
+        fillColor: territoire.remplissage,
+        fillOpacity: 0.07,
+        lineJoin: 'round'
+      }
+    }).addTo(map);
+  });
+
+  map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
+}
 
 // Bouton « Me localiser » (sous les boutons de zoom)
 let userMarker = null;
