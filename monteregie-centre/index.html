@@ -1165,6 +1165,7 @@ body.cmp-open { overflow:hidden; }
 <script src="../vendor/leaflet-maplibre-gl.js"></script>
 <script src="../territoires-monteregie.js"></script>
 <script src="../territoires-rls-est.js"></script>
+<script src="../territoires-rls-centre-ouest.js"></script>
 <script>
 // ═══════════════════════════════════════════
 //  MODE « CARTE RÉGIONALE » (vue dédiée, même app/mêmes données)
@@ -1195,6 +1196,16 @@ const MODE_REGION = REGION_PAGE !== null;   // sur une carte régionale, quelle 
 // (adresse de la page « À propos du recrutement », bannière de partage). Tout le reste passe
 // désormais par MODE_REGION / REGION_PAGE et vaut pour les trois territoires.
 const MODE_EST = REGION_PAGE === 'Est';
+/* Limites RLS officielles de la carte régionale courante. Les trois fichiers sont chargés à la
+   racine afin que les copies régionales restent générées depuis cet unique index.html. */
+const TERRITOIRES_RLS_PAR_REGION = {
+  'Est': window.TERRITOIRES_RLS_EST_MSSS_2026,
+  'Centre': window.TERRITOIRES_RLS_CENTRE_MSSS_2026,
+  'Ouest': window.TERRITOIRES_RLS_OUEST_MSSS_2026
+};
+const TERRITOIRES_RLS_REGIONAUX = MODE_REGION
+  ? (TERRITOIRES_RLS_PAR_REGION[REGION_PAGE] || [])
+  : [];
 // NOTE : rien n'est retiré ni réécrit ici au chargement. Tout ce qui distingue une page
 // régionale — titre de l'en-tête, lettrage manuscrit, absence des liens vers les autres
 // territoires — est inscrit directement dans le HTML de cette page par
@@ -1276,12 +1287,41 @@ const rankOf = id => currentOrder().indexOf(id) + 1;
 //  CARTE
 // ═══════════════════════════════════════════
 const HOME = { center:[45.45,-73.15], zoom:9 };
-const map = L.map('map', { center:HOME.center, zoom:HOME.zoom, zoomControl:false });
+/* Canvas sert de repli aux overlays si WebGL est indisponible. Avec le fond MapLibre normal,
+   les surfaces sont dessinées directement dans le même canvas GPU que la carte (voir plus bas),
+   ce qui évite le grand calque SVG translucide qui ralentissait le glisser et le zoom. */
+const map = L.map('map', { center:HOME.center, zoom:HOME.zoom, zoomControl:false, preferCanvas:true });
 L.control.zoom({ position:'topright' }).addTo(map);
 
 /* Repères des trois territoires CISSS, repris exactement du brouillon Montérégie-Est.
    Les surfaces restent sous les épingles et ne captent aucun clic. */
 const couchesTerritoiresCisss = new Map();
+let carteMapLibreOverlays = null;
+const OVERLAY_SOURCE_ID = 'ttc-limites-source';
+const OVERLAY_FILL_ID = 'ttc-limites-remplissage';
+const OVERLAY_LINE_ID = 'ttc-limites-contour';
+
+function retirerOverlaysLeaflet() {
+  couchesTerritoiresCisss.forEach(function (couche) {
+    if (map.hasLayer(couche)) map.removeLayer(couche);
+  });
+  couchesRlsRegionaux.forEach(function (couche) {
+    if (map.hasLayer(couche)) map.removeLayer(couche);
+  });
+}
+
+function filtrerOverlaysMapLibre(propriete, valeurs) {
+  const gl = carteMapLibreOverlays;
+  if (!gl || !gl.getLayer(OVERLAY_FILL_ID) || !gl.getLayer(OVERLAY_LINE_ID)) return false;
+  const filtre = valeurs && valeurs.length
+    ? ['in', ['get', propriete], ['literal', valeurs]]
+    : null;
+  gl.setFilter(OVERLAY_FILL_ID, filtre);
+  gl.setFilter(OVERLAY_LINE_ID, filtre);
+  retirerOverlaysLeaflet();
+  return true;
+}
+
 function synchroniserOverlaysTerritoires() {
   if (MODE_REGION || !couchesTerritoiresCisss.size) return;
 
@@ -1293,6 +1333,8 @@ function synchroniserOverlaysTerritoires() {
   const regionsVisibles = ficheDuRls
     ? new Set([ficheDuRls.region])
     : (regionFilter.size ? new Set(regionFilter) : null);
+
+  if (filtrerOverlaysMapLibre('territoire', regionsVisibles ? [...regionsVisibles] : null)) return;
 
   couchesTerritoiresCisss.forEach(function (couche, region) {
     const doitEtreVisible = !regionsVisibles || regionsVisibles.has(region);
@@ -1335,24 +1377,25 @@ if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
   map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
 }
 
-/* Page officielle Montérégie-Est : même découpage et mêmes couleurs RLS que le brouillon.
-   Les deux autres pages régionales ne créent aucune de ces couches. */
-const couchesRlsEstOfficielle = new Map();
-function synchroniserOverlaysRlsEstOfficielle() {
-  if (!MODE_EST || !couchesRlsEstOfficielle.size) return;
-  couchesRlsEstOfficielle.forEach(function (couche, nomRls) {
+/* Chaque page régionale affiche le découpage officiel de ses propres RLS, dans les mêmes
+   couleurs que ses boutons et ses épingles. */
+const couchesRlsRegionaux = new Map();
+function synchroniserOverlaysRlsRegionaux() {
+  if (!MODE_REGION || !couchesRlsRegionaux.size) return;
+  if (filtrerOverlaysMapLibre('rls', rlsFilter ? [rlsFilter] : null)) return;
+  couchesRlsRegionaux.forEach(function (couche, nomRls) {
     const doitEtreVisible = !rlsFilter || rlsFilter === nomRls;
     if (doitEtreVisible && !map.hasLayer(couche)) couche.addTo(map);
     if (!doitEtreVisible && map.hasLayer(couche)) map.removeLayer(couche);
   });
 }
 
-if (MODE_EST && Array.isArray(window.TERRITOIRES_RLS_EST_MSSS_2026)) {
-  map.createPane('territoiresRlsEstFond');
-  map.getPane('territoiresRlsEstFond').style.zIndex = '260';
-  map.getPane('territoiresRlsEstFond').style.pointerEvents = 'none';
+if (MODE_REGION && Array.isArray(TERRITOIRES_RLS_REGIONAUX)) {
+  map.createPane('territoiresRlsFond');
+  map.getPane('territoiresRlsFond').style.zIndex = '260';
+  map.getPane('territoiresRlsFond').style.pointerEvents = 'none';
 
-  window.TERRITOIRES_RLS_EST_MSSS_2026.forEach(function (rls) {
+  TERRITOIRES_RLS_REGIONAUX.forEach(function (rls) {
     const couche = L.geoJSON({
       type: 'Feature',
       properties: {
@@ -1363,7 +1406,7 @@ if (MODE_EST && Array.isArray(window.TERRITOIRES_RLS_EST_MSSS_2026)) {
       },
       geometry: rls.geometry
     }, {
-      pane: 'territoiresRlsEstFond',
+      pane: 'territoiresRlsFond',
       interactive: false,
       style: {
         color: rls.contour,
@@ -1375,10 +1418,87 @@ if (MODE_EST && Array.isArray(window.TERRITOIRES_RLS_EST_MSSS_2026)) {
       }
     });
     couche.addTo(map);
-    couchesRlsEstOfficielle.set(rls.nom, couche);
+    couchesRlsRegionaux.set(rls.nom, couche);
   });
 
   map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
+}
+
+/*
+ * Rend les mêmes limites, avec les mêmes coordonnées et couleurs, directement dans MapLibre.
+ * Elles partagent alors le canvas WebGL du fond au lieu d'ajouter un SVG translucide par-dessus.
+ * Les couches Leaflet/Canvas créées plus haut restent le repli automatique si MapLibre échoue.
+ */
+function installerOverlaysDansMapLibre(gl) {
+  if (!gl || typeof gl.addSource !== 'function') return;
+
+  let features = [];
+  if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
+    features = window.TERRITOIRES_CISSS_MSSS_2026.map(function (territoire) {
+      return {
+        type: 'Feature',
+        properties: {
+          territoire: territoire.nom.replace('Montérégie-', ''),
+          remplissage: territoire.remplissage,
+          contour: territoire.contour
+        },
+        geometry: territoire.geometry
+      };
+    });
+  } else if (MODE_REGION && Array.isArray(TERRITOIRES_RLS_REGIONAUX)) {
+    features = TERRITOIRES_RLS_REGIONAUX.map(function (rls) {
+      return {
+        type: 'Feature',
+        properties: {
+          rls: rls.nom,
+          remplissage: rls.remplissage,
+          contour: rls.contour
+        },
+        geometry: rls.geometry
+      };
+    });
+  }
+
+  if (!features.length) return;
+  carteMapLibreOverlays = gl;
+
+  if (!gl.getSource(OVERLAY_SOURCE_ID)) {
+    gl.addSource(OVERLAY_SOURCE_ID, {
+      type: 'geojson',
+      data: { type: 'FeatureCollection', features: features }
+    });
+  }
+  if (!gl.getLayer(OVERLAY_FILL_ID)) {
+    gl.addLayer({
+      id: OVERLAY_FILL_ID,
+      type: 'fill',
+      source: OVERLAY_SOURCE_ID,
+      paint: {
+        'fill-color': ['get', 'remplissage'],
+        'fill-opacity': 0.07
+      }
+    });
+  }
+  if (!gl.getLayer(OVERLAY_LINE_ID)) {
+    gl.addLayer({
+      id: OVERLAY_LINE_ID,
+      type: 'line',
+      source: OVERLAY_SOURCE_ID,
+      layout: {
+        'line-join': 'round',
+        'line-cap': 'round'
+      },
+      paint: {
+        'line-color': ['get', 'contour'],
+        'line-opacity': 0.58,
+        'line-width': 1.5
+      }
+    });
+  }
+
+  retirerOverlaysLeaflet();
+  if (MODE_REGION) synchroniserOverlaysRlsRegionaux();
+  else synchroniserOverlaysTerritoires();
 }
 
 // Bouton « Me localiser » (sous les boutons de zoom)
@@ -1471,6 +1591,13 @@ map.on('locationerror', function () {
       try {
         var vectorielle = coucheVectorielle(sombre);
         vectorielle.addTo(map);
+        var gl = vectorielle.getMaplibreMap && vectorielle.getMaplibreMap();
+        if (gl) {
+          // setStyle() retire les sources ajoutées par l'application : style.load les remet
+          // automatiquement après un changement clair/sombre, sans recréer la carte.
+          gl.on('style.load', function () { installerOverlaysDansMapLibre(gl); });
+          if (gl.isStyleLoaded && gl.isStyleLoaded()) installerOverlaysDansMapLibre(gl);
+        }
         return vectorielle;
       } catch (e) {
         vectorielDisponible = false;
@@ -2385,7 +2512,7 @@ function populateRlsButtons() {
         btn.classList.toggle('dim', paleBtn);
         btn.setAttribute('aria-pressed', rlsFilter === nomBtn ? 'true' : 'false');
       });
-      synchroniserOverlaysRlsEstOfficielle();
+      synchroniserOverlaysRlsRegionaux();
       renderSidebar(); updateMarkerVisibility(); fitToVisible();
     });
     wrap.appendChild(b);

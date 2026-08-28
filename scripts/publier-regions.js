@@ -259,6 +259,7 @@ function remplacements(t) {
   pousser('<script src="./vendor/leaflet-maplibre-gl.js"></script>', '<script src="../vendor/leaflet-maplibre-gl.js"></script>');
   pousser('<script src="./territoires-monteregie.js"></script>', '<script src="../territoires-monteregie.js"></script>');
   pousser('<script src="./territoires-rls-est.js"></script>', '<script src="../territoires-rls-est.js"></script>');
+  pousser('<script src="./territoires-rls-centre-ouest.js"></script>', '<script src="../territoires-rls-centre-ouest.js"></script>');
   pousser("fetch('./data.json', { cache: 'no-cache' })", "fetch('../data.json', { cache: 'no-cache' })");
   // Le service worker reste celui de la racine (un seul, partagé) : « ../sw.js » depuis
   // /monteregie-<territoire>/ pointe sur /sw.js, dont la portée par défaut est « / ». Toutes les

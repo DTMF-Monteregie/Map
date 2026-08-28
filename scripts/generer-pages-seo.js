@@ -232,6 +232,29 @@ function slugifier(nom) {
 }
 
 /*
+ * Anciennes URL créées avant la prise en charge des ligatures « œ ». Elles ont déjà été publiées
+ * et peuvent donc exister dans des favoris ou dans l'index d'un moteur de recherche : on ne les
+ * supprime pas, on les transforme en redirections permanentes côté contenu vers le slug corrigé.
+ */
+const REDIRECTIONS_SLUGS_HISTORIQUES = [
+  {
+    ancien: 'cabinet-medical-au-c-ur-des-vergers',
+    nouveau: 'cabinet-medical-au-coeur-des-vergers',
+    libelle: 'La fiche du Cabinet Médical au Cœur des Vergers'
+  },
+  {
+    ancien: 'cmi-contrec-ur',
+    nouveau: 'cmi-contrecoeur',
+    libelle: 'La fiche du CMI Contrecœur'
+  },
+  {
+    ancien: 'gmf-contrec-ur-cooperative-sante-contrec-ur',
+    nouveau: 'gmf-contrecoeur-cooperative-sante-contrecoeur',
+    libelle: 'La fiche du GMF Contrecœur (Coopérative Santé Contrecœur)'
+  }
+];
+
+/*
  * Slugs STABLES. Une URL déjà indexée par Google ne doit pas changer parce qu'on a corrigé une
  * faute dans le nom d'une clinique. On garde donc une correspondance id → slug dans
  * scripts/slugs.json : une fois qu'un identifiant a reçu son slug, il le garde pour toujours.
@@ -394,8 +417,8 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
   const liens = u.regional
     ? [[u.accueil, 'Carte ' + u.nom, 'carte'],
        [u.prefixe + '/cliniques/', 'Cliniques', 'cliniques'],
-       ['/ptem/', 'PTEM', 'ptem'],
-       ['/amp/', 'AMP', 'amp']]
+       [u.prefixe + '/ptem/', 'PTEM', 'ptem'],
+       [u.prefixe + '/amp/', 'AMP', 'amp']]
     : [['/', 'Carte des cliniques', 'carte'],
        ['/ptem/', 'PTEM', 'ptem'],
        ['/amp/', 'AMP', 'amp'],
@@ -654,8 +677,8 @@ ${lignes.join('\n')}
     <h2>Pour aller plus loin</h2>
     <ul class="source-list">
       <li><a href="${u.prefixe}/rls/${slugifier(c.rls || '')}/">Autres milieux du RLS ${esc(c.rls)}</a></li>
-      <li><a href="/ptem/">Comprendre le PTEM et l’avis de conformité</a></li>
-      <li><a href="/amp/">Comprendre les activités médicales particulières (AMP)</a></li>
+      <li><a href="${u.prefixe}/ptem/">Comprendre le PTEM et l’avis de conformité</a></li>
+      <li><a href="${u.prefixe}/amp/">Comprendre les activités médicales particulières (AMP)</a></li>
       <li><a href="${u.accueil}?c=${c.id}">Fiche complète et itinéraire sur la carte interactive</a></li>
     </ul>
   </section>`;
@@ -775,12 +798,12 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir ce RLS sur la carte</a>
       ${u.regional
-        ? `<a class="button secondary" href="/ptem/">Comprendre le PTEM</a>`
+        ? `<a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>`
         : `<a class="button secondary" href="/cliniques/">Toutes les cliniques</a>`}
     </div>
   </section>
 
-  <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
+  <div class="callout official"><strong>Pourquoi le RLS compte :</strong> l’avis de conformité PTEM précise la région ou le sous-territoire où le médecin doit réaliser au moins 55 % de ses jours de facturation. Le choix du RLS se fait donc en même temps que celui du milieu. <a href="${u.prefixe}/ptem/">Comprendre le PTEM →</a> <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
   <section id="milieux">
     <h2>Les ${actifs.length} milieu${actifs.length > 1 ? 'x' : ''} qui recrutent</h2>
@@ -883,7 +906,7 @@ function pageRlsHubRegion(u, parRls, majDonnees) {
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="${u.accueil}">Voir sur la carte interactive</a>
-      <a class="button secondary" href="/ptem/">Comprendre le PTEM</a>
+      <a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>
     </div>
   </section>
 
@@ -1007,6 +1030,35 @@ function ecrire(relatif, contenu) {
   const cible = path.join(RACINE, relatif);
   fs.mkdirSync(path.dirname(cible), { recursive: true });
   fs.writeFileSync(cible, contenu, 'utf8');
+}
+
+/*
+ * Page de redirection statique pour une ancienne adresse dont la page canonique vit désormais
+ * dans un univers régional (ou, inversement, pour une copie régionale d'une page générale).
+ *
+ * GitHub Pages ne permet pas de déclarer des redirections HTTP côté serveur. Cette page combine
+ * donc les trois mécanismes utiles ici : canonical + noindex pour les moteurs, meta refresh sans
+ * JavaScript et location.replace() pour le navigateur. Le lien visible reste le dernier recours.
+ */
+function pageRedirectionStatique(destination, libelle) {
+  const urlHtml = esc(destination);
+  const libelleHtml = esc(libelle);
+  return `<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Page déplacée | Trouve ta clinique</title>
+<meta name="robots" content="noindex,follow">
+<link rel="canonical" href="${urlHtml}">
+<meta http-equiv="refresh" content="0; url=${urlHtml}">
+<script>location.replace(${JSON.stringify(String(destination))});</script>
+</head>
+<body>
+<p>${libelleHtml} a été déplacée. <a href="${urlHtml}">Continuer vers la nouvelle adresse</a>.</p>
+</body>
+</html>
+`;
 }
 
 /* ------------------------------------------------------------------------------------------- */
@@ -1178,6 +1230,15 @@ function main() {
         noterMince(c);
       }
     }
+  }
+
+  /* Conserver les anciennes adresses contenant « c-ur » sans laisser en ligne une seconde fiche
+     périmée. Les deux variantes historiques (générale et Est) pointent vers l'unique canonique. */
+  for (const r of REDIRECTIONS_SLUGS_HISTORIQUES) {
+    const destination = `${SITE}/monteregie-est/cliniques/${r.nouveau}/`;
+    const redirection = pageRedirectionStatique(destination, r.libelle);
+    ecrire(path.join('cliniques', r.ancien, 'index.html'), redirection);
+    ecrire(path.join('monteregie-est', 'cliniques', r.ancien, 'index.html'), redirection);
   }
 
   /* Pages de RLS — même principe. */
