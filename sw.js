@@ -74,7 +74,12 @@
 // en page.
 // v42 (28 août 2026) : ajout des trois repères territoriaux CISSS sur la carte générale,
 // à partir des limites RLS officielles MSSS 2026. Aucun changement aux pages régionales.
-const CACHE = 'ptem-2027-v42';
+// v43 (28 août 2026) : lorsqu'un territoire ou un RLS est filtré, seuls les repères
+// géographiques correspondants restent visibles jusqu'au retrait du filtre.
+// v44 (28 août 2026) : le navigateur vérifie le service worker sans utiliser son cache,
+// recharge automatiquement après activation et récupère toujours en ligne les fichiers
+// applicatifs modifiables avant de se rabattre sur leur copie hors ligne.
+const CACHE = 'ptem-2027-v44';
 const CORE = [
   './',
   './index.html',
@@ -179,12 +184,16 @@ self.addEventListener('fetch', event => {
   // doublons jamais purgés, avec un risque d'éviction globale sur iOS
   // (favoris et notes compris) une fois le budget de stockage dépassé
   // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
-  if (estAccueil || url.pathname.endsWith('data.json')) {
+  const estRessourceMutable = memeOrigine && (
+    url.pathname.endsWith('/data.json') ||
+    url.pathname.endsWith('/territoires-monteregie.js')
+  );
+  if (estAccueil || estRessourceMutable) {
     const cacheKey = regionAccueil ? `./${regionAccueil}/index.html`
                    : estAccueilPrincipal ? './index.html'
                    : req;
     event.respondWith(
-      fetch(req).then(res => {
+      fetch(req, { cache: 'no-store' }).then(res => {
         if (res && res.ok) {
           const copy = res.clone();
           caches.open(CACHE).then(cache => cache.put(cacheKey, copy)).catch(() => {});

@@ -1286,13 +1286,33 @@ L.control.zoom({ position:'topright' }).addTo(map);
 
 /* Repères des trois territoires CISSS, repris exactement du brouillon Montérégie-Est.
    Les surfaces restent sous les épingles et ne captent aucun clic. */
+const couchesTerritoiresCisss = new Map();
+function synchroniserOverlaysTerritoires() {
+  if (MODE_REGION || !couchesTerritoiresCisss.size) return;
+
+  // Un RLS sélectionné est plus précis qu'un filtre de région : on conserve seulement
+  // l'overlay de la région à laquelle ce RLS appartient.
+  const ficheDuRls = rlsFilter
+    ? gmfs.find(g => String(g.rls || '').trim() === rlsFilter && g.region)
+    : null;
+  const regionsVisibles = ficheDuRls
+    ? new Set([ficheDuRls.region])
+    : (regionFilter.size ? new Set(regionFilter) : null);
+
+  couchesTerritoiresCisss.forEach(function (couche, region) {
+    const doitEtreVisible = !regionsVisibles || regionsVisibles.has(region);
+    if (doitEtreVisible && !map.hasLayer(couche)) couche.addTo(map);
+    if (!doitEtreVisible && map.hasLayer(couche)) map.removeLayer(couche);
+  });
+}
+
 if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
   map.createPane('territoiresCisssFond');
   map.getPane('territoiresCisssFond').style.zIndex = '260';
   map.getPane('territoiresCisssFond').style.pointerEvents = 'none';
 
   window.TERRITOIRES_CISSS_MSSS_2026.forEach(function (territoire) {
-    L.geoJSON({
+    const couche = L.geoJSON({
       type: 'Feature',
       properties: {
         nom: territoire.nom,
@@ -1312,7 +1332,9 @@ if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
         fillOpacity: 0.07,
         lineJoin: 'round'
       }
-    }).addTo(map);
+    });
+    couche.addTo(map);
+    couchesTerritoiresCisss.set(territoire.nom.replace('Montérégie-', ''), couche);
   });
 
   map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
@@ -2359,6 +2381,7 @@ function buildFilters() {
         if (regionFilter.has(key)) regionFilter.delete(key); else regionFilter.add(key);
         syncRegChips();
         populateRlsSelect();
+        synchroniserOverlaysTerritoires();
         renderSidebar(); updateMarkerVisibility(); fitToVisible();
       });
       wrap.appendChild(b);
@@ -2374,6 +2397,7 @@ function buildFilters() {
     populateRlsSelect();
     sel.addEventListener('change', () => {
       rlsFilter = sel.value;
+      synchroniserOverlaysTerritoires();
       renderSidebar(); updateMarkerVisibility(); fitToVisible();
     });
   }
@@ -3114,11 +3138,30 @@ fetch('../data.json', { cache: 'no-cache' })
 </script>
 
 <script>
-// Enregistrement du service worker (mode hors-ligne + installable)
+// Enregistrement du service worker avec vérification automatique des mises à jour.
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('../sw.js').catch(() => {});
-    console.log('Trouve ta clinique — Montérégie — build 2026-08-18');
+    let controleurConnu = navigator.serviceWorker.controller;
+    let rechargementDeMiseAJour = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!controleurConnu) {
+        controleurConnu = navigator.serviceWorker.controller;
+        return;
+      }
+      if (rechargementDeMiseAJour) return;
+      rechargementDeMiseAJour = true;
+      window.location.reload();
+    });
+    navigator.serviceWorker.register('../sw.js', { updateViaCache: 'none' })
+      .then(registration => {
+        const verifierMiseAJour = () => registration.update().catch(() => {});
+        verifierMiseAJour();
+        document.addEventListener('visibilitychange', () => {
+          if (!document.hidden) verifierMiseAJour();
+        });
+      })
+      .catch(() => {});
+    console.log('Trouve ta clinique — Montérégie — build 2026-08-28');
   });
 }
 </script>

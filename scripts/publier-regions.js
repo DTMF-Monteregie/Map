@@ -262,7 +262,10 @@ function remplacements(t) {
   // Le service worker reste celui de la racine (un seul, partagé) : « ../sw.js » depuis
   // /monteregie-<territoire>/ pointe sur /sw.js, dont la portée par défaut est « / ». Toutes les
   // pages partagent donc le même cache hors-ligne, sans doublon d'enregistrement.
-  pousser("navigator.serviceWorker.register('./sw.js')", "navigator.serviceWorker.register('../sw.js')");
+  pousser(
+    "navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' })",
+    "navigator.serviceWorker.register('../sw.js', { updateViaCache: 'none' })"
+  );
 
   // ── Installation (PWA) ──
   if (t.app) {
