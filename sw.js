@@ -81,22 +81,14 @@
 // applicatifs modifiables avant de se rabattre sur leur copie hors ligne.
 // v45 (28 août 2026) : ajout des trois overlays RLS à la page officielle Montérégie-Est,
 // identiques à ceux du brouillon, avec masquage des deux autres lors d'un filtre RLS.
-// v46 (28 août 2026) : correction du générateur SEO et de ses liens PTEM/AMP régionaux afin que
-// le workflow GitHub « Régénérer les pages du site » puisse de nouveau terminer avec succès.
-// v47 (28 août 2026) : les overlays sont dessinés dans le canvas WebGL de MapLibre au lieu d'un
-// calque SVG translucide séparé; repli Canvas conservé si WebGL est indisponible. Limites,
-// couleurs et comportement des filtres inchangés, glisser et zoom beaucoup plus légers.
-// v48 (28 août 2026) : ajout des limites officielles des 2 RLS de la Montérégie-Centre et des
-// 4 RLS de la Montérégie-Ouest, dans les couleurs déjà attribuées à leurs épingles et boutons.
-// Les trois cartes régionales partagent le même rendu MapLibre accéléré et le même masquage des
-// autres overlays lorsqu'un RLS est sélectionné.
-const CACHE = 'ptem-2027-v48';
+// v46 (28 août 2026) : retrait de l'attribution personnalisée « Limites RLS © MSSS 2026 »
+// au bas des quatre cartes. Les attributions obligatoires du fond cartographique demeurent.
+const CACHE = 'ptem-2027-v46';
 const CORE = [
   './',
   './index.html',
   './territoires-monteregie.js',
   './territoires-rls-est.js',
-  './territoires-rls-centre-ouest.js',
   './leaflet.css',
   './leaflet.js',
   './vendor/maplibre-gl.css',
@@ -200,8 +192,7 @@ self.addEventListener('fetch', event => {
   const estRessourceMutable = memeOrigine && (
     url.pathname.endsWith('/data.json') ||
     url.pathname.endsWith('/territoires-monteregie.js') ||
-    url.pathname.endsWith('/territoires-rls-est.js') ||
-    url.pathname.endsWith('/territoires-rls-centre-ouest.js')
+    url.pathname.endsWith('/territoires-rls-est.js')
   );
   if (estAccueil || estRessourceMutable) {
     const cacheKey = regionAccueil ? `./${regionAccueil}/index.html`
