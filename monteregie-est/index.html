@@ -1171,6 +1171,7 @@ body.cmp-open { overflow:hidden; }
 <script src="../vendor/maplibre-gl.js"></script>
 <script src="../vendor/leaflet-maplibre-gl.js"></script>
 <script src="../territoires-monteregie.js"></script>
+<script src="../territoires-rls-est.js"></script>
 <script>
 // ═══════════════════════════════════════════
 //  MODE « CARTE RÉGIONALE » (vue dédiée, même app/mêmes données)
@@ -1336,6 +1337,52 @@ if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
     });
     couche.addTo(map);
     couchesTerritoiresCisss.set(territoire.nom.replace('Montérégie-', ''), couche);
+  });
+
+  map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
+}
+
+/* Page officielle Montérégie-Est : même découpage et mêmes couleurs RLS que le brouillon.
+   Les deux autres pages régionales ne créent aucune de ces couches. */
+const couchesRlsEstOfficielle = new Map();
+function synchroniserOverlaysRlsEstOfficielle() {
+  if (!MODE_EST || !couchesRlsEstOfficielle.size) return;
+  couchesRlsEstOfficielle.forEach(function (couche, nomRls) {
+    const doitEtreVisible = !rlsFilter || rlsFilter === nomRls;
+    if (doitEtreVisible && !map.hasLayer(couche)) couche.addTo(map);
+    if (!doitEtreVisible && map.hasLayer(couche)) map.removeLayer(couche);
+  });
+}
+
+if (MODE_EST && Array.isArray(window.TERRITOIRES_RLS_EST_MSSS_2026)) {
+  map.createPane('territoiresRlsEstFond');
+  map.getPane('territoiresRlsEstFond').style.zIndex = '260';
+  map.getPane('territoiresRlsEstFond').style.pointerEvents = 'none';
+
+  window.TERRITOIRES_RLS_EST_MSSS_2026.forEach(function (rls) {
+    const couche = L.geoJSON({
+      type: 'Feature',
+      properties: {
+        nom: rls.nom,
+        code: rls.code,
+        source: 'MSSS',
+        version: '2026-04-01'
+      },
+      geometry: rls.geometry
+    }, {
+      pane: 'territoiresRlsEstFond',
+      interactive: false,
+      style: {
+        color: rls.contour,
+        opacity: 0.58,
+        weight: 1.5,
+        fillColor: rls.remplissage,
+        fillOpacity: 0.07,
+        lineJoin: 'round'
+      }
+    });
+    couche.addTo(map);
+    couchesRlsEstOfficielle.set(rls.nom, couche);
   });
 
   map.attributionControl.addAttribution('Limites RLS © MSSS 2026');
@@ -2345,6 +2392,7 @@ function populateRlsButtons() {
         btn.classList.toggle('dim', paleBtn);
         btn.setAttribute('aria-pressed', rlsFilter === nomBtn ? 'true' : 'false');
       });
+      synchroniserOverlaysRlsEstOfficielle();
       renderSidebar(); updateMarkerVisibility(); fitToVisible();
     });
     wrap.appendChild(b);

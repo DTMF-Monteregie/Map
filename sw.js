@@ -79,11 +79,14 @@
 // v44 (28 août 2026) : le navigateur vérifie le service worker sans utiliser son cache,
 // recharge automatiquement après activation et récupère toujours en ligne les fichiers
 // applicatifs modifiables avant de se rabattre sur leur copie hors ligne.
-const CACHE = 'ptem-2027-v44';
+// v45 (28 août 2026) : ajout des trois overlays RLS à la page officielle Montérégie-Est,
+// identiques à ceux du brouillon, avec masquage des deux autres lors d'un filtre RLS.
+const CACHE = 'ptem-2027-v45';
 const CORE = [
   './',
   './index.html',
   './territoires-monteregie.js',
+  './territoires-rls-est.js',
   './leaflet.css',
   './leaflet.js',
   './vendor/maplibre-gl.css',
@@ -186,7 +189,8 @@ self.addEventListener('fetch', event => {
   // (audit du 18 août). Une seule entrée sous ce nom fixe désormais.
   const estRessourceMutable = memeOrigine && (
     url.pathname.endsWith('/data.json') ||
-    url.pathname.endsWith('/territoires-monteregie.js')
+    url.pathname.endsWith('/territoires-monteregie.js') ||
+    url.pathname.endsWith('/territoires-rls-est.js')
   );
   if (estAccueil || estRessourceMutable) {
     const cacheKey = regionAccueil ? `./${regionAccueil}/index.html`
