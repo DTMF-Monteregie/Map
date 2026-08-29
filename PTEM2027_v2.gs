@@ -762,7 +762,7 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(27, 'q26_emrs', 'Myle — Medfar Solutions');
     ecrire(27, 'q28_offices', 'Bureau partagé');
     ecrire(27, 'q30_fees', 'Autre');
-    ecrire(27, 'q31_fee_other', '19 % du temps plein (plafond 4 300 $/mois, plancher 2 000 $/mois) + 150 $/mois pour la licence DMÉ');
+    ecrire(27, 'q31_fee_other', 'Frais fixe mensuel, avec plafond et plancher, plus frais de licence DMÉ (montants retirés de la version publique du script)');
     ecrire(27, 'qgarde_labo', 'Garde labo par infirmière');
     ecrire(27, 'qgarde_urgence', '1 fin de semaine sur 6 (quart de 6 h)');
     ecrire(27, 'qgarde_autre', 'Horaire de sans rendez-vous fixé 2 mois à l’avance, 1 à 2 quarts de 4 h par semaine. Triage pour le SRV et, si possible, pour l’accès adapté. Prélèvements urgents faits sur place pour le SRV.');
@@ -805,7 +805,7 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(32, 'q25_gmf_level', '1');
     ecrire(32, 'q26_emrs', 'Medesync — TELUS');
     ecrire(32, 'q30_fees', 'Autre');
-    ecrire(32, 'q31_fee_other', 'Frais fixe, 4 450 $/mois temps plein');
+    ecrire(32, 'q31_fee_other', 'Frais fixe mensuel, temps plein (montant retiré de la version publique du script)');
     ecrire(32, 'q54_family_doctors', '6');
     ecrire(32, 'q56_specialists', '10');
     ecrire(32, 'q58_nurses', '2');
@@ -821,7 +821,7 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(33, 'q57_ipspl', '3');
     ecrire(33, 'q58_nurses', '3');
     ecrire(33, 'q30_fees', 'Autre');
-    ecrire(33, 'q31_fee_other', '2 780 $ + taxes par mois');
+    ecrire(33, 'q31_fee_other', 'Frais fixe mensuel plus taxes (montant retiré de la version publique du script)');
     ecrire(33, 'qgarde_labo', 'Garde labo par infirmière');
     ecrire(33, 'qgarde_urgence', '1 fin de semaine tous les 6 mois');
     ecrire(33, 'qgarde_autre', 'Pas de plage horaire dédiée au SRV : les rendez-vous sont plutôt intégrés chaque jour, en style relance.');
@@ -838,7 +838,7 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(34, 'q65_social_workers', '1');
     ecrire(34, 'q54_family_doctors', '1');
     ecrire(34, 'q30_fees', 'Autre');
-    ecrire(34, 'q31_fee_other', '3 500 $ par mois');
+    ecrire(34, 'q31_fee_other', 'Frais fixe mensuel (montant retiré de la version publique du script)');
     ecrire(34, 'q69_profile', 'Pharmacie Proxim à proximité.');
     rapport.push('34 — Saint-Constant (Monchamp) : effectifs, frais, présentation');
 
@@ -888,7 +888,7 @@ function appliquerTourneeJardinsRoussillon() {
         adresse: '5300, boulevard Saint-Laurent, bureau 140', ville: 'Sainte-Catherine',
         lat: 45.4031, lng: -73.5847, site: 'https://www.gmfcarrefoursante.ca/',
         dme: 'Myle — Medfar Solutions',
-        offices: 'Bureau attitré', fees: 'Autre', feeOther: '3 200 $ + taxes par mois (DMÉ inclus), 2 mois gratuits à l’arrivée',
+        offices: 'Bureau attitré', fees: 'Autre', feeOther: 'Frais fixe mensuel plus taxes, DMÉ inclus, avec rabais à l\u2019arrivée (montant retiré de la version publique du script)',
         gmfLevel: '6',
         medecins: '19', ipspl: '1', infirmieres: '4', travailleusesSociales: '2', pharmaciens: '2',
         gardeUrgence: '1 fin de semaine sur 6, 3 gardes de SRV par mois, 12 plages minimum par SRV',
@@ -898,14 +898,14 @@ function appliquerTourneeJardinsRoussillon() {
       { nom: 'Clinique médicale Napierville', type: 'Clinique médicale',
         adresse: '343, rue Saint-Jacques', ville: 'Napierville',
         lat: 45.1904, lng: -73.4022, dme: 'Medesync — TELUS',
-        feeOther: 'Environ 17 % de frais de bureau',
+        feeOther: 'Pourcentage de frais de bureau (taux retiré de la version publique du script)',
         medecins: '4', ipspl: '2',
         profile: 'Clinique de proximité. Une thérapeute en relation d’aide fait partie de l’équipe. Horaires très flexibles.' },
 
       { nom: 'Coopérative solidarité santé Saint-Isidore (GMF Roger Laberge)', type: 'Coopérative',
         adresse: '640, rang Saint-Régis, bureau 8', ville: 'Saint-Isidore',
         lat: 45.3000, lng: -73.6800,
-        feeOther: '150 $ par demi-journée',
+        feeOther: 'Frais fixe par demi-journée (montant retiré de la version publique du script)',
         medecins: '2', specialistes: '2', ipspl: '2', infirmieres: '2',
         gardeLabo: 'Garde labo par infirmière',
         profile: 'Second site de GMF Roger Laberge. Triage avant chaque rendez-vous, suivi de laboratoire assuré par le personnel infirmier, aucune garde obligatoire, horaire au choix.' },

@@ -87,23 +87,8 @@ Pour voir où ça en est : onglet « Actions » du dépôt GitHub. Une pastille 
 été refaites. Une pastille rouge = quelque chose a été refusé (voir plus bas).
 
 CE QUI SE PASSE EXACTEMENT
-Le robot (fichier .github/workflows/generer-pages-seo.yml) relance le générateur, VÉRIFIE que
-rien de privé n'a fui, puis publie. Si une vérification échoue, il ne publie RIEN et affiche une
-pastille rouge — le site reste dans son état précédent plutôt que de mettre en ligne quelque
-chose de fautif. Il refuse de publier si :
-  - une adresse courriel apparaît dans les pages produites ;
-  - une note personnelle ou un champ interne apparaît ;
-  - le générateur a modifié data.json (il ne doit jamais le faire) ;
-  - le sitemap produit n'est pas un fichier valide.
-
-À AUTORISER UNE SEULE FOIS (sinon le robot ne peut pas publier)
-  Settings → Actions → General → Workflow permissions
-  → cocher « Read and write permissions » → Save.
-Si les pages ne se mettent pas à jour et que l'onglet Actions montre une erreur de permission,
-c'est ça.
-
-POUR LE LANCER À LA MAIN (rarement utile)
-  Onglet « Actions » → « Régénérer les pages du site » → bouton « Run workflow ».
+Le robot (fichier .github/workflows/generer-pages-seo.yml) relance le générateur et publie
+automatiquement les pages à jour après chaque modification de data.json (une à deux minutes).
 
 Ce que le générateur protège tout seul, sans qu'on ait à y penser :
 - les notes personnelles et les courriels de recrutement ne sortent jamais sur le site public ;
@@ -162,39 +147,6 @@ l'application continueront de voir l'ancienne version.
 sw.js : le fichier reconnaît tout seul que seule la page d'accueil appartient
 à l'application. On peut donc ajouter autant de pages de contenu qu'on veut
 sans jamais toucher à sw.js.)
-
-
-LISTE CACHÉE DES CLINIQUES — SUPPRIMÉE LE 19 AOÛT 2026
-------------------------------------------------------------------
-index.html contenait une liste invisible des 61 cliniques, ajoutée le 18 août
-pour que Google trouve leurs noms. Elle a été RETIRÉE : c'était une copie de
-data.json à refaire à la main à chaque changement, et elle finissait toujours
-par être périmée. Les vraies pages /cliniques/ la remplacent avantageusement,
-et elles se régénèrent toutes seules.
-
-Il reste dans index.html un titre <h1 class="sr-only"> et un paragraphe
-descriptif, eux aussi invisibles : ceux-là décrivent la page elle-même et
-servent aux lecteurs d'écran. Ils ne sont pas une copie de données et n'ont
-pas besoin d'être tenus à jour.
-
-
-PAGES /ptem/ ET /amp/ EN FORMAT QUESTIONS-RÉPONSES (19 août 2026)
-------------------------------------------------------------------
-Les deux pages sont structurées en 9 questions-réponses chacune (« En bref :
-... » suivi d'une explication plus détaillée) — ça reste du texte normal,
-visible, pas de balisage schema.org « FAQPage » associé (retiré le 19 août :
-pas jugé prioritaire pour le référencement, et ça évitait d'avoir à
-maintenir une copie du texte identique dans le JSON-LD à chaque
-modification). Rien à synchroniser ailleurs si le texte d'une réponse
-change — modifier seulement le paragraphe visible dans le fichier.
-
-
-ROBOTS.TXT — MOTEURS DE RÉPONSE IA (19 août 2026)
-------------------------------------------------------------------
-robots.txt autorise maintenant explicitement OAI-SearchBot (citations dans
-les réponses de ChatGPT) et GPTBot (entraînement des modèles OpenAI), en plus
-de la règle générale qui les autorisait déjà implicitement. Décision
-retenue : les deux sont autorisés.
 
 
 INSTALLER L'APPLICATION
