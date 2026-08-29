@@ -13,7 +13,7 @@
      NE PAS renommer : les clés localStorage « dtmf-mtg-* » (favoris et notes des utilisateurs),
      le « id » du manifeste, ni le nom de domaine trouvetaclinique.ca. -->
 <!-- Titre/description/og : réalignés le 19 août sur les termes de recherche PTEM 2027 / AMP
-     (patch SEO validé par Olivier), au prix d'un léger retour en arrière assumé sur la
+     (patch SEO validé), au prix d'un léger retour en arrière assumé sur la
      décision de renommage — voir claude/audit-18aout-4axes.md pour la discussion. -->
 <title>Cliniques en recrutement — Montérégie-Centre | Trouve ta clinique</title>
 <meta name="description" content="Carte interactive des cliniques en recrutement en Montérégie-Centre : coordonnées, pratiques, horaires et personnes-ressources, pour préparer votre PTEM en médecine familiale.">
@@ -159,7 +159,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
    sans rien déplacer, et l'en-tête retrouve exactement la même mise en page que l'autre carte. */
 .logo-text .brand-mot { font-family: 'Kaushan Script', cursive; font-weight: 400;
   font-size: 1.45em; line-height: 0; margin-left: 1px;
-  /* Couleur pleine, pas de dégradé (retiré le 21 août à la demande d'Olivier — la « brillance »
+  /* Couleur pleine, pas de dégradé (retiré le 21 août — la « brillance »
      du dégradé blanc→rose ne convenait plus pour la bannière de l'en-tête). Même teinte que le
      trait d'union juste en dessous et que le mot de l'écran de chargement (.ldr-mot) : les
      3 usages du lettrage manuscrit restent visuellement cohérents entre eux. */
@@ -296,7 +296,7 @@ header::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; h
 :root { --sb-accent: #43a047; }
 .sb-head h2 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 20px;
   text-transform: uppercase; letter-spacing: .01em; color: var(--texte); line-height: 1.15; }
-/* Trait de couleur sous le titre (26 août 2026, demande d'Olivier — reprise du brouillon
+/* Trait de couleur sous le titre (26 août 2026 — reprise du brouillon
    Montérégie-Est). En ::after plutôt qu'en border-bottom : la hauteur, les coins arrondis et
    le dégradé ne sont pas exprimables sur une bordure. */
 .sb-head h2::after { content: ''; display: block; height: 4px; border-radius: 2px;
@@ -459,8 +459,8 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 /* MARQUEUR HÔPITAL — même construction de goutte que les épingles de clinique (carré à
    bord arrondi tourné à -45°), mais plus grande, toujours rouge, avec un rond blanc et un
    « H » rouge au centre — jamais confondue avec une épingle numérotée de clinique : un
-   hôpital n'est pas « en recrutement », c'est un repère de référence. Choix retenu par
-   Olivier le 21 août (référence visuelle fournie). Voir buildHopitalMarkers(). */
+   hôpital n'est pas « en recrutement », c'est un repère de référence. Choix retenu
+   le 21 août (référence visuelle fournie). Voir buildHopitalMarkers(). */
 .hosp-pin-circle { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   transform: rotate(45deg); }
 .hosp-pin-circle-inner { width: 58%; height: 58%; background: #fff; border-radius: 50%;
@@ -700,7 +700,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
    scripts/publier-regions.js), donc ces règles n'y ont aucun effet et la police Kaushan Script
    n'y est même pas téléchargée : un navigateur ne charge une police web que si un élément
    l'utilise vraiment. La couleur est celle qui désigne déjà le territoire partout dans l'app
-   (punaises, pastille de filtre) — voir --mot-region plus haut. Agencement retenu par Olivier
+   (punaises, pastille de filtre) — voir --mot-region plus haut. Agencement retenu
    le 20 août pour l'Est (option « G7 ») ; un essai différent (PTEM 2027 en haut, Montérégie
    blanc + est sur la même ligne) a été testé le 21 août puis écarté au profit de celui-ci.
    Étendu au Centre (vert) et à l'Ouest (bleu) le 26 août 2026, sans rien changer d'autre. */
@@ -781,7 +781,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
   border-radius:9px; font-family:'Lato',sans-serif; font-size:13px; background:var(--champ); color:var(--texte); cursor:pointer; }
 .rls-filter:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(0,128,215,.16); }
 /* Carte Montérégie-Est SEULEMENT (voir buildFilters/populateRlsButtons) : remplace le menu
-   déroulant #rls-filter par 3 boutons pleine largeur, un par RLS — demande d'Olivier du
+   déroulant #rls-filter par 3 boutons pleine largeur, un par RLS — choix du
    21 août. Seulement 3 RLS sur cette carte (contre jusqu'à 9 sur la carte des trois
    territoires) : un choix de boutons reste lisible ici, ce qui ne serait pas le cas sur la
    carte des trois territoires — raison pour laquelle #rls-filter, lui, reste un menu
@@ -794,7 +794,7 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
    territoires : c'est le nombre de boutons et la largeur de l'écran qui décident, pas une
    exception écrite pour l'Ouest. */
 .rls-btns { margin-top:8px; width:100%; display:flex; flex-wrap:wrap; gap:7px; }
-/* 22 août — demande d'Olivier : les 3 boutons sont foncés (pleins) par défaut, comme si les
+/* 22 août : les 3 boutons sont foncés (pleins) par défaut, comme si les
    trois RLS étaient actifs (ce qui est le cas tant qu'aucun filtre n'est choisi). Cliquer sur
    l'un d'eux l'ISOLE : lui reste foncé, les 2 autres pâlissent (.dim) — voir populateRlsButtons.
    Un 2e clic sur le même bouton retire le filtre et les 3 redeviennent foncés. */
@@ -811,10 +811,10 @@ body.fiche-open .leaflet-control-zoom, body.fiche-open .locate-ctrl { display: n
 .rls-btn.dim:hover { background:color-mix(in srgb, var(--c) 12%, var(--champ)); filter:none; }
 .rls-btn:focus-visible { outline:2px solid var(--orange); outline-offset:2px; }
 /* PTEM / AMP — accès rapide aux 3 pages du site (icônes rondes), repliées
-   derrière un bouton « 📄 PTEM / AMP » comme avant (Olivier voulait garder ce
-   petit clic pour ne pas tout étaler d'emblée). Les 2 PDF externes (moins
+   derrière un bouton « 📄 PTEM / AMP » comme avant (pour ne pas tout étaler
+   d'emblée dès l'arrivée sur la page). Les 2 PDF externes (moins
    consultés) restent dans le menu du bouton « i » de l'en-tête — voir
-   .info-menu plus bas (choix du 20 août, option « C3 » validée par Olivier). */
+   .info-menu plus bas (choix du 20 août, option « C3 »). */
 .docs-wrap { margin-top:8px; }
 .docs-toggle { width:100%; display:flex; align-items:center; justify-content:space-between; gap:8px;
   padding:9px 12px; border:1.5px solid var(--navy); border-radius:9px; background:var(--navy); color:#fff;
@@ -1029,7 +1029,7 @@ body.cmp-open { overflow:hidden; }
      invisible (retiré le 19 août pour éviter de maintenir 2 copies des mêmes liens). Depuis le
      20 août, les 2 PDF officiels externes (moins consultés) ont été déplacés dans le menu du
      bouton « i » de l'en-tête (#info-menu) pour alléger #docs-row à 3 icônes rondes (option « C3 »
-     validée par Olivier). Le contenu de #docs-row et #info-menu est présent dans le HTML dès le
+     retenue). Le contenu de #docs-row et #info-menu est présent dans le HTML dès le
      chargement, donc toujours lisible par Google sans exécuter le JS. -->
 
 <div id="app-loader" aria-hidden="true">
@@ -1175,8 +1175,8 @@ body.cmp-open { overflow:hidden; }
 // voir .github/workflows/generer-pages-seo.yml). Une seule ligne de détection au chargement
 // suffit à faire dévier tout le comportement ci-dessous : on ne garde AUCUNE copie séparée de
 // la logique, du CSS ou des données. Né le 20 août 2026 pour la seule Montérégie-Est (courriel
-// de Nancy Langlois, DTMF Montérégie-Est, qui ne peut pas relayer une carte montrant les trois
-// territoires) ; généralisé aux trois territoires le 26 août 2026 à la demande d'Olivier.
+// la page dédiée ne devant afficher que ce territoire, sans pouvoir relayer une carte
+// montrant les trois territoires ; généralisé aux trois territoires le 26 août 2026.
 // Le test porte sur le SEGMENT « monteregie-<territoire> » n'importe où dans le chemin, et non
 // sur un début de chemin figé : le site est servi à la racine (trouvetaclinique.ca/monteregie-est/)
 // mais aussi, historiquement, dans un sous-dossier (dtmf-monteregie.github.io/Map/) — l'ancienne
@@ -1217,7 +1217,7 @@ let favOrder = [];
 let dataMeta = {};
 let favoris = new Set();
 let favOnly = false;
-// 27 août 2026 : « Toutes les cliniques », repris du brouillon Montérégie-Est d'Olivier. Par
+// 27 août 2026 : « Toutes les cliniques », repris du brouillon Montérégie-Est. Par
 // défaut, seuls les milieux en recrutement (recrutementActif !== false) sont affichés — carte,
 // liste, recherche, favoris, comparatif, tout en découle via statutVisible() plus bas. Ce
 // drapeau réactive les autres, dans une couleur d'épingle pâlie et marqués comme tels partout
@@ -1433,7 +1433,7 @@ map.on('locationerror', function () {
   // docs.carto.com/faqs/carto-basemaps) ne sert plus que de solution de secours pour les
   // navigateurs sans WebGL.
   var ATTR = '© OpenStreetMap © CartoDB<span class="credit-perso"> | © Olivier Laplante</span>';
-  // Clé API CARTO (exigée depuis le 27 août 2026) — fournie par Olivier. Même clé pour les
+  // Clé API CARTO (exigée depuis le 27 août 2026). Même clé pour les
   // styles vectoriels et pour le repli raster.
   var CARTO_KEY = 'cb1_29ok_1_b602e4a604176e32ebdf7824';
   var STYLE_CLAIR = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
@@ -1510,7 +1510,7 @@ function regionColor(r) { return REGION_COLORS[r] || '#64748b'; }
    dans ce fichier sans plus servir à rien : ce sont celles des trois épingles de l'écran de
    chargement (.pin-rose, .pin-green, .pin-blue). L'écran de chargement était donc le dernier
    vestige de ce code de couleurs — il redevient cohérent avec la carte qu'il annonce.
-   CENTRE et OUEST (26 août 2026) — couleurs choisies par Olivier : bleu et vert pour les deux
+   CENTRE et OUEST (26 août 2026) — couleurs retenues : bleu et vert pour les deux
    RLS du Centre ; bleu, vert, rose et violet pour les quatre RLS de l'Ouest. Le bleu et le vert
    sont les teintes de territoire déjà utilisées partout dans l'app (REGION_COLORS ci-dessus) et
    le rose celui de Pierre-Boucher — aucun risque de confusion, les cartes étant séparées. Le
@@ -1715,11 +1715,11 @@ function buildMarkers() {
 }
 
 // Icône « H » — même goutte que les épingles de clinique (makeIcon), à peine plus grande
-// (28px contre 20-26px, ajusté le 21 août à la demande d'Olivier — d'abord 34px, jugé trop
+// (28px contre 20-26px, ajusté le 21 août — d'abord 34px, jugé trop
 // gros) et toujours rouge, avec un rond blanc et un « H » rouge au centre. Pas de variante
 // « active » : un hôpital ne s'ouvre jamais dans le panneau de détail des cliniques, un
 // simple popup Leaflet suffit (buildHopitalMarkers()).
-/* Icône d'hôpital (21 août, demande d'Olivier — délai porté de 5 à 10 secondes le même soir ;
+/* Icône d'hôpital (21 août — délai porté de 5 à 10 secondes le même soir ;
    22 août : la taille ne change plus du tout, seul le plan change — voir plus bas).
    À l'ouverture de la carte, le repère « H » est AU PREMIER PLAN (zIndexOffset positif, voir
    buildHopitalMarkers) : c'est le moment où l'usager balaie la carte et où il a besoin de situer
@@ -1732,7 +1732,7 @@ function buildMarkers() {
 const HOPITAL_TAILLE = 32;
 const HOPITAL_ZINDEX_GRAND = 1000;   // premier plan pendant HOPITAL_DELAI_REDUCTION
 const HOPITAL_ZINDEX_NORMAL = -1000; // arrière-plan ensuite — voir buildHopitalMarkers
-// 26 août 2026 : délai ramené de 10 à 5 secondes à la demande d'Olivier. La première lecture
+// 26 août 2026 : délai ramené de 10 à 5 secondes. La première lecture
 // de la carte (« où sont les hôpitaux ? ») se fait plus vite qu'on ne l'avait estimé ; passé
 // ce temps, le repère « H » n'a plus de raison d'intercepter les clics avant les cliniques.
 const HOPITAL_DELAI_REDUCTION = 5000;
@@ -2087,7 +2087,7 @@ function toggleFavView() {
 }
 
 // 27 août 2026 : interrupteur « Toutes les cliniques », repris du brouillon Montérégie-Est
-// d'Olivier — affiche aussi les milieux ne recrutant pas actuellement (voir statutVisible()).
+// — affiche aussi les milieux ne recrutant pas actuellement (voir statutVisible()).
 function syncAllClinicsToggle() {
   const b = document.getElementById('all-clinics-toggle');
   if (b) b.setAttribute('aria-checked', showAllClinics ? 'true' : 'false');
@@ -3067,8 +3067,8 @@ fetch('../data.json', { cache: 'no-cache' })
   var btn = document.getElementById('btn-share');
   if (!btn) return;
   // Vue régionale : partager doit renvoyer vers la page du territoire, pas vers la carte
-  // complète — sinon le bouton « Partager » de cette page ferait exactement ce que Nancy
-  // Langlois ne voulait pas pour l'Est (promouvoir les autres territoires).
+  // complète — sinon le bouton « Partager » de cette page ferait précisément ce qu'une page
+  // dédiée à un territoire doit éviter : promouvoir les autres territoires.
   var regMode = typeof MODE_REGION !== 'undefined' && MODE_REGION;
   var regNom = regMode ? 'Montérégie-' + REGION_PAGE : 'Montérégie';
   var regChemin = regMode ? 'monteregie-' + REGION_PAGE.toLowerCase().replace('é','e') + '/' : '';
@@ -3111,7 +3111,7 @@ fetch('../data.json', { cache: 'no-cache' })
 // Bouton d'installation visible (PWA). Visible EN PERMANENCE dans l'en-tête (tant que l'appli
 // n'est pas déjà installée) — plus seulement quand le navigateur déclenche son invite native
 // (Chrome/Edge attend parfois plusieurs visites avant de le faire, et Safari ne le fait jamais) :
-// demande d'Olivier du 22 août, « comme avant ». Un second accès identique vit dans le menu
+// choix du 22 août, « comme avant ». Un second accès identique vit dans le menu
 // « i » (#info-menu-install), pour qui ne remarque pas le bouton de l'en-tête.
 (function () {
   var btn = document.getElementById('btn-install');
@@ -3122,7 +3122,7 @@ fetch('../data.json', { cache: 'no-cache' })
   var deferred = null;
 
   // Cartes Montérégie-Centre et Montérégie-Ouest : ce sont des CARTES, pas des applications
-  // (décision d'Olivier du 26 août 2026). scripts/publier-regions.js retire les deux boutons
+  // (décision du 26 août 2026). scripts/publier-regions.js retire les deux boutons
   // d'installation du code source de ces pages ; sans ce garde-fou, la ligne
   // « btn.classList.add('show') » plus bas lèverait une TypeError sur un bouton absent.
   // Rien à installer, rien à faire : on sort avant tout le reste.
@@ -3212,8 +3212,8 @@ if ('serviceWorker' in navigator) {
     if (done) return; done = true;
     var el = document.getElementById('app-loader');
     if (!el) return;
-    // Remis à 2,75 s le 19 août à la demande explicite d'Olivier — l'essai à 600 ms
-    // (18 août, audit) a été annulé : il voulait garder le même temps qu'avant.
+    // Remis à 2,75 s le 19 août — l'essai à 600 ms
+    // (18 août, audit) a été annulé : le temps précédent a été conservé.
     var wait = Math.max(0, 2750 - (Date.now() - start));
     setTimeout(function () {
       el.classList.add('hide');
