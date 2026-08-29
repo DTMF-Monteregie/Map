@@ -259,7 +259,11 @@ function remplacements(t) {
   pousser('<script src="./vendor/leaflet-maplibre-gl.js"></script>', '<script src="../vendor/leaflet-maplibre-gl.js"></script>');
   pousser('<script src="./territoires-monteregie.js"></script>', '<script src="../territoires-monteregie.js"></script>');
   pousser('<script src="./territoires-rls-est.js"></script>', '<script src="../territoires-rls-est.js"></script>');
-  pousser('<script src="./territoires-rls-centre-ouest.js"></script>', '<script src="../territoires-rls-centre-ouest.js"></script>');
+  /* 29 août 2026 : index.html ne charge plus territoires-rls-centre-ouest.js (seul
+     territoires-rls-est.js y est chargé — les contours de RLS ne s'affichent qu'en Montérégie-Est,
+     voir MODE_EST plus haut dans index.html). Le remplacement correspondant faisait donc échouer
+     ce script pour les 3 territoires. Le fichier .js existe encore dans le dépôt mais n'est appelé
+     nulle part ; à retirer un jour si personne ne compte l'utiliser. */
   pousser("fetch('./data.json', { cache: 'no-cache' })", "fetch('../data.json', { cache: 'no-cache' })");
   // Le service worker reste celui de la racine (un seul, partagé) : « ../sw.js » depuis
   // /monteregie-<territoire>/ pointe sur /sw.js, dont la portée par défaut est « / ». Toutes les
