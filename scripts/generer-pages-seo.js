@@ -120,7 +120,12 @@ const CHAMPS_PUBLICS = [
   /* validation → ajouté le 26 août 2026. N'est PAS affiché comme ligne de fiche ; sert
      uniquement à décider si le badge « Vérifié » apparaît et à afficher sa date (voir
      estValide()/badgeVerif() plus bas). Le sous-champ "source" n'est jamais publié. */
-  'validation'
+  'validation',
+  /* responsableNom → ajouté le 29 août 2026, avec l'accord explicite d'Olivier. Seul le NOM
+     du médecin responsable est publié (jamais son courriel — voir personneRessource, qui reste
+     hors liste blanche tant que PUBLIER_COURRIELS est à false). Affiché en ligne de fiche
+     (« Responsable du recrutement ») et dans le JSON-LD (ContactPoint) — voir pageClinique(). */
+  'responsableNom'
 ];
 
 /*
@@ -529,6 +534,9 @@ function pageClinique(c, slug, majDonnees, u = UNIVERS_GENERAL) {
   ajouter('Porte ouverte', esc(c.porteOuverte));
   ajouter('Site web', rempli(c.site)
     ? `<a href="${esc(c.site)}" rel="noopener nofollow" target="_blank">${esc(c.site)}</a>` : '');
+  if (rempli(c.responsableNom)) {
+    ajouter('Responsable du recrutement', esc(c.responsableNom));
+  }
   if (PUBLIER_COURRIELS && rempli(c.personneRessource)) {
     ajouter('Contact recrutement', esc(c.personneRessource));
   }
@@ -603,6 +611,16 @@ ${rempli(c.infos) ? '    <p>' + esc(c.infos) + '</p>' : ''}
       }
     }
     if (specs.length) clinique.openingHoursSpecification = specs;
+  }
+  /* Nom du responsable du recrutement (29 août 2026) : uniquement le nom, jamais le courriel
+     brut, conformément à la règle d'or — aucune identité personnelle autre que le nom du
+     médecin responsable, déjà public par ailleurs. */
+  if (rempli(c.responsableNom)) {
+    clinique.contactPoint = [{
+      '@type': 'ContactPoint',
+      contactType: 'recrutement médical',
+      name: c.responsableNom
+    }];
   }
 
   const jsonLd = {
@@ -800,6 +818,8 @@ function pageRls(rls, liste, slugs, majDonnees, u = UNIVERS_GENERAL) {
       ${u.regional
         ? `<a class="button secondary" href="${u.prefixe}/ptem/">Comprendre le PTEM</a>`
         : `<a class="button secondary" href="/cliniques/">Toutes les cliniques</a>`}
+      ${(!u.regional && uRegion)
+        ? `<a class="button secondary" href="${uRegion.accueil}">${esc(uRegion.nom)}</a>` : ''}
     </div>
   </section>
 
@@ -969,12 +989,20 @@ ${items}
   const corps = `  <section class="hero">
     <p class="eyebrow">Médecine familiale · Montérégie</p>
     <h1>Cliniques en recrutement en Montérégie</h1>
-    <p class="lead">Les <strong>${cliniques.length} milieux actuellement publiés</strong> dans le répertoire, regroupés dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités — dont ${enRecrutementTotal} en recrutement actif de médecins de famille${enRecrutementTotal < cliniques.length ? `, les autres étant publiés à titre de référence` : ''}. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
+    <p class="lead"><strong>${enRecrutementTotal} milieu${enRecrutementTotal > 1 ? 'x' : ''} en recrutement actif</strong> de médecins de famille, sur ${cliniques.length} milieux publiés au total dans le répertoire, répartis dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités${enRecrutementTotal < cliniques.length ? ` — les autres milieux publiés le sont à titre de référence et ne recrutent pas actuellement` : ''}. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
       <a class="button primary" href="/">Explorer sur la carte interactive</a>
       <a class="button secondary" href="/ptem/">Guide PTEM</a>
     </div>
+  </section>
+
+  <section id="territoires">
+    <h2>Explorer par territoire</h2>
+    <ul class="repertoire">
+${UNIVERS_REGIONS.map(u => `      <li><a href="${u.accueil}"><strong>${esc(u.nom)}</strong></a>
+        <span class="rep-meta">${u.ordreRls.length} RLS · ${esc(u.ordreRls.join(', '))}</span></li>`).join('\n')}
+    </ul>
   </section>
 
   <figure class="sqb-wrap compact directory-banner"><a class="sqb" href="/" aria-label="Ouvrir la carte interactive des cliniques en recrutement en Montérégie"><span class="sqb-pattern" aria-hidden="true"></span><span class="sqb-inner"><img class="sqb-logo" src="../assets/logo-banniere.png" alt="" width="210" height="252" loading="lazy"><span class="sqb-vline" aria-hidden="true"></span><span class="sqb-eyebrow">Carte interactive</span><span class="sqb-title">Trouve ta clinique</span><span class="sqb-region">Montérégie</span><span class="sqb-rule" aria-hidden="true"></span></span></a></figure>
@@ -1004,7 +1032,10 @@ const PAGES_FIXES = [
   // Copie dédiée de la carte, filtrée à la Montérégie-Est — voir MODE_EST dans index.html et
   // scripts/publier-monteregie-est.js. Priorité un peu sous « / » : c'est une vue du même
   // contenu, pas une page distincte à privilégier dans les résultats de recherche.
-  { loc: '/monteregie-est/', lastmod: '2026-08-20', changefreq: 'weekly', priority: '0.8' }
+  // lastmod: null (29 août 2026) — cette page est régénérée depuis data.json à chaque
+  // publication (voir publier-regions.js), donc sa date doit suivre majPagesSeo comme « / »,
+  // pas rester figée sur une date codée en dur qui devient fausse au fil des mises à jour.
+  { loc: '/monteregie-est/', lastmod: null, changefreq: 'weekly', priority: '0.8' }
 ];
 
 function sitemap(entrees) {
