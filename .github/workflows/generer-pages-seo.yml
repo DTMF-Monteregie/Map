@@ -81,7 +81,7 @@ jobs:
           set -e
           # Les mêmes vérifications portent sur les copies étanches des trois univers régionaux.
           # Les fichiers monteregie-*/index.html en sont volontairement EXCLUS : ce sont les
-          # copies de l'application, qui contiennent l'adresse de contact d'Olivier — voulue,
+          # copies de l'application, qui contiennent l'adresse de contact du site — voulue,
           # pas une fuite.
           PAGES_GENEREES="cliniques/ rls/"
           for R in monteregie-est monteregie-centre monteregie-ouest; do
