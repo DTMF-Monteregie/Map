@@ -194,7 +194,7 @@ ROBOTS.TXT — MOTEURS DE RÉPONSE IA (19 août 2026)
 robots.txt autorise maintenant explicitement OAI-SearchBot (citations dans
 les réponses de ChatGPT) et GPTBot (entraînement des modèles OpenAI), en plus
 de la règle générale qui les autorisait déjà implicitement. Décision
-d'Olivier : les deux sont autorisés.
+retenue : les deux sont autorisés.
 
 
 INSTALLER L'APPLICATION
