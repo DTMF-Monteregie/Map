@@ -41,7 +41,7 @@ const SITE = 'https://trouvetaclinique.ca';
 
 /*
  * Cloudflare Web Analytics — injecté une seule fois par page, juste avant </body>, via le
- * template commun page() ci-dessous. Ajouté le 20 août 2026 à la demande d'Olivier. Ce script
+ * template commun page() ci-dessous. Ajouté le 20 août 2026. Ce script
  * est un <script type="module"> chargé de façon asynchrone par le navigateur : il ne bloque
  * pas le rendu et ne touche à rien d'autre sur la page (pas de cookie, pas de tierce donnée
  * personnelle — mesure de fréquentation agrégée seulement, cf. Cloudflare).
@@ -68,7 +68,7 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.que
 
 /*
  * Publier ou non les courriels de recrutement sur les pages indexables.
- * Choix d'Olivier le 19 août 2026 : NON. Sur 26 fiches renseignées, 24 portent une adresse
+ * Choix retenu le 19 août 2026 : NON. Sur 26 fiches renseignées, 24 portent une adresse
  * NOMINATIVE (prenom.nom.med@ssss.gouv.qc.ca) — c'est-à-dire l'adresse professionnelle d'une
  * personne identifiable. Les publier sur 61 pages indexables revient à les livrer aux robots de
  * collecte d'adresses. Les coordonnées restent disponibles dans l'application (carte + fiche),
@@ -125,7 +125,7 @@ const CHAMPS_PUBLICS = [
 
 /*
  * Un milieu « ne recrute pas actuellement » (recrutementActif === false, 27 août 2026 — 43
- * fiches importées du brouillon Montérégie-Est d'Olivier) reste publié : sa page, sa présence
+ * fiches importées du brouillon Montérégie-Est) reste publié : sa page, sa présence
  * dans le répertoire et dans sa page de RLS suivent exactement les mêmes règles qu'un milieu en
  * recrutement (seuil de substance, liste blanche, etc.). Seul le TEXTE change à quelques
  * endroits précis, pour ne jamais affirmer qu'un milieu recrute quand ce n'est pas le cas — voir
@@ -329,7 +329,7 @@ function analyserPlages(texte) {
  *                                               Né pour la seule Montérégie-Est le 21 août 2026,
  *                                               étendu aux trois territoires le 26 août.
  *
- * Pourquoi un univers séparé plutôt qu'un simple filtre : demande d'Olivier du 21 août, en
+ * Pourquoi un univers séparé plutôt qu'un simple filtre : choix du 21 août, en
  * réponse au besoin exprimé par le CISSS Montérégie-Est. Une personne qui entre par
  * /monteregie-est/ ne doit JAMAIS croiser un lien vers la carte des trois territoires, vers le
  * répertoire /cliniques/ (qui mélange les territoires) ni vers un RLS d'un autre CISSS — ni dans
@@ -356,7 +356,7 @@ const UNIVERS_GENERAL = {
 /*
  * CANONIQUE — laquelle des deux adresses d'un même contenu est l'officielle pour Google.
  *
- * Montérégie-Est : c'est la page RÉGIONALE (décision d'Olivier du 21 août 2026, voir plus bas
+ * Montérégie-Est : c'est la page RÉGIONALE (décision du 21 août 2026, voir plus bas
  * dans pageClinique). La page générale reste en ligne mais s'efface au profit d'elle.
  *
  * Centre et Ouest : c'est la page GÉNÉRALE qui reste l'officielle. Leurs pages régionales,
@@ -403,9 +403,9 @@ function page({ titre, description, url, profondeur, indexable = true, canonical
     ? 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'
     : 'noindex,follow';
   // Aperçu de partage (og:image) : la bannière Montérégie-Est dans l'univers Est, pour qu'un
-  // lien partagé (courriel à Nancy, réseaux sociaux…) affiche la bonne image — pas celle de la
-  // carte générale des 3 territoires (22 août, demande d'Olivier : « bannière officielle... de
-  // façon cohérente partout »).
+  // lien partagé (courriel, réseaux sociaux…) affiche la bonne image — pas celle de la
+  // carte générale des 3 territoires (22 août : bannière officielle appliquée de façon
+  // cohérente partout).
   const ogImage = u.banniere ? `${SITE}/assets/${u.banniere.fichier}` : `${SITE}/og-image.png?v=2`;
   const ogImageW = u.banniere ? u.banniere.largeur : '1200';
   const ogImageH = u.banniere ? u.banniere.hauteur : '630';
@@ -472,7 +472,7 @@ ${nav}
   <nav class="breadcrumbs" aria-label="Fil d’Ariane">${filDAriane}</nav>
 ${corps}
 </main>
-<footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les fiches regroupent les données du répertoire, des sources publiques et, lorsqu’elles sont disponibles, des informations communiquées par les milieux. Ces renseignements peuvent changer; pour toute décision officielle, validez l’information auprès du milieu, du DTMF ou des sources gouvernementales compétentes.</div></footer>
+<footer class="site-footer"><div class="site-footer__inner">Trouve ta clinique est un outil d’information et de comparaison, indépendant du gouvernement du Québec et des DTMF. Les fiches regroupent les données du répertoire, des sources publiques et, lorsqu’elles sont disponibles, des informations communiquées par les milieux. Ces renseignements peuvent changer; pour toute décision officielle, validez l’information auprès du milieu, du DTMF ou des sources gouvernementales compétentes.<div class="site-footer__copyright">© ${new Date().getFullYear()} Olivier Laplante — Trouve ta clinique</div></div></footer>
 ${corps.includes('badge-verif') ? BADGE_VERIF_SCRIPT + '\n' : ''}${CLOUDFLARE_ANALYTICS}
 </body>
 </html>
@@ -492,7 +492,7 @@ function pageClinique(c, slug, majDonnees, u = UNIVERS_GENERAL) {
   const assezRemplie = substance >= SEUIL_INDEXATION;
   const enRecrutement = recrute(c);
 
-  /* BASCULE SEO (21 août 2026, décision d'Olivier ; généralisée le 26 août). Une clinique dont
+  /* BASCULE SEO (21 août 2026 ; généralisée le 26 août). Une clinique dont
      le territoire a sa propre carte a DEUX pages : la page générale et la page régionale. Pour
      que Google n'ait jamais à choisir entre deux adresses au contenu identique, une seule des
      deux est officielle. Laquelle, c'est le champ `canonique` de l'univers du territoire qui le
@@ -705,8 +705,8 @@ ${lignes.join('\n')}
 /* ------------------------------------------------------------------------------------------- */
 
 /*
- * Les 3 RLS de la Montérégie-Est. Demande d'Olivier le 21 août 2026, affinée le même jour après
- * une suggestion (relayée par Olivier) : sur CES pages RLS-là uniquement, on ne renvoie plus vers
+ * Les 3 RLS de la Montérégie-Est. Choix du 21 août 2026, affiné le même jour après
+ * une suggestion reçue : sur CES pages RLS-là uniquement, on ne renvoie plus vers
  * /cliniques/ (le répertoire des TROIS territoires) — pour ne jamais offrir, même indirectement
  * (via le menu discret « i » de /monteregie-est/ → une de ces 3 pages), un chemin de clic vers les
  * cliniques des autres territoires. Contrairement au premier réflexe (retirer purement et
@@ -847,7 +847,7 @@ ${prats.length ? `      <dt>Pratiques offertes dans le RLS</dt><dd>${esc(prats.j
 /* ------------------------------------------------------------------------------------------- */
 
 /*
- * Ajouté le 22 août 2026, à la demande d'Olivier (question posée avant de coder : la décision du
+ * Ajouté le 22 août 2026 (question posée avant de coder : la décision du
  * 21 août ci-dessus retire volontairement toute entrée « Cliniques » de l'univers Est, pour ne
  * jamais offrir un chemin de clic vers les cliniques des autres territoires). Cette page-ci reste
  * cohérente avec ce choix : elle ne liste QUE les 3 RLS qui sont exclusivement Montérégie-Est
@@ -977,7 +977,7 @@ ${items}
     </div>
   </section>
 
-  <figure class="visual-banner compact directory-banner"><a href="/" aria-label="Ouvrir la carte interactive"><img src="../assets/carte-interactive-monteregie.png" alt="Bannière de la carte interactive Trouve ta clinique" width="1920" height="640" loading="lazy"></a><figcaption>Le répertoire HTML et la carte sont deux vues complémentaires des mêmes milieux publiés.</figcaption></figure>
+  <figure class="sqb-wrap compact directory-banner"><a class="sqb" href="/" aria-label="Ouvrir la carte interactive des cliniques en recrutement en Montérégie"><span class="sqb-pattern" aria-hidden="true"></span><span class="sqb-inner"><img class="sqb-logo" src="../assets/logo-banniere.png" alt="" width="210" height="252" loading="lazy"><span class="sqb-vline" aria-hidden="true"></span><span class="sqb-eyebrow">Carte interactive</span><span class="sqb-title">Trouve ta clinique</span><span class="sqb-region">Montérégie</span><span class="sqb-rule" aria-hidden="true"></span></span></a><figcaption>Le répertoire HTML et la carte sont deux vues complémentaires des mêmes milieux publiés.</figcaption></figure>
 
   <div class="callout official"><strong>Comment choisir :</strong> le RLS peut être déterminant pour l’avis de conformité PTEM, qui exige au moins 55 % des jours de facturation dans le territoire visé. Le type de milieu (GMF, GMF-U, CLSC…), le DMÉ, les frais de bureau et les pratiques offertes aident ensuite à comparer le quotidien de pratique. <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
@@ -1099,7 +1099,7 @@ function copieRegionPageStatique(source, urlCanonique, u) {
   html = html.replace(/(href|src)="\.\.\/assets\//g, '$1="/assets/');
 
   /* 3bis. Bannière : PTEM et AMP illustrent leur en-tête avec la bannière générale de la carte
-     (carte-interactive-monteregie.png). Sur les copies Est, demande d'Olivier du 21 août : la
+     (carte-interactive-monteregie.png). Sur les copies Est, choix du 21 août : la
      bannière déjà préparée pour la Montérégie-Est (banniere_monteregie-est.png, 20 août) doit
      apparaître à la place — cohérent avec le reste de l'univers Est. Les territoires qui n'ont
      pas encore de bannière propre gardent l'image générale : mieux vaut une illustration

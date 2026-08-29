@@ -19,8 +19,8 @@
 // apple-mobile-web-app-title de l'univers Est alignés sur « PTEM 2027 ».
 // v33 (26 août 2026, 1er essai — corrigé par v34) : en-tête — tentative de remplacer
 // « RECRUTEMENT » par « Trouve ta clinique », mais avec un style et un ordre inventés plutôt
-// que copiés du brouillon d'Olivier (OLaplante/Monteregie-Est) — deux essais faux d'affilée.
-// v34 (26 août 2026) : bannière corrigée pour de bon — reprise EXACTE du brouillon d'Olivier,
+// que copiés du brouillon (OLaplante/Monteregie-Est) — deux essais faux d'affilée.
+// v34 (26 août 2026) : bannière corrigée pour de bon — reprise EXACTE du brouillon,
 // vérifiée diff par diff contre son code : « RECRUTEMENT » → « TROUVE TA CLINIQUE » en
 // majuscules, CSS de `.brand-org` totalement inchangée (même taille, graisse, espacement,
 // position au-dessus du titre). Écran de chargement toujours non touché.
@@ -54,7 +54,7 @@
 // du territoire sur l'écran de chargement et dans l'en-tête (vert pour le Centre, bleu pour
 // l'Ouest), et univers SEO étanche (/rls/*, /cliniques/*, /ptem/, /amp/). Ce ne sont PAS des
 // applications installables : contrairement à l'Est, elles n'ont ni manifeste ni icônes propres
-// et leurs boutons « Installer » sont retirés (décision d'Olivier). Autres changements de la
+// et leurs boutons « Installer » sont retirés. Autres changements de la
 // même passe : le menu « i » de la carte générale mène désormais aux trois cartes régionales,
 // le titre « CLINIQUES EN RECRUTEMENT » reçoit un trait de couleur (dégradé turquoise sur la
 // carte générale, couleur du territoire sur une carte régionale), et le délai avant que les

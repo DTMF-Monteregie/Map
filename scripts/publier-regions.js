@@ -20,12 +20,12 @@
  * HISTORIQUE — ce script remplace scripts/publier-monteregie-est.js (20-26 août 2026), qui ne
  * savait produire que la page Montérégie-Est. La sortie pour l'Est est identique à ce que
  * produisait l'ancien script : c'est vérifié à chaque exécution, voir la note « ISOLEMENT » plus
- * bas. Les cartes Centre et Ouest ont été ouvertes le 26 août 2026 à la demande d'Olivier.
+ * bas. Les cartes Centre et Ouest ont été ouvertes le 26 août 2026.
  *
  * DIFFÉRENCE VOULUE ENTRE L'EST ET LES DEUX AUTRES : seule la Montérégie-Est s'installe comme
  * une application distincte (son propre manifeste manifest-est.webmanifest et ses propres
  * icônes, depuis le 21 août). Le Centre et l'Ouest sont des CARTES, pas des applications —
- * décision d'Olivier du 26 août : « laisse faire l'app ». Leur bouton « Installer » est donc
+ * décision du 26 août : « laisse faire l'app ». Leur bouton « Installer » est donc
  * retiré, et elles n'ont ni manifeste ni icônes propres. C'est le champ `app` de chaque
  * territoire ci-dessous qui décide.
  *
@@ -48,7 +48,7 @@ const RACINE = path.join(__dirname, '..');
  * territoire = ajouter une entrée ici, rien d'autre dans ce fichier.
  *
  *   dossier   : nom du dossier publié, en minuscules sans accent (règle d'adressage fixée par
- *               Olivier le 26 août : « minuscules et sans accents pour éviter les problèmes
+ *               fixée le 26 août : « minuscules et sans accents pour éviter les problèmes
  *               techniques et SEO »). C'est AUSSI ce que index.html reconnaît au chargement
  *               (voir REGION_PAGE) — les deux doivent rester d'accord.
  *   nom       : « Montérégie-Est » — pour les titres, descriptions et libellés.
@@ -140,7 +140,7 @@ function phraseRls(t) {
  */
 const BLOC_HORS_REGION = /[ \t]*<!-- hors-region:debut[\s\S]*?hors-region:fin -->[ \t]*\r?\n?/g;
 
-/* Menu « i » d'une page régionale — contenu et ordre fixés par Olivier le 21 août pour l'Est,
+/* Menu « i » d'une page régionale — contenu et ordre fixés le 21 août pour l'Est,
  * repris tel quel pour les deux autres territoires :
  *   1. À propos du recrutement (URL du territoire quand elle existe, sinon celle de la
  *      Montérégie — le Centre et l'Ouest n'ont pas de page de recrutement distincte)
@@ -292,7 +292,7 @@ function remplacements(t) {
       '<button type="button" class="info-menu-link" role="menuitem" id="info-menu-install">\n        <span class="info-menu-ic">⤓</span> Installer la carte Montérégie-Est\n      </button>'
     );
   } else {
-    // Centre et Ouest : ce sont des CARTES, pas des applications (décision d'Olivier,
+    // Centre et Ouest : ce sont des CARTES, pas des applications (décision du
     // 26 août 2026). Sans manifeste propre, laisser un bouton « Installer » installerait la
     // carte GÉNÉRALE des trois territoires — précisément le contraire de ce que cette page
     // promet. Les deux boutons sont donc retirés du code source, et le lien vers le manifeste
@@ -329,7 +329,7 @@ function remplacements(t) {
     `:root { --sb-accent: ${t.accent}; }`
   );
   // Écran de chargement : le mot sous MONTÉRÉGIE (option « G7 » retenue le 20 août pour l'Est —
-  // un essai d'agencement différent, testé le 21 août, a été écarté par Olivier au profit de
+  // un essai d'agencement différent, testé le 21 août, a été écarté au profit de
   // celui-ci).
   pousser(
     '      <span class="ldr-region">MONTÉRÉGIE</span>',
@@ -342,8 +342,8 @@ function remplacements(t) {
   );
 
   // ── Aperçu de partage ──
-  // La bannière du territoire plutôt que celle de la carte générale (22 août, demande d'Olivier
-  // — cohérence avec les copies régionales de /ptem/ et /amp/, voir copieEstPageStatique dans
+  // La bannière du territoire plutôt que celle de la carte générale (22 août — cohérence
+  // avec les copies régionales de /ptem/ et /amp/, voir copieEstPageStatique dans
   // generer-pages-seo.js). Les territoires sans bannière propre gardent celle de la Montérégie :
   // mieux vaut une image générique correcte qu'un lien mort vers une image inexistante.
   if (t.banniere) {
@@ -364,7 +364,7 @@ function remplacements(t) {
 
 /*
  * Logo de l'écran de chargement (--app-pin) : le 21 août, le petit point avait été passé au
- * rose #ff3d96 sur la page Montérégie-Est. Olivier est revenu là-dessus le 22 août : « remettre
+ * rose #ff3d96 sur la page Montérégie-Est. Retour en arrière le 22 août : « remettre
  * le logo original avec le point BLEU partout... je ne veux plus la variante avec le point
  * rose ». --app-pin n'est donc touché sur AUCUNE page régionale — toutes gardent exactement le
  * même logo (point bleu) que la carte générale, comme --app-logo l'a toujours fait.

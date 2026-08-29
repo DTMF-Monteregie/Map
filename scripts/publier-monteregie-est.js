@@ -39,7 +39,7 @@ const REMPLACEMENTS = [
     '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/recrutement-dtmf-monteregie" target="_blank" rel="noopener">\n        <span class="info-menu-ic">i</span> À propos du recrutement\n      </a>',
     '<a class="info-menu-link" role="menuitem" href="https://www.santemonteregie.qc.ca/est/recrutement-medical-monteregie-est" target="_blank" rel="noopener">\n        <span class="info-menu-ic">i</span> À propos du recrutement\n      </a>'
   ],
-  // MENU « i » DE LA PAGE MONTÉRÉGIE-EST — contenu et ordre fixés par Olivier le 21 août :
+  // MENU « i » DE LA PAGE MONTÉRÉGIE-EST — contenu et ordre fixés le 21 août :
   //   1. À propos du recrutement (traité par la règle ci-dessus : URL Est + pictogramme « i »)
   //   2. les 3 pages RLS de la Montérégie-Est
   //   3. les guides PTEM et AMP
@@ -163,7 +163,7 @@ const REMPLACEMENTS = [
     '<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Lato:wght@300;400;700&family=Kaushan+Script&display=swap" rel="stylesheet">'
   ],
   // Écran de chargement : « est » sous MONTÉRÉGIE (option « G7 » retenue le 20 août — un essai
-  // d'agencement différent, testé le 21 août, a été écarté par Olivier au profit de celui-ci).
+  // d'agencement différent, testé le 21 août, a été écarté au profit de celui-ci).
   [
     '      <span class="ldr-region">MONTÉRÉGIE</span>',
     '      <span class="ldr-region">MONTÉRÉGIE</span>\n      <span class="ldr-est">est</span>'
@@ -175,7 +175,7 @@ const REMPLACEMENTS = [
     '    <strong>Montérégie<span class="brand-tiret">-</span><span class="brand-est">est</span></strong>'
   ],
   // Aperçu de partage (og:image / twitter:image) : la bannière Montérégie-Est plutôt que celle
-  // de la carte générale (22 août, demande d'Olivier — cohérence avec les copies Est de
+  // de la carte générale (22 août — cohérence avec les copies Est de
   // /ptem/ et /amp/, voir copieEstPageStatique dans generer-pages-seo.js).
   [
     '<meta property="og:image" content="https://trouvetaclinique.ca/og-image.png?v=2">',
@@ -213,7 +213,7 @@ const BLOC_HORS_EST = /[ \t]*<!-- hors-est:debut[\s\S]*?hors-est:fin -->[ \t]*\r
 
 /*
  * Logo de l'écran de chargement (--app-pin) : le 21 août, le petit point avait été passé au
- * rose #ff3d96 sur la page Montérégie-Est. Olivier est revenu là-dessus le 22 août : « remettre
+ * rose #ff3d96 sur la page Montérégie-Est. Retour en arrière le 22 août : « remettre
  * le logo original avec le point BLEU partout... je ne veux plus la variante avec le point
  * rose ». --app-pin n'est donc PLUS touché ici — la page Est garde exactement le même logo
  * (point bleu) que la carte générale, comme --app-logo l'a toujours fait. Le fichier
