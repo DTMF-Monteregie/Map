@@ -83,7 +83,9 @@
 // identiques à ceux du brouillon, avec masquage des deux autres lors d'un filtre RLS.
 // v46 (28 août 2026) : retrait de l'attribution personnalisée « Limites RLS © MSSS 2026 »
 // au bas des quatre cartes. Les attributions obligatoires du fond cartographique demeurent.
-const CACHE = 'ptem-2027-v46';
+// v47 (29 août 2026) : les 29 cliniques indiquées en bleu dans le répertoire de Nancy
+// demeurent dans data.json, mais sont masquées de toutes les cartes et listes avec visible:false.
+const CACHE = 'ptem-2027-v47';
 const CORE = [
   './',
   './index.html',
