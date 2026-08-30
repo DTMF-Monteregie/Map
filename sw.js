@@ -85,7 +85,15 @@
 // au bas des quatre cartes. Les attributions obligatoires du fond cartographique demeurent.
 // v47 (29 août 2026) : les 29 cliniques indiquées en bleu dans le répertoire de recrutement
 // demeurent dans data.json, mais sont masquées de toutes les cartes et listes avec visible:false.
-const CACHE = 'ptem-2027-v47';
+// v49 (29 août 2026) : correctif « jumpTo » (fiches qui ne s'ouvraient pas), responsableNom
+// dans la fiche, suffixes clinique A/B/C, hubs cliniques régionaux et opacité des overlays.
+// v50 (29 août 2026) : correction des trois fiches distinctes de Sorel-Tracy liées au GMF
+// Richelieu, retrait du doublon id 89 avec redirection de son ancienne URL, exclusion défensive
+// des établissements dans la carte et le SEO, purge réelle des dossiers SEO orphelins,
+// décalage visuel des épingles partageant les mêmes coordonnées, date des données automatisée.
+// v51 (30 août 2026) : retrait des adresses courriel de recrutement de la version publique.
+// RLS ou une région masque les « H » des autres territoires, comme leurs cliniques.
+const CACHE = 'ptem-2027-v51';
 const CORE = [
   './',
   './index.html',

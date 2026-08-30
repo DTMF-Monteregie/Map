@@ -825,7 +825,9 @@ function appliquerTourneeJardinsRoussillon() {
     ecrire(33, 'qgarde_labo', 'Garde labo par infirmière');
     ecrire(33, 'qgarde_urgence', '1 fin de semaine tous les 6 mois');
     ecrire(33, 'qgarde_autre', 'Pas de plage horaire dédiée au SRV : les rendez-vous sont plutôt intégrés chaque jour, en style relance.');
-    ecrire(33, 'q19_recruit_email', 'valeriecampeau@outlook.com');
+    // Version publique : le nom du responsable est conservé dans data.json,
+    // mais aucune adresse courriel de recrutement n'est publiée dans le dépôt.
+    ecrire(33, 'q19_recruit_email', '');
     ecrire(33, 'q25_gmf_level', '5');
     ecrire(33, 'q68_other_professionals', 'Travailleuse sociale, nutritionniste, pharmacien(ne), 2 chirurgiens, 1 interniste, 1 anesthésiologiste.');
     ecrire(33, 'q69_profile', 'Centre de prélèvement privé sur place (45 $, accès rapide), clinique d’azote, clinique de stérilet et de biopsie de l’endomètre. Peu de roulement de personnel, horaire flexible, midi-formation FMOQ avec repas. Accès rapide à la médecine interne, la dermatologie, la chirurgie et le prélèvement sanguin. Ouvert à de nouveaux projets (ex. mini-chirurgie).');

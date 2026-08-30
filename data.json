@@ -132,7 +132,7 @@
       "lat": 45.63115,
       "lng": -73.38804,
       "site": "http://www.gmfdupetitbois.ca/",
-      "personneRessource": "info@cliniquelareleve.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Stéphanie Gervais",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -186,7 +186,7 @@
       "lat": 45.522551,
       "lng": -73.512763,
       "site": "https://cliniquecamu.ca/",
-      "personneRessource": "badr.jouwad.gmf16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Hadj Omar",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -234,7 +234,7 @@
       "lat": 45.53628,
       "lng": -73.45844,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-simonne-monet-chartrand",
-      "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Angela Leach Orts",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -274,7 +274,8 @@
       "infos": "",
       "gardeUrgence": "",
       "gardeAutre": "",
-      "presentation": ""
+      "presentation": "",
+      "categorie": "etablissement"
     },
     {
       "id": 4,
@@ -287,7 +288,7 @@
       "lat": 45.527429,
       "lng": -73.482812,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-longueuil-ouest",
-      "personneRessource": "angela.leach.orts.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Angela Leach Orts",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -326,7 +327,8 @@
       "infos": "",
       "gardeUrgence": "",
       "gardeAutre": "",
-      "presentation": ""
+      "presentation": "",
+      "categorie": "etablissement"
     },
     {
       "id": 5,
@@ -339,7 +341,7 @@
       "lat": 45.65728,
       "lng": -73.423218,
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=33194",
-      "personneRessource": "annie.chagnon.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Annie Chagnon",
       "dme": "À compléter",
       "horaire": {
@@ -391,7 +393,7 @@
       "lat": 45.540442,
       "lng": -73.456062,
       "site": "https://macliniquepierreboucher.ca/",
-      "personneRessource": "andre.bernikoff.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dr André Berdnikoff",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -444,7 +446,7 @@
       "lat": 45.56899,
       "lng": -73.448536,
       "site": "https://www.santemonteregie.qc.ca/installations/gmf-u-des-monteregiennes",
-      "personneRessource": "elise.ocarroll.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Elise O’Carroll",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -499,7 +501,7 @@
       "lat": 45.61173,
       "lng": -73.451706,
       "site": "https://www.gmfip.ca/",
-      "personneRessource": "lucie.brault.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Lucie Brault",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -551,7 +553,7 @@
       "lat": 45.68248,
       "lng": -73.43608,
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=800180",
-      "personneRessource": "ignace.adah.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dr Ignace Adah",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -601,7 +603,7 @@
       "lat": 45.578188,
       "lng": -73.344655,
       "site": "https://gmfmd.ca",
-      "personneRessource": "mathilde.bourdua.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Mathilde Bourdua",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -654,7 +656,7 @@
       "lat": 45.58474,
       "lng": -73.32714,
       "site": "https://www.cliniquemedicalesaintejulie.ca/fr/",
-      "personneRessource": "gmfsainte-julie@outlook.com",
+      "personneRessource": "",
       "responsableNom": "Dre Kim Lévesque",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -706,7 +708,7 @@
       "lat": 45.592586,
       "lng": -73.200738,
       "site": "",
-      "personneRessource": "Claire.wadoux.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Claire Wadoux",
       "dme": "",
       "horaire": {
@@ -745,7 +747,8 @@
       "infos": "",
       "gardeUrgence": "",
       "gardeAutre": "",
-      "presentation": ""
+      "presentation": "",
+      "categorie": "etablissement"
     },
     {
       "id": 13,
@@ -758,7 +761,7 @@
       "lat": 45.63574,
       "lng": -72.960659,
       "site": "",
-      "personneRessource": "julie.gagnon.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Julie Gagnon",
       "dme": "",
       "horaire": {
@@ -797,7 +800,8 @@
       "infos": "",
       "gardeUrgence": "",
       "gardeAutre": "",
-      "presentation": ""
+      "presentation": "",
+      "categorie": "etablissement"
     },
     {
       "id": 14,
@@ -810,7 +814,7 @@
       "lat": 45.634925,
       "lng": -72.960762,
       "site": "",
-      "personneRessource": "philippe.imbeault.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dr Philippe Imbeault",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -862,7 +866,7 @@
       "lat": 45.646528,
       "lng": -72.953404,
       "site": "https://gmfmaska.com",
-      "personneRessource": "lena.wognin.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Lena Wognin",
       "dme": "Ofys",
       "horaire": {
@@ -914,7 +918,7 @@
       "lat": 45.784229,
       "lng": -73.160552,
       "site": "https://www.horizonclinique.com",
-      "personneRessource": "julie.lafrenaye.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Julie lafrenaye",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -967,7 +971,7 @@
       "lat": 45.588271,
       "lng": -73.283206,
       "site": "",
-      "personneRessource": "elizabeth.dougherty.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Elizabeth Dougherty",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -1019,7 +1023,7 @@
       "lat": 45.563983,
       "lng": -73.205364,
       "site": "https://carrefourmedical.com",
-      "personneRessource": "michel.beaudoin.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dr Michel Beaudoin",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -1071,7 +1075,7 @@
       "lat": 45.524871,
       "lng": -73.302459,
       "site": "https://centremedicalsaintbasile.org",
-      "personneRessource": "pierre-olivier.barrette.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Eliane Lemire",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -1123,7 +1127,7 @@
       "lat": 45.634383,
       "lng": -72.963842,
       "site": "https://gmflaframboise.ca",
-      "personneRessource": "josee-maude.lambert.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Josée-Maude Lambert",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -1175,7 +1179,7 @@
       "lat": 45.526285,
       "lng": -73.343315,
       "site": "https://cliniquemedicalelesentier.com",
-      "personneRessource": "sarah.bedard.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Sarah Bédard",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -1227,7 +1231,7 @@
       "lat": 45.644863,
       "lng": -72.570897,
       "site": "https://coopsanteacton.ca",
-      "personneRessource": "marilou.desmarais-noiseux.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Marilou Desmarais-Noiseaux",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -1279,7 +1283,7 @@
       "lat": 46.045286,
       "lng": -73.093115,
       "site": "",
-      "personneRessource": "mathieu.galfard.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dr Mathieu Galfard",
       "dme": "",
       "horaire": {
@@ -1318,7 +1322,8 @@
       "infos": "",
       "gardeUrgence": "",
       "gardeAutre": "",
-      "presentation": ""
+      "presentation": "",
+      "categorie": "etablissement"
     },
     {
       "id": 24,
@@ -1326,7 +1331,7 @@
       "alias": "Clinique des professionnels Sorel-Tracy",
       "visible": true,
       "type": "Clinique médicale",
-      "adresse": "330, avenue de l'Hôtel-Dieu, Sorel-Tracy QC J3P 1N4",
+      "adresse": "330, avenue de l'Hôtel-Dieu, Unité A, Sorel-Tracy QC J3P 1N4",
       "ville": "Sorel-Tracy",
       "lat": 46.046109,
       "lng": -73.097161,
@@ -1378,12 +1383,12 @@
       "alias": "",
       "visible": true,
       "type": "GMF",
-      "adresse": "200-500, route Marie-Victorin, Sorel-Tracy QC J3R 1K7",
+      "adresse": "500, route Marie-Victorin, bureau 200, Sorel-Tracy QC J3R 1K7",
       "ville": "Sorel-Tracy",
       "lat": 46.039998,
       "lng": -73.124233,
       "site": "https://gmfrichelieu.com",
-      "personneRessource": "claudia.morneau.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Claudia Morneau",
       "dme": "Medesync (Telus)",
       "horaire": {
@@ -1439,7 +1444,7 @@
       "lat": 45.547229,
       "lng": -73.502286,
       "site": "https://lautremaison.ca",
-      "personneRessource": "mariam-edith.colbert.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "responsableNom": "Dre Mariam Colbert",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
@@ -3098,7 +3103,7 @@
       "lat": 45.47632,
       "lng": -74.30447,
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=36497",
-      "personneRessource": "gmfrigaud@hotmail.com",
+      "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "",
@@ -3150,7 +3155,7 @@
       "lat": 45.4758451,
       "lng": -74.2995497,
       "site": "https://sante.gouv.qc.ca/repertoire-ressources/ressource/?nofiche=1267",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -3196,7 +3201,7 @@
       "lat": 45.45868,
       "lng": -74.14127,
       "site": "https://sante.gouv.qc.ca/en/repertoire-ressources/ressource/?nofiche=50729",
-      "personneRessource": "gabrielle.gregoire.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "9h00 – 18h00",
@@ -3242,7 +3247,7 @@
       "lat": 45.3999252,
       "lng": -74.1352233,
       "site": "https://www.santesteangelique.ca/",
-      "personneRessource": "Marie-eve.chicoine.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "8h00 – 18h30",
@@ -3295,7 +3300,7 @@
       "lat": 45.3942417,
       "lng": -74.0539194,
       "site": "https://www.santemonteregie.qc.ca/installations/centre-multiservices-de-sante-et-de-services-sociaux-de-vaudreuil-dorion",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -3337,7 +3342,7 @@
       "lat": 45.3942417,
       "lng": -74.0539194,
       "site": "https://www.mcgill.ca/familymed/fr/formation/sites-denseignement/umf/gmf-u-de-vaudreuil-soulanges",
-      "personneRessource": "alexandra.massicotte.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "",
@@ -3385,7 +3390,7 @@
       "lat": 45.37701,
       "lng": -74.02291,
       "site": "https://polycliniquemedicalevaudreuil.com/en/medical-clinic-gmf-vaudreuil-dorion/",
-      "personneRessource": "Francine.tremblay.gmf16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 20h00",
@@ -3432,7 +3437,7 @@
       "lat": 45.3811,
       "lng": -73.99262,
       "site": "https://gmfpincourt.com/",
-      "personneRessource": "simona-iuliana.dospinescu.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 21h00",
@@ -3478,7 +3483,7 @@
       "lat": 45.40293,
       "lng": -74.03721,
       "site": "https://gmfdestroislacs.ca/",
-      "personneRessource": "sophie.maurice.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "8h00 – 20h00",
@@ -3528,7 +3533,7 @@
       "lat": 45.2917019,
       "lng": -74.1755368,
       "site": "https://www.santemonteregie.qc.ca/installations/chsld-et-clsc-de-coteau-du-lac",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -3570,7 +3575,7 @@
       "lat": 45.3002496,
       "lng": -74.2989667,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-et-groupe-de-medecine-de-famille-universitaire-de-saint-polycarpe",
-      "personneRessource": "Doan-trang-lam.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Myle (Medfar Solutions)",
       "horaire": {
         "Lundi": "",
@@ -3616,7 +3621,7 @@
       "lat": 45.26616,
       "lng": -74.12666,
       "site": "https://www.havresante.com/",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 17h00",
@@ -3666,7 +3671,7 @@
       "lat": 45.24261,
       "lng": -74.1257,
       "site": "https://medival.ca/",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 18h00",
@@ -3716,7 +3721,7 @@
       "lat": 45.234626,
       "lng": -74.1198936,
       "site": "https://cmbatisseurs.com/",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Medfar",
       "horaire": {
         "Lundi": "8h00 – 21h00",
@@ -3766,7 +3771,7 @@
       "lat": 45.31349,
       "lng": -73.87598,
       "site": "https://beauharnoisensante.com/",
-      "personneRessource": "beauharnoisensante@hotmail.com",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "8h00 – 12h00 / 13h00 – 16h00",
@@ -3813,7 +3818,7 @@
       "lat": 45.26469,
       "lng": -74.13015,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-salaberry-de-valleyfield",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -3855,7 +3860,7 @@
       "lat": 45.31451,
       "lng": -73.87746,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-beauharnois",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -3897,7 +3902,7 @@
       "lat": 45.094037,
       "lng": -74.177756,
       "site": "https://complexedesantehuntingdon.ca/fr/centre-medical-huntingdon/",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Ofys",
       "horaire": {
         "Lundi": "8h30 – 18h00",
@@ -3944,7 +3949,7 @@
       "lat": 45.1188659,
       "lng": -73.9869003,
       "site": "https://ormstownmedicalclinic.com/",
-      "personneRessource": "admin@cliniquemedicaleormstown.ca",
+      "personneRessource": "",
       "dme": "Ofys",
       "horaire": {
         "Lundi": "8h00 – 18h00",
@@ -3993,7 +3998,7 @@
       "lat": 45.0888197,
       "lng": -74.1735774,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-huntingdon-huntingdon-clsc",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -4035,7 +4040,7 @@
       "lat": 45.10563,
       "lng": -73.76236,
       "site": "https://www.santemonteregie.qc.ca/installations/clsc-de-saint-chrysostome",
-      "personneRessource": "recrutement_omnis.cisssmo16@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "",
       "horaire": {
         "Lundi": "",
@@ -4121,7 +4126,7 @@
       "id": 87,
       "nom": "Clinique Médicale de l'Établissement de Détention de Sorel-Tracy",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4164,7 +4169,10 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "categorie": "etablissement",
+      "publication": "masquee",
+      "raisonMasquage": "etablissement"
     },
     {
       "id": 88,
@@ -4174,10 +4182,10 @@
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
-      "adresse": "500, route Marie-Victorin, # 101, Sorel-Tracy QC J3P 3G6",
+      "adresse": "500, route Marie-Victorin, bureau 101, Sorel-Tracy QC J3R 1K7",
       "ville": "Sorel-Tracy",
-      "lat": 46.0414261,
-      "lng": -73.0929276,
+      "lat": 46.039998,
+      "lng": -73.124233,
       "site": "",
       "personneRessource": "",
       "responsableNom": "Dr François Godbout",
@@ -4217,62 +4225,10 @@
       "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
     },
     {
-      "id": 89,
-      "nom": "GMF Richelieu (clinique de Médecine Familiale)",
-      "alias": "",
-      "visible": true,
-      "recrutementActif": false,
-      "statutRecrutement": "Ne recrute pas actuellement",
-      "type": "GMF",
-      "adresse": "300, rue Paradis, Sorel-Tracy, QC, J3P 3G6",
-      "ville": "Sorel-Tracy",
-      "lat": 46.0414439,
-      "lng": -73.0928948,
-      "site": "https://gmfrichelieu.com/",
-      "personneRessource": "",
-      "responsableNom": "Dre Claudia Morneau",
-      "dme": "",
-      "horaire": {
-        "Lundi": "8 h 00 à 20 h 00",
-        "Mardi": "8 h 00 à 16 h 30",
-        "Mercredi": "8 h 00 à 16 h 30",
-        "Jeudi": "8 h 00 à 16 h 30",
-        "Vendredi": "8 h 00 à 12 h 00",
-        "Samedi": "8 h 00 à 12 h 00",
-        "Dimanche": "Non disponible"
-      },
-      "horaireSource": [
-        "Lun. : 8 h 00 à 20 h 00",
-        "mar. à jeu. : 8 h 00 à 16 h 30",
-        "ven. et sam. : 8 h 00 à 12 h 00",
-        "dim. : Non disponible"
-      ],
-      "personnel": {},
-      "notes": "",
-      "rls": "Pierre-De Saurel",
-      "posApprox": false,
-      "bureau": "",
-      "frais": "",
-      "pratiques": [],
-      "niveaux": {
-        "gmf": "",
-        "accesReseau": "",
-        "gmfu": ""
-      },
-      "niveau": "",
-      "porteOuverte": "",
-      "region": "Est",
-      "infos": "",
-      "gardeUrgence": "",
-      "gardeAutre": "",
-      "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
-    },
-    {
       "id": 90,
       "nom": "Bureau Dr Denis Couture",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4314,13 +4270,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 91,
       "nom": "Bureau Dr Patrice Trottier",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4362,13 +4320,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 92,
       "nom": "Bureau du Docteur Guillaume Lemay",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4413,13 +4373,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 93,
       "nom": "Cabinet Médical au Cœur des Vergers",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4455,13 +4417,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 94,
       "nom": "Centre de Pédiatrie Sociale Grand Galop",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4505,13 +4469,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 95,
       "nom": "Centre de Santé et d'Harmonie du Richelieu Inc.",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4558,7 +4524,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 96,
@@ -4614,7 +4582,7 @@
       "id": 97,
       "nom": "Clinique Médicale de la Gare",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -4657,7 +4625,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 98,
@@ -4758,7 +4728,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 100,
@@ -4808,7 +4780,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 101,
@@ -4857,13 +4831,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 102,
       "nom": "GMF de la Montagne (clinique Dre Sophie Lavallée)",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "GMF",
@@ -4907,7 +4883,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 103,
@@ -5068,7 +5046,7 @@
       "id": 106,
       "nom": "Santé au Travail du Secteur est de la Montérégie",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5110,13 +5088,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 107,
       "nom": "Bureau de Docteure Hélène Chouinard",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5162,13 +5142,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 108,
       "nom": "Bureau de Dr François Dessureault",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5210,13 +5192,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 109,
       "nom": "Bureau de Dr Yvon Prévost",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5258,13 +5242,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 110,
       "nom": "Bureau Dr Jean-Pierre Gouin",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5306,13 +5292,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 111,
       "nom": "Bureau du Docteur Serge Savard",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale privée (hors GMF)",
@@ -5356,13 +5344,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 112,
       "nom": "Centre de Médecine Intégrée (CMI) Longueuil",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5407,13 +5397,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 113,
       "nom": "Centre de pédiatrie sociale en communauté de Longueuil",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5456,7 +5448,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 114,
@@ -5512,7 +5506,7 @@
       "id": 115,
       "nom": "Clinique Médicale 1426",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5555,13 +5549,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 116,
       "nom": "Clinique Médicale 1746",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5603,13 +5599,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 117,
       "nom": "Clinique Médicale Berger",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5654,13 +5652,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 118,
       "nom": "Clinique médicale de Verchères",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -5702,7 +5702,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 119,
@@ -5804,7 +5806,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 121,
@@ -5853,7 +5857,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 122,
@@ -5902,7 +5908,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 123,
@@ -5951,7 +5959,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 124,
@@ -6002,7 +6012,8 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "categorie": "etablissement"
     },
     {
       "id": 125,
@@ -6051,13 +6062,15 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 126,
       "nom": "CMI Contrecœur",
       "alias": "",
-      "visible": true,
+      "visible": false,
       "recrutementActif": false,
       "statutRecrutement": "Ne recrute pas actuellement",
       "type": "Clinique médicale (hors GMF)",
@@ -6103,7 +6116,9 @@
       "gardeUrgence": "",
       "gardeAutre": "",
       "presentation": "",
-      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026"
+      "sourceRepertoire": "Répertoire complet Montérégie-Est fourni le 23 août 2026",
+      "publication": "masquee",
+      "raisonMasquage": "exclusion_repertoire"
     },
     {
       "id": 127,
@@ -6216,7 +6231,7 @@
       "alias": "",
       "visible": true,
       "type": "Clinique médicale",
-      "adresse": "330, avenue de l'Hôtel-Dieu, Sorel-Tracy QC J3P 1N4",
+      "adresse": "330, avenue de l'Hôtel-Dieu, Unité A, Sorel-Tracy QC J3P 1N4",
       "ville": "Sorel-Tracy",
       "lat": 46.046109,
       "lng": -73.097161,
@@ -6268,12 +6283,12 @@
       "alias": "GMF St-Mathieu de Beloeil",
       "visible": true,
       "type": "GMF",
-      "adresse": "330, avenue de l'Hôtel-Dieu, Sorel-Tracy QC J3P 1N4",
+      "adresse": "330, avenue de l'Hôtel-Dieu, Unité A, Sorel-Tracy QC J3P 1N4",
       "ville": "Sorel-Tracy",
       "lat": 46.046109,
       "lng": -73.097161,
       "site": "https://cliniquemedicalesorel-tracy.ca",
-      "personneRessource": "emilie.boisvert.med@ssss.gouv.qc.ca",
+      "personneRessource": "",
       "dme": "Omnimed",
       "horaire": {
         "Lundi": "8h30 – 16h30",

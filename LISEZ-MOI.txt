@@ -63,8 +63,9 @@ par les recherches « PTEM », « AMP », « clinique qui recrute Montérégie �
 
 GÉNÉRÉES AUTOMATIQUEMENT — NE JAMAIS LES MODIFIER À LA MAIN :
 - cliniques/index.html ....... le répertoire de toutes les cliniques
-- cliniques/<nom>/index.html . une page par clinique (61 pages)
-- rls/<nom>/index.html ....... une page par RLS (6 pages)
+- cliniques/<nom>/index.html . une page par clinique publiée (nombre calculé automatiquement)
+- rls/<nom>/index.html ....... une page par RLS ayant des cliniques publiées
+- monteregie-*/cliniques/ .... trois répertoires régionaux et leurs fiches propres
 - sitemap.xml ................ la liste des pages pour Google
 
 Toute modification faite à la main dans ces fichiers-là sera EFFACÉE à la prochaine génération
@@ -73,7 +74,7 @@ Toute modification faite à la main dans ces fichiers-là sera EFFACÉE à la pr
 
 LES PAGES SE REFONT TOUTES SEULES APRÈS UNE MODIFICATION DE data.json
 ----------------------------------------------------------------------
-**data.json est la seule source de vérité.** Les 68 pages ci-dessus en sont fabriquées, et
+**data.json est la seule source de vérité.** Les pages ci-dessus en sont fabriquées, et
 depuis le 19 août 2026 c'est GitHub qui s'en charge automatiquement :
 
     on modifie data.json  →  GitHub régénère les pages  →  le site est à jour
@@ -109,8 +110,9 @@ METTRE À JOUR UNE CLINIQUE (sans toucher au code)
 2. Changer la valeur voulue (téléphone, horaire, site, etc.).
    - Texte entre guillemets droits "..."
    - Virgule entre les éléments, PAS de virgule après le dernier d'une liste.
-3. Mettre à jour la date :  "miseAJour": "AAAA-MM-JJ"
-4. Commit. La nouvelle version s'affiche à la prochaine ouverture.
+3. Commit. Le robot inscrit automatiquement la date du jour dans "miseAJour"
+   selon le fuseau de Montréal, puis régénère les pages.
+4. La nouvelle version s'affiche à la prochaine ouverture.
    (Si data.json est invalide, l'app affiche « Données indisponibles » :
     il suffit de corriger la virgule fautive.)
 

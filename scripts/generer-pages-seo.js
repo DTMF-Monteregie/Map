@@ -68,12 +68,9 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape')document.que
 
 /*
  * Publier ou non les courriels de recrutement sur les pages indexables.
- * Choix retenu le 19 août 2026 : NON. Sur 26 fiches renseignées, 24 portent une adresse
- * NOMINATIVE (prenom.nom.med@ssss.gouv.qc.ca) — c'est-à-dire l'adresse professionnelle d'une
- * personne identifiable. Les publier sur 61 pages indexables revient à les livrer aux robots de
- * collecte d'adresses. Les coordonnées restent disponibles dans l'application (carte + fiche),
- * ce qui suffit largement à quelqu'un qui veut réellement postuler.
- * Mettre à true pour changer d'avis : rien d'autre à modifier.
+ * Choix confirmé le 30 août 2026 : NON. Le dépôt public conserve seulement le nom des
+ * responsables du recrutement. Les adresses courriel nominatives sont retirées de data.json et
+ * ne doivent pas être remises dans les pages indexables ou dans la carte.
  */
 const PUBLIER_COURRIELS = false;
 
@@ -122,8 +119,8 @@ const CHAMPS_PUBLICS = [
      estValide()/badgeVerif() plus bas). Le sous-champ "source" n'est jamais publié. */
   'validation',
   /* responsableNom → ajouté le 29 août 2026, avec l'accord explicite d'Olivier. Seul le NOM
-     du médecin responsable est publié (jamais son courriel — voir personneRessource, qui reste
-     hors liste blanche tant que PUBLIER_COURRIELS est à false). Affiché en ligne de fiche
+     du médecin responsable est publié. Le champ personneRessource reste vide dans la version
+     publique. Affiché en ligne de fiche
      (« Responsable du recrutement ») et dans le JSON-LD (ContactPoint) — voir pageClinique(). */
   'responsableNom'
 ];
@@ -256,6 +253,14 @@ const REDIRECTIONS_SLUGS_HISTORIQUES = [
     ancien: 'gmf-contrec-ur-cooperative-sante-contrec-ur',
     nouveau: 'gmf-contrecoeur-cooperative-sante-contrecoeur',
     libelle: 'La fiche du GMF Contrecœur (Coopérative Santé Contrecœur)'
+  },
+  /* 29 août 2026 : suppression du doublon technique id 89. L'ancienne URL est conservée comme
+     redirection vers le GMF Richelieu canonique, au 500, route Marie-Victorin, bureau 200.
+     La clinique distincte du 300, rue Paradis demeure publiée sous sa propre fiche (id 86). */
+  {
+    ancien: 'gmf-richelieu-clinique-de-medecine-familiale',
+    nouveau: 'gmf-richelieu',
+    libelle: 'La fiche du GMF Richelieu'
   }
 ];
 
@@ -947,20 +952,27 @@ ${sections}`;
 /* RÉPERTOIRE /cliniques/                                                                       */
 /* ------------------------------------------------------------------------------------------- */
 
-function pageRepertoire(cliniques, slugs, parRls, majDonnees) {
-  const url = `${SITE}/cliniques/`;
+/* 29 août 2026 : pageRepertoire() sert désormais AUSSI les trois hubs régionaux
+   /monteregie-{est,centre,ouest}/cliniques/. Auparavant seul le hub de l'Est existait — livré à
+   la main, jamais généré — donc Centre et Ouest répondaient 404 alors que leurs fiches
+   individuelles existaient. Passer `u` (un UNIVERS_REGIONS) restreint la page au territoire et
+   garde tous les liens à l'intérieur de l'univers. */
+function pageRepertoire(cliniques, slugs, parRls, majDonnees, u = null) {
+  const prefixe = u ? u.prefixe : '';
+  const nomTerritoire = u ? u.nom : 'Montérégie';
+  const url = `${SITE}${prefixe}/cliniques/`;
   const villes = new Set(cliniques.map(c => c.ville));
 
   const enRecrutementTotal = cliniques.filter(recrute).length;
   const sections = [...parRls.keys()].sort((a, b) => a.localeCompare(b, 'fr')).map(rls => {
     const liste = parRls.get(rls);
     const items = liste.map(c => `      <li>
-        <a href="/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
+        <a href="${prefixe}/cliniques/${slugs[String(c.id)]}/"><strong>${esc(c.nom)}</strong></a>${badgeVerif(c)}
         <span class="rep-meta">${esc(c.ville)} · ${esc(c.type)}${recrute(c) ? '' : ' · Ne recrute pas actuellement'}</span>
       </li>`).join('\n');
     return `  <section id="rls-${slugifier(rls)}">
     <h2>RLS ${esc(rls)} <span class="compte">${liste.length}</span></h2>
-    <p class="rep-lien"><a href="/rls/${slugifier(rls)}/">Voir la page du RLS ${esc(rls)} →</a></p>
+    <p class="rep-lien"><a href="${prefixe}/rls/${slugifier(rls)}/">Voir la page du RLS ${esc(rls)} →</a></p>
     <ul class="repertoire">
 ${items}
     </ul>
@@ -972,50 +984,55 @@ ${items}
     '@graph': [
       {
         '@type': 'CollectionPage', '@id': url + '#webpage', url,
-        name: 'Cliniques en recrutement en Montérégie | Trouve ta clinique',
+        name: `Cliniques en recrutement en ${nomTerritoire} | Trouve ta clinique`,
         inLanguage: 'fr-CA', dateModified: majDonnees,
         isPartOf: { '@id': SITE + '/#website' }
       },
       {
         '@type': 'BreadcrumbList',
-        itemListElement: [
-          { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE + '/' },
-          { '@type': 'ListItem', position: 2, name: 'Cliniques', item: url }
-        ]
+        itemListElement: u
+          ? [
+              { '@type': 'ListItem', position: 1, name: u.nom, item: SITE + u.accueil },
+              { '@type': 'ListItem', position: 2, name: 'Cliniques', item: url }
+            ]
+          : [
+              { '@type': 'ListItem', position: 1, name: 'Accueil', item: SITE + '/' },
+              { '@type': 'ListItem', position: 2, name: 'Cliniques', item: url }
+            ]
       }
     ]
   };
 
   const corps = `  <section class="hero">
     <p class="eyebrow">Médecine familiale · Montérégie</p>
-    <h1>Cliniques en recrutement en Montérégie</h1>
-    <p class="lead"><strong>${enRecrutementTotal} milieu${enRecrutementTotal > 1 ? 'x' : ''} en recrutement actif</strong> de médecins de famille, sur ${cliniques.length} milieux publiés au total dans le répertoire, répartis dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités${enRecrutementTotal < cliniques.length ? ` — les autres milieux publiés le sont à titre de référence et ne recrutent pas actuellement` : ''}. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="/">carte interactive</a> ajoute les filtres et la vue géographique.</p>
+    <h1>Cliniques en recrutement en ${esc(nomTerritoire)}</h1>
+    <p class="lead"><strong>${enRecrutementTotal} milieu${enRecrutementTotal > 1 ? 'x' : ''} en recrutement actif</strong> de médecins de famille, sur ${cliniques.length} milieux publiés au total dans le répertoire, répartis dans <strong>${parRls.size} RLS</strong> et ${villes.size} municipalités${enRecrutementTotal < cliniques.length ? ` — les autres milieux publiés le sont à titre de référence et ne recrutent pas actuellement` : ''}. Chaque fiche permet de comparer les caractéristiques disponibles; la <a href="${u ? u.accueil : '/'}">carte interactive</a> ajoute les filtres et la vue géographique.</p>
     <p class="updated"><strong>Données mises à jour le :</strong> ${esc(majDonnees)}.</p>
     <div class="cta-row">
-      <a class="button primary" href="/">Explorer sur la carte interactive</a>
-      <a class="button secondary" href="/ptem/">Guide PTEM</a>
+      <a class="button primary" href="${u ? u.accueil : '/'}">Explorer sur la carte interactive</a>
+      <a class="button secondary" href="${prefixe}/ptem/">Guide PTEM</a>
     </div>
   </section>
 
-  <section id="territoires">
+  ${u ? '' : `<section id="territoires">
     <h2>Explorer par territoire</h2>
     <ul class="repertoire">
-${UNIVERS_REGIONS.map(u => `      <li><a href="${u.accueil}"><strong>${esc(u.nom)}</strong></a>
-        <span class="rep-meta">${u.ordreRls.length} RLS · ${esc(u.ordreRls.join(', '))}</span></li>`).join('\n')}
+${UNIVERS_REGIONS.map(v => `      <li><a href="${v.accueil}"><strong>${esc(v.nom)}</strong></a>
+        <span class="rep-meta">${v.ordreRls.length} RLS · ${esc(v.ordreRls.join(', '))}</span></li>`).join('\n')}
     </ul>
-  </section>
+  </section>`}
 
-  <figure class="sqb-wrap compact directory-banner"><a class="sqb" href="/" aria-label="Ouvrir la carte interactive des cliniques en recrutement en Montérégie"><span class="sqb-pattern" aria-hidden="true"></span><span class="sqb-inner"><img class="sqb-logo" src="../assets/logo-banniere.png" alt="" width="210" height="252" loading="lazy"><span class="sqb-vline" aria-hidden="true"></span><span class="sqb-eyebrow">Carte interactive</span><span class="sqb-title">Trouve ta clinique</span><span class="sqb-region">Montérégie</span><span class="sqb-rule" aria-hidden="true"></span></span></a></figure>
+  <figure class="sqb-wrap compact directory-banner"><a class="sqb" href="${u ? u.accueil : '/'}" aria-label="Ouvrir la carte interactive des cliniques en recrutement en ${esc(nomTerritoire)}"><span class="sqb-pattern" aria-hidden="true"></span><span class="sqb-inner"><img class="sqb-logo" src="${u ? '../../assets' : '../assets'}/logo-banniere.png" alt="" width="210" height="252" loading="lazy"><span class="sqb-vline" aria-hidden="true"></span><span class="sqb-eyebrow">Carte interactive</span><span class="sqb-title">Trouve ta clinique</span><span class="sqb-region">${esc(nomTerritoire)}</span><span class="sqb-rule" aria-hidden="true"></span></span></a></figure>
 
   <div class="callout official"><strong>Comment choisir :</strong> le RLS peut être déterminant pour l’avis de conformité PTEM, qui exige au moins 55 % des jours de facturation dans le territoire visé. Le type de milieu (GMF, GMF-U, CLSC…), le DMÉ, les frais de bureau et les pratiques offertes aident ensuite à comparer le quotidien de pratique. <a class="source-chip" href="https://www.quebec.ca/gouvernement/travailler-gouvernement/sante-services-sociaux/travailler-comme-medecin-famille-quebec/plans-regionaux-effectifs-medicaux-medecine-famille" rel="noopener">Source officielle</a></div>
 
 ${sections}`;
 
   return page({
-    titre: 'Cliniques en recrutement en Montérégie | Trouve ta clinique',
-    description: `Répertoire des ${cliniques.length} milieux publiés en Montérégie (dont ${enRecrutementTotal} en recrutement actif de médecins de famille), classés par ${parRls.size} RLS avec fiche détaillée.`,
-    url, profondeur: 1, indexable: true, jsonLd, actif: 'cliniques',
-    filDAriane: `<a href="/">Accueil</a> › Cliniques`,
+    titre: `Cliniques en recrutement en ${nomTerritoire} | Trouve ta clinique`,
+    description: `Répertoire des ${cliniques.length} milieux publiés en ${nomTerritoire} (dont ${enRecrutementTotal} en recrutement actif de médecins de famille), classés par ${parRls.size} RLS avec fiche détaillée.`,
+    url, profondeur: u ? 2 : 1, indexable: true, jsonLd, actif: 'cliniques', univers: u || UNIVERS_GENERAL,
+    filDAriane: u ? `<a href="${u.accueil}">${esc(u.nom)}</a> › Cliniques` : `<a href="/">Accueil</a> › Cliniques`,
     corps
   });
 }
@@ -1186,11 +1203,13 @@ function main() {
      Une refonte du gabarit modifie aussi le contenu HTML, même si data.json n'a pas changé — le
      sitemap doit donc en tenir compte pour son lastmod. Mettre à jour cette date à la main lors
      d'une prochaine modification des templates ci-dessous. */
-  const majGabaritsSeo = '2026-08-21';
+  const majGabaritsSeo = '2026-08-29';
   const majPagesSeo = [majDonnees, majGabaritsSeo].sort().at(-1);
 
   const toutes = donnees.cliniques || [];
-  const cliniques = toutes.filter(c => c.visible !== false && rempli(c.nom));
+  const cliniques = toutes.filter(c =>
+    c.visible !== false && c.categorie !== 'etablissement' && rempli(c.nom)
+  );
   const ignorees = toutes.length - cliniques.length;
 
   /* Slugs stables */
@@ -1314,6 +1333,21 @@ function main() {
      refactorisation pourra intégrer sa génération complète ici à partir de data.json. */
   ecrire(path.join('cliniques', 'index.html'), pageRepertoire(cliniques, slugs, parRls, majDonnees));
   for (const u of UNIVERS_REGIONS) {
+    /* Hub cliniques régional, restreint aux fiches du territoire. Sans lui, Centre et Ouest
+       répondaient 404 (29 août 2026). */
+    const cliniquesRegion = cliniques.filter(c => c.region === u.region);
+    const parRlsRegion = new Map();
+    for (const c of cliniquesRegion) {
+      if (!c.rls) continue;
+      if (!parRlsRegion.has(c.rls)) parRlsRegion.set(c.rls, []);
+      parRlsRegion.get(c.rls).push(c);
+    }
+    ecrire(path.join(u.dossier, 'cliniques', 'index.html'),
+           pageRepertoire(cliniquesRegion, slugs, parRlsRegion, majDonnees, u));
+    copiesRegionales++;
+    if (u.canonique) {
+      entrees.push({ loc: `${u.prefixe}/cliniques/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
+    }
     const hub = pageRlsHubRegion(u, parRls, majDonnees);
     ecrire(path.join(u.dossier, 'rls', 'index.html'), hub);
     copiesRegionales++;
@@ -1321,11 +1355,49 @@ function main() {
       entrees.push({ loc: `${u.prefixe}/rls/`, lastmod: majPagesSeo, changefreq: 'weekly', priority: '0.8' });
     }
   }
+  /* PURGE DES DOSSIERS ORPHELINS (29 août 2026)
+     Le générateur ignore les fiches visible:false, mais ne supprimait pas les dossiers créés
+     par une génération antérieure. Résultat constaté : /monteregie-est/cliniques/
+     clsc-simonne-monet-chartrand/ et clsc-longueuil-ouest/ restaient en « index,follow » et
+     affirmaient que le milieu recrutait, alors que les fiches sont masquées.
+     On supprime maintenant le dossier orphelin du dépôt. Chaque racine possède sa propre liste
+     de fiches attendues : une clinique d'un autre territoire ne doit pas survivre dans un hub
+     régional. Seules les redirections historiques explicites sont conservées. */
+  {
+    const slugsHistoriques = REDIRECTIONS_SLUGS_HISTORIQUES.map(r => r.ancien);
+    const racines = [
+      {
+        relatif: 'cliniques',
+        attendus: new Set(cliniques.map(c => slugs[String(c.id)]).filter(Boolean)),
+        conserves: new Set(slugsHistoriques)
+      },
+      ...UNIVERS_REGIONS.map(u => ({
+        relatif: path.join(u.dossier, 'cliniques'),
+        attendus: new Set(cliniques.filter(c => c.region === u.region)
+          .map(c => slugs[String(c.id)]).filter(Boolean)),
+        conserves: new Set(u.region === 'Est' ? slugsHistoriques : [])
+      }))
+    ];
+    let purges = 0;
+    for (const racine of racines) {
+      const abs = path.join(RACINE, racine.relatif);
+      if (!fs.existsSync(abs)) continue;
+      for (const nom of fs.readdirSync(abs)) {
+        const dossier = path.join(abs, nom);
+        if (!fs.lstatSync(dossier).isDirectory()) continue;
+        if (racine.attendus.has(nom) || racine.conserves.has(nom)) continue;
+        fs.rmSync(dossier, { recursive: true, force: true });
+        purges++;
+      }
+    }
+    if (purges) console.log(`Dossiers orphelins supprimés : ${purges}`);
+  }
+
   ecrire('sitemap.xml', sitemap(entrees));
 
   /* Rapport */
   console.log('=== GÉNÉRATION DES PAGES SEO ===');
-  console.log(`data.json du ${majDonnees} — ${toutes.length} fiches, ${cliniques.length} publiées${ignorees ? `, ${ignorees} ignorée(s) (visible:false)` : ''} (dont ${cliniques.filter(recrute).length} en recrutement, ${cliniques.filter(c => !recrute(c)).length} hors recrutement)`);
+  console.log(`data.json du ${majDonnees} — ${toutes.length} fiches, ${cliniques.length} publiées${ignorees ? `, ${ignorees} ignorée(s) (masquée(s) ou établissement(s))` : ''} (dont ${cliniques.filter(recrute).length} en recrutement, ${cliniques.filter(c => !recrute(c)).length} hors recrutement)`);
   console.log(`Pages de cliniques : ${cliniques.length} générées, ${indexables} indexables, ${minces.length} en noindex (moins de ${SEUIL_INDEXATION} champs remplis)`);
   console.log(`Pages de RLS       : ${parRls.size}`);
   console.log(`Répertoire         : cliniques/index.html`);

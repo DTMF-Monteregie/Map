@@ -38,6 +38,9 @@ on:
       # pilotaient déjà le robot, plus index.html (source de la copie Montérégie-Est).
       - 'data.json'
       - 'scripts/generer-pages-seo.js'
+      - 'scripts/mettre-a-jour-date-donnees.js'
+      - 'scripts/publier-regions.js'
+      - '.github/workflows/generer-pages-seo.yml'
       - 'index.html'
       # /ptem/ et /amp/ sont écrites à la main, mais leurs copies étanches de l'univers
       # Montérégie-Est en sont dérivées : si on les modifie, les copies doivent suivre.
@@ -61,11 +64,34 @@ jobs:
     steps:
       - name: Récupérer le dépôt
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Installer Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Dater automatiquement une nouvelle version de data.json
+        env:
+          EVENEMENT_GITHUB: ${{ github.event_name }}
+          REVISION_AVANT: ${{ github.event.before }}
+          REVISION_ACTUELLE: ${{ github.sha }}
+        run: |
+          set -e
+          if [ "$EVENEMENT_GITHUB" = "workflow_dispatch" ]; then
+            node scripts/mettre-a-jour-date-donnees.js
+          elif git cat-file -e "$REVISION_AVANT^{commit}" 2>/dev/null \
+            && git diff --name-only "$REVISION_AVANT" "$REVISION_ACTUELLE" -- data.json | grep -qx 'data.json'; then
+            node scripts/mettre-a-jour-date-donnees.js
+          elif ! git cat-file -e "$REVISION_AVANT^{commit}" 2>/dev/null; then
+            node scripts/mettre-a-jour-date-donnees.js
+          else
+            echo "data.json n'a pas changé : sa date publique est conservée."
+          fi
+
+      - name: Mémoriser l'empreinte des données après la datation
+        run: sha256sum data.json > "$RUNNER_TEMP/data-json-apres-date.sha256"
 
       - name: Régénérer les pages et le sitemap
         run: node scripts/generer-pages-seo.js
@@ -105,11 +131,8 @@ jobs:
             echo "::error::Une page de /monteregie-est/ renvoie hors de l'univers Montérégie-Est. Publication annulée."
             exit 1
           fi
-          echo "Vérification que data.json n'a pas été modifié..."
-          if ! git diff --quiet -- data.json ; then
-            echo "::error::Le générateur a modifié data.json, ce qu'il ne doit jamais faire. Publication annulée."
-            exit 1
-          fi
+          echo "Vérification que le générateur n'a pas modifié data.json après sa datation..."
+          sha256sum -c "$RUNNER_TEMP/data-json-apres-date.sha256"
           echo "Vérification du sitemap..."
           python3 -c "import xml.dom.minidom; xml.dom.minidom.parse('sitemap.xml')"
           echo "Toutes les vérifications sont passées."
@@ -119,7 +142,7 @@ jobs:
           set -e
           git config user.name  "Robot Trouve ta clinique"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add cliniques rls sitemap.xml scripts/slugs.json monteregie-est
+          git add data.json cliniques rls sitemap.xml scripts/slugs.json monteregie-est monteregie-centre monteregie-ouest
           if git diff --cached --quiet ; then
             echo "Les pages étaient déjà à jour : rien à publier."
             exit 0

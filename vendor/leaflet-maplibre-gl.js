@@ -45,19 +45,36 @@
 			L.setOptions(this, options);
 			this._throttledUpdate = L.Util.throttle(this._update, this.options.updateInterval, this);
 		},
+		/* 29 août 2026 — correctif « jumpTo ».
+		   onRemove() mettait _glMap à null, mais les rappels DIFFÉRÉS restaient en vol :
+		   _throttledUpdate (throttle Leaflet) et _transitionEnd (requestAnimFrame). Ils
+		   s'exécutaient après le retrait de la couche et appelaient gl.jumpTo() sur null, d'où
+		   « TypeError: Cannot read properties of undefined (reading 'jumpTo') » en boucle. Comme
+		   l'erreur remontait pendant un flyTo() déclenché par l'ouverture d'une fiche, elle
+		   interrompait le code appelant et la fiche restait vide.
+		   Correctif : un drapeau _removed + une garde _pretGL() en tête de chaque méthode
+		   susceptible de s'exécuter en différé. */
+		_pretGL: function() {
+			return !this._removed && !!this._map && !!this._glMap && !!this._container;
+		},
 		onAdd: function(map) {
 			if (!this._container) this._initContainer();
 			var paneName = this.getPaneName();
 			map.getPane(paneName).appendChild(this._container);
+			this._removed = false;
 			this._initGL();
 			this._offset = this._map.containerPointToLayerPoint([0, 0]);
 			if (map.options.zoomAnimation) L.DomEvent.on(map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
 		},
 		onRemove: function(map) {
-			if (this._map._proxy && this._map.options.zoomAnimation) L.DomEvent.off(this._map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
+			// Posé AVANT tout démontage : un rappel déjà planifié qui se réveille pendant
+			// onRemove doit déjà voir la couche comme retirée.
+			this._removed = true;
+			if (this._map && this._map._proxy && this._map.options.zoomAnimation) L.DomEvent.off(this._map._proxy, L.DomUtil.TRANSITION_END, this._transitionEnd, this);
 			var paneName = this.getPaneName();
-			map.getPane(paneName).removeChild(this._container);
-			this._glMap.remove();
+			var pane = map.getPane(paneName);
+			if (pane && this._container && this._container.parentNode === pane) pane.removeChild(this._container);
+			if (this._glMap) this._glMap.remove();
 			this._glMap = null;
 		},
 		getEvents: function() {
@@ -163,7 +180,7 @@
 			if (this.options.className) L.DomUtil.addClass(canvas, this.options.className);
 		},
 		_update: function(e) {
-			if (!this._map) return;
+			if (!this._pretGL()) return;
 			this._offset = this._map.containerPointToLayerPoint([0, 0]);
 			if (this._zooming) return;
 			var container = this._container, gl = this._glMap, offset = this._map.getSize().multiplyBy(this.options.padding), topLeft = this._map.containerPointToLayerPoint([0, 0]).subtract(offset);
@@ -171,6 +188,8 @@
 			this._transformGL(gl);
 		},
 		_transformGL: function(gl) {
+			// gl peut être null si la couche a été retirée entre la planification et l'exécution.
+			if (!this._pretGL() || !gl || typeof gl.jumpTo !== 'function') return;
 			var center = this._map.getCenter();
 			gl.jumpTo({
 				center: [center.lng, center.lat],
@@ -178,12 +197,14 @@
 			});
 		},
 		_pinchZoom: function(e) {
+			if (!this._pretGL() || typeof this._glMap.jumpTo !== 'function') return;
 			this._glMap.jumpTo({
 				zoom: this._map.getZoom() - 1,
 				center: this._map.getCenter()
 			});
 		},
 		_animateZoom: function(e) {
+			if (!this._pretGL() || !this._glMap._actualCanvas) return;
 			var scale = this._map.getZoomScale(e.zoom);
 			var padding = this._map.getSize().multiplyBy(this.options.padding * scale);
 			var viewHalf = this.getSize()._divideBy(2);
@@ -195,13 +216,18 @@
 			this._zooming = true;
 		},
 		_zoomEnd: function() {
+			if (!this._pretGL() || !this._glMap._actualCanvas) { this._zooming = false; return; }
 			var scale = this._map.getZoomScale(this._map.getZoom());
 			L.DomUtil.setTransform(this._glMap._actualCanvas, null, scale);
 			this._zooming = false;
 			this._update();
 		},
 		_transitionEnd: function(e) {
+			// Double garde : à la planification ET au réveil du requestAnimFrame, puisque la
+			// couche peut être retirée dans l'intervalle (c'est le cas qui produisait l'erreur).
+			if (!this._pretGL()) return;
 			L.Util.requestAnimFrame(function() {
+				if (!this._pretGL() || !this._glMap._actualCanvas || typeof this._glMap.jumpTo !== 'function') return;
 				var zoom = this._map.getZoom();
 				var center = this._map.getCenter();
 				var offset = this._map.latLngToContainerPoint(this._map.getBounds().getNorthWest());

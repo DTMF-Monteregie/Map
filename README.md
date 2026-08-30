@@ -48,8 +48,9 @@ Le nombre exact est affiché dans l'application, calculé à partir de `data.jso
 ## Pile technique
 
 HTML / CSS / JavaScript « vanilla » (sans cadriciel ni étape de compilation),
-[Leaflet](https://leafletjs.com/) pour la carte, polices Raleway + Lato chargées depuis
-Google Fonts.
+[Leaflet](https://leafletjs.com/) pour l'interface cartographique et MapLibre GL pour le fond
+vectoriel CARTO. Un fond raster CARTO demeure disponible comme solution de repli. Les polices
+Raleway et Lato sont chargées depuis Google Fonts.
 
 ### Fichiers de la racine
 
@@ -59,13 +60,14 @@ Google Fonts.
 | `data.json` | **la seule source de contenu** — voir le schéma plus bas |
 | `sw.js` | service worker : cache hors ligne, liste `CORE` des fichiers préchargés |
 | `leaflet.js`, `leaflet.css` | bibliothèque de carte, copie locale |
+| `vendor/` | MapLibre GL et adaptateur Leaflet, copies locales avec leurs licences |
 | `manifest.json`, `icon-*.png`, `favicon-*.png` | installation en application (PWA) |
 | `404.html` | page affichée quand une adresse n'existe pas |
 | `og-image.png` | image d'aperçu quand on partage le lien |
 | `CNAME` | domaine servi par GitHub Pages — **ne pas supprimer** |
 | `robots.txt`, `sitemap.xml` | référencement : autorisation d'exploration et plan du site |
 | `google0e6f553795bbb4a9.html` | vérification Google Search Console — **ne pas supprimer** |
-| `PTEM2027_saisie_tournee.html` | outil de saisie interne, en `noindex` — hors application |
+| `PTEM2027_v2.gs` | script de travail Apps Script, non chargé par l'application |
 
 > **Toute nouvelle ressource statique doit être ajoutée à `CORE` dans `sw.js`**, sinon elle
 > manquera hors ligne.
@@ -81,6 +83,11 @@ Google Fonts.
 Toutes les données vivent dans **`data.json`**. Pour modifier l'annonce ou une clinique,
 on édite ce fichier ; le service worker le recharge en priorité réseau, donc les changements
 sont visibles immédiatement, **sans toucher à la version du cache**.
+
+Lorsqu'une nouvelle version de `data.json` est déposée sur GitHub, le robot inscrit
+automatiquement la date du jour dans `miseAJour`, selon le fuseau de Montréal, avant de
+régénérer les pages. Il ne faut donc plus modifier cette date à la main. Une modification de
+gabarit qui ne change pas les données conserve la date précédente.
 
 ### Schéma de `data.json`
 
@@ -100,6 +107,7 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
       "id": 1,                       // requis — identifiant unique (nombre)
       "nom": "GMF Exemple",          // requis
       "visible": true,               // requis — false = fiche conservée mais masquée
+      "categorie": "clinique",     // optionnel — "etablissement" = exclu du mode Cliniques
       "type": "GMF",                 // requis — GMF, GMF-U, GMF-R, CLSC,
                                      //          Clinique médicale, Coopérative, CH
       "region": "Centre",            // requis — Est | Centre | Ouest
@@ -115,7 +123,8 @@ sont visibles immédiatement, **sans toucher à la version du cache**.
       "adresse": "",                 // optionnel
       "ville": "Brossard",           // optionnel
       "site": "",                    // optionnel
-      "personneRessource": "",       // optionnel — courriel de recrutement affiché
+      "responsableNom": "",          // optionnel — nom public affiché dans la fiche
+      "personneRessource": "",       // optionnel — donnée de travail, non affichée par la carte
       "dme": "",                     // optionnel — dossier médical électronique
       "porteOuverte": "",            // optionnel — date en clair, ex. « 16 juillet 2026 » ;
                                      // la rangée disparaît si la date est passée
@@ -241,17 +250,19 @@ de la personne : ils sont conservés dans le `localStorage` de son navigateur, n
 transmis à aucun serveur, et ne sont visibles de personne d'autre — pas même de
 l'administrateur du projet. Aucun compte, aucune inscription, aucun formulaire de contact.
 
-En revanche, **ouvrir la page met le navigateur en contact avec deux services externes**,
+En revanche, **ouvrir la page peut mettre le navigateur en contact avec trois services externes**,
 qui reçoivent donc l'adresse IP du visiteur, comme tout site qui charge une ressource
 tierce :
 
 | Service | Ce qu'il fournit | Où c'est appelé |
 |---|---|---|
 | Google Fonts | les polices Raleway et Lato | `index.html`, `<link>` du `<head>` |
-| CartoDB / OpenStreetMap | les tuiles du fond de carte | `index.html`, couche Leaflet |
+| CARTO / OpenStreetMap | le style et les tuiles du fond de carte | `index.html`, MapLibre ou repli raster |
+| Cloudflare Web Analytics | mesure agrégée de fréquentation | carte et pages de contenu |
 
-Aucun cookie n'est déposé par l'application elle-même, et aucun outil de mesure d'audience
-n'est installé à ce jour. Cette section doit être mise à jour si l'un ou l'autre change.
+Aucun cookie n'est déposé par l'application elle-même. Cloudflare Web Analytics est chargé sans
+fonction de compte utilisateur et sert uniquement à mesurer la fréquentation agrégée du site.
+Cette section doit être révisée si un autre service ou un nouveau suivi est ajouté.
 
 ## Licence
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build: 2026-08-18 -->
+<!-- build: 2026-08-29 -->
 <html lang="fr"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1330,7 +1330,7 @@ if (!MODE_REGION && Array.isArray(window.TERRITOIRES_CISSS_MSSS_2026)) {
         opacity: 0.58,
         weight: 1.5,
         fillColor: territoire.remplissage,
-        fillOpacity: 0.07,
+        fillOpacity: 0.21,
         lineJoin: 'round'
       }
     });
@@ -1375,7 +1375,7 @@ if (MODE_EST && Array.isArray(window.TERRITOIRES_RLS_EST_MSSS_2026)) {
         opacity: 0.58,
         weight: 1.5,
         fillColor: rls.remplissage,
-        fillOpacity: 0.07,
+        fillOpacity: 0.21,
         lineJoin: 'round'
       }
     });
@@ -1613,6 +1613,45 @@ let legendEl = null;
 
 let activeId = null;
 const markers = {};
+/* Plusieurs milieux peuvent légitimement partager une adresse et donc les mêmes coordonnées
+   (par exemple les cliniques A, B et C). Sans décalage visuel, leurs épingles sont exactement
+   superposées et seule la dernière demeure cliquable. On conserve les coordonnées officielles
+   dans data.json et on décale uniquement le dessin des épingles, en pixels. */
+const markerOffsets = new Map();
+
+function calculerDecalagesMarqueurs() {
+  markerOffsets.clear();
+  const groupes = new Map();
+  gmfs.forEach(g => {
+    const cle = `${Number(g.lat).toFixed(6)},${Number(g.lng).toFixed(6)}`;
+    if (!groupes.has(cle)) groupes.set(cle, []);
+    groupes.get(cle).push(g);
+  });
+  groupes.forEach(groupe => {
+    groupe.sort((a, b) => Number(a.id) - Number(b.id));
+    const n = groupe.length;
+    if (n === 1) {
+      markerOffsets.set(groupe[0].id, [0, 0]);
+      return;
+    }
+    if (n === 2) {
+      markerOffsets.set(groupe[0].id, [-18, 0]);
+      markerOffsets.set(groupe[1].id, [18, 0]);
+      return;
+    }
+    if (n === 3) {
+      markerOffsets.set(groupe[0].id, [-28, -4]);
+      markerOffsets.set(groupe[1].id, [0, 5]);
+      markerOffsets.set(groupe[2].id, [28, -4]);
+      return;
+    }
+    const rayon = 30;
+    groupe.forEach((g, i) => {
+      const angle = -Math.PI / 2 + (2 * Math.PI * i / n);
+      markerOffsets.set(g.id, [Math.round(Math.cos(angle) * rayon), Math.round(Math.sin(angle) * rayon)]);
+    });
+  });
+}
 
 const TYPE_COLORS = {
   'GMF': '#2563eb',
@@ -1679,14 +1718,15 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') document.querySelectorAll('.badge-verif.show').forEach(b => b.classList.remove('show'));
 });
 
-function makeIcon(active, rank, couleur) {
+function makeIcon(active, rank, couleur, id) {
   const c = couleur;
   const size = active ? 26 : 20;
   const border = active ? '#0f2240' : '#fff';
   const bw = active ? 3 : 2.5;
+  const [dx, dy] = markerOffsets.get(id) || [0, 0];
   return L.divIcon({ className:'',
     html:`<div style="position:relative;width:${size}px;height:${size}px;background:${c};border:${bw}px solid ${border};border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 8px rgba(0,0,0,.35)"><span class="pin-num">${rank}</span></div>`,
-    iconSize:[size,size], iconAnchor:[size/2,size], popupAnchor:[0,-size-2] });
+    iconSize:[size,size], iconAnchor:[size/2-dx,size-dy], popupAnchor:[dx,dy-size-2] });
 }
 
 // Ne touche qu'aux marqueurs actuellement affichés (matchesFilters) : en vue
@@ -1696,7 +1736,7 @@ function makeIcon(active, rank, couleur) {
 // touche pas plutôt que de leur écrire une icône fausse qui resterait figée
 // (bug du 18 août : jusqu'à « 0 » sur 58 épingles après un glisser-déposer).
 function refreshMarkerIcons() {
-  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), couleurEpingle(g))); });
+  gmfs.forEach(g => { if (markers[g.id] && matchesFilters(g.id)) markers[g.id].setIcon(makeIcon(g.id === activeId, rankOf(g.id), couleurEpingle(g), g.id)); });
 }
 
 function buildMarkers() {
@@ -1706,12 +1746,13 @@ function buildMarkers() {
   // et fitToData() ne s'exécutent jamais et la page reste vide.
   gmfs.forEach(g => {
     try {
-      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), couleurEpingle(g)), draggable:false });
+      const m = L.marker([g.lat, g.lng], { icon:makeIcon(false, rankOf(g.id), couleurEpingle(g), g.id), draggable:false });
       // 27 août 2026 : n'ajouter à la carte que si le milieu satisfait déjà les filtres (donc
       // statutVisible) — sinon les milieux ne recrutant pas s'afficheraient un instant au
       // chargement, avant que quoi que ce soit ne les masque.
       if (matchesFilters(g.id)) m.addTo(map);
-      m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}${recruteActuellement(g) ? '' : ' · Ne recrute pas actuellement'}</small>`, { direction:'top', offset:[0,-20] });
+      const [dx, dy] = markerOffsets.get(g.id) || [0, 0];
+      m.bindTooltip(`<b>${esc(g.nom.trim())}</b><br><small>${esc(g.ville)}${recruteActuellement(g) ? '' : ' · Ne recrute pas actuellement'}</small>`, { direction:'top', offset:[dx,dy-20] });
       m.on('click', (e) => { L.DomEvent.stopPropagation(e); toggleDetail(g.id); });
       markers[g.id] = m;
     } catch (e) {
@@ -1792,7 +1833,11 @@ function buildHopitalMarkers() {
       // ne change jamais (demande du 22 août).
       const m = L.marker([h.lat, h.lng], {
         icon: makeHopitalIcon(h), draggable:false, zIndexOffset: HOPITAL_ZINDEX_GRAND
-      }).addTo(map);
+      });
+      // Même précaution que pour les cliniques (27 août) : n'ajouter à la carte que si les
+      // filtres de territoire actifs le permettent, sinon un hôpital hors filtre apparaîtrait
+      // un instant au chargement avant d'être masqué.
+      if (hopitalMatchesFilters(h)) m.addTo(map);
       m.bindTooltip(`<b>${esc(h.nom)}</b>${estHopitalEnChantier(h) ? ' <small>(en chantier)</small>' : ''}`, { direction:'top', offset:[0,-14] });
       m.bindPopup(hopitalPopupHtml(h));
       hospitalMarkers[h.id] = m;
@@ -1871,8 +1916,17 @@ function renderSidebar() {
     const g = byId(id);
     if (!matchesFilters(id)) return;
     shown++;
+    /* La parenthèse finale est normalement un complément décoratif — « GMF Petit-Bois »,
+       « clinique Dre X » — qu'on retire du titre de la liste pour rester lisible.
+       29 août 2026 : EXCEPTION pour les suffixes qui DISTINGUENT deux fiches d'une même
+       enseigne (Sorel-Tracy clinique A / B / C). Les retirer affichait trois lignes portant
+       exactement le même nom, sans moyen de les différencier. */
     const parenMatch = g.nom.trim().match(/^(.*?)\s*(\(.*\))\s*$/);
-    const nomMain = parenMatch ? parenMatch[1] : g.nom.trim();
+    // Un suffixe distinctif est court et codé : « (clinique A) », « (unité 2) ». On exige donc
+    // 1 ou 2 caractères après le mot-clé, sinon « (clinique Dre Sophie Lavallée) » — un simple
+    // complément décoratif — serait conservé lui aussi.
+    const suffixeDistinctif = parenMatch && /^\((clinique|unit[ée]|site)\s+[A-Z0-9]{1,2}\b/i.test(parenMatch[2]);
+    const nomMain = (parenMatch && !suffixeDistinctif) ? parenMatch[1] : g.nom.trim();
     const el = document.createElement('div');
     const nonRecruiting = !recruteActuellement(g);
     el.className = 'sb-item' + (nonRecruiting ? ' non-recruiting' : '') + (id === activeId ? ' active' : '');
@@ -2068,11 +2122,30 @@ function toggleFav(id) {
   if (favOnly) { renderSidebar(); updateMarkerVisibility(); refreshMarkerIcons(); }
 }
 
+// Un hôpital suit les filtres de TERRITOIRE seulement (région et RLS) — pas la recherche, pas
+// les favoris, pas « Toutes les cliniques » : ce n'est pas une clinique, il n'a ni statut de
+// recrutement, ni fiche, ni favori. 29 août 2026 : isoler un RLS depuis la légende doit faire
+// disparaître les hôpitaux des autres RLS, comme leurs cliniques — sinon un « H » d'un
+// territoire voisin reste seul sur la carte alors que tout le reste a été filtré.
+function hopitalMatchesFilters(h) {
+  if (!h) return false;
+  if (regionFilter.size && !regionFilter.has(h.region)) return false;
+  if (rlsFilter && (h.rls || '') !== rlsFilter) return false;
+  return true;
+}
+
 function updateMarkerVisibility() {
   gmfs.forEach(g => {
     const m = markers[g.id];
     if (!m) return;
     const show = matchesFilters(g.id);
+    if (show && !map.hasLayer(m)) m.addTo(map);
+    else if (!show && map.hasLayer(m)) map.removeLayer(m);
+  });
+  hopitaux.forEach(h => {
+    const m = hospitalMarkers[h.id];
+    if (!m) return;
+    const show = hopitalMatchesFilters(h);
     if (show && !map.hasLayer(m)) m.addTo(map);
     else if (!show && map.hasLayer(m)) map.removeLayer(m);
   });
@@ -2460,15 +2533,20 @@ function openDetail(id) {
   if (activeId !== null && activeId !== id && notesDirty &&
       !confirm("Vos notes ne sont pas sauvegardées. Changer de clinique sans les sauvegarder ?")) return;
   notesDirty = false;
-  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId))));
+  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId)), activeId));
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
   activeId = id;
   // Garde : buildMarkers() peut avoir sauté ce marqueur (fiche invalide,
   // filet de sécurité du 17 août) sans que la fiche elle-même soit exclue.
-  if (markers[id]) markers[id].setIcon(makeIcon(true, rankOf(id), couleurMilieu(g)));
+  if (markers[id]) markers[id].setIcon(makeIcon(true, rankOf(id), couleurMilieu(g), id));
   updateLegendVisibility();
   document.getElementById('si-'+id)?.classList.add('active');
-  map.flyTo([g.lat, g.lng], 14, { duration:1 });
+  // 29 août 2026 : le flyTo() était ICI, AVANT la construction de la fiche. Si la couche
+  // vectorielle levait une erreur pendant le déplacement (voir correctif « jumpTo » dans
+  // vendor/leaflet-maplibre-gl.js), l'exception remontait et interrompait cette fonction :
+  // #dp-body restait vide et la fiche ne s'ouvrait jamais. Il est désormais déplacé tout à la
+  // fin, après l'ouverture du panneau, et isolé dans un try/catch — la fiche s'affiche même si
+  // le déplacement de carte échoue.
 
   // Historique : le bouton "retour" du téléphone revient à la carte sans quitter l'app
   // L'identifiant passe dans l'URL : la fiche devient partageable par lien.
@@ -2606,7 +2684,13 @@ function openDetail(id) {
       ${recruteActuellement(g) ? `
       ${recruitRows}
       ${poRaw ? `<div class="vw-row"><span class="vw-label">Portes ouvertes</span><span class="vw-value">${poDisp}</span></div>` : ''}
-      <div class="vw-row"><span class="vw-label">Contact</span><span class="vw-value">${contactLink(g.personneRessource)}</span></div>
+      ${/* 29 août 2026 : la fiche affichait « Contact » + personneRessource, donc un COURRIEL en
+            clair, alors que la décision du 19 août est de ne pas publier les courriels et que
+            responsableNom existe pour ça. On publie le NOM seulement ; aucune ligne si le nom
+            est absent (pas de faux « À venir »). */''}
+      ${String(g.responsableNom || '').trim()
+        ? `<div class="vw-row"><span class="vw-label">Responsable du recrutement</span><span class="vw-value">${esc(String(g.responsableNom).trim())}</span></div>`
+        : ''}
       ` : `<div class="recruit-status"><span class="status-i" aria-hidden="true">i</span><span><strong>Cette clinique ne recrute pas actuellement.</strong></span></div>`}
     </div>
     <div class="vw-divider"></div>
@@ -2646,6 +2730,14 @@ function openDetail(id) {
   document.getElementById('detail').classList.add('open');
   document.body.classList.add('fiche-open');
 
+  // Déplacement de la carte APRÈS l'affichage de la fiche (voir note plus haut). Le try/catch
+  // est une ceinture de sécurité : même si une couche de fond échoue, la fiche reste ouverte.
+  try {
+    map.flyTo([g.lat, g.lng], 14, { duration:1 });
+  } catch (err) {
+    console.warn('Déplacement de la carte impossible, la fiche reste ouverte :', err);
+  }
+
   // Détecte une modification non sauvegardée du champ notes
   const notesTa = document.getElementById('notes-input');
   if (notesTa) notesTa.addEventListener('input', () => { notesDirty = true; });
@@ -2670,7 +2762,7 @@ function saveNotes(flash = true) {
 function closeDetailUI() {
   // On retire le paramètre ?c= pour que l'URL reflète l'état réel de l'app.
   if (location.search) { try { history.replaceState({}, '', location.pathname); } catch (e) {} }
-  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId))));
+  if (activeId !== null && markers[activeId]) markers[activeId].setIcon(makeIcon(false, rankOf(activeId), couleurMilieu(byId(activeId)), activeId));
   activeId = null;
   document.querySelectorAll('.sb-item').forEach(e => e.classList.remove('active'));
   document.getElementById('detail').classList.remove('open');
@@ -2916,7 +3008,7 @@ function initData(data) {
   // le monde (constat d'audit du 17 août). On garde une trace dans la
   // console pour la retrouver facilement.
   gmfs = brut.filter(g => {
-    if (g.visible === false) return false;
+    if (g.visible === false || g.categorie === 'etablissement') return false;
     // Nombre OU texte numérique ("45.45", accident plausible venant d'un
     // tableur) sont acceptés ; null/undefined/booléen/objet sont rejetés
     // comme avant (Number(null) vaudrait 0, un faux positif au golfe de
@@ -2938,6 +3030,7 @@ function initData(data) {
   // de la page — carte, liste, recherche, favoris, comparatif PDF, menu RLS en découlent tous
   // automatiquement, sans rien pouvoir « réactiver » depuis l'interface.
   if (MODE_REGION) gmfs = gmfs.filter(g => g.region === REGION_PAGE);
+  calculerDecalagesMarqueurs();
   // 27 août 2026 : (ré)initialise la vue « Toutes les cliniques » à chaque chargement des
   // données — un rechargement de page ne doit jamais garder une vue élargie ouverte par accident.
   showAllClinics = false;
@@ -3207,7 +3300,7 @@ if ('serviceWorker' in navigator) {
         });
       })
       .catch(() => {});
-    console.log('Trouve ta clinique — Montérégie — build 2026-08-28');
+    console.log('Trouve ta clinique — Montérégie — build 2026-08-29');
   });
 }
 </script>

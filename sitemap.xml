@@ -386,6 +386,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://trouvetaclinique.ca/monteregie-est/cliniques/</loc>
+    <lastmod>2026-08-29</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://trouvetaclinique.ca/monteregie-est/rls/</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>weekly</changefreq>
